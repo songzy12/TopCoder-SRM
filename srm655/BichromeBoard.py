@@ -1,4 +1,3 @@
-# the support of TC for python is just like shit...
 class BichromeBoard:
     def ableToDraw(self, board):
         parity = None
