@@ -5,55 +5,34 @@
 using namespace std;
 
 class TopBiologist {
+    string dna = "ACGT";
+    string res = "";
+    bool flag = true;
 public:
-    string findShortestNewSequence(string sequence) {
-        int2chr[0] = 'A';
-        int2chr[1] = 'T';
-        int2chr[2] = 'C';
-        int2chr[3] = 'G';
-        
-        chr2int['A'] = 0;
-        chr2int['T'] = 1;
-        chr2int['C'] = 2;
-        chr2int['G'] = 3;
-        int len = sequence.length();
-        bool m[10000];
-        memset(m, false, sizeof m);
-        for (int i = 1; i <= 6; ++i) {
-            for (int j = 0; j + i <= len; ++j) {
-                m[str2int(sequence.substr(j, i))] = true;
-                //cout<<sequence.substr(j, i)<<" "<<str2int(sequence.substr(j, i))<<endl;
+    void GenerateSeq(string sequence, string newseq, int k) {
+        if (k == 0) {
+            if (sequence.find(newseq) == string::npos) {
+                // string::npos
+                res = newseq;
+                flag = false;
+                return;
             }
+        } else {
+            int len = dna.length();
+            for (int i = 0; i < len; ++i)
+                GenerateSeq(sequence, newseq + dna[i], k - 1);
         }
-        int i = 0;
-        while (m[i]) i++;
-        return int2str(i);
     }
-    string int2str(int num) {
-        string res = "";
-        if (num == 0)
-            return "A";
-        while (num) {
-            res = int2chr[num % 4] + res;
-            num /= 4;
-        }
+    string findShortestNewSequence(string sequence) {
+        int len = sequence.length();
+        for (int i = 0; i < len && flag; ++i) 
+            GenerateSeq(sequence, "", i + 1); // bfs
         return res;
     }
-    int str2int(string str) {
-        int res = 0;
-        for (int i = 0; i < str.length(); ++i) {
-            res += pow(4, str.length() - 1 - i) * chr2int[str[i]];
-        }
-        return res;
-    }
-    map<int, char> int2chr;
-    map<char, int> chr2int;
 };
 
 int main() {
-    string sequence = "ACTGACATAGCTCGTGCATAGATCGCGTCCTTGG";
-    cout<<"AA: "<<TopBiologist().str2int("AA")<<endl;
-    cout<<"A: "<<TopBiologist().str2int("A")<<endl;
-    cout<<TopBiologist().findShortestNewSequence(sequence)<<endl;
+    TopBiologist tb;
+    cout<<tb.findShortestNewSequence("AAGATACACCGGCTTCGTG")<<endl;
     return 0;
 }
