@@ -18,5 +18,6 @@ public:
 				result[s.size()]='\0';
 				return string(result);
 			}
+        return "";
 	}
 };
