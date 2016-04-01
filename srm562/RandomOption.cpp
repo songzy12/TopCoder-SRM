@@ -5,43 +5,53 @@
 #include<vector>
 #include<cstring>
 using namespace std;
-class RandomOption {
-    long long dp[1<<14][14];
-    int c[14][14];
-  public:
-	double getProbability(int keyCount, vector <int> badLane1, vector <int> badLane2) {
-        int n = badLane1.size();
-        memset(c, 0, sizeof c);
-        memset(dp, 0, sizeof dp);
+class RandomOption
+{
+    // dp[i][j][k]: position i is number j with state k.
+    long long dp[15][15][1<<14];
+    bool flag[15][15];
+public:
+	double getProbability(int keyCount, vector <int> badLane1, vector <int> badLane2){
+		memset(dp,0,sizeof dp);
+        memset(flag,false,sizeof flag);
+		
+        for(int i=0;i<badLane2.size();i++)
+		{
+			int u=badLane2[i], v=badLane1[i];
+			flag[u][v]=true;
+			flag[v][u]=true;
+		}
+		
+        for(int i=0;i<keyCount;i++) 
+            // the first position is number i, with i used
+            dp[1][i][1<<i]=1;
         
-        for (int i = 0; i < n; ++i) {
-            c[badLane1[i]][badLane2[i]] = 1;
-            c[badLane2[i]][badLane1[i]] = 1;
-        }
-        
-        for (int i = 0; i < keyCount; ++i)
-            dp[1<<i][i] = 1;
-        
-        for (int k = 1; k < (1<<keyCount); ++k) {
-            for (int i = 0; i < keyCount; ++i) {
-                if (dp[k][i] == 0)
-                    continue;
-                for (int j = 0; j < keyCount; ++j) {
-                    if (k & (1<<j))
-                        continue;
-                    if (c[i][j])
-                        continue;
-                    dp[k | (1<<j)][j] += dp[k][i];
-                }
-            }
-        }
-        double ans = 0;
-        for (int i = 0; i < keyCount; ++i) {
-            ans += dp[(1<<keyCount) - 1][i];
-        }
-        for (int i = 0; i < keyCount; ++i)
-            ans /= i + 1;
-        return ans;
+		for(int i=1;i<keyCount;i++)
+		{
+			for(int j=0;j<keyCount;j++)
+			{
+				for(int pre=0;pre<(1<<keyCount);pre++)
+				{
+					for(int k=0;k<keyCount;k++)
+					{
+						if(flag[j][k]||(pre&(1<<k))) 
+                            // if j,k not adjacent, or k has been used
+                            continue;
+                        // position i+1 is number k, with position i is number j
+						dp[i+1][k][pre|(1<<k)] += dp[i][j][pre];					
+					}
+				}
+			}
+		}
+		
+		double ans=0;
+		for(int i=0;i<keyCount;i++) 
+            // the last position is number i, with all number used
+            ans += dp[keyCount][i][(1<<keyCount)-1];
+        for(int i=1;i<=keyCount;i++) 
+            // all possible permutations
+            ans /= i;
+		return ans;
 	}
 };
 
