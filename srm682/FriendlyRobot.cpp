@@ -30,11 +30,13 @@ public:
             for (int j = 0; j <= changesAllowed; ++j)
                 dp[i][j] = -inf;
         dp[0][0] = 0;
+        // dp[i][j]: change j commands in the first i commands, the max times to O.
         for (int i = 0; i <= n; ++i) {
             for (int j = 0; j <= changesAllowed; ++j) {
                 if (dp[i][j] != -inf) {
                     for (int k = i + 2; k <= n; k += 2) {
                         int g = (abs(x[k] - x[i]) + abs(y[k] - y[i])) >> 1;
+                        // change g commands can make robot back to O again.
                         if (j + g <= changesAllowed) {
                             dp[k][j + g] = max(dp[k][j + g], dp[i][j] + 1);
                         }
