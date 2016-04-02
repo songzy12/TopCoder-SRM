@@ -29,8 +29,8 @@ class SubtreesCounting
 
     int f(int x,int p)
     {
-        dp[x]=1;
-        num[x]=1;
+        dp[x]=1; // number of nodes
+        num[x]=1; // number of trees
         for(int i=0;i<e[x].size();i++)
             if(e[x][i]!=p)
             {
