@@ -34,16 +34,16 @@ class SaturdayNightStay:
                 break
 
         mid = cnt2 - cnt1 + 1 - head - tail
+        # there may be no mid
         # print(head, mid, tail)
-        assert(mid % 7 == 0)
         res = head * (mid + tail)
         for i in range(1, mid + 1):
             res += (mid - i) // 7 * 7 + tail
         return res
 
 
-firstDay = 16
-firstMonth = 6
-lastDay = 22
-lastMonth = 6
+firstDay = 31
+firstMonth = 1
+lastDay = 1
+lastMonth = 2
 print(SaturdayNightStay().countOptions(firstDay, firstMonth, lastDay, lastMonth))
