@@ -1,3 +1,5 @@
+# https://arena.topcoder.com/#/u/practiceCode/19391/298475/17777/2/337382
+#
 # ## Problem Statement
 #
 # You are given the integer N and two arrays A and B, containing N elements each.
