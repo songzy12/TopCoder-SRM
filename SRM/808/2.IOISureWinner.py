@@ -1,5 +1,6 @@
 # use probability[score]
 class IOISureWinner:
+
     def probability(self, scoreNeeded, subtasks, p):
         cur_prob = [1] + [0 for _ in range(scoreNeeded)]
         for i, subtask in enumerate(subtasks):

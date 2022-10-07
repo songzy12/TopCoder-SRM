@@ -1,10 +1,9 @@
-# https://codeforces.com/blog/entry/92172
-#
 # One easy-to-implement idea to find the median of five numbers is "while you can decrement at least three of a,b,c,d,e, decrement all you can and increment the output".
 import itertools
 
 
 class IOIWeirdModel1:
+
     def add_permutation(self, origin, dom, res):
         indicator = [2, 3, 5, 7, 11]
         visited = set()

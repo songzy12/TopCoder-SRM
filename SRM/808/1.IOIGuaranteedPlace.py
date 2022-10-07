@@ -4,6 +4,7 @@
 
 
 class IOIGuaranteedPlace:
+
     def solve(self, N, day1scores, day2scores):
         scores = []
         for i in range(N):
@@ -12,7 +13,7 @@ class IOIGuaranteedPlace:
         scores.sort(reverse=True)
         # print(scores)
         res = [0 for i in range(N)]
-        cnt = 0        
+        cnt = 0
         for _, _, contestant in scores:
             if contestant == -1:
                 cnt += 1

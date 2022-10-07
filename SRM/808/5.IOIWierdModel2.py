@@ -1,5 +1,3 @@
-# https://codeforces.com/blog/entry/92172
-#
 # Your task is to write a program in this model with the following property:
 # if the value M at the beginning of the program has the value (2^x * 3^y * 7),
 # the program must eventually terminate and when it does,
@@ -15,6 +13,8 @@
 # Note variable v7 is already used here, thus we want to clear this variable by (1, 7).
 # Then we substitute v7 with v19 in the solution of FRACTRAN.
 
+
 class IOIWeirdModel2:
+
     def program(self, L):
         return (1, 7, 5 * 19 * 13, 3 * 11, 11, 13, 1, 11, 3, 19, 11, 2, 1, 3)
