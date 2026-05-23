@@ -1,0 +1,137 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->BuildCost<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+You are playing a video game where you have to build a building on flat ground.
+By moving the land up or down you can flatten the land so you can build the
+building.  Moving land up or down costs money and you would like to minimize
+the amount of money you spend to place a building on the map.
+
+The input is a map of the ground based on elevation.  The first element of map
+represents the northern most spots, and the first characters in each string
+represent the western most spots.  You would like to write a function that
+given the map, the width and the length of the proposed building, returns the
+minimum amount of money needed to spend to place the building.  The width and
+length are interchangeable, (i.e. is doesn't matter which direction either they
+refer to north-south or east-west.)
+
+The numbers on the map represent the elevations of the corners at that
+position.  So, the numbers at (0,0), (1,0), (1,1), and (0,1) represent the
+elevations of the four corners of a single plot.  In order to adjust the land
+each corner will need to be moved up or down.  To move a corner of a plot up
+takes 2 dollars and to lower it one takes one dollar.  So to raise an every
+corner of a plot takes 8 dollars.  Note that moving a corner of a plot up does
+not affect the corners of adjacent plots.  If one plot corner is moved up to
+fit the building and the plots neighboring the corner are not at the same
+level, a retaining wall is placed at no extra cost.  So to move a corner down
+one level for all of the four plots for which it is a corner, you need to buy 4
+down operations.
+
+DEFINITION
+Class: BuildCost
+Method: landCost
+Parameters: String[], int, int
+Returns: int
+Method signature (be sure your method is public):  int landCost(String[] map,
+int width, int length);
+
+NOTES
+- In order for a building to be built ALL land under the base must be level and
+inside the map.
+- The building must be placed so it is aligned with the axes.
+
+TopCoder will ensure the validity of all inputs.  Inputs are valid if:
+- map contains between 1 and 50 elements, inclusive.
+- Each element of map contains between 1 and 50 characters, inclusive.
+- Each element of map is the same length.
+- Each element of map will contain only the characters '0'-'9'.
+- length and width will be positive non-zero integers such that the building
+can fit on the map in at least one way.
+- The building must be aligned on the axes.
+
+EXAMPLES
+1)
+map =
+{"111111",
+ "112111",
+ "111111"}
+
+width = 3
+length= 2
+
+It is easy to see that the building must span the north to south of the map
+since it needs two plots.  So we will look at the width:
+
+If the northwest corner is at the 0,0 plot, 4 lowers will be needed to lower
+the 4 corners that have elevation 2, to an elevation of 1.
+If the northwest corner is at the 1,0 plot, 4 lowers are still needed.
+If the northwest corner is at the 2,0 plot, only 2 lowers are needed because
+the building is placed on the edge of the point at height 2.
+
+Since that is all the options the minimum is 2 lowers, which is 2 dollars.
+
+This case is seen here:   ('-' and '|' are the edges of the plots, and the
+numbers represent the height at the corners, 'X' represent where the building
+is.}
+
+Before:
+1-1-1-1-1-1
+| | | | | |
+1-1-2-1-1-1
+| | | | | |
+1-1-1-1-1-1
+
+After:
+1-1-1-1-1-1
+| | |X|X|X|
+1-1-2-1-1-1
+| | |X|X|X|
+1-1-1-1-1-1
+
+Since the 2 needs to be lowered twice under the building's left side the cost
+is 2.
+
+Returns 2
+
+2)
+{"111111",
+ "112111",
+ "111111"}
+
+width = 2
+length = 1
+
+It is easy to find a plot that is 2 by 1 there are many plot that don't need
+any raising or lowering.
+
+Returns 0
+
+3)
+{"31",
+ "13"}
+
+width = 1
+length = 1
+
+since it spans the entire map we need to find out how high the ground needs to
+be.
+
+At level 1 the two corners of elevation 3 need to be lowered 2 times so: 2*2*1
+= 4 dollars
+At level 2 the two corners of elevation 3 need to go down one and the two one
+corners of elevation 1 need to go up by one, so: 2*1*1 + 2*1*2 = 6 dollars
+At level 3 the two lowest corners need to go up by two, so: 2*2*2 = 8 dollars
+
+Returns 4
+
+4)
+{"111111",
+ "112111",
+ "111111"}
+
+width = 2
+length = 3
+
+This is the same as example 1, except the width and length are switched.
+
+Return 2
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>BuildCost</span></dd><dt>Method:</dt><dd><span>landCost</span></dd><dt>Parameters:</dt><dd><span>String[], int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int landCost(String[] param0, int param1, int param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4275/pm/966">2002-<!-- --> <!-- -->SRM 111<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/966/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"966\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"966\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"966\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"966\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"966\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T109f,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nYou are playing a video game where you have to build a building on flat ground.\nBy moving the land up or down you can flatten the land so you can build the\nbuilding.  Moving land up or down costs money and you would like to minimize\nthe amount of money you spend to place a building on the map.\n\nThe input is a map of the ground based on elevation.  The first element of map\nrepresents the northern most spots, and the first characters in each string\nrepresent the western most spots.  You would like to write a function that\ngiven the map, the width and the length of the proposed building, returns the\nminimum amount of money needed to spend to place the building.  The width and\nlength are interchangeable, (i.e. is doesn't matter which direction either they\nrefer to north-south or east-west.)\n\nThe numbers on the map represent the elevations of the corners at that\nposition.  So, the numbers at (0,0), (1,0), (1,1), and (0,1) represent the\nelevations of the four corners of a single plot.  In order to adjust the land\neach corner will need to be moved up or down.  To move a corner of a plot up\ntakes 2 dollars and to lower it one takes one dollar.  So to raise an every\ncorner of a plot takes 8 dollars.  Note that moving a corner of a plot up does\nnot affect the corners of adjacent plots.  If one plot corner is moved up to\nfit the building and the plots neighboring the corner are not at the same\nlevel, a retaining wall is placed at no extra cost.  So to move a corner down\none level for all of the four plots for which it is a corner, you need to buy 4\ndown operations.\n\nDEFINITION\nClass: BuildCost\nMethod: landCost\nParameters: String[], int, int\nReturns: int\nMethod signature (be sure your method is public):  int landCost(String[] map,\nint width, int length);\n\nNOTES\n- In order for a building to be built ALL land under the base must be level and\ninside the map.\n- The building must be placed so it is aligned with the axes.\n\nTopCoder will ensure the validity of all inputs.  Inputs are valid if:\n- map contains between 1 and 50 elements, inclusive.\n- Each element of map contains between 1 and 50 characters, inclusive.\n- Each element of map is the same length.\n- Each element of map will contain only the characters '0'-'9'.\n- length and width will be positive non-zero integers such that the building\ncan fit on the map in at least one way.\n- The building must be aligned on the axes.\n\nEXAMPLES\n1)\nmap =\n{\"111111\",\n \"112111\",\n \"111111\"}\n\nwidth = 3\nlength= 2\n\nIt is easy to see that the building must span the north to south of the map\nsince it needs two plots.  So we will look at the width:\n\nIf the northwest corner is at the 0,0 plot, 4 lowers will be needed to lower\nthe 4 corners that have elevation 2, to an elevation of 1.\nIf the northwest corner is at the 1,0 plot, 4 lowers are still needed.\nIf the northwest corner is at the 2,0 plot, only 2 lowers are needed because\nthe building is placed on the edge of the point at height 2.\n\nSince that is all the options the minimum is 2 lowers, which is 2 dollars.\n\nThis case is seen here:   ('-' and '|' are the edges of the plots, and the\nnumbers represent the height at the corners, 'X' represent where the building\nis.}\n\nBefore:\n1-1-1-1-1-1\n| | | | | |\n1-1-2-1-1-1\n| | | | | |\n1-1-1-1-1-1\n\nAfter:\n1-1-1-1-1-1\n| | |X|X|X|\n1-1-2-1-1-1\n| | |X|X|X|\n1-1-1-1-1-1\n\nSince the 2 needs to be lowered twice under the building's left side the cost\nis 2.\n\nReturns 2\n\n2)\n{\"111111\",\n \"112111\",\n \"111111\"}\n\nwidth = 2\nlength = 1\n\nIt is easy to find a plot that is 2 by 1 there are many plot that don't need\nany raising or lowering.\n\nReturns 0\n\n3)\n{\"31\",\n \"13\"}\n\nwidth = 1\nlength = 1\n\nsince it spans the entire map we need to find out how high the ground needs to\nbe.\n\nAt level 1 the two corners of elevation 3 need to be lowered 2 times so: 2*2*1\n= 4 dollars\nAt level 2 the two corners of elevation 3 need to go down one and the two one\ncorners of elevation 1 need to go up by one, so: 2*1*1 + 2*1*2 = 6 dollars\nAt level 3 the two lowest corners need to go up by two, so: 2*2*2 = 8 dollars\n\nReturns 4\n\n4)\n{\"111111\",\n \"112111\",\n \"111111\"}\n\nwidth = 2\nlength = 3\n\nThis is the same as example 1, except the width and length are switched.\n\nReturn 2\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"BuildCost\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"BuildCost\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"landCost\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int landCost(String[] param0, int param1, int param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4275/pm/966\",\"children\":[\"2002-\",\" \",\"SRM 111\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

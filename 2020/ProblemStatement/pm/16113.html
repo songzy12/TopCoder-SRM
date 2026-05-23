@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->SpeedingUpBozosort<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+Boris was recently investigating Bozosort. 
+This is a sorting algorithm that operates as follows:
+</p>
+<pre xmlns="http://topcoder.com">
+while True:
+    1. scan the sequence from the left to the right to check whether it is sorted
+    2. if it is, return it
+    3. choose two (not necessarily distinct) indices uniformly at random
+    4. swap the elements at those indices
+</pre>
+<p xmlns="http://topcoder.com">
+Note the following:
+</p>
+<ul xmlns="http://topcoder.com">
+<li>In the implementation of step 1, we break the search as soon as we find a pair of consecutive elements such that the first one is strictly greater than the second.</li>
+<li>In step 4 the swap always happens, even if it would make the array "less sorted" (i.e., increase the number of inversions)</li>
+</ul>
+<p xmlns="http://topcoder.com">
+To his huge surprise, Boris discovered that Bozosort is rather slow. Thus, he came up with a clever optimization: in each iteration of the infinite cycle he will repeat steps 3 and 4 exactly <b>numSwaps</b> times.
+</p>
+<p xmlns="http://topcoder.com">
+Help Boris investigate whether this actually helps. You are given a very short input sequence in the <type>int[]</type> <b>A</b> and the constant <b>numSwaps</b>.
+Return the expected number of <i>pairwise comparisons</i> the algorithm will make before it returns the sorted sequence.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>SpeedingUpBozosort</span></dd><dt>Method:</dt><dd><span>expectedComparisons</span></dd><dt>Parameters:</dt><dd><span>int[], int</span></dd><dt>Returns:</dt><dd><span>double</span></dd><dt>Method signature:</dt><dd><span>double expectedComparisons(int[] A, int numSwaps)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>The answer is always finite.</li><li>Your return value must have an absolute or a relative error at most 1e-9 to be accepted.</li></ul></div><div><h3>Constraints</h3><ul><li><span>A will contain between 1 and 6 elements, inclusive.</span></li><li><span>Each element of A will be between 0 and 10, inclusive.</span></li><li><span>numSwaps will be between 1 and 1000, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{1, 2, 3, 4}</p>
+<p>3</p>
+<p>Returns: 3.0</p>
+<p>You will do three comparisons and discover that the array is sorted.</p></div></li><li><div><p>{1, 1, 2, 2, 2}</p>
+<p>5</p>
+<p>Returns: 4.0</p>
+<p>This array is also sorted.</p></div></li><li><div><p>{10, 0}</p>
+<p>1</p>
+<p>Returns: 3.0</p>
+<p>You will make a comparison. Then, you will either generate two equal indices (the swap does nothing) or two distinct indices (the swap makes the array sorted). Each happens with probability 50%. Then, you will make a second comparison. If the array is now sorted, you are done. Otherwise, you are in the same spot as a while ago.</p></div></li><li><div><p>{7, 4}</p>
+<p>47</p>
+<p>Returns: 3.0</p>
+<p>More swaps doesn't change anything in this scenario, the probability of actually swapping the two elements when performing 47 random swaps in a row is still exactly 50 percent.</p></div></li><li><div><p>{5, 3, 1, 4, 2}</p>
+<p>1</p>
+<p>Returns: 284.4791666666661</p>
+<p>Bozosort for five distinct elements.</p></div></li><li><div><p>{5, 3, 1, 4, 2}</p>
+<p>3</p>
+<p>Returns: 215.35376724261207</p>
+<p>Hey, would you look at that, doing more swaps does actually make it run faster on average!</p></div></li><li><div><p>{2, 4, 6, 8, 10, 1}</p>
+<p>1</p>
+<p>Returns: 1617.9800000000923</p>
+<p></p></div></li><li><div><p>{2, 4, 6, 8, 3, 10}</p>
+<p>2</p>
+<p>Returns: 1356.8906726954058</p>
+<p></p></div></li><li><div><p>{6, 5, 4, 3, 2, 1}</p>
+<p>1000</p>
+<p>Returns: 1236.9999999981378</p>
+<p></p></div></li><li><div><p>{1, 2, 4, 3, 5, 6}</p>
+<p>1000</p>
+<p>Returns: 1238.999999998138</p>
+<p></p></div></li><li><div><p>{1, 1, 7, 1, 1, 1}</p>
+<p>1000</p>
+<p>Returns: 22.999999999999677</p>
+<p></p></div></li><li><div><p>{1, 1, 7, 1, 1, 1}</p>
+<p>3</p>
+<p>Returns: 30.57894736842111</p>
+<p></p></div></li><li><div><p>{1, 1, 2, 1}</p>
+<p>4</p>
+<p>Returns: 12.6</p>
+<p>If some elements are identical, we need less luck and generally we'll sort the sequence faster.</p></div></li><li><div><p>{6, 6, 6, 6, 6}</p>
+<p>631</p>
+<p>Returns: 4.0</p>
+<p></p></div></li><li><div><p>{0, 0, 10}</p>
+<p>966</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{5, 9, 6, 8, 0, 3}</p>
+<p>361</p>
+<p>Returns: 1237.999999998138</p>
+<p></p></div></li><li><div><p>{0, 7, 7, 7, 0}</p>
+<p>987</p>
+<p>Returns: 26.999999999999872</p>
+<p></p></div></li><li><div><p>{8, 8, 0, 4}</p>
+<p>805</p>
+<p>Returns: 23.99999999999977</p>
+<p></p></div></li><li><div><p>{7, 9, 8}</p>
+<p>836</p>
+<p>Returns: 11.000000000000007</p>
+<p></p></div></li><li><div><p>{5, 6, 0}</p>
+<p>948</p>
+<p>Returns: 11.000000000000007</p>
+<p></p></div></li><li><div><p>{3, 5, 7, 0, 10, 4}</p>
+<p>618</p>
+<p>Returns: 1238.99999999814</p>
+<p></p></div></li><li><div><p>{6, 1, 7, 5, 6}</p>
+<p>416</p>
+<p>Returns: 110.99999999999643</p>
+<p></p></div></li><li><div><p>{6, 6, 6}</p>
+<p>533</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{10, 10, 9}</p>
+<p>903</p>
+<p>Returns: 7.0000000000000036</p>
+<p></p></div></li><li><div><p>{4, 4, 1}</p>
+<p>304</p>
+<p>Returns: 7.0000000000000036</p>
+<p></p></div></li><li><div><p>{9, 9, 9}</p>
+<p>546</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{6, 6, 5, 3, 0}</p>
+<p>41</p>
+<p>Returns: 112.0000000171354</p>
+<p></p></div></li><li><div><p>{0, 0, 0, 1}</p>
+<p>584</p>
+<p>Returns: 3.0</p>
+<p></p></div></li><li><div><p>{9, 7, 2, 8, 8, 0}</p>
+<p>856</p>
+<p>Returns: 650.9999999995094</p>
+<p></p></div></li><li><div><p>{5, 0, 10}</p>
+<p>493</p>
+<p>Returns: 10.000000000000009</p>
+<p></p></div></li><li><div><p>{5, 4, 4, 4, 4}</p>
+<p>944</p>
+<p>Returns: 14.999999999999961</p>
+<p></p></div></li><li><div><p>{7, 8, 7, 8, 8}</p>
+<p>944</p>
+<p>Returns: 24.999999999999872</p>
+<p></p></div></li><li><div><p>{9, 8, 8, 8}</p>
+<p>375</p>
+<p>Returns: 9.99999999999997</p>
+<p></p></div></li><li><div><p>{9, 9, 7, 9, 7, 7}</p>
+<p>562</p>
+<p>Returns: 49.999999999998145</p>
+<p></p></div></li><li><div><p>{1, 2, 2}</p>
+<p>891</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{8, 5, 5}</p>
+<p>665</p>
+<p>Returns: 6.000000000000003</p>
+<p></p></div></li><li><div><p>{9, 4, 9, 10}</p>
+<p>457</p>
+<p>Returns: 22.999999999999766</p>
+<p></p></div></li><li><div><p>{2, 2, 2, 2, 2}</p>
+<p>302</p>
+<p>Returns: 4.0</p>
+<p></p></div></li><li><div><p>{4, 4, 4, 4}</p>
+<p>80</p>
+<p>Returns: 3.0</p>
+<p></p></div></li><li><div><p>{0, 1, 2, 9, 6, 10}</p>
+<p>308</p>
+<p>Returns: 1239.9999999981399</p>
+<p></p></div></li><li><div><p>{4, 4, 4, 4, 4}</p>
+<p>303</p>
+<p>Returns: 4.0</p>
+<p></p></div></li><li><div><p>{2, 2, 2, 2, 8, 2}</p>
+<p>931</p>
+<p>Returns: 24.99999999999954</p>
+<p></p></div></li><li><div><p>{1, 6, 9}</p>
+<p>256</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{6, 6, 6, 6, 6}</p>
+<p>11</p>
+<p>Returns: 4.0</p>
+<p></p></div></li><li><div><p>{0, 0, 10}</p>
+<p>9</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{9, 9, 6}</p>
+<p>9</p>
+<p>Returns: 7.000254039223654</p>
+<p></p></div></li><li><div><p>{8, 8, 8, 8}</p>
+<p>5</p>
+<p>Returns: 3.0</p>
+<p></p></div></li><li><div><p>{5, 5, 5}</p>
+<p>10</p>
+<p>Returns: 2.0</p>
+<p></p></div></li><li><div><p>{10, 10, 10, 10, 10}</p>
+<p>8</p>
+<p>Returns: 4.0</p>
+<p></p></div></li><li><div><p>{3, 4, 4, 8, 3}</p>
+<p>6</p>
+<p>Returns: 63.8570015687702</p>
+<p></p></div></li><li><div><p>{8, 3, 8, 9, 9, 9}</p>
+<p>11</p>
+<p>Returns: 129.1721241235709</p>
+<p></p></div></li><li><div><p>{10, 2, 0, 8}</p>
+<p>5</p>
+<p>Returns: 41.4533235581623</p>
+<p></p></div></li><li><div><p>{2, 3, 7, 1, 3}</p>
+<p>9</p>
+<p>Returns: 113.30159595668043</p>
+<p></p></div></li><li><div><p>{5, 3, 1, 6, 7, 10 }</p>
+<p>1000</p>
+<p>Returns: 1236.999999998138</p></div></li><li><div><p>{6, 5, 4, 3, 2, 1 }</p>
+<p>1000</p>
+<p>Returns: 1236.9999999981378</p></div></li><li><div><p>{6, 5, 4, 3, 2, 1 }</p>
+<p>100</p>
+<p>Returns: 1236.9999999981378</p></div></li><li><div><p>{5, 3, 4, 2, 1, 6 }</p>
+<p>1000</p>
+<p>Returns: 1236.9999999981405</p></div></li><li><div><p>{10, 9, 8, 7, 6, 5 }</p>
+<p>1000</p>
+<p>Returns: 1236.9999999981378</p></div></li><li><div><p>{5, 4, 7, 2, 9, 1 }</p>
+<p>994</p>
+<p>Returns: 1236.9999999981392</p></div></li><li><div><p>{0, 1, 0, 1, 0, 1 }</p>
+<p>1000</p>
+<p>Returns: 49.999999999998174</p></div></li><li><div><p>{1, 2, 3, 4, 6, 5 }</p>
+<p>1000</p>
+<p>Returns: 1240.9999999981387</p></div></li><li><div><p>{2, 10, 3, 7, 9, 8 }</p>
+<p>95</p>
+<p>Returns: 1237.999999998138</p></div></li><li><div><p>{1, 2, 3, 4, 5, 6 }</p>
+<p>511</p>
+<p>Returns: 5.0</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/17958/pm/16113">2020-<!-- --> <!-- -->SRM 784<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/16113/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"16113\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"16113\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"16113\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"16113\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"16113\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T568,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nBoris was recently investigating Bozosort. \nThis is a sorting algorithm that operates as follows:\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\nwhile True:\n    1. scan the sequence from the left to the right to check whether it is sorted\n    2. if it is, return it\n    3. choose two (not necessarily distinct) indices uniformly at random\n    4. swap the elements at those indices\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nNote the following:\n\u003c/p\u003e\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eIn the implementation of step 1, we break the search as soon as we find a pair of consecutive elements such that the first one is strictly greater than the second.\u003c/li\u003e\n\u003cli\u003eIn step 4 the swap always happens, even if it would make the array \"less sorted\" (i.e., increase the number of inversions)\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nTo his huge surprise, Boris discovered that Bozosort is rather slow. Thus, he came up with a clever optimization: in each iteration of the infinite cycle he will repeat steps 3 and 4 exactly \u003cb\u003enumSwaps\u003c/b\u003e times.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nHelp Boris investigate whether this actually helps. You are given a very short input sequence in the \u003ctype\u003eint[]\u003c/type\u003e \u003cb\u003eA\u003c/b\u003e and the constant \u003cb\u003enumSwaps\u003c/b\u003e.\nReturn the expected number of \u003ci\u003epairwise comparisons\u003c/i\u003e the algorithm will make before it returns the sorted sequence.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"SpeedingUpBozosort\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"SpeedingUpBozosort\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"expectedComparisons\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double expectedComparisons(int[] A, int numSwaps)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"The answer is always finite.\"}],[\"$\",\"li\",\"1\",{\"children\":\"Your return value must have an absolute or a relative error at most 1e-9 to be accepted.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"A will contain between 1 and 6 elements, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of A will be between 0 and 10, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"numSwaps will be between 1 and 1000, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 2, 3, 4}\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003eYou will do three comparisons and discover that the array is sorted.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 1, 2, 2, 2}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003eThis array is also sorted.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{10, 0}\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003eYou will make a comparison. Then, you will either generate two equal indices (the swap does nothing) or two distinct indices (the swap makes the array sorted). Each happens with probability 50%. Then, you will make a second comparison. If the array is now sorted, you are done. Otherwise, you are in the same spot as a while ago.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{7, 4}\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003eMore swaps doesn't change anything in this scenario, the probability of actually swapping the two elements when performing 47 random swaps in a row is still exactly 50 percent.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 3, 1, 4, 2}\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 284.4791666666661\u003c/p\u003e\\n\u003cp\u003eBozosort for five distinct elements.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 3, 1, 4, 2}\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 215.35376724261207\u003c/p\u003e\\n\u003cp\u003eHey, would you look at that, doing more swaps does actually make it run faster on average!\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 4, 6, 8, 10, 1}\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1617.9800000000923\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 4, 6, 8, 3, 10}\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 1356.8906726954058\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 5, 4, 3, 2, 1}\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981378\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 2, 4, 3, 5, 6}\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1238.999999998138\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 1, 7, 1, 1, 1}\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 22.999999999999677\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 1, 7, 1, 1, 1}\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 30.57894736842111\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 1, 2, 1}\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: 12.6\u003c/p\u003e\\n\u003cp\u003eIf some elements are identical, we need less luck and generally we'll sort the sequence faster.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 6, 6, 6, 6}\u003c/p\u003e\\n\u003cp\u003e631\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 0, 10}\u003c/p\u003e\\n\u003cp\u003e966\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 9, 6, 8, 0, 3}\u003c/p\u003e\\n\u003cp\u003e361\u003c/p\u003e\\n\u003cp\u003eReturns: 1237.999999998138\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 7, 7, 7, 0}\u003c/p\u003e\\n\u003cp\u003e987\u003c/p\u003e\\n\u003cp\u003eReturns: 26.999999999999872\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{8, 8, 0, 4}\u003c/p\u003e\\n\u003cp\u003e805\u003c/p\u003e\\n\u003cp\u003eReturns: 23.99999999999977\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{7, 9, 8}\u003c/p\u003e\\n\u003cp\u003e836\u003c/p\u003e\\n\u003cp\u003eReturns: 11.000000000000007\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 6, 0}\u003c/p\u003e\\n\u003cp\u003e948\u003c/p\u003e\\n\u003cp\u003eReturns: 11.000000000000007\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{3, 5, 7, 0, 10, 4}\u003c/p\u003e\\n\u003cp\u003e618\u003c/p\u003e\\n\u003cp\u003eReturns: 1238.99999999814\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 1, 7, 5, 6}\u003c/p\u003e\\n\u003cp\u003e416\u003c/p\u003e\\n\u003cp\u003eReturns: 110.99999999999643\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 6, 6}\u003c/p\u003e\\n\u003cp\u003e533\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{10, 10, 9}\u003c/p\u003e\\n\u003cp\u003e903\u003c/p\u003e\\n\u003cp\u003eReturns: 7.0000000000000036\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{4, 4, 1}\u003c/p\u003e\\n\u003cp\u003e304\u003c/p\u003e\\n\u003cp\u003eReturns: 7.0000000000000036\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 9, 9}\u003c/p\u003e\\n\u003cp\u003e546\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 6, 5, 3, 0}\u003c/p\u003e\\n\u003cp\u003e41\u003c/p\u003e\\n\u003cp\u003eReturns: 112.0000000171354\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 0, 0, 1}\u003c/p\u003e\\n\u003cp\u003e584\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 7, 2, 8, 8, 0}\u003c/p\u003e\\n\u003cp\u003e856\u003c/p\u003e\\n\u003cp\u003eReturns: 650.9999999995094\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 0, 10}\u003c/p\u003e\\n\u003cp\u003e493\u003c/p\u003e\\n\u003cp\u003eReturns: 10.000000000000009\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 4, 4, 4, 4}\u003c/p\u003e\\n\u003cp\u003e944\u003c/p\u003e\\n\u003cp\u003eReturns: 14.999999999999961\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{7, 8, 7, 8, 8}\u003c/p\u003e\\n\u003cp\u003e944\u003c/p\u003e\\n\u003cp\u003eReturns: 24.999999999999872\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 8, 8, 8}\u003c/p\u003e\\n\u003cp\u003e375\u003c/p\u003e\\n\u003cp\u003eReturns: 9.99999999999997\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 9, 7, 9, 7, 7}\u003c/p\u003e\\n\u003cp\u003e562\u003c/p\u003e\\n\u003cp\u003eReturns: 49.999999999998145\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 2, 2}\u003c/p\u003e\\n\u003cp\u003e891\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{8, 5, 5}\u003c/p\u003e\\n\u003cp\u003e665\u003c/p\u003e\\n\u003cp\u003eReturns: 6.000000000000003\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 4, 9, 10}\u003c/p\u003e\\n\u003cp\u003e457\u003c/p\u003e\\n\u003cp\u003eReturns: 22.999999999999766\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 2, 2, 2, 2}\u003c/p\u003e\\n\u003cp\u003e302\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{4, 4, 4, 4}\u003c/p\u003e\\n\u003cp\u003e80\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 1, 2, 9, 6, 10}\u003c/p\u003e\\n\u003cp\u003e308\u003c/p\u003e\\n\u003cp\u003eReturns: 1239.9999999981399\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{4, 4, 4, 4, 4}\u003c/p\u003e\\n\u003cp\u003e303\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 2, 2, 2, 8, 2}\u003c/p\u003e\\n\u003cp\u003e931\u003c/p\u003e\\n\u003cp\u003eReturns: 24.99999999999954\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 6, 9}\u003c/p\u003e\\n\u003cp\u003e256\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 6, 6, 6, 6}\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 0, 10}\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{9, 9, 6}\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003eReturns: 7.000254039223654\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{8, 8, 8, 8}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 5, 5}\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 2.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{10, 10, 10, 10, 10}\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003eReturns: 4.0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{3, 4, 4, 8, 3}\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003eReturns: 63.8570015687702\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{8, 3, 8, 9, 9, 9}\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 129.1721241235709\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{10, 2, 0, 8}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 41.4533235581623\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 3, 7, 1, 3}\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003eReturns: 113.30159595668043\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 3, 1, 6, 7, 10 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.999999998138\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 5, 4, 3, 2, 1 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981378\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{6, 5, 4, 3, 2, 1 }\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981378\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 3, 4, 2, 1, 6 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981405\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{10, 9, 8, 7, 6, 5 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981378\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{5, 4, 7, 2, 9, 1 }\u003c/p\u003e\\n\u003cp\u003e994\u003c/p\u003e\\n\u003cp\u003eReturns: 1236.9999999981392\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0, 1, 0, 1, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 49.999999999998174\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 2, 3, 4, 6, 5 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 1240.9999999981387\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{2, 10, 3, 7, 9, 8 }\u003c/p\u003e\\n\u003cp\u003e95\u003c/p\u003e\\n\u003cp\u003eReturns: 1237.999999998138\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{1, 2, 3, 4, 5, 6 }\u003c/p\u003e\\n\u003cp\u003e511\u003c/p\u003e\\n\u003cp\u003eReturns: 5.0\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/17958/pm/16113\",\"children\":[\"2020-\",\" \",\"SRM 784\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

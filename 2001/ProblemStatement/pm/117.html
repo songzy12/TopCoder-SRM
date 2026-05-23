@@ -1,0 +1,126 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->RemoteControl<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">Class name: RemoteControl
+Method name: getMinClicks
+Parameters: int[], int, int, int[]
+Returns: int
+
+Lazy Bob is watching TV from his couch.  He has highlighted in his TV guide the
+channels he would like to watch every half hour.  Every click of his remote
+control drains Bob of precious energy - so he would like to minimize the number
+of buttons he needs to press to get him through his television marathon.  There
+are 13 buttons on his remote: 10 buttons for the digits (0-9), a "Next Channel"
+button, a "Previous Channel" button, and a "Flashback" button:
+
+-The digit buttons allow you to jump directly to a desired channel.  (Ex: go to
+channel 63 by typing [\u147]6[\u148], [\u147]3[\u148].)
+-The "Next Channel" button increments the current channel to the next higher
+viewable channel, unless the current channel is the highest viewable channel,
+in which case it goes to the lowest viewable channel.  The "Previous Channel"
+button decrements to the next lower viewable channel, unless the current
+channel is the lowest viewable channel, in which case it goes to the highest
+viewable channel.
+-The "Flashback" button reverts to whatever channel was on the television
+before the current channel. (Ex:  If channel 1 is viewed, then channel 100,
+then Flashback is pressed, the TV will go to channel 1.)
+
+Bob can get from one channel to the next in one of two ways:
+1) Clicking any combination of "Next Channel", "Previous Channel", and
+"Flashback" buttons.
+2) Keying in the digits to the channel.
+Bob will never combine "Flashback" and digit buttons when moving from one
+channel to the next.
+ 
+There are certain channels that are blocked on Bob's television.  These
+channels are not viewable, so they are skipped by the "Next Channel" and
+"Previous Channel" buttons.  
+
+Implement a class RemoteControl which contains the method getMinClicks.  The
+method takes as parameters a int[] of channels to view, an int that is the
+lowest channel, an int that is the highest channel, and a int[] of blocked
+channels.  The method returns the minimum number of clicks necessary to get
+through all the shows that Bob would like to watch.  
+
+The method signature is:
+public: int getMinClicks(int[] sequence, int lowestChannel, int highestChannel,
+int[] blocked);
+
+*int[] sequence - The sequence of channels that Bob must view (in order).  All
+channels in this sequence are not in the blocked list and are between
+lowestChannel and highestChannel, inclusive.  The int[] contains between 1 and
+50 elements, inclusive.
+*int lowestChannel - The lowest channel on the television.  Must be greater
+than 0, and less than or equal to 10,000.
+*int highestChannel - The highest channel on the television - must be greater
+than or equal to lowestChannel, and less than or equal to 10,000.
+*int[] blocked - The list of channels that are blocked on Bob's television.
+All the channels in this array must be valid channels (greater than or equal to
+lowestChannel, less than or equal to highestChannel).  Duplicates may be
+ignored.  The int[]contains at most 50 elements.
+
+Note:
+*When keying in digits:  The television will not actually change channels until
+there's a significant pause between digit clicks - Bob can move fast enough
+that he can key in the digits of a channel without pausing long enough for the
+television to go to the wrong channel.  (If Bob wants to go to channel 35 and
+then 42, he can key in "3","5" and then "4","2" and the tv will visit only
+those channels and when at channel 42, flashback will go to 35.)
+*If multiple successive channels in the sequence are the same: it takes 0
+clicks to go from one channel to another if the channels are the same.  Also,
+flashback contains the value of the last different channel (if there is one).
+*The TV assumes no channel when turned on, so the first channel must be keyed
+in.  Also, when the TV is turned on, and when viewing the first channel, there
+is no channel in flashback and pressing flashback does nothing.
+*Flashback only remembers one channel, so pressing flashback multiple times in
+a row loops between the same two channels.   That is, if Bob pressed 17 30
+flashback flashback flashback he would visit, in order, channels 17, 30, 17,
+30, 17.
+
+Examples:
+
+sequence - 15, 14, 17, 1, 17
+lowestChannel - 1
+highestChannel - 20
+blocked - 18, 19
+First, Bob must key in channel 15.. that's two clicks ("1", "5").Then, Bob will
+click "Previous Channel" to get to channel 14.
+Then, Bob will key in channel 17.. that's two more clicks ("1", "7").
+Bob will then key in channel 1.. that's one click ("1").
+Finally, Bob will hit flashback to get back to channel 17.
+result: 7 clicks
+----------------------------------------
+sequence - 105, 106, 107, 103
+lowestChannel - 103
+highestChannel - 108
+blocked - 104
+First, Bob keys in channel 105.. three clicks ("1", "0", "5").
+Then, Bob clicks "Next Channel" to get to channel 106.
+Again, Bob clicks "Next Channel" to get to channel 107.
+Then, Bob clicks "Next Channel" twice to get to channel 103 (107-&gt;108-&gt;103).
+result: 7
+----------------------------------------
+sequence [\u150] 1, 100, 1, 101
+lowestChannel [\u150] 1
+highestChannel [\u150] 200
+blocked [\u150] empty
+Bob clicks
+[\u147]1[\u148]...[\u148]1[\u148],[\u148]0[\u148],[\u148]0[\u148],...[\u148]flas
+hback[\u148],[\u148]flashback[\u148],[\u148]Next Channel[\u148].
+result: 7
+----------------------------------------
+sequence - 10, 13, 13, 100, 99, 98, 77, 81
+lowestChannel - 1
+highestChannel - 100
+blocked - 78, 79, 80, 3
+result: 12
+----------------------------------------
+sequence - 1, 3, 5, 10, 2, 10
+lowestChannel - 1
+highestChannel - 10
+blocked - 4, 6
+result: 7
+-----------------------------------------
+sequence [\u150] 600, 1000
+lowestChannel [\u150] 1 
+highesChannel [\u150] 1000
+blocked [\u150] empty
+result: 7
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>RemoteControl</span></dd><dt>Method:</dt><dd><span>getMinClicks</span></dd><dt>Parameters:</dt><dd><span>int[], int, int, int[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int getMinClicks(int[] param0, int param1, int param2, int[] param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/3016/pm/117">2001-<!-- --> <!-- -->SRM 17<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/3016/pm/117">2001-<!-- --> <!-- -->SRM 17<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/117/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"117\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"117\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"117\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"117\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"117\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T16b2,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003eClass name: RemoteControl\nMethod name: getMinClicks\nParameters: int[], int, int, int[]\nReturns: int\n\nLazy Bob is watching TV from his couch.  He has highlighted in his TV guide the\nchannels he would like to watch every half hour.  Every click of his remote\ncontrol drains Bob of precious energy - so he would like to minimize the number\nof buttons he needs to press to get him through his television marathon.  There\nare 13 buttons on his remote: 10 buttons for the digits (0-9), a \"Next Channel\"\nbutton, a \"Previous Channel\" button, and a \"Flashback\" button:\n\n-The digit buttons allow you to jump directly to a desired channel.  (Ex: go to\nchannel 63 by typing [\\u147]6[\\u148], [\\u147]3[\\u148].)\n-The \"Next Channel\" button increments the current channel to the next higher\nviewable channel, unless the current channel is the highest viewable channel,\nin which case it goes to the lowest viewable channel.  The \"Previous Channel\"\nbutton decrements to the next lower viewable channel, unless the current\nchannel is the lowest viewable channel, in which case it goes to the highest\nviewable channel.\n-The \"Flashback\" button reverts to whatever channel was on the television\nbefore the current channel. (Ex:  If channel 1 is viewed, then channel 100,\nthen Flashback is pressed, the TV will go to channel 1.)\n\nBob can get from one channel to the next in one of two ways:\n1) Clicking any combination of \"Next Channel\", \"Previous Channel\", and\n\"Flashback\" buttons.\n2) Keying in the digits to the channel.\nBob will never combine \"Flashback\" and digit buttons when moving from one\nchannel to the next.\n \nThere are certain channels that are blocked on Bob's television.  These\nchannels are not viewable, so they are skipped by the \"Next Channel\" and\n\"Previous Channel\" buttons.  \n\nImplement a class RemoteControl which contains the method getMinClicks.  The\nmethod takes as parameters a int[] of channels to view, an int that is the\nlowest channel, an int that is the highest channel, and a int[] of blocked\nchannels.  The method returns the minimum number of clicks necessary to get\nthrough all the shows that Bob would like to watch.  \n\nThe method signature is:\npublic: int getMinClicks(int[] sequence, int lowestChannel, int highestChannel,\nint[] blocked);\n\n*int[] sequence - The sequence of channels that Bob must view (in order).  All\nchannels in this sequence are not in the blocked list and are between\nlowestChannel and highestChannel, inclusive.  The int[] contains between 1 and\n50 elements, inclusive.\n*int lowestChannel - The lowest channel on the television.  Must be greater\nthan 0, and less than or equal to 10,000.\n*int highestChannel - The highest channel on the television - must be greater\nthan or equal to lowestChannel, and less than or equal to 10,000.\n*int[] blocked - The list of channels that are blocked on Bob's television.\nAll the channels in this array must be valid channels (greater than or equal to\nlowestChannel, less than or equal to highestChannel).  Duplicates may be\nignored.  The int[]contains at most 50 elements.\n\nNote:\n*When keying in digits:  The television will not actually change channels until\nthere's a significant pause between digit clicks - Bob can move fast enough\nthat he can key in the digits of a channel without pausing long enough for the\ntelevision to go to the wrong channel.  (If Bob wants to go to channel 35 and\nthen 42, he can key in \"3\",\"5\" and then \"4\",\"2\" and the tv will visit only\nthose channels and when at channel 42, flashback will go to 35.)\n*If multiple successive channels in the sequence are the same: it takes 0\nclicks to go from one channel to another if the channels are the same.  Also,\nflashback contains the value of the last different channel (if there is one).\n*The TV assumes no channel when turned on, so the first channel must be keyed\nin.  Also, when the TV is turned on, and when viewing the first channel, there\nis no channel in flashback and pressing flashback does nothing.\n*Flashback only remembers one channel, so pressing flashback multiple times in\na row loops between the same two channels.   That is, if Bob pressed 17 30\nflashback flashback flashback he would visit, in order, channels 17, 30, 17,\n30, 17.\n\nExamples:\n\nsequence - 15, 14, 17, 1, 17\nlowestChannel - 1\nhighestChannel - 20\nblocked - 18, 19\nFirst, Bob must key in channel 15.. that's two clicks (\"1\", \"5\").Then, Bob will\nclick \"Previous Channel\" to get to channel 14.\nThen, Bob will key in channel 17.. that's two more clicks (\"1\", \"7\").\nBob will then key in channel 1.. that's one click (\"1\").\nFinally, Bob will hit flashback to get back to channel 17.\nresult: 7 clicks\n----------------------------------------\nsequence - 105, 106, 107, 103\nlowestChannel - 103\nhighestChannel - 108\nblocked - 104\nFirst, Bob keys in channel 105.. three clicks (\"1\", \"0\", \"5\").\nThen, Bob clicks \"Next Channel\" to get to channel 106.\nAgain, Bob clicks \"Next Channel\" to get to channel 107.\nThen, Bob clicks \"Next Channel\" twice to get to channel 103 (107-\u0026gt;108-\u0026gt;103).\nresult: 7\n----------------------------------------\nsequence [\\u150] 1, 100, 1, 101\nlowestChannel [\\u150] 1\nhighestChannel [\\u150] 200\nblocked [\\u150] empty\nBob clicks\n[\\u147]1[\\u148]...[\\u148]1[\\u148],[\\u148]0[\\u148],[\\u148]0[\\u148],...[\\u148]flas\nhback[\\u148],[\\u148]flashback[\\u148],[\\u148]Next Channel[\\u148].\nresult: 7\n----------------------------------------\nsequence - 10, 13, 13, 100, 99, 98, 77, 81\nlowestChannel - 1\nhighestChannel - 100\nblocked - 78, 79, 80, 3\nresult: 12\n----------------------------------------\nsequence - 1, 3, 5, 10, 2, 10\nlowestChannel - 1\nhighestChannel - 10\nblocked - 4, 6\nresult: 7\n-----------------------------------------\nsequence [\\u150] 600, 1000\nlowestChannel [\\u150] 1 \nhighesChannel [\\u150] 1000\nblocked [\\u150] empty\nresult: 7\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"RemoteControl\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"RemoteControl\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getMinClicks\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int, int, int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int getMinClicks(int[] param0, int param1, int param2, int[] param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3016/pm/117\",\"children\":[\"2001-\",\" \",\"SRM 17\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3016/pm/117\",\"children\":[\"2001-\",\" \",\"SRM 17\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->FSM<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">Class Name: FSM
+Method Name: runFSM
+Paramaters: String String String[]
+Returns String[]
+
+Implement a class FSM, which contains a method runFSM.  The method runs an
+augmented finite state machine:
+
+The augmented finite state machine consists of a number of states.  Each state
+has a unique name of type String.  There are edges connecting the states.
+These edges are directional: they go in only one direction, their source state
+to their sink state (source and sink states are described below).  Each edge
+has a corresponding symbol and function that are both represented as Strings.
+
+Here is the method signature (be sure your method is public):
+String[] runFSM(String symbols, String states, String[] edges)
+
+Input:
+*symbols - The first parameter to runFSM is a String containing elements
+referred to as symbols that will be passed to the FSM.  The elements/symbols
+will contain letters only (A-Z and a-z, inclusive).  Each element of the
+symbols input parameter is separated by one or more spaces.
+
+*states - The second parameter to runFSM is a String containing elements that
+refer to the names of the states.  The names/states will contain letters (A-Z
+and a-z, inclusive) only.  The first state in this list is the starting state.
+Each element of the states input parameter is separated by one or more spaces.
+
+*edges[] - The third parameter is a String[].  Each element in the String[]
+describes an edge.  The Strings in the array will contain four sets of letters,
+where the sets are separated by one or more spaces.  Parsing the String from
+the left-most character moving right, the first set of letters is the source
+state - the state in which the edge starts.  The second set of letters is the
+sink state - the state in which the edge ends.  The third set of letters is the
+symbol corresponding to the edge.  The fourth set of letters is the function
+corresponding with the edge.
+
+Output:
+The output is a String[] containing a list of all the functions called with
+their associated symbols as parameters, in order.  There should be only one
+element in the output for each symbol in the first input String.
+
+The augmented finite state machine is passed a sequence of symbols.  Each
+symbol is processed as follows:
+1.  Use the first state (the first element of the states String) as the source
+state and let that equal the current state.
+2.  Determine the first symbol (i.e. the first element of the symbols String)
+let that equal the current symbol.
+3.  Find the edge of the current state that corresponds to the current symbol.
+4.  Add a String to the output array.  The String should consist of the
+function name of the edge found in step 3 with the current symbol enclosed in
+parentheses (i.e. if the function is "open" and the symbol is "hi", the
+function call is "open(hi)").
+5.  Move to the sink state that corresponds with the current symbol.
+6.  Let current state be equal to the sink state from step 5
+7.  Repeat steps 3 - 6 for the remaining symbols.
+
+Note:
+* If ever there is no edge leaving the current state with the current symbol,
+add the String "ERROR" to the output array, remain at the current state, and go
+on to the next symbol.
+* No two edges may contain the same source state and symbol.
+* All String comparisons are case sensitive.
+* The output is a list of the function calls created in step four (above) in
+order.
+* The sink state can be equal to the source state
+* There may be additional spaces at the beginning or end of any input String.
+
+TopCoder will ensure:
+- All the Strings and elements of arrays will contain letters (A-Z and a-z,
+inclusive) and spaces (' ') only.
+- The states mentioned in the edges array will be present in the states String.
+- symbols will contain at least one element.
+- states will contain at least one element.
+- symbols and states will have length between 1 and 50, inclusive.
+- edges will contain between 1 and 50 elements, inclusive, and each element
+will contain between 1 and 50 characters, inclusive.
+- No two edges will have the same source state and symbol
+- Elements of the edges array will be well formed.  That is, each element will
+be in the form: "(source state) (sink) (state symbol) (function)" (the
+parentheses are for clarity and should not be included in the String).  There
+will be exactly four elements separated by one or more spaces
+
+
+Examples:
+Example relating to a vending machine that releases candy every time 20 cents
+is put in, assume:
+states="Zerocents Fivecents Tencents Fifteencents Twentycents"
+and
+edges={
+"Zerocents  Fivecents  nickel needMoreOne",
+"Zerocents  Tencents dime   needMoreTwo",
+"Fivecents  Fifteencents dime   needMoreThree",
+"Fivecents  Tencents nickel needMoreFour",
+"Tencents Fifteencents nickel needMoreFive",
+"Tencents Twentycents dime   releasingCandyOne",
+"Fifteencents Twentycents nickel releasingCandyTwo",
+"Fifteencents Twentycents dime   releasingCandyThree",
+"Twentycents Fivecents  nickel needMoreSix",
+"Twentycents Tencents dime   needMoreSeven"
+}
+
+If symbols="nickel dime dime", the output should be:
+{"needMoreOne(nickel)",
+ "needMoreThree(dime)",
+ "releasingCandyThree(dime)"}
+
+If symbols="dime oops dime" the output should be
+{"needMoreTwo(dime)",
+ "ERROR",
+ "releasingCandyOne(dime)"}
+
+If symbols="dime nickel dime dime dime nickel" the output should be
+{"needMoreTwo(dime)",
+ "needMoreFive(nickel)",
+ "releasingCandyThree(dime)",
+ "needMoreSeven(dime)",
+ "releasingCandyOne(dime),
+ "needMoreSix(nickel)}
+
+More Examples:
+If symbols=" a   a  a b  b   c" and
+states=" stateZero stateOne stateTwo"
+and edges=
+{"stateZero stateOne a doSomething",
+ "stateOne stateTwo b doNothing",
+ "stateTwo stateZero c doEverything"}
+
+The output should be
+{"doSomething(a)",
+ "ERROR",
+ "ERROR",
+ "doNothing(b)",
+ "ERROR",
+ "doEverything(c)"}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>FSM</span></dd><dt>Method:</dt><dd><span>runFSM</span></dd><dt>Parameters:</dt><dd><span>String, String, String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] runFSM(String param0, String param1, String[] param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/51/pm/179">2001-<!-- --> <!-- -->TCI &#x27;01 Round 2<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/179/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"179\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"179\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"179\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"179\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"179\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T16a4,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003eClass Name: FSM\nMethod Name: runFSM\nParamaters: String String String[]\nReturns String[]\n\nImplement a class FSM, which contains a method runFSM.  The method runs an\naugmented finite state machine:\n\nThe augmented finite state machine consists of a number of states.  Each state\nhas a unique name of type String.  There are edges connecting the states.\nThese edges are directional: they go in only one direction, their source state\nto their sink state (source and sink states are described below).  Each edge\nhas a corresponding symbol and function that are both represented as Strings.\n\nHere is the method signature (be sure your method is public):\nString[] runFSM(String symbols, String states, String[] edges)\n\nInput:\n*symbols - The first parameter to runFSM is a String containing elements\nreferred to as symbols that will be passed to the FSM.  The elements/symbols\nwill contain letters only (A-Z and a-z, inclusive).  Each element of the\nsymbols input parameter is separated by one or more spaces.\n\n*states - The second parameter to runFSM is a String containing elements that\nrefer to the names of the states.  The names/states will contain letters (A-Z\nand a-z, inclusive) only.  The first state in this list is the starting state.\nEach element of the states input parameter is separated by one or more spaces.\n\n*edges[] - The third parameter is a String[].  Each element in the String[]\ndescribes an edge.  The Strings in the array will contain four sets of letters,\nwhere the sets are separated by one or more spaces.  Parsing the String from\nthe left-most character moving right, the first set of letters is the source\nstate - the state in which the edge starts.  The second set of letters is the\nsink state - the state in which the edge ends.  The third set of letters is the\nsymbol corresponding to the edge.  The fourth set of letters is the function\ncorresponding with the edge.\n\nOutput:\nThe output is a String[] containing a list of all the functions called with\ntheir associated symbols as parameters, in order.  There should be only one\nelement in the output for each symbol in the first input String.\n\nThe augmented finite state machine is passed a sequence of symbols.  Each\nsymbol is processed as follows:\n1.  Use the first state (the first element of the states String) as the source\nstate and let that equal the current state.\n2.  Determine the first symbol (i.e. the first element of the symbols String)\nlet that equal the current symbol.\n3.  Find the edge of the current state that corresponds to the current symbol.\n4.  Add a String to the output array.  The String should consist of the\nfunction name of the edge found in step 3 with the current symbol enclosed in\nparentheses (i.e. if the function is \"open\" and the symbol is \"hi\", the\nfunction call is \"open(hi)\").\n5.  Move to the sink state that corresponds with the current symbol.\n6.  Let current state be equal to the sink state from step 5\n7.  Repeat steps 3 - 6 for the remaining symbols.\n\nNote:\n* If ever there is no edge leaving the current state with the current symbol,\nadd the String \"ERROR\" to the output array, remain at the current state, and go\non to the next symbol.\n* No two edges may contain the same source state and symbol.\n* All String comparisons are case sensitive.\n* The output is a list of the function calls created in step four (above) in\norder.\n* The sink state can be equal to the source state\n* There may be additional spaces at the beginning or end of any input String.\n\nTopCoder will ensure:\n- All the Strings and elements of arrays will contain letters (A-Z and a-z,\ninclusive) and spaces (' ') only.\n- The states mentioned in the edges array will be present in the states String.\n- symbols will contain at least one element.\n- states will contain at least one element.\n- symbols and states will have length between 1 and 50, inclusive.\n- edges will contain between 1 and 50 elements, inclusive, and each element\nwill contain between 1 and 50 characters, inclusive.\n- No two edges will have the same source state and symbol\n- Elements of the edges array will be well formed.  That is, each element will\nbe in the form: \"(source state) (sink) (state symbol) (function)\" (the\nparentheses are for clarity and should not be included in the String).  There\nwill be exactly four elements separated by one or more spaces\n\n\nExamples:\nExample relating to a vending machine that releases candy every time 20 cents\nis put in, assume:\nstates=\"Zerocents Fivecents Tencents Fifteencents Twentycents\"\nand\nedges={\n\"Zerocents  Fivecents  nickel needMoreOne\",\n\"Zerocents  Tencents dime   needMoreTwo\",\n\"Fivecents  Fifteencents dime   needMoreThree\",\n\"Fivecents  Tencents nickel needMoreFour\",\n\"Tencents Fifteencents nickel needMoreFive\",\n\"Tencents Twentycents dime   releasingCandyOne\",\n\"Fifteencents Twentycents nickel releasingCandyTwo\",\n\"Fifteencents Twentycents dime   releasingCandyThree\",\n\"Twentycents Fivecents  nickel needMoreSix\",\n\"Twentycents Tencents dime   needMoreSeven\"\n}\n\nIf symbols=\"nickel dime dime\", the output should be:\n{\"needMoreOne(nickel)\",\n \"needMoreThree(dime)\",\n \"releasingCandyThree(dime)\"}\n\nIf symbols=\"dime oops dime\" the output should be\n{\"needMoreTwo(dime)\",\n \"ERROR\",\n \"releasingCandyOne(dime)\"}\n\nIf symbols=\"dime nickel dime dime dime nickel\" the output should be\n{\"needMoreTwo(dime)\",\n \"needMoreFive(nickel)\",\n \"releasingCandyThree(dime)\",\n \"needMoreSeven(dime)\",\n \"releasingCandyOne(dime),\n \"needMoreSix(nickel)}\n\nMore Examples:\nIf symbols=\" a   a  a b  b   c\" and\nstates=\" stateZero stateOne stateTwo\"\nand edges=\n{\"stateZero stateOne a doSomething\",\n \"stateOne stateTwo b doNothing\",\n \"stateTwo stateZero c doEverything\"}\n\nThe output should be\n{\"doSomething(a)\",\n \"ERROR\",\n \"ERROR\",\n \"doNothing(b)\",\n \"ERROR\",\n \"doEverything(c)\"}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"FSM\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"FSM\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"runFSM\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String, String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] runFSM(String param0, String param1, String[] param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/51/pm/179\",\"children\":[\"2001-\",\" \",\"TCI '01 Round 2\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

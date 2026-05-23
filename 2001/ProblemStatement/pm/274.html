@@ -1,0 +1,132 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Cheater<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+In an attempt to prevent dirty obfuscation tricks, TopCoder decides to outlaw
+the use of variable names l (lowercase L) and O (uppercase o).  Also, any
+variable names consisting of solely l's (lowercase L's) and 1's (ones) and O's
+(uppercase o's) and 0's (zeros) and other digits are prohibited.  For example,
+l111ll1 (L, one, one, one, L, L, one) cannot be used as a variable name.  Also,
+l03 (L, zero, three) is not allowed.  These variables are not allowed because
+they can all be misread as numbers.
+
+Another form of obfuscation involves using two variable names that look similar
+on screen but are actually different.  For example, counterl (last character is
+L) and counter1 (last character is "one").
+
+Assume that the only types allowed in a program are "int", "double", and
+"char".  Also, assume that variable names start with a letter and only contain
+letters and digits.  Type names are not allowed as variable names (for example,
+you can't have a variable named "int").
+
+Given a piece of code as input, return all starting indices (in ascending
+order) of variable declarations where the variable name is obfuscated.  A
+variable name is obfuscated if it looks like a number, or if it looks like
+another variable declared elsewhere in the code (as described above).  A
+variable declaration is defined here as:
+
+&lt;type name&gt;&lt;one or more spaces&gt;&lt;variable name&gt;(&lt;space&gt; or &lt;';'&gt; or &lt;'='&gt;)
+
+The above should be interpreted as follows:  a type name, followed by one or
+more spaces, followed by a variable name, followed by either a space, a
+semicolon, or an equals sign.
+
+Variable declarations must be preceded by either a space or a semi-colon -
+unless the type declaration begins at index 0 of the input string.  Note that
+this variable declaration scheme would not work in real life because it would
+not cover all possible valid variable declarations in a real program.
+
+For example, consider the following input string:
+
+"int x = 0;"
+
+A variable declaration begins at index 0.
+
+Now, consider the following input string:
+
+"int x;int y= 0"
+
+Two variable declarations exist: one starting at index 0, the other starting at
+index 6 (where the second "int" begins).
+
+However, in the following case:
+
+"int x = 0int y= 0;
+
+There is only one variable declaration starting at index 0 - the second "int"
+is not preceded by a space or semi-colon.
+
+Examples of variable declarations:
+
+"int VariableName;"
+"double dd  ;"
+"int l1l1l = 11110"
+"int O=1;"
+"char b "
+
+The following do not count as variable declarations:
+
+"intVariableName;"
+"double=d=3.0;"
+"char X}"
+"do uble x=2;"
+"Double d;"  (types are case sensitive)
+"double p" (variable name is not followed by a space, equals sign, or
+semi-colon)
+
+The input code will not necessarily contain syntactically correct code.  For
+example:
+
+"int l=3; int int int ll1;;"
+
+The above code is not syntactically correct, but the method should still return
+the starting indices of "int l" and "int ll1".  The following is also allowed:
+
+"int l3 = 3;char l3=false "
+
+It should return the starting indices of "int l3" and "char l3"
+
+TopCoder will ensure the following criteria on the inputs:
+* code will contain between 0 and 50 characters inclusive.
+* code will only contain the following types of characters: letters (a-z, A-Z),
+digits (0-9), spaces, or any character contained in the following string:
+"=;+-()/*:{}[]" (quotes are for clarity, they are not included in the string).
+
+DEFINITION
+
+Class name: Cheater
+Method name: isObfuscated
+Parameters: String
+Returns: int[]
+
+The method signature is:
+public int[] isObfuscated(String code);
+
+Make sure your method is public.
+
+EXAMPLES
+(We recommend you copy and paste examples to be sure you input them correctly)
+
+"int l=0; if(x==l) return false;" -&gt; {0}
+  - because int l (lowercase L) is an obfuscation.
+
+"double l" -&gt; {}
+  - because there is no valid variable declaration.
+
+"char ll3=true/ int O4;" -&gt; {0,15}
+- because char ll3 (lowercase L, lowercase L, 3) is an obfuscation, and int
+O4 (uppercase o, 4) is an obfuscation.
+
+"//i cheat; int cheatl =3;int cheat1 = 4 xx(cheatl)" -&gt; {11,25} 
+- because int cheatl (last character is a lowercase L) and int cheat1 (last
+character is the number one) look alike.
+
+"int clll1; int l1; int cl111; l1=3; int c1" -&gt; {0,11,19} 
+- because int clll1 (c, lowercase L, lowercase L, lowercase L, number one)
+and int cl111 (c, lowercase L, number one, number one, number one) look alike,
+and int l1 (lowercase L, number one) is an obfuscation.
+
+"// xs ;int xO; int x0; x0 = xO + xO;" -&gt; {7,15}
+- because int xO (last character is an uppercase o) and int x0 (last
+character is the number zero) look alike.
+
+"" -&gt; {}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Cheater</span></dd><dt>Method:</dt><dd><span>isObfuscated</span></dd><dt>Parameters:</dt><dd><span>String</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] isObfuscated(String param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4021/pm/274">2001-<!-- --> <!-- -->SRM 50<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4021/pm/274">2001-<!-- --> <!-- -->SRM 50<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/274/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"274\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"274\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"274\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"274\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"274\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T128f,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nIn an attempt to prevent dirty obfuscation tricks, TopCoder decides to outlaw\nthe use of variable names l (lowercase L) and O (uppercase o).  Also, any\nvariable names consisting of solely l's (lowercase L's) and 1's (ones) and O's\n(uppercase o's) and 0's (zeros) and other digits are prohibited.  For example,\nl111ll1 (L, one, one, one, L, L, one) cannot be used as a variable name.  Also,\nl03 (L, zero, three) is not allowed.  These variables are not allowed because\nthey can all be misread as numbers.\n\nAnother form of obfuscation involves using two variable names that look similar\non screen but are actually different.  For example, counterl (last character is\nL) and counter1 (last character is \"one\").\n\nAssume that the only types allowed in a program are \"int\", \"double\", and\n\"char\".  Also, assume that variable names start with a letter and only contain\nletters and digits.  Type names are not allowed as variable names (for example,\nyou can't have a variable named \"int\").\n\nGiven a piece of code as input, return all starting indices (in ascending\norder) of variable declarations where the variable name is obfuscated.  A\nvariable name is obfuscated if it looks like a number, or if it looks like\nanother variable declared elsewhere in the code (as described above).  A\nvariable declaration is defined here as:\n\n\u0026lt;type name\u0026gt;\u0026lt;one or more spaces\u0026gt;\u0026lt;variable name\u0026gt;(\u0026lt;space\u0026gt; or \u0026lt;';'\u0026gt; or \u0026lt;'='\u0026gt;)\n\nThe above should be interpreted as follows:  a type name, followed by one or\nmore spaces, followed by a variable name, followed by either a space, a\nsemicolon, or an equals sign.\n\nVariable declarations must be preceded by either a space or a semi-colon -\nunless the type declaration begins at index 0 of the input string.  Note that\nthis variable declaration scheme would not work in real life because it would\nnot cover all possible valid variable declarations in a real program.\n\nFor example, consider the following input string:\n\n\"int x = 0;\"\n\nA variable declaration begins at index 0.\n\nNow, consider the following input string:\n\n\"int x;int y= 0\"\n\nTwo variable declarations exist: one starting at index 0, the other starting at\nindex 6 (where the second \"int\" begins).\n\nHowever, in the following case:\n\n\"int x = 0int y= 0;\n\nThere is only one variable declaration starting at index 0 - the second \"int\"\nis not preceded by a space or semi-colon.\n\nExamples of variable declarations:\n\n\"int VariableName;\"\n\"double dd  ;\"\n\"int l1l1l = 11110\"\n\"int O=1;\"\n\"char b \"\n\nThe following do not count as variable declarations:\n\n\"intVariableName;\"\n\"double=d=3.0;\"\n\"char X}\"\n\"do uble x=2;\"\n\"Double d;\"  (types are case sensitive)\n\"double p\" (variable name is not followed by a space, equals sign, or\nsemi-colon)\n\nThe input code will not necessarily contain syntactically correct code.  For\nexample:\n\n\"int l=3; int int int ll1;;\"\n\nThe above code is not syntactically correct, but the method should still return\nthe starting indices of \"int l\" and \"int ll1\".  The following is also allowed:\n\n\"int l3 = 3;char l3=false \"\n\nIt should return the starting indices of \"int l3\" and \"char l3\"\n\nTopCoder will ensure the following criteria on the inputs:\n* code will contain between 0 and 50 characters inclusive.\n* code will only contain the following types of characters: letters (a-z, A-Z),\ndigits (0-9), spaces, or any character contained in the following string:\n\"=;+-()/*:{}[]\" (quotes are for clarity, they are not included in the string).\n\nDEFINITION\n\nClass name: Cheater\nMethod name: isObfuscated\nParameters: String\nReturns: int[]\n\nThe method signature is:\npublic int[] isObfuscated(String code);\n\nMake sure your method is public.\n\nEXAMPLES\n(We recommend you copy and paste examples to be sure you input them correctly)\n\n\"int l=0; if(x==l) return false;\" -\u0026gt; {0}\n  - because int l (lowercase L) is an obfuscation.\n\n\"double l\" -\u0026gt; {}\n  - because there is no valid variable declaration.\n\n\"char ll3=true/ int O4;\" -\u0026gt; {0,15}\n- because char ll3 (lowercase L, lowercase L, 3) is an obfuscation, and int\nO4 (uppercase o, 4) is an obfuscation.\n\n\"//i cheat; int cheatl =3;int cheat1 = 4 xx(cheatl)\" -\u0026gt; {11,25} \n- because int cheatl (last character is a lowercase L) and int cheat1 (last\ncharacter is the number one) look alike.\n\n\"int clll1; int l1; int cl111; l1=3; int c1\" -\u0026gt; {0,11,19} \n- because int clll1 (c, lowercase L, lowercase L, lowercase L, number one)\nand int cl111 (c, lowercase L, number one, number one, number one) look alike,\nand int l1 (lowercase L, number one) is an obfuscation.\n\n\"// xs ;int xO; int x0; x0 = xO + xO;\" -\u0026gt; {7,15}\n- because int xO (last character is an uppercase o) and int x0 (last\ncharacter is the number zero) look alike.\n\n\"\" -\u0026gt; {}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Cheater\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Cheater\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"isObfuscated\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] isObfuscated(String param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4021/pm/274\",\"children\":[\"2001-\",\" \",\"SRM 50\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4021/pm/274\",\"children\":[\"2001-\",\" \",\"SRM 50\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

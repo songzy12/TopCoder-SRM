@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Blackjack<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+You are playing blackjack at a casino.  By counting cards, you can increase
+your chances of winning.  You are to write a method that, given a String of the
+unplayed cards, and a String representing the dealer's "upcard", returns the
+probability the dealer will bust, rounded to two decimal places and multiplied
+by 100 (round up on 5's), i.e. return the percent chance the dealer has of
+busting (see examples).
+
+Now, in blackjack the rules are as follows:
+- number cards are worth their number: a '2' is worth 2, a '3' is worth 3,...,
+a 'T' is worth 10.
+- face cards 'J', 'Q', 'K' are all worth 10.
+- aces are worth 1 or 11.  To simplify things, an ace is worth 1 if the total
+value of the cards is greater than 21, otherwise it is worth 11.  See examples
+of hands below to clarify this.
+- all suits are treated as equal - so in blackjack a 5 of diamonds is exactly
+the same as a 5 of spades.
+- if the dealer has 16 or less total, he will take another card ("hit").  Since
+the deck is shuffled, the card he gets is random, i.e. he has the same
+probability of getting each card.
+- if the dealer has between 17 and 21 (inclusive), he will not take another
+card ("stand").
+- if the dealer gets over 21, he loses ("busts").
+- the dealer must follow these rules, he cannot make his own decisions.
+- each card in the deck has an equal chance of being picked by the dealer.
+Once the dealer picks the card, it is removed from the deck.
+- in blackjack the dealer has an "upcard" (the card showing), and a card not
+showing.  For the purposes of this problem assume he has nothing but an "upcard".
+
+Here are examples of a few hands - pay particular attention to the way aces
+(A's) work:
+1. Dealer's upcard is "7".
+   Total = 7, so dealer must hit.
+   Dealer gets a '5'. Total = 12, so dealer must hit.
+   Dealer gets a '7'. Total = 19, so dealer stands on 19 (he does not bust).
+
+2. Dealer's upcard is "A".
+   Total = 11, so dealer must hit.
+   Dealer gets a '5'. Total = 16 so dealer must hit.
+Dealer gets a 'T'. Total would be 26 if 'A' is 11 - so 'A' becomes 1. Total
+= 16 so dealer must hit.
+   Dealer gets a '5'. Total = 21, so dealer stands on 21 (he does not bust).
+
+3. Dealer's upcard is "A".
+   Total = 11, so dealer must hit.
+Dealer gets a 'A'. Total would be 22 if 'A' is 11 - so an 'A' becomes 1.
+Total = 12 so dealer must hit.
+Dealer gets a 'Q'. Total would be 22 if 'A' is 11 - so the other 'A' becomes
+1. Total = 12 so dealer must hit.
+   Dealer gets a 'J'. Total = 22.  Each ace is already worth 1 so dealer busts.
+
+4. Dealer's upcard is "6".
+   Total = 6, so dealer must hit.
+   Dealer gets a 'A'.  Total = 17, so dealer stands (no bust).
+
+DEFINITION
+Class Name: Blackjack
+Method Name: bustPct
+Parameters: String, String
+Returns: int
+
+Method signature (be sure your method is public):  int bustPct (String deck,
+String upcard);
+
+NOTES
+* Do not assume that only one deck is being used.  The casino uses multiple
+decks, but at most 50 cards are left on the deck.  So for example, it is
+possible to have deck = "33333333333333333", even though there are only four
+"3"s in a standard deck of cards.
+
+TopCoder will ensure that:
+- deck will contain characters representing cards from standard decks. Each
+character will be either an 'A' (ace), '2' (two), '3' (three), '4' (four), '5'
+(five), '6' (six), '7' (seven), '8' (eight), '9' (nine), 'T' (ten), 'J' (jack),
+'Q' (queen), 'K' (king).  No other characters will appear in the String.
+- deck will be sorted according to the order listed above
+(A,2,3,4,5,6,7,8,9,T,J,Q,K). For example if two 2's, one 4 and an ace were in
+the deck, deck would be "A224". See examples below - all decks in the examples
+are sorted.
+- There will be at most 50 unplayed cards in the deck (the String's length will
+be at most 50).
+- upcard will be either a "A", "2", "3", "4", "5", "6", "7", "8", "9", "T",
+"J", "Q", or "K".
+- there are always enough cards for the dealer to follow the rules (it will
+never happen that the dealer has 15 where he should "hit", but the deck is out
+of cards).
+
+
+EXAMPLES
+
+* You can see a clearer illustration of the first 2 examples at:
+http://www.topcoder.com/contest/problem/blackjack/blackjack.html
+
+1. if deck = "35TJ" and upcard = "7"
+The possibility tree is as follows:
+*let t=x mean that x represents the dealer's total so far
+*note the tree is not "in order" because it is more balanced and easier to draw
+out of order
+
+                                           7
+                                        t=7,hit
+                             /         /         \         \
+                             3         J         T         5                  
+                         t=10,hit  t=17,STAND  t=17,STAND t=12,hit
+           /        /        |                              |        \        \
+           5        T        J                              T        J        3
+t=15,hit t=20,STAND  t=20,STAND               t=22,BUST  t=22,BUST
+t=15,hit
+/      \                                                              /
+    \
+T      J                                                              T
+    J
+t=25,BUST  t=25,BUST
+t=25,BUST  t=25,BUST
+
+These are the only ways he will bust:
+(i)  if he gets a 5 first, he will bust no matter what - p = (1/4).
+(ii) if he gets a 3 first, and a 5 second - p = (1 / 4) * (1 / 3) = (1 / 12).
+The dealers total probability of busting is (1/4) + (1/12) = (1/3) = .3333...
+so the dealer has a 33% chance of busting (rounded to the nearest percent).
+Your method should return 33.
+
+2. if deck = "38Q" and upcard = "A"
+
+                                         A
+                             /           |           \
+                             3           8           Q
+                          t=14,hit   t=19,STAND   t=21,STAND
+                    /        |
+8        Q                   (the ace starts out as an 11,
+but if the dealer
+                t=12,hit  t=14,hit                goes over 21, make it a 1)
+                    |        |
+                    Q        8
+               t=22,BUST  t=22,BUST
+
+The dealer will bust if and only if he gets a 3 first. 33% chance (rounded to
+the nearest percent).
+Your method should return 33.
+
+3. deck = "AAA222333444555666777888999TTTJJJQQQKKK" (3 of each card)
+if upcard = "2" your method should return 35.
+if upcard = "9" your method should return 23.
+if upcard = "A" your method should return 12.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Blackjack</span></dd><dt>Method:</dt><dd><span>bustPct</span></dd><dt>Parameters:</dt><dd><span>String, String</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int bustPct(String param0, String param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4080/pm/450">2002-<!-- --> <!-- -->SRM 70<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/450/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"450\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"450\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"450\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"450\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"450\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1915,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nYou are playing blackjack at a casino.  By counting cards, you can increase\nyour chances of winning.  You are to write a method that, given a String of the\nunplayed cards, and a String representing the dealer's \"upcard\", returns the\nprobability the dealer will bust, rounded to two decimal places and multiplied\nby 100 (round up on 5's), i.e. return the percent chance the dealer has of\nbusting (see examples).\n\nNow, in blackjack the rules are as follows:\n- number cards are worth their number: a '2' is worth 2, a '3' is worth 3,...,\na 'T' is worth 10.\n- face cards 'J', 'Q', 'K' are all worth 10.\n- aces are worth 1 or 11.  To simplify things, an ace is worth 1 if the total\nvalue of the cards is greater than 21, otherwise it is worth 11.  See examples\nof hands below to clarify this.\n- all suits are treated as equal - so in blackjack a 5 of diamonds is exactly\nthe same as a 5 of spades.\n- if the dealer has 16 or less total, he will take another card (\"hit\").  Since\nthe deck is shuffled, the card he gets is random, i.e. he has the same\nprobability of getting each card.\n- if the dealer has between 17 and 21 (inclusive), he will not take another\ncard (\"stand\").\n- if the dealer gets over 21, he loses (\"busts\").\n- the dealer must follow these rules, he cannot make his own decisions.\n- each card in the deck has an equal chance of being picked by the dealer.\nOnce the dealer picks the card, it is removed from the deck.\n- in blackjack the dealer has an \"upcard\" (the card showing), and a card not\nshowing.  For the purposes of this problem assume he has nothing but an \"upcard\".\n\nHere are examples of a few hands - pay particular attention to the way aces\n(A's) work:\n1. Dealer's upcard is \"7\".\n   Total = 7, so dealer must hit.\n   Dealer gets a '5'. Total = 12, so dealer must hit.\n   Dealer gets a '7'. Total = 19, so dealer stands on 19 (he does not bust).\n\n2. Dealer's upcard is \"A\".\n   Total = 11, so dealer must hit.\n   Dealer gets a '5'. Total = 16 so dealer must hit.\nDealer gets a 'T'. Total would be 26 if 'A' is 11 - so 'A' becomes 1. Total\n= 16 so dealer must hit.\n   Dealer gets a '5'. Total = 21, so dealer stands on 21 (he does not bust).\n\n3. Dealer's upcard is \"A\".\n   Total = 11, so dealer must hit.\nDealer gets a 'A'. Total would be 22 if 'A' is 11 - so an 'A' becomes 1.\nTotal = 12 so dealer must hit.\nDealer gets a 'Q'. Total would be 22 if 'A' is 11 - so the other 'A' becomes\n1. Total = 12 so dealer must hit.\n   Dealer gets a 'J'. Total = 22.  Each ace is already worth 1 so dealer busts.\n\n4. Dealer's upcard is \"6\".\n   Total = 6, so dealer must hit.\n   Dealer gets a 'A'.  Total = 17, so dealer stands (no bust).\n\nDEFINITION\nClass Name: Blackjack\nMethod Name: bustPct\nParameters: String, String\nReturns: int\n\nMethod signature (be sure your method is public):  int bustPct (String deck,\nString upcard);\n\nNOTES\n* Do not assume that only one deck is being used.  The casino uses multiple\ndecks, but at most 50 cards are left on the deck.  So for example, it is\npossible to have deck = \"33333333333333333\", even though there are only four\n\"3\"s in a standard deck of cards.\n\nTopCoder will ensure that:\n- deck will contain characters representing cards from standard decks. Each\ncharacter will be either an 'A' (ace), '2' (two), '3' (three), '4' (four), '5'\n(five), '6' (six), '7' (seven), '8' (eight), '9' (nine), 'T' (ten), 'J' (jack),\n'Q' (queen), 'K' (king).  No other characters will appear in the String.\n- deck will be sorted according to the order listed above\n(A,2,3,4,5,6,7,8,9,T,J,Q,K). For example if two 2's, one 4 and an ace were in\nthe deck, deck would be \"A224\". See examples below - all decks in the examples\nare sorted.\n- There will be at most 50 unplayed cards in the deck (the String's length will\nbe at most 50).\n- upcard will be either a \"A\", \"2\", \"3\", \"4\", \"5\", \"6\", \"7\", \"8\", \"9\", \"T\",\n\"J\", \"Q\", or \"K\".\n- there are always enough cards for the dealer to follow the rules (it will\nnever happen that the dealer has 15 where he should \"hit\", but the deck is out\nof cards).\n\n\nEXAMPLES\n\n* You can see a clearer illustration of the first 2 examples at:\nhttp://www.topcoder.com/contest/problem/blackjack/blackjack.html\n\n1. if deck = \"35TJ\" and upcard = \"7\"\nThe possibility tree is as follows:\n*let t=x mean that x represents the dealer's total so far\n*note the tree is not \"in order\" because it is more balanced and easier to draw\nout of order\n\n                                           7\n                                        t=7,hit\n                             /         /         \\         \\\n                             3         J         T         5                  \n                         t=10,hit  t=17,STAND  t=17,STAND t=12,hit\n           /        /        |                              |        \\        \\\n           5        T        J                              T        J        3\nt=15,hit t=20,STAND  t=20,STAND               t=22,BUST  t=22,BUST\nt=15,hit\n/      \\                                                              /\n    \\\nT      J                                                              T\n    J\nt=25,BUST  t=25,BUST\nt=25,BUST  t=25,BUST\n\nThese are the only ways he will bust:\n(i)  if he gets a 5 first, he will bust no matter what - p = (1/4).\n(ii) if he gets a 3 first, and a 5 second - p = (1 / 4) * (1 / 3) = (1 / 12).\nThe dealers total probability of busting is (1/4) + (1/12) = (1/3) = .3333...\nso the dealer has a 33% chance of busting (rounded to the nearest percent).\nYour method should return 33.\n\n2. if deck = \"38Q\" and upcard = \"A\"\n\n                                         A\n                             /           |           \\\n                             3           8           Q\n                          t=14,hit   t=19,STAND   t=21,STAND\n                    /        |\n8        Q                   (the ace starts out as an 11,\nbut if the dealer\n                t=12,hit  t=14,hit                goes over 21, make it a 1)\n                    |        |\n                    Q        8\n               t=22,BUST  t=22,BUST\n\nThe dealer will bust if and only if he gets a 3 first. 33% chance (rounded to\nthe nearest percent).\nYour method should return 33.\n\n3. deck = \"AAA222333444555666777888999TTTJJJQQQKKK\" (3 of each card)\nif upcard = \"2\" your method should return 35.\nif upcard = \"9\" your method should return 23.\nif upcard = \"A\" your method should return 12.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Blackjack\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Blackjack\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"bustPct\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int bustPct(String param0, String param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4080/pm/450\",\"children\":[\"2002-\",\" \",\"SRM 70\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

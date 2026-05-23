@@ -1,0 +1,264 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->TheEmpireStrikesBack<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div>Darth Vader wants to destroy an entire galaxy that consists of <b xmlns="http://topcoder.com">N</b> planets.
+Quite surprisingly, the entire galaxy lies in a single plane, so we can consider it to be two-dimensional.
+The planets are numbered 0 through <b xmlns="http://topcoder.com">N</b>-1.
+For each i, planet i is located at the coordinates (P[i].x, P[i].y).
+All coordinates are nonnegative integers.
+They are given in a format that is specified below.
+<br xmlns="http://topcoder.com"/><br xmlns="http://topcoder.com"/>
+Darth Vader has a Death Star.
+The Death Star is almost complete.
+The only missing thing is a booster that will increase its range by some amount T.
+T must be a nonnegative integer.
+<br xmlns="http://topcoder.com"/><br xmlns="http://topcoder.com"/>
+Once the booster is installed, Darth Vader will be able to fire <b xmlns="http://topcoder.com">M</b> missiles from the Death Star.
+All missiles will be fired at the same time.
+Each of those <b xmlns="http://topcoder.com">M</b> missiles must target one of the <b xmlns="http://topcoder.com">N</b> planets.
+(It is not possible to target coordinates that do not contain a planet.)
+<br xmlns="http://topcoder.com"/><br xmlns="http://topcoder.com"/>
+Each missile will destroy all planets in some specific rectangular area.
+More precisely, suppose that one of the missiles targeted a planet located at (X,Y).
+Consider the rectangle that has sides parallel to coordinate axes, one corner at (0,0), and the opposite corner at (X+T,Y+T).
+The missile will destroy all planets that lie in this rectangle, including its boundary.
+Above, T is the contribution of the booster.
+<br xmlns="http://topcoder.com"/><br xmlns="http://topcoder.com"/>
+You are given the following <type xmlns="http://topcoder.com">int</type>s:
+<ul xmlns="http://topcoder.com">
+<li><b>AX</b>, <b>BX</b>, <b>CX</b>: these determine the x-coordinates of all planets</li>
+<li><b>AY</b>, <b>BY</b>, <b>CY</b>: these determine the y-coordinates of all planets</li>
+<li><b>N</b> and <b>M</b>: the number of planets and the number of missiles, as defined above</li>
+</ul>
+
+Use the following pseudocode to generate the coordinates of all planets.
+Watch out for integer overflow.
+<pre xmlns="http://topcoder.com">
+P[0].x = AX
+for i = 1 to N-1:
+    P[i].x = ((P[i-1].x * BX) + CX) mod 1,000,000,007
+
+P[0].y = AY
+for i = 1 to N-1:
+    P[i].y = ((P[i-1].y * BY) + CY) mod 1,000,000,007
+</pre>
+
+Given this information, your task is to find the weakest booster that still allows Darth Vader to destroy the entire galaxy.
+Formally, compute and return the smallest nonnegative integer T for which Darth Vader can destroy all <b xmlns="http://topcoder.com">N</b> planets.</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>TheEmpireStrikesBack</span></dd><dt>Method:</dt><dd><span>find</span></dd><dt>Parameters:</dt><dd><span>int, int, int, int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int find(int AX, int BX, int CX, int AY, int BY, int CY, int N, int M)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>There may be two or more planets on the same exact position.</li></ul></div><div><h3>Constraints</h3><ul><li><span>AX, BX, CX, AY, BY and CY will be between 0 and 10^9 inclusive.</span></li><li><span>N will be between 1 and 10^5 inclusive.</span></li><li><span>M will be between 1 and N inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>2</p>
+<p>2</p>
+<p>2</p>
+<p>2</p>
+<p>2</p>
+<p>2</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 0</p>
+<p>There are two planets, located at (2,2) and (6,6).
+The Death Star has one missile.
+If Darth Vader fires it at the planet located at (6,6), the missile will destroy both planets.
+This happens regardless of the value of T, so we can choose T = 0.</p></div></li><li><div><p>2</p>
+<p>2</p>
+<p>2</p>
+<p>2</p>
+<p>4</p>
+<p>1000000000</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 1</p>
+<p>Now we have planets at (2,2) and (6,1).
+Again, the Death Star has only one missile.
+This time the optimal strategy is to use a booster with T = 1.
+Then we can fire the missile at the planet at (6,1), which will destroy all planets in the rectangle between (0,0) and (7,2), inclusive.</p></div></li><li><div><p>1</p>
+<p>3</p>
+<p>8</p>
+<p>10000</p>
+<p>10</p>
+<p>999910000</p>
+<p>3</p>
+<p>1</p>
+<p>Returns: 30</p>
+<p>In this case planets are located at positions (1,10000), (11,9993) and (41,9923).</p></div></li><li><div><p>0</p>
+<p>0</p>
+<p>0</p>
+<p>0</p>
+<p>0</p>
+<p>0</p>
+<p>100000</p>
+<p>1000</p>
+<p>Returns: 0</p>
+<p>All 10^5 planets are in the same position, that is (0,0).</p></div></li><li><div><p>10</p>
+<p>20</p>
+<p>30</p>
+<p>40</p>
+<p>50</p>
+<p>60</p>
+<p>100000</p>
+<p>10</p>
+<p>Returns: 15720</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>1000000000</p>
+<p>1000000000</p>
+<p>1</p>
+<p>7</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 1000000000</p>
+<p></p></div></li><li><div><p>804289382</p>
+<p>846930886</p>
+<p>681692776</p>
+<p>714636914</p>
+<p>957747792</p>
+<p>424238335</p>
+<p>387</p>
+<p>4</p>
+<p>Returns: 5441883</p>
+<p></p></div></li><li><div><p>596516649</p>
+<p>189641420</p>
+<p>25202361</p>
+<p>350490026</p>
+<p>783368690</p>
+<p>102520058</p>
+<p>764</p>
+<p>7</p>
+<p>Returns: 2049342</p>
+<p></p></div></li><li><div><p>365180539</p>
+<p>540383425</p>
+<p>304089172</p>
+<p>303455735</p>
+<p>35005211</p>
+<p>521595368</p>
+<p>568</p>
+<p>4</p>
+<p>Returns: 2583973</p>
+<p></p></div></li><li><div><p>336465782</p>
+<p>861021530</p>
+<p>278722862</p>
+<p>233665123</p>
+<p>145174065</p>
+<p>468703135</p>
+<p>930</p>
+<p>12</p>
+<p>Returns: 1855078</p>
+<p></p></div></li><li><div><p>315634021</p>
+<p>635723058</p>
+<p>369133068</p>
+<p>125898166</p>
+<p>59961392</p>
+<p>89018454</p>
+<p>12</p>
+<p>11</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>131176228</p>
+<p>653377372</p>
+<p>859484421</p>
+<p>914544918</p>
+<p>608413784</p>
+<p>756898537</p>
+<p>199</p>
+<p>84</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>149798315</p>
+<p>38664368</p>
+<p>129566412</p>
+<p>184803526</p>
+<p>412776091</p>
+<p>424268979</p>
+<p>957</p>
+<p>832</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>137806862</p>
+<p>42999170</p>
+<p>982906996</p>
+<p>135497281</p>
+<p>511702305</p>
+<p>84420923</p>
+<p>85</p>
+<p>38</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>572660336</p>
+<p>159126504</p>
+<p>805750846</p>
+<p>632621728</p>
+<p>100661312</p>
+<p>433925856</p>
+<p>125</p>
+<p>4</p>
+<p>Returns: 3642687</p>
+<p></p></div></li><li><div><p>939819582</p>
+<p>1100543</p>
+<p>998898813</p>
+<p>548233366</p>
+<p>610515434</p>
+<p>585990363</p>
+<p>12345</p>
+<p>1</p>
+<p>Returns: 7044185</p>
+<p></p></div></li><li><div><p>477171086</p>
+<p>356426808</p>
+<p>945117276</p>
+<p>889947177</p>
+<p>780695787</p>
+<p>709393584</p>
+<p>4040</p>
+<p>2</p>
+<p>Returns: 5201909</p>
+<p></p></div></li><li><div><p>752392754</p>
+<p>474612398</p>
+<p>53999930</p>
+<p>264095059</p>
+<p>411549675</p>
+<p>843993367</p>
+<p>7400</p>
+<p>28</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>450573621</p>
+<p>37127827</p>
+<p>34949298</p>
+<p>654887343</p>
+<p>529195745</p>
+<p>392035568</p>
+<p>100000</p>
+<p>10</p>
+<p>Returns: 1174</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>1</p>
+<p>1000000000</p>
+<p>1</p>
+<p>1000000000</p>
+<p>100000</p>
+<p>99999</p>
+<p>Returns: 1</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>7</p>
+<p>1000000000</p>
+<p>1</p>
+<p>1000000000</p>
+<p>100000</p>
+<p>1234</p>
+<p>Returns: 287</p>
+<p></p></div></li><li><div><p>1213</p>
+<p>1</p>
+<p>2314</p>
+<p>1000000000</p>
+<p>1</p>
+<p>999993857</p>
+<p>98653</p>
+<p>12342</p>
+<p>Returns: 12300</p>
+<p></p></div></li><li><div><p>10</p>
+<p>1</p>
+<p>10</p>
+<p>10000</p>
+<p>1</p>
+<p>1000000000</p>
+<p>100</p>
+<p>27</p>
+<p>Returns: 14</p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>10000</p>
+<p>999999999</p>
+<p>1</p>
+<p>999990007</p>
+<p>100000</p>
+<p>3337</p>
+<p>Returns: 150000</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/16648/pm/13373">2016-<!-- --> <!-- -->SRM 678<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/13373/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"13373\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"13373\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"13373\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"13373\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"13373\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Ta7b,"])</script><script>self.__next_f.push([1,"Darth Vader wants to destroy an entire galaxy that consists of \u003cb xmlns=\"http://topcoder.com\"\u003eN\u003c/b\u003e planets.\nQuite surprisingly, the entire galaxy lies in a single plane, so we can consider it to be two-dimensional.\nThe planets are numbered 0 through \u003cb xmlns=\"http://topcoder.com\"\u003eN\u003c/b\u003e-1.\nFor each i, planet i is located at the coordinates (P[i].x, P[i].y).\nAll coordinates are nonnegative integers.\nThey are given in a format that is specified below.\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nDarth Vader has a Death Star.\nThe Death Star is almost complete.\nThe only missing thing is a booster that will increase its range by some amount T.\nT must be a nonnegative integer.\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nOnce the booster is installed, Darth Vader will be able to fire \u003cb xmlns=\"http://topcoder.com\"\u003eM\u003c/b\u003e missiles from the Death Star.\nAll missiles will be fired at the same time.\nEach of those \u003cb xmlns=\"http://topcoder.com\"\u003eM\u003c/b\u003e missiles must target one of the \u003cb xmlns=\"http://topcoder.com\"\u003eN\u003c/b\u003e planets.\n(It is not possible to target coordinates that do not contain a planet.)\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nEach missile will destroy all planets in some specific rectangular area.\nMore precisely, suppose that one of the missiles targeted a planet located at (X,Y).\nConsider the rectangle that has sides parallel to coordinate axes, one corner at (0,0), and the opposite corner at (X+T,Y+T).\nThe missile will destroy all planets that lie in this rectangle, including its boundary.\nAbove, T is the contribution of the booster.\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nYou are given the following \u003ctype xmlns=\"http://topcoder.com\"\u003eint\u003c/type\u003es:\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e\u003cb\u003eAX\u003c/b\u003e, \u003cb\u003eBX\u003c/b\u003e, \u003cb\u003eCX\u003c/b\u003e: these determine the x-coordinates of all planets\u003c/li\u003e\n\u003cli\u003e\u003cb\u003eAY\u003c/b\u003e, \u003cb\u003eBY\u003c/b\u003e, \u003cb\u003eCY\u003c/b\u003e: these determine the y-coordinates of all planets\u003c/li\u003e\n\u003cli\u003e\u003cb\u003eN\u003c/b\u003e and \u003cb\u003eM\u003c/b\u003e: the number of planets and the number of missiles, as defined above\u003c/li\u003e\n\u003c/ul\u003e\n\nUse the following pseudocode to generate the coordinates of all planets.\nWatch out for integer overflow.\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\nP[0].x = AX\nfor i = 1 to N-1:\n    P[i].x = ((P[i-1].x * BX) + CX) mod 1,000,000,007\n\nP[0].y = AY\nfor i = 1 to N-1:\n    P[i].y = ((P[i-1].y * BY) + CY) mod 1,000,000,007\n\u003c/pre\u003e\n\nGiven this information, your task is to find the weakest booster that still allows Darth Vader to destroy the entire galaxy.\nFormally, compute and return the smallest nonnegative integer T for which Darth Vader can destroy all \u003cb xmlns=\"http://topcoder.com\"\u003eN\u003c/b\u003e planets."])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"TheEmpireStrikesBack\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"TheEmpireStrikesBack\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"find\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int, int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int find(int AX, int BX, int CX, int AY, int BY, int CY, int N, int M)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"There may be two or more planets on the same exact position.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"AX, BX, CX, AY, BY and CY will be between 0 and 10^9 inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"N will be between 1 and 10^5 inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"M will be between 1 and N inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003eThere are two planets, located at (2,2) and (6,6).\\nThe Death Star has one missile.\\nIf Darth Vader fires it at the planet located at (6,6), the missile will destroy both planets.\\nThis happens regardless of the value of T, so we can choose T = 0.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003eNow we have planets at (2,2) and (6,1).\\nAgain, the Death Star has only one missile.\\nThis time the optimal strategy is to use a booster with T = 1.\\nThen we can fire the missile at the planet at (6,1), which will destroy all planets in the rectangle between (0,0) and (7,2), inclusive.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e999910000\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 30\u003c/p\u003e\\n\u003cp\u003eIn this case planets are located at positions (1,10000), (11,9993) and (41,9923).\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003eAll 10^5 planets are in the same position, that is (0,0).\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e30\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e50\u003c/p\u003e\\n\u003cp\u003e60\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 15720\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1000000000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e804289382\u003c/p\u003e\\n\u003cp\u003e846930886\u003c/p\u003e\\n\u003cp\u003e681692776\u003c/p\u003e\\n\u003cp\u003e714636914\u003c/p\u003e\\n\u003cp\u003e957747792\u003c/p\u003e\\n\u003cp\u003e424238335\u003c/p\u003e\\n\u003cp\u003e387\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: 5441883\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e596516649\u003c/p\u003e\\n\u003cp\u003e189641420\u003c/p\u003e\\n\u003cp\u003e25202361\u003c/p\u003e\\n\u003cp\u003e350490026\u003c/p\u003e\\n\u003cp\u003e783368690\u003c/p\u003e\\n\u003cp\u003e102520058\u003c/p\u003e\\n\u003cp\u003e764\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003eReturns: 2049342\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e365180539\u003c/p\u003e\\n\u003cp\u003e540383425\u003c/p\u003e\\n\u003cp\u003e304089172\u003c/p\u003e\\n\u003cp\u003e303455735\u003c/p\u003e\\n\u003cp\u003e35005211\u003c/p\u003e\\n\u003cp\u003e521595368\u003c/p\u003e\\n\u003cp\u003e568\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: 2583973\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e336465782\u003c/p\u003e\\n\u003cp\u003e861021530\u003c/p\u003e\\n\u003cp\u003e278722862\u003c/p\u003e\\n\u003cp\u003e233665123\u003c/p\u003e\\n\u003cp\u003e145174065\u003c/p\u003e\\n\u003cp\u003e468703135\u003c/p\u003e\\n\u003cp\u003e930\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003eReturns: 1855078\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e315634021\u003c/p\u003e\\n\u003cp\u003e635723058\u003c/p\u003e\\n\u003cp\u003e369133068\u003c/p\u003e\\n\u003cp\u003e125898166\u003c/p\u003e\\n\u003cp\u003e59961392\u003c/p\u003e\\n\u003cp\u003e89018454\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e131176228\u003c/p\u003e\\n\u003cp\u003e653377372\u003c/p\u003e\\n\u003cp\u003e859484421\u003c/p\u003e\\n\u003cp\u003e914544918\u003c/p\u003e\\n\u003cp\u003e608413784\u003c/p\u003e\\n\u003cp\u003e756898537\u003c/p\u003e\\n\u003cp\u003e199\u003c/p\u003e\\n\u003cp\u003e84\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e149798315\u003c/p\u003e\\n\u003cp\u003e38664368\u003c/p\u003e\\n\u003cp\u003e129566412\u003c/p\u003e\\n\u003cp\u003e184803526\u003c/p\u003e\\n\u003cp\u003e412776091\u003c/p\u003e\\n\u003cp\u003e424268979\u003c/p\u003e\\n\u003cp\u003e957\u003c/p\u003e\\n\u003cp\u003e832\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e137806862\u003c/p\u003e\\n\u003cp\u003e42999170\u003c/p\u003e\\n\u003cp\u003e982906996\u003c/p\u003e\\n\u003cp\u003e135497281\u003c/p\u003e\\n\u003cp\u003e511702305\u003c/p\u003e\\n\u003cp\u003e84420923\u003c/p\u003e\\n\u003cp\u003e85\u003c/p\u003e\\n\u003cp\u003e38\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e572660336\u003c/p\u003e\\n\u003cp\u003e159126504\u003c/p\u003e\\n\u003cp\u003e805750846\u003c/p\u003e\\n\u003cp\u003e632621728\u003c/p\u003e\\n\u003cp\u003e100661312\u003c/p\u003e\\n\u003cp\u003e433925856\u003c/p\u003e\\n\u003cp\u003e125\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: 3642687\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e939819582\u003c/p\u003e\\n\u003cp\u003e1100543\u003c/p\u003e\\n\u003cp\u003e998898813\u003c/p\u003e\\n\u003cp\u003e548233366\u003c/p\u003e\\n\u003cp\u003e610515434\u003c/p\u003e\\n\u003cp\u003e585990363\u003c/p\u003e\\n\u003cp\u003e12345\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 7044185\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e477171086\u003c/p\u003e\\n\u003cp\u003e356426808\u003c/p\u003e\\n\u003cp\u003e945117276\u003c/p\u003e\\n\u003cp\u003e889947177\u003c/p\u003e\\n\u003cp\u003e780695787\u003c/p\u003e\\n\u003cp\u003e709393584\u003c/p\u003e\\n\u003cp\u003e4040\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 5201909\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e752392754\u003c/p\u003e\\n\u003cp\u003e474612398\u003c/p\u003e\\n\u003cp\u003e53999930\u003c/p\u003e\\n\u003cp\u003e264095059\u003c/p\u003e\\n\u003cp\u003e411549675\u003c/p\u003e\\n\u003cp\u003e843993367\u003c/p\u003e\\n\u003cp\u003e7400\u003c/p\u003e\\n\u003cp\u003e28\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e450573621\u003c/p\u003e\\n\u003cp\u003e37127827\u003c/p\u003e\\n\u003cp\u003e34949298\u003c/p\u003e\\n\u003cp\u003e654887343\u003c/p\u003e\\n\u003cp\u003e529195745\u003c/p\u003e\\n\u003cp\u003e392035568\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 1174\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e99999\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e1234\u003c/p\u003e\\n\u003cp\u003eReturns: 287\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1213\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2314\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e999993857\u003c/p\u003e\\n\u003cp\u003e98653\u003c/p\u003e\\n\u003cp\u003e12342\u003c/p\u003e\\n\u003cp\u003eReturns: 12300\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1000000000\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e27\u003c/p\u003e\\n\u003cp\u003eReturns: 14\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e999999999\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e999990007\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e3337\u003c/p\u003e\\n\u003cp\u003eReturns: 150000\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/16648/pm/13373\",\"children\":[\"2016-\",\" \",\"SRM 678\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->WordleColors<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+This problem is about the popular word-guessing game Wordle. Knowledge of this game is not necessary to solve the problem.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+There are two <type>String</type>s: the secret string <b>hidden</b> and the puzzle solver's attempt <b>guess</b>.
+Each string consists of five uppercase English letters ('A'-'Z').
+</p>
+<p xmlns="http://topcoder.com">
+When the solver makes a guess, the game announces how good the guess was.
+This is done using colors.
+The letters of the guess that are in correct places are highlighted in green and the letters that are in the secret word but at some other index are highlighted in yellow.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Formally, the coloring works as follows:
+</p>
+<p xmlns="http://topcoder.com">
+A pair of indices (i, j) is called <i>valid</i> if <b>guess</b>[i] = <b>hidden</b>[j].
+When coloring the letters of <b>guess</b> we will look for valid pairs of indices.
+Among these pairs each index can only be used at most once:
+there cannot be two pairs (i, j1) and (i, j2) with j1 != j2, and there cannot be two pairs (i1, j) and (i2, j) with i1 != i2.
+</p>
+<p xmlns="http://topcoder.com">
+We will create these pairs in two passes. 
+</p>
+<ol xmlns="http://topcoder.com">
+<li>
+In the first pass we create all valid pairs of the form (i, i).
+These correspond to the green letters.
+</li>
+<li>
+In the second pass we go through all possible i from 0 to 4, in this order.
+For each i, if there is a j such that (i, j) is a valid pair disjoint from all the ones we already have, we take the smallest such j and we add the pair (i, j) to our collection.
+For each pair (i, j) added in this step the letter at position i in <b>guess</b> will be yellow.
+</li>
+</ol>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Return a <type>String</type> of length 5 with the colors assigned to the letters of the given guess. 
+Use 'g' for green, 'y' for yellow, and '-' for letters that did not get any color.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>WordleColors</span></dd><dt>Method:</dt><dd><span>color</span></dd><dt>Parameters:</dt><dd><span>String, String</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String color(String hidden, String guess)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>hidden will have exactly 5 characters.</span></li><li><span>Each character in hidden will be an uppercase English letter ('A'-'Z').</span></li><li><span>guess will have exactly 5 characters.</span></li><li><span>Each character in guess will be an uppercase English letter ('A'-'Z').</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>"BLOCK"</p>
+<p>"BRICK"</p>
+<p>Returns: "g--gg"</p>
+<p>The letters 'B', 'C', 'K' all appear in their correct positions and so they are green. The letters 'R' and 'I' of the guess don't appear in the hidden word and so they don't get a color.</p></div></li><li><div><p>"BLOCK"</p>
+<p>"BLOBS"</p>
+<p>Returns: "ggg--"</p>
+<p>The letter guess[3] = 'B' does not get any color. When coloring the letters green for exact matches we already created the pair (0, 0), i.e., we paired guess[0] = 'B' with the corresponding hidden[0] = 'B'. There is no other 'B' in hidden to pair with guess[3].</p></div></li><li><div><p>"BLURB"</p>
+<p>"BOBBY"</p>
+<p>Returns: "g-y--"</p>
+<p>We first find the pair (0, 0) of 'B's in the right position that makes guess[0] green. Then we find the pair (2, 4) of 'B's that are present but not in the same position. The third 'B' in "BOBBY" has no pair, as "BLURB" only contains two 'B's.</p></div></li><li><div><p>"ABBOT"</p>
+<p>"BOBBY"</p>
+<p>Returns: "yyg--"</p>
+<p></p></div></li><li><div><p>"CANAL"</p>
+<p>"AAAAA"</p>
+<p>Returns: "-g-g-"</p>
+<p></p></div></li><li><div><p>"GREEN"</p>
+<p>"BLACK"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"RATES"</p>
+<p>"STARE"</p>
+<p>Returns: "yyyyy"</p>
+<p></p></div></li><li><div><p>"LLLLL"</p>
+<p>"LLLLL"</p>
+<p>Returns: "ggggg"</p>
+<p></p></div></li><li><div><p>"DDDDD"</p>
+<p>"DDDDD"</p>
+<p>Returns: "ggggg"</p>
+<p></p></div></li><li><div><p>"HHHHH"</p>
+<p>"HHHHH"</p>
+<p>Returns: "ggggg"</p>
+<p></p></div></li><li><div><p>"SSLLS"</p>
+<p>"LSLSS"</p>
+<p>Returns: "yggyg"</p>
+<p></p></div></li><li><div><p>"VJJVJ"</p>
+<p>"JJJVV"</p>
+<p>Returns: "ygggy"</p>
+<p></p></div></li><li><div><p>"UUUGU"</p>
+<p>"GGGGU"</p>
+<p>Returns: "---gg"</p>
+<p></p></div></li><li><div><p>"QQQTQ"</p>
+<p>"QQTTT"</p>
+<p>Returns: "gg-g-"</p>
+<p></p></div></li><li><div><p>"LLNLL"</p>
+<p>"LLNNL"</p>
+<p>Returns: "ggg-g"</p>
+<p></p></div></li><li><div><p>"OOIOI"</p>
+<p>"OIOOO"</p>
+<p>Returns: "gyyg-"</p>
+<p></p></div></li><li><div><p>"XQXXQ"</p>
+<p>"QQQXQ"</p>
+<p>Returns: "-g-gg"</p>
+<p></p></div></li><li><div><p>"THTTT"</p>
+<p>"HTHTT"</p>
+<p>Returns: "yy-gg"</p>
+<p></p></div></li><li><div><p>"RSRRS"</p>
+<p>"SRRRR"</p>
+<p>Returns: "yygg-"</p>
+<p></p></div></li><li><div><p>"SYYYS"</p>
+<p>"SYSYS"</p>
+<p>Returns: "gg-gg"</p>
+<p></p></div></li><li><div><p>"ZWWZZ"</p>
+<p>"WZWWZ"</p>
+<p>Returns: "yyg-g"</p>
+<p></p></div></li><li><div><p>"OOIOI"</p>
+<p>"IIOOI"</p>
+<p>Returns: "y-ygg"</p>
+<p></p></div></li><li><div><p>"XXXRR"</p>
+<p>"RXXXX"</p>
+<p>Returns: "yggy-"</p>
+<p></p></div></li><li><div><p>"CCDCD"</p>
+<p>"CCCDC"</p>
+<p>Returns: "ggyy-"</p>
+<p></p></div></li><li><div><p>"OOOOG"</p>
+<p>"GOGGO"</p>
+<p>Returns: "yg--y"</p>
+<p></p></div></li><li><div><p>"OOOQO"</p>
+<p>"QQOOO"</p>
+<p>Returns: "y-gyg"</p>
+<p></p></div></li><li><div><p>"NNHNN"</p>
+<p>"HNHHH"</p>
+<p>Returns: "-gg--"</p>
+<p></p></div></li><li><div><p>"CCTTC"</p>
+<p>"TCTTT"</p>
+<p>Returns: "-ggg-"</p>
+<p></p></div></li><li><div><p>"MRRRR"</p>
+<p>"MRMMR"</p>
+<p>Returns: "gg--g"</p>
+<p></p></div></li><li><div><p>"RRNNN"</p>
+<p>"RNNNR"</p>
+<p>Returns: "gyggy"</p>
+<p></p></div></li><li><div><p>"KKMMK"</p>
+<p>"MMKMK"</p>
+<p>Returns: "y-ygg"</p>
+<p></p></div></li><li><div><p>"TTTMM"</p>
+<p>"TTMTM"</p>
+<p>Returns: "ggyyg"</p>
+<p></p></div></li><li><div><p>"WWHWH"</p>
+<p>"WHWHH"</p>
+<p>Returns: "gyy-g"</p>
+<p></p></div></li><li><div><p>"DDDDD"</p>
+<p>"DDDDS"</p>
+<p>Returns: "gggg-"</p>
+<p></p></div></li><li><div><p>"DDLDL"</p>
+<p>"DLLLL"</p>
+<p>Returns: "g-g-g"</p>
+<p></p></div></li><li><div><p>"KKKKK"</p>
+<p>"KKKCC"</p>
+<p>Returns: "ggg--"</p>
+<p></p></div></li><li><div><p>"BKBKK"</p>
+<p>"BBKBK"</p>
+<p>Returns: "gyy-g"</p>
+<p></p></div></li><li><div><p>"NNVVV"</p>
+<p>"VNNVV"</p>
+<p>Returns: "ygygg"</p>
+<p></p></div></li><li><div><p>"YYJYY"</p>
+<p>"JJYYJ"</p>
+<p>Returns: "y-yg-"</p>
+<p></p></div></li><li><div><p>"LELEE"</p>
+<p>"ELEEE"</p>
+<p>Returns: "yy-gg"</p>
+<p></p></div></li><li><div><p>"YIIII"</p>
+<p>"PYPPY"</p>
+<p>Returns: "-y---"</p>
+<p></p></div></li><li><div><p>"MMAGM"</p>
+<p>"AAAMM"</p>
+<p>Returns: "--gyg"</p>
+<p></p></div></li><li><div><p>"CCCCP"</p>
+<p>"PCPCC"</p>
+<p>Returns: "yg-gy"</p>
+<p></p></div></li><li><div><p>"SATAS"</p>
+<p>"STSST"</p>
+<p>Returns: "gyy--"</p>
+<p></p></div></li><li><div><p>"SSUSV"</p>
+<p>"VVSVU"</p>
+<p>Returns: "y-y-y"</p>
+<p></p></div></li><li><div><p>"QQTTQ"</p>
+<p>"GGQQG"</p>
+<p>Returns: "--yy-"</p>
+<p></p></div></li><li><div><p>"UMVVM"</p>
+<p>"UUMVU"</p>
+<p>Returns: "g-yg-"</p>
+<p></p></div></li><li><div><p>"NONXO"</p>
+<p>"OOXNO"</p>
+<p>Returns: "-gyyg"</p>
+<p></p></div></li><li><div><p>"FFJJJ"</p>
+<p>"FFJFF"</p>
+<p>Returns: "ggg--"</p>
+<p></p></div></li><li><div><p>"WNNAA"</p>
+<p>"NNNWN"</p>
+<p>Returns: "-ggy-"</p>
+<p></p></div></li><li><div><p>"UUOOO"</p>
+<p>"UOUUO"</p>
+<p>Returns: "gyy-g"</p>
+<p></p></div></li><li><div><p>"CACAE"</p>
+<p>"AAEAA"</p>
+<p>Returns: "-gyg-"</p>
+<p></p></div></li><li><div><p>"TTPPP"</p>
+<p>"PPTTT"</p>
+<p>Returns: "yyyy-"</p>
+<p></p></div></li><li><div><p>"EJEEJ"</p>
+<p>"EEEJT"</p>
+<p>Returns: "gygy-"</p>
+<p></p></div></li><li><div><p>"ZZNZZ"</p>
+<p>"ZNZZZ"</p>
+<p>Returns: "gyygg"</p>
+<p></p></div></li><li><div><p>"BMTMM"</p>
+<p>"TBTBT"</p>
+<p>Returns: "-yg--"</p>
+<p></p></div></li><li><div><p>"UUULL"</p>
+<p>"KKLUL"</p>
+<p>Returns: "--yyg"</p>
+<p></p></div></li><li><div><p>"ZPNPP"</p>
+<p>"PPZNN"</p>
+<p>Returns: "ygyy-"</p>
+<p></p></div></li><li><div><p>"VFTVF"</p>
+<p>"TTFVT"</p>
+<p>Returns: "y-yg-"</p>
+<p></p></div></li><li><div><p>"LDLDD"</p>
+<p>"DEDDD"</p>
+<p>Returns: "y--gg"</p>
+<p></p></div></li><li><div><p>"HZUGU"</p>
+<p>"GGUHU"</p>
+<p>Returns: "y-gyg"</p>
+<p></p></div></li><li><div><p>"CKKRI"</p>
+<p>"CRRCI"</p>
+<p>Returns: "gy--g"</p>
+<p></p></div></li><li><div><p>"RRRLH"</p>
+<p>"RURLH"</p>
+<p>Returns: "g-ggg"</p>
+<p></p></div></li><li><div><p>"SKSFK"</p>
+<p>"SFFII"</p>
+<p>Returns: "gy---"</p>
+<p></p></div></li><li><div><p>"MCUAM"</p>
+<p>"UMCMM"</p>
+<p>Returns: "yyy-g"</p>
+<p></p></div></li><li><div><p>"NNCCN"</p>
+<p>"JRCCN"</p>
+<p>Returns: "--ggg"</p>
+<p></p></div></li><li><div><p>"PSYYW"</p>
+<p>"YSSYW"</p>
+<p>Returns: "yg-gg"</p>
+<p></p></div></li><li><div><p>"PJQPQ"</p>
+<p>"QQQHH"</p>
+<p>Returns: "y-g--"</p>
+<p></p></div></li><li><div><p>"WQWWQ"</p>
+<p>"WWQQI"</p>
+<p>Returns: "gyyy-"</p>
+<p></p></div></li><li><div><p>"BOCBO"</p>
+<p>"OOMBC"</p>
+<p>Returns: "yg-gy"</p>
+<p></p></div></li><li><div><p>"IMKKK"</p>
+<p>"MKMTK"</p>
+<p>Returns: "yy--g"</p>
+<p></p></div></li><li><div><p>"WPWWA"</p>
+<p>"SAAPP"</p>
+<p>Returns: "-y-y-"</p>
+<p></p></div></li><li><div><p>"MMEOO"</p>
+<p>"EEOOM"</p>
+<p>Returns: "y-ygy"</p>
+<p></p></div></li><li><div><p>"YYHZY"</p>
+<p>"ZYYFH"</p>
+<p>Returns: "ygy-y"</p>
+<p></p></div></li><li><div><p>"HYYZH"</p>
+<p>"IYIHI"</p>
+<p>Returns: "-g-y-"</p>
+<p></p></div></li><li><div><p>"FFLFL"</p>
+<p>"FLQLQ"</p>
+<p>Returns: "gy-y-"</p>
+<p></p></div></li><li><div><p>"COFIF"</p>
+<p>"FFFOO"</p>
+<p>Returns: "y-gy-"</p>
+<p></p></div></li><li><div><p>"VZXVO"</p>
+<p>"XZOXO"</p>
+<p>Returns: "yg--g"</p>
+<p></p></div></li><li><div><p>"UHHHL"</p>
+<p>"HAUAA"</p>
+<p>Returns: "y-y--"</p>
+<p></p></div></li><li><div><p>"CUHJH"</p>
+<p>"UJJHU"</p>
+<p>Returns: "yy-y-"</p>
+<p></p></div></li><li><div><p>"XVVJV"</p>
+<p>"VJBJJ"</p>
+<p>Returns: "y--g-"</p>
+<p></p></div></li><li><div><p>"RVQHR"</p>
+<p>"HHNRR"</p>
+<p>Returns: "y--yg"</p>
+<p></p></div></li><li><div><p>"NCXEC"</p>
+<p>"XHEXN"</p>
+<p>Returns: "y-y-y"</p>
+<p></p></div></li><li><div><p>"IVBBC"</p>
+<p>"HBBVB"</p>
+<p>Returns: "-ygy-"</p>
+<p></p></div></li><li><div><p>"IPHBG"</p>
+<p>"HPBPH"</p>
+<p>Returns: "ygy--"</p>
+<p></p></div></li><li><div><p>"EIYYK"</p>
+<p>"EKKKI"</p>
+<p>Returns: "gy--y"</p>
+<p></p></div></li><li><div><p>"YQQOJ"</p>
+<p>"JQJEE"</p>
+<p>Returns: "yg---"</p>
+<p></p></div></li><li><div><p>"AJWWA"</p>
+<p>"AKIKI"</p>
+<p>Returns: "g----"</p>
+<p></p></div></li><li><div><p>"RHRHV"</p>
+<p>"PRPRR"</p>
+<p>Returns: "-y-y-"</p>
+<p></p></div></li><li><div><p>"LFFGN"</p>
+<p>"LLGLN"</p>
+<p>Returns: "g-y-g"</p>
+<p></p></div></li><li><div><p>"HAOAY"</p>
+<p>"XCMPG"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"XQXQD"</p>
+<p>"AHDVG"</p>
+<p>Returns: "--y--"</p>
+<p></p></div></li><li><div><p>"BDVAV"</p>
+<p>"QPPGD"</p>
+<p>Returns: "----y"</p>
+<p></p></div></li><li><div><p>"HUUFY"</p>
+<p>"EXEHU"</p>
+<p>Returns: "---yy"</p>
+<p></p></div></li><li><div><p>"FOKVA"</p>
+<p>"IJEXS"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"ERVIR"</p>
+<p>"NIINI"</p>
+<p>Returns: "-y---"</p>
+<p></p></div></li><li><div><p>"FDCMR"</p>
+<p>"MMGAM"</p>
+<p>Returns: "y----"</p>
+<p></p></div></li><li><div><p>"NZZRA"</p>
+<p>"RZRCF"</p>
+<p>Returns: "yg---"</p>
+<p></p></div></li><li><div><p>"RJKZL"</p>
+<p>"WIGZN"</p>
+<p>Returns: "---g-"</p>
+<p></p></div></li><li><div><p>"EGTKK"</p>
+<p>"OTOIE"</p>
+<p>Returns: "-y--y"</p>
+<p></p></div></li><li><div><p>"WKWLO"</p>
+<p>"EFHYS"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"SOSOD"</p>
+<p>"ZXVYF"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"RABGJ"</p>
+<p>"JJAZN"</p>
+<p>Returns: "y-y--"</p>
+<p></p></div></li><li><div><p>"FVUCC"</p>
+<p>"PFULC"</p>
+<p>Returns: "-yg-g"</p>
+<p></p></div></li><li><div><p>"GGLDM"</p>
+<p>"MSROV"</p>
+<p>Returns: "y----"</p>
+<p></p></div></li><li><div><p>"AOZVQ"</p>
+<p>"AEQZJ"</p>
+<p>Returns: "g-yy-"</p>
+<p></p></div></li><li><div><p>"JFOJO"</p>
+<p>"FGAJS"</p>
+<p>Returns: "y--g-"</p>
+<p></p></div></li><li><div><p>"HINIE"</p>
+<p>"JNFZK"</p>
+<p>Returns: "-y---"</p>
+<p></p></div></li><li><div><p>"GMMPG"</p>
+<p>"KHWHH"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"YVAQS"</p>
+<p>"ASIGY"</p>
+<p>Returns: "yy--y"</p>
+<p></p></div></li><li><div><p>"ZUEXA"</p>
+<p>"QESRN"</p>
+<p>Returns: "-y---"</p>
+<p></p></div></li><li><div><p>"WROBX"</p>
+<p>"WXWBB"</p>
+<p>Returns: "gy-g-"</p>
+<p></p></div></li><li><div><p>"ZVMFR"</p>
+<p>"SGZYY"</p>
+<p>Returns: "--y--"</p>
+<p></p></div></li><li><div><p>"WWTJA"</p>
+<p>"FIFMP"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"ONHBT"</p>
+<p>"BHYWB"</p>
+<p>Returns: "yy---"</p>
+<p></p></div></li><li><div><p>"OATJP"</p>
+<p>"SPQPZ"</p>
+<p>Returns: "-y---"</p>
+<p></p></div></li><li><div><p>"JTLGK"</p>
+<p>"JPGPX"</p>
+<p>Returns: "g-y--"</p>
+<p></p></div></li><li><div><p>"NWAWA"</p>
+<p>"NPPAA"</p>
+<p>Returns: "g--yg"</p>
+<p></p></div></li><li><div><p>"RCHQH"</p>
+<p>"FZLDZ"</p>
+<p>Returns: "-----"</p>
+<p></p></div></li><li><div><p>"KUMUF"</p>
+<p>"YUYKY"</p>
+<p>Returns: "-g-y-"</p>
+<p></p></div></li><li><div><p>"BBAAC"</p>
+<p>"AABBC"</p>
+<p>Returns: "yyyyg"</p></div></li><li><div><p>"BAABB"</p>
+<p>"BBBXX"</p>
+<p>Returns: "gyy--"</p></div></li><li><div><p>"BBBAA"</p>
+<p>"AAACC"</p>
+<p>Returns: "yy---"</p></div></li><li><div><p>"XAXCD"</p>
+<p>"YXAAX"</p>
+<p>Returns: "-yy-y"</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/19331/pm/17700">2022-<!-- --> <!-- -->SRM 834<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li><li><a href="/ProblemDetail/rd/19331/pm/17700">2022-<!-- --> <!-- -->SRM 834<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level One</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/17700/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"17700\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"17700\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"17700\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"17700\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"17700\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T81d,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nThis problem is about the popular word-guessing game Wordle. Knowledge of this game is not necessary to solve the problem.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThere are two \u003ctype\u003eString\u003c/type\u003es: the secret string \u003cb\u003ehidden\u003c/b\u003e and the puzzle solver's attempt \u003cb\u003eguess\u003c/b\u003e.\nEach string consists of five uppercase English letters ('A'-'Z').\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWhen the solver makes a guess, the game announces how good the guess was.\nThis is done using colors.\nThe letters of the guess that are in correct places are highlighted in green and the letters that are in the secret word but at some other index are highlighted in yellow.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFormally, the coloring works as follows:\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nA pair of indices (i, j) is called \u003ci\u003evalid\u003c/i\u003e if \u003cb\u003eguess\u003c/b\u003e[i] = \u003cb\u003ehidden\u003c/b\u003e[j].\nWhen coloring the letters of \u003cb\u003eguess\u003c/b\u003e we will look for valid pairs of indices.\nAmong these pairs each index can only be used at most once:\nthere cannot be two pairs (i, j1) and (i, j2) with j1 != j2, and there cannot be two pairs (i1, j) and (i2, j) with i1 != i2.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWe will create these pairs in two passes. \n\u003c/p\u003e\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e\nIn the first pass we create all valid pairs of the form (i, i).\nThese correspond to the green letters.\n\u003c/li\u003e\n\u003cli\u003e\nIn the second pass we go through all possible i from 0 to 4, in this order.\nFor each i, if there is a j such that (i, j) is a valid pair disjoint from all the ones we already have, we take the smallest such j and we add the pair (i, j) to our collection.\nFor each pair (i, j) added in this step the letter at position i in \u003cb\u003eguess\u003c/b\u003e will be yellow.\n\u003c/li\u003e\n\u003c/ol\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nReturn a \u003ctype\u003eString\u003c/type\u003e of length 5 with the colors assigned to the letters of the given guess. \nUse 'g' for green, 'y' for yellow, and '-' for letters that did not get any color.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"WordleColors\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"WordleColors\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"color\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String color(String hidden, String guess)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"hidden will have exactly 5 characters.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in hidden will be an uppercase English letter ('A'-'Z').\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"guess will have exactly 5 characters.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in guess will be an uppercase English letter ('A'-'Z').\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BLOCK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BRICK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g--gg\\\"\u003c/p\u003e\\n\u003cp\u003eThe letters 'B', 'C', 'K' all appear in their correct positions and so they are green. The letters 'R' and 'I' of the guess don't appear in the hidden word and so they don't get a color.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BLOCK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BLOBS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggg--\\\"\u003c/p\u003e\\n\u003cp\u003eThe letter guess[3] = 'B' does not get any color. When coloring the letters green for exact matches we already created the pair (0, 0), i.e., we paired guess[0] = 'B' with the corresponding hidden[0] = 'B'. There is no other 'B' in hidden to pair with guess[3].\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BLURB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BOBBY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-y--\\\"\u003c/p\u003e\\n\u003cp\u003eWe first find the pair (0, 0) of 'B's in the right position that makes guess[0] green. Then we find the pair (2, 4) of 'B's that are present but not in the same position. The third 'B' in \\\"BOBBY\\\" has no pair, as \\\"BLURB\\\" only contains two 'B's.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ABBOT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BOBBY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyg--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CANAL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AAAAA\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-g-g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GREEN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BLACK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RATES\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"STARE\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyyyy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LLLLL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"LLLLL\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggggg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"DDDDD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"DDDDD\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggggg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HHHHH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HHHHH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggggg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SSLLS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"LSLSS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yggyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"VJJVJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JJJVV\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ygggy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UUUGU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"GGGGU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"---gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QQQTQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QQTTT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gg-g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LLNLL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"LLNNL\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggg-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOIOI\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"OIOOO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyyg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XQXXQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QQQXQ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-g-gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"THTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HTHTT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy-gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RSRRS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SRRRR\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yygg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SYYYS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SYSYS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gg-gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZWWZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"WZWWZ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyg-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOIOI\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"IIOOI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-ygg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXXRR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"RXXXX\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yggy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCDCD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"CCCDC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggyy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOOOG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"GOGGO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg--y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOOQO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QQOOO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-gyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NNHNN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HNHHH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-gg--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCTTC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"TCTTT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-ggg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MRRRR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"MRMMR\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gg--g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RRNNN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"RNNNR\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyggy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"KKMMK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"MMKMK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-ygg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"TTTMM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"TTMTM\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggyyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WWHWH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"WHWHH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyy-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"DDDDD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"DDDDS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gggg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"DDLDL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"DLLLL\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-g-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"KKKKK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"KKKCC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggg--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BKBKK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BBKBK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyy-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NNVVV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"VNNVV\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ygygg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YYJYY\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JJYYJ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-yg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LELEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ELEEE\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy-gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YIIII\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PYPPY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MMAGM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AAAMM\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--gyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCCCP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PCPCC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg-gy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SATAS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"STSST\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyy--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SSUSV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"VVSVU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-y-y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QQTTQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"GGQQG\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--yy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UMVVM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"UUMVU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-yg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NONXO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"OOXNO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-gyyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FFJJJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FFJFF\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ggg--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WNNAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"NNNWN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-ggy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UUOOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"UOUUO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyy-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CACAE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AAEAA\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-gyg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"TTPPP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PPTTT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyyy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EJEEJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"EEEJT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gygy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZZNZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ZNZZZ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyygg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BMTMM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"TBTBT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-yg--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UUULL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"KKLUL\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--yyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZPNPP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PPZNN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ygyy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"VFTVF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"TTFVT\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-yg-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LDLDD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"DEDDD\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y--gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HZUGU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"GGUHU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-gyg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CKKRI\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"CRRCI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gy--g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RRRLH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"RURLH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-ggg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SKSFK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SFFII\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gy---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MCUAM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"UMCMM\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyy-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NNCCN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JRCCN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--ggg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PSYYW\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"YSSYW\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg-gg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PJQPQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QQQHH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-g--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WQWWQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"WWQQI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyyy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BOCBO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"OOMBC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg-gy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IMKKK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"MKMTK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy--g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WPWWA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SAAPP\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MMEOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"EEOOM\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-ygy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YYHZY\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ZYYFH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ygy-y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HYYZH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"IYIHI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-g-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"75\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FFLFL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FLQLQ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gy-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"76\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"COFIF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FFFOO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-gy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"77\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"VZXVO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"XZOXO\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg--g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"78\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UHHHL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HAUAA\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-y--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"79\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CUHJH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"UJJHU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"80\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XVVJV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"VJBJJ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y--g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"81\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RVQHR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HHNRR\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y--yg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"82\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NCXEC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"XHEXN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-y-y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"83\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IVBBC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HBBVB\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-ygy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"84\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IPHBG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"HPBPH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ygy--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"85\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EIYYK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"EKKKI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gy--y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"86\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YQQOJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JQJEE\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"87\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AJWWA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AKIKI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"88\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RHRHV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PRPRR\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"89\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LFFGN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"LLGLN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-y-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"90\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HAOAY\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"XCMPG\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"91\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XQXQD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AHDVG\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--y--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"92\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BDVAV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QPPGD\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"----y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"93\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HUUFY\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"EXEHU\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"---yy\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"94\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FOKVA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"IJEXS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"95\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ERVIR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"NIINI\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"96\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FDCMR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"MMGAM\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"97\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NZZRA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"RZRCF\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yg---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"98\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RJKZL\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"WIGZN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"---g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"99\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EGTKK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"OTOIE\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y--y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"100\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WKWLO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"EFHYS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"101\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SOSOD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ZXVYF\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"102\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RABGJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JJAZN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y-y--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"103\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FVUCC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"PFULC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-yg-g\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"104\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GGLDM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"MSROV\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"105\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AOZVQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AEQZJ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-yy-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"106\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"JFOJO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FGAJS\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"y--g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"107\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HINIE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JNFZK\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"108\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GMMPG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"KHWHH\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"109\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YVAQS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ASIGY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy--y\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"110\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZUEXA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"QESRN\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"111\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WROBX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"WXWBB\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gy-g-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"112\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZVMFR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SGZYY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"--y--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"113\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WWTJA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FIFMP\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"114\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ONHBT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BHYWB\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"115\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OATJP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"SPQPZ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-y---\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"116\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"JTLGK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"JPGPX\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g-y--\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"117\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NWAWA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"NPPAA\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"g--yg\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"118\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RCHQH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"FZLDZ\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-----\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"119\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"KUMUF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"YUYKY\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-g-y-\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"120\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BBAAC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AABBC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yyyyg\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"121\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BAABB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"BBBXX\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"gyy--\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"122\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BBBAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"AAACC\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"yy---\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"123\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XAXCD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"YXAAX\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"-yy-y\\\"\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/19331/pm/17700\",\"children\":[\"2022-\",\" \",\"SRM 834\",\" - Division \",\"I\",\", \",\"Level One\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/19331/pm/17700\",\"children\":[\"2022-\",\" \",\"SRM 834\",\" - Division \",\"II\",\", \",\"Level One\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

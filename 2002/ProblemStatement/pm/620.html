@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->GrecoLatin<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+A Latin square is an n x n square containing n distinct symbols, each appearing
+n times, exactly once in each row and column.  For example, the following are
+examples of 3x3 Latin squares:
+    A B C           a b c
+    C A B    and    b c a
+    B C A           c a b
+
+Two Latin squares are orthogonal if when overlapped, they form a square
+containing every possible combination of letter pairs from the original Latin
+squares.  For example, the above two are orthogonal because when overlapped,
+every possible combination of letter pairs appears in the resultant square
+(below).  Such a square is called a Greco-Latin square.
+    Aa Bb Cc
+    Cb Ac Ba
+    Bc Ca Ab
+There are 9 possible combinations of letter pairs, and each appears in the
+above square.
+
+You are to write a method where given two squares, returns which (if any) are
+Latin squares, and if both are Latin squares, whether or not they are
+orthogonal to each other.  See examples.
+
+DEFINITION
+Class Name:  GrecoLatin
+Method Name:  isGrecoLat
+Parameters:  String[], String[]
+Returns:  int
+
+Method Signature (be sure your method is public):  int isGrecoLat(String[] sq1,
+String[] sq2);
+
+NOTES
+- The return value is based on the following:
+  a) If neither sq1 or sq2 represents a Latin square, return 0.
+  b) If sq1 represents a Latin square, but sq2 does not, return 1.
+  c) If sq2 represents a Latin square, but sq1 does not, return 2.
+d) If both represent Latin squares, but they are not orthogonal to each
+other, return 3.
+  e) If both represent Latin squares that are orthogonal to each other, return 4.
+- To check that a given square is a Latin square, you need to check that each
+symbol appears in each row and each column exactly once.  You do not need to
+check diagonals.
+- To check that two Latin squares are orthogonal, you need to check that in the
+overlap, every possible combination of letter pairs appears exactly once.
+- You may not rearrange the letters in any row or column.
+- The format of the input is as follows:
+* The ith element of sq1 represents the ith row of the square.  The only
+legal characters in a String in sq1 are the first n uppercase letters, where n
+is the number of elements in sq1.  For example, if n = 4, the only allowable
+letters are 'A', 'B', 'C', and 'D'.
+* The ith element of sq2 represents the ith row of the square.  The only
+legal characters in a String in sq2 are the first n lowercase letters, where n
+is the number of elements in sq2.  For example, if n = 2, the only allowable
+letters are 'a' and 'b'.
+* Within a String, a letter is allowed to appear more than once, but this
+would mean that the square is definately not a Latin square.
+  * Since n is at most 10, no letter after 'J' (or 'j') will ever be used.
+
+TopCoder will ensure that:
+- sq1 and sq2 each contain n elements, where n is between 1 and 10 (inclusive).
+- The same n will be used for both squares, i.e. they are the same size.
+- Each element of sq1 is a String of length n containing only the first n
+UPPERCASE letters.
+- Each element of sq2 is a String of length n containing only the first n
+LOWERCASE letters.
+
+
+EXAMPLES
+1.  sq1 = {"ABC", "CAB", "BCA"}, sq2 = {"abc", "bca", "cab"}.
+We have already seen that these are both Latin squares and that they are
+indeed orthogonal to each other.  Return 4.
+
+2.  sq1 = {"ABCD", "BCDA", "CDAB", "DABC"}, sq2 = {"abcd", "bcda", "cdab",
+"dabc"}.
+    It is easy to see that both are Latin sqaures:
+          A B C D               a b c d
+          B C D A               b c d a
+          C D A B               c d a b
+          D A B C               d a b c
+    But they are clearly not orthogonal:
+                   Aa Bb Cc Dd
+                   Bb Cc Dd Aa
+                   Cc Dd Aa Bb
+                   Dd Aa Bb Cc
+We can see that certain letter pairs do not appear ("Ab" for example).
+Alternatively, we can see that certain letter pairs appear multiple times ("Aa"
+appears 4 times).
+    Since both are Latin squares, but they are not orthogonal, return 3.
+
+3.  sq1 = {"AB", "BA"}, sq2 = {"ab", "ab"}.
+It is easy to see that the first sqaure is a Latin square, but the second
+is not:
+            A B         a b
+            B A         a b
+    In the second square, "a" appears twice in the first column.
+    Since only the first is a Latin square, return 1.
+
+4.  sq1 = {"ABC", "BCA", "BAC"}, sq2 = {"acb", "bac", "cba"}.
+    Lets look at the picture:
+        A B C         a c b
+        B C A         b a c
+        B A C         c b a
+The first is not a Latin square because "B" appears twice in the first
+column.  The second sqaure is a Latin square.  Return 2.
+
+5.  sq1 = {"AB", "AB"}, sq2 = {"aa", "bb"}.
+        A B         a a
+        A B         b b
+    It is easy to see that neither of these are Latin squares.  Return 0.
+
+6.  sq1 = {"A"}, sq2 = {"a"}.
+These represent trivial Latin squares (they satisfy all of the rules).
+Furthermore, they are orthogonal to each other.  Return 4.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>GrecoLatin</span></dd><dt>Method:</dt><dd><span>isGrecoLat</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int isGrecoLat(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4120/pm/620">2002-<!-- --> <!-- -->SRM 79<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/620/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"620\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"620\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"620\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"620\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"620\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T136e,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nA Latin square is an n x n square containing n distinct symbols, each appearing\nn times, exactly once in each row and column.  For example, the following are\nexamples of 3x3 Latin squares:\n    A B C           a b c\n    C A B    and    b c a\n    B C A           c a b\n\nTwo Latin squares are orthogonal if when overlapped, they form a square\ncontaining every possible combination of letter pairs from the original Latin\nsquares.  For example, the above two are orthogonal because when overlapped,\nevery possible combination of letter pairs appears in the resultant square\n(below).  Such a square is called a Greco-Latin square.\n    Aa Bb Cc\n    Cb Ac Ba\n    Bc Ca Ab\nThere are 9 possible combinations of letter pairs, and each appears in the\nabove square.\n\nYou are to write a method where given two squares, returns which (if any) are\nLatin squares, and if both are Latin squares, whether or not they are\northogonal to each other.  See examples.\n\nDEFINITION\nClass Name:  GrecoLatin\nMethod Name:  isGrecoLat\nParameters:  String[], String[]\nReturns:  int\n\nMethod Signature (be sure your method is public):  int isGrecoLat(String[] sq1,\nString[] sq2);\n\nNOTES\n- The return value is based on the following:\n  a) If neither sq1 or sq2 represents a Latin square, return 0.\n  b) If sq1 represents a Latin square, but sq2 does not, return 1.\n  c) If sq2 represents a Latin square, but sq1 does not, return 2.\nd) If both represent Latin squares, but they are not orthogonal to each\nother, return 3.\n  e) If both represent Latin squares that are orthogonal to each other, return 4.\n- To check that a given square is a Latin square, you need to check that each\nsymbol appears in each row and each column exactly once.  You do not need to\ncheck diagonals.\n- To check that two Latin squares are orthogonal, you need to check that in the\noverlap, every possible combination of letter pairs appears exactly once.\n- You may not rearrange the letters in any row or column.\n- The format of the input is as follows:\n* The ith element of sq1 represents the ith row of the square.  The only\nlegal characters in a String in sq1 are the first n uppercase letters, where n\nis the number of elements in sq1.  For example, if n = 4, the only allowable\nletters are 'A', 'B', 'C', and 'D'.\n* The ith element of sq2 represents the ith row of the square.  The only\nlegal characters in a String in sq2 are the first n lowercase letters, where n\nis the number of elements in sq2.  For example, if n = 2, the only allowable\nletters are 'a' and 'b'.\n* Within a String, a letter is allowed to appear more than once, but this\nwould mean that the square is definately not a Latin square.\n  * Since n is at most 10, no letter after 'J' (or 'j') will ever be used.\n\nTopCoder will ensure that:\n- sq1 and sq2 each contain n elements, where n is between 1 and 10 (inclusive).\n- The same n will be used for both squares, i.e. they are the same size.\n- Each element of sq1 is a String of length n containing only the first n\nUPPERCASE letters.\n- Each element of sq2 is a String of length n containing only the first n\nLOWERCASE letters.\n\n\nEXAMPLES\n1.  sq1 = {\"ABC\", \"CAB\", \"BCA\"}, sq2 = {\"abc\", \"bca\", \"cab\"}.\nWe have already seen that these are both Latin squares and that they are\nindeed orthogonal to each other.  Return 4.\n\n2.  sq1 = {\"ABCD\", \"BCDA\", \"CDAB\", \"DABC\"}, sq2 = {\"abcd\", \"bcda\", \"cdab\",\n\"dabc\"}.\n    It is easy to see that both are Latin sqaures:\n          A B C D               a b c d\n          B C D A               b c d a\n          C D A B               c d a b\n          D A B C               d a b c\n    But they are clearly not orthogonal:\n                   Aa Bb Cc Dd\n                   Bb Cc Dd Aa\n                   Cc Dd Aa Bb\n                   Dd Aa Bb Cc\nWe can see that certain letter pairs do not appear (\"Ab\" for example).\nAlternatively, we can see that certain letter pairs appear multiple times (\"Aa\"\nappears 4 times).\n    Since both are Latin squares, but they are not orthogonal, return 3.\n\n3.  sq1 = {\"AB\", \"BA\"}, sq2 = {\"ab\", \"ab\"}.\nIt is easy to see that the first sqaure is a Latin square, but the second\nis not:\n            A B         a b\n            B A         a b\n    In the second square, \"a\" appears twice in the first column.\n    Since only the first is a Latin square, return 1.\n\n4.  sq1 = {\"ABC\", \"BCA\", \"BAC\"}, sq2 = {\"acb\", \"bac\", \"cba\"}.\n    Lets look at the picture:\n        A B C         a c b\n        B C A         b a c\n        B A C         c b a\nThe first is not a Latin square because \"B\" appears twice in the first\ncolumn.  The second sqaure is a Latin square.  Return 2.\n\n5.  sq1 = {\"AB\", \"AB\"}, sq2 = {\"aa\", \"bb\"}.\n        A B         a a\n        A B         b b\n    It is easy to see that neither of these are Latin squares.  Return 0.\n\n6.  sq1 = {\"A\"}, sq2 = {\"a\"}.\nThese represent trivial Latin squares (they satisfy all of the rules).\nFurthermore, they are orthogonal to each other.  Return 4.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"GrecoLatin\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"GrecoLatin\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"isGrecoLat\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int isGrecoLat(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4120/pm/620\",\"children\":[\"2002-\",\" \",\"SRM 79\",\" - Division \",\"I\",\", \",\"Level One\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->TruthTable<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+Compute a truth table of a digital circuit composed of logical elements AND,
+OR, and NOT. An AND element takes between 2 and 8 inputs and outputs 1 if all
+inputs are 1, and 0 otherwise. An OR element takes between 2 and 8 inputs and
+outputs 1 if any element is 1, and 0 otherwise. A NOT element takes 1 input,
+and ouputs 0 if the input is 1, and 1 if the input is 0. The circuit does not
+have feedbacks, meaning that no output of an element can influence any of that
+element's inputs, either directly or through other elements.
+
+DEFINITION
+Class name: TruthTable
+Method name: getTruthTable
+Parameters: String[]
+Return type: String[]
+
+Method signature: String[] getTruthTable(String[] nodes); Be sure your method
+is public.
+
+nodes may have 2 to 50 String objects, inclusive. Each String defines a "node"
+in the circuit. A "node" may be an input, an output, or a logical element of
+type "AND", "OR", or "NOT". Strings are formatted as follows:
+TYPE:Input1,Input2,...
+TYPE is a single lowercase character designating the type of the node, as
+follows:
+'i' - the node is an input,
+'x' - the node is an output,
+'a' - the node is a logical AND element,
+'o' - the node is a logical OR element,
+'n' - the node is a logical NOT element.
+The input list following the colon ':' character (Input1, Input2,...)
+designates inputs of this node. The input list consists of numbers in the range
+0 to 48, inclusive, representing zero-based indexes of nodes used as inputs to
+the current node. For example, string "a:1,2" represents a logical AND element
+with two inputs, connected to the outputs of nodes at index 1 and 2. Elements
+of type 'a' and 'o' have 2 to 8 inputs, inclusive. Elements of type 'n' and 'x'
+have exactly one input. Elements of type 'i' do not have inputs, therefore
+strings that start with 'i' do not contain the ':' character.
+
+TopCoder will ensure that:
+* nodes has at least two and no more than fifty elements
+* The first character of each String is 'i', 'x', 'a', 'o', or 'n'
+* nodes contains at least one but no more than five inputs
+* nodes contains at least one output
+* Number of inputs per element type is within the limits set above: two to
+eight, inclusive, for ANDs and ORs; exactly one for NOTs and Outputs, zero for
+Inputs
+* Indexes of elements used as inputs to an element are lower than the index of
+the current element (this ensures that the circuit has no feedbacks)
+
+Your method should compute truth tables for each of the outputs, and return the
+results in a String[], one per output, arranged in the order of the outputs in
+the circuit definition. Each truth table is a string composed of characters '1'
+(digit one) and '0' (digit zero). Truth tables consist of 2^numInputs (2 raised
+to the power of numInputs) characters, where numInputs is the number of inputs
+to the circuit. To build a truth table, your method should number all inputs 0
+through numInputs-1, in the order they appear in the circuit definition. Then
+your method should go through all possible combinations of zeros and ones for
+the inputs, interpreting each combination of inputs as a binary representation
+of an index into the truth table. The first character in the string
+representation of truth tables corresponds to all inputs set to zero; The
+second character corresponds to the input with the lowest index set to one
+while the rest of the inputs are set to zero, and so on. The last character
+corresponds to all inputs set to one. For example, the truth table for an AND
+element with two inputs is "0001".
+
+NOTES
+* Some outputs may ignore some inputs. This should not influence the length of
+the truth table for that output.
+* Some outputs may produce a constant result regardless of the state of the
+inputs. Truth tables for such outputs should consist of 2^numInputs repetitions
+of the constant (see example number 4).
+* Circuits may use output nodes as inputs to other nodes. This is not different
+from re-using that output's input, in that it does not alter circuit's truth
+table. For example,
+{"i","n:0","x:1","n:2","x:4"} and
+{"i","n:0","x:1","n:1","x:4"} are equivalent.
+
+EXAMPLES
+1. nodes = {"i","i","i","n:0","a:1,2,3","x:4"} This circuit contains a logical
+AND element with three inputs, two of which are connected directly to inputs,
+and one connected to an input through a logical NOT element.  See diagram below
+(for a more detailed diagram check out
+http://www.topcoder.com/contest/circuits.html):
+
+     +---+  +---+
+i0 --|not|--|   |
+     +---+  |   |
+i1 ---------|and|-- o0
+            |   |
+i2 ---------|   |
+            +---+
+
+The circuit computes the following:
+
+i0 i1 i2 | o0
+---------+---
+0  0  0  |  0
+1  0  0  |  0
+0  1  0  |  0
+1  1  0  |  0
+0  0  1  |  0
+1  0  1  |  0
+0  1  1  |  1
+1  1  1  |  0
+
+getTruthTable should return {"00000010"}.
+
+2. nodes = {"i","x:0"} This trivial circuit connects its only input to its only
+output, with no logical elements in between. getTruthTable should return {"01"}.
+3. nodes = {"i","n:0","x:1"} This circuit contains a logical NOT element in
+between of its input and its output. getTruthTable should return {"10"}.
+4. nodes ={"i","n:0","a:0,1","x:2"} This circuit returns 0 regardless of the
+state of the input, because (X AND (NOT X)) is 0 for any value of X; therefore
+getTruthTable should return {"00"}.
+5. nodes = {"i","i","i","n:0","a:1,2,3","x:4","x:0","x:3"} getTruthTable should
+return {"00000010","01010101","10101010"}.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>TruthTable</span></dd><dt>Method:</dt><dd><span>getTruthTable</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] getTruthTable(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4010/pm/222">2001-<!-- --> <!-- -->SRM 39<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4010/pm/222">2001-<!-- --> <!-- -->SRM 39<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/222/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"222\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"222\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"222\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"222\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"222\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1548,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nCompute a truth table of a digital circuit composed of logical elements AND,\nOR, and NOT. An AND element takes between 2 and 8 inputs and outputs 1 if all\ninputs are 1, and 0 otherwise. An OR element takes between 2 and 8 inputs and\noutputs 1 if any element is 1, and 0 otherwise. A NOT element takes 1 input,\nand ouputs 0 if the input is 1, and 1 if the input is 0. The circuit does not\nhave feedbacks, meaning that no output of an element can influence any of that\nelement's inputs, either directly or through other elements.\n\nDEFINITION\nClass name: TruthTable\nMethod name: getTruthTable\nParameters: String[]\nReturn type: String[]\n\nMethod signature: String[] getTruthTable(String[] nodes); Be sure your method\nis public.\n\nnodes may have 2 to 50 String objects, inclusive. Each String defines a \"node\"\nin the circuit. A \"node\" may be an input, an output, or a logical element of\ntype \"AND\", \"OR\", or \"NOT\". Strings are formatted as follows:\nTYPE:Input1,Input2,...\nTYPE is a single lowercase character designating the type of the node, as\nfollows:\n'i' - the node is an input,\n'x' - the node is an output,\n'a' - the node is a logical AND element,\n'o' - the node is a logical OR element,\n'n' - the node is a logical NOT element.\nThe input list following the colon ':' character (Input1, Input2,...)\ndesignates inputs of this node. The input list consists of numbers in the range\n0 to 48, inclusive, representing zero-based indexes of nodes used as inputs to\nthe current node. For example, string \"a:1,2\" represents a logical AND element\nwith two inputs, connected to the outputs of nodes at index 1 and 2. Elements\nof type 'a' and 'o' have 2 to 8 inputs, inclusive. Elements of type 'n' and 'x'\nhave exactly one input. Elements of type 'i' do not have inputs, therefore\nstrings that start with 'i' do not contain the ':' character.\n\nTopCoder will ensure that:\n* nodes has at least two and no more than fifty elements\n* The first character of each String is 'i', 'x', 'a', 'o', or 'n'\n* nodes contains at least one but no more than five inputs\n* nodes contains at least one output\n* Number of inputs per element type is within the limits set above: two to\neight, inclusive, for ANDs and ORs; exactly one for NOTs and Outputs, zero for\nInputs\n* Indexes of elements used as inputs to an element are lower than the index of\nthe current element (this ensures that the circuit has no feedbacks)\n\nYour method should compute truth tables for each of the outputs, and return the\nresults in a String[], one per output, arranged in the order of the outputs in\nthe circuit definition. Each truth table is a string composed of characters '1'\n(digit one) and '0' (digit zero). Truth tables consist of 2^numInputs (2 raised\nto the power of numInputs) characters, where numInputs is the number of inputs\nto the circuit. To build a truth table, your method should number all inputs 0\nthrough numInputs-1, in the order they appear in the circuit definition. Then\nyour method should go through all possible combinations of zeros and ones for\nthe inputs, interpreting each combination of inputs as a binary representation\nof an index into the truth table. The first character in the string\nrepresentation of truth tables corresponds to all inputs set to zero; The\nsecond character corresponds to the input with the lowest index set to one\nwhile the rest of the inputs are set to zero, and so on. The last character\ncorresponds to all inputs set to one. For example, the truth table for an AND\nelement with two inputs is \"0001\".\n\nNOTES\n* Some outputs may ignore some inputs. This should not influence the length of\nthe truth table for that output.\n* Some outputs may produce a constant result regardless of the state of the\ninputs. Truth tables for such outputs should consist of 2^numInputs repetitions\nof the constant (see example number 4).\n* Circuits may use output nodes as inputs to other nodes. This is not different\nfrom re-using that output's input, in that it does not alter circuit's truth\ntable. For example,\n{\"i\",\"n:0\",\"x:1\",\"n:2\",\"x:4\"} and\n{\"i\",\"n:0\",\"x:1\",\"n:1\",\"x:4\"} are equivalent.\n\nEXAMPLES\n1. nodes = {\"i\",\"i\",\"i\",\"n:0\",\"a:1,2,3\",\"x:4\"} This circuit contains a logical\nAND element with three inputs, two of which are connected directly to inputs,\nand one connected to an input through a logical NOT element.  See diagram below\n(for a more detailed diagram check out\nhttp://www.topcoder.com/contest/circuits.html):\n\n     +---+  +---+\ni0 --|not|--|   |\n     +---+  |   |\ni1 ---------|and|-- o0\n            |   |\ni2 ---------|   |\n            +---+\n\nThe circuit computes the following:\n\ni0 i1 i2 | o0\n---------+---\n0  0  0  |  0\n1  0  0  |  0\n0  1  0  |  0\n1  1  0  |  0\n0  0  1  |  0\n1  0  1  |  0\n0  1  1  |  1\n1  1  1  |  0\n\ngetTruthTable should return {\"00000010\"}.\n\n2. nodes = {\"i\",\"x:0\"} This trivial circuit connects its only input to its only\noutput, with no logical elements in between. getTruthTable should return {\"01\"}.\n3. nodes = {\"i\",\"n:0\",\"x:1\"} This circuit contains a logical NOT element in\nbetween of its input and its output. getTruthTable should return {\"10\"}.\n4. nodes ={\"i\",\"n:0\",\"a:0,1\",\"x:2\"} This circuit returns 0 regardless of the\nstate of the input, because (X AND (NOT X)) is 0 for any value of X; therefore\ngetTruthTable should return {\"00\"}.\n5. nodes = {\"i\",\"i\",\"i\",\"n:0\",\"a:1,2,3\",\"x:4\",\"x:0\",\"x:3\"} getTruthTable should\nreturn {\"00000010\",\"01010101\",\"10101010\"}.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"TruthTable\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"TruthTable\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getTruthTable\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] getTruthTable(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4010/pm/222\",\"children\":[\"2001-\",\" \",\"SRM 39\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4010/pm/222\",\"children\":[\"2001-\",\" \",\"SRM 39\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

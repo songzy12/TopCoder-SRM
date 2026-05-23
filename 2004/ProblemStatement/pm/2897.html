@@ -1,0 +1,709 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->TCMinMin<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">You have been charged with writing the 'type checking' module for a new 
+language called TC--.  When coding in TC--, the coder is allowed to 
+omit the types of local variables and parameters, and the return types of functions, 
+<i>only when the compiler is able to deduce those types from their usage.</i> Each 
+valid program has one and only one possible "type set".</p>
+
+<p xmlns="http://topcoder.com">Sometimes a variable is used before its type is "known" when reading the 
+program from top to bottom, but that should not deter the type checking module 
+you're writing. Once the type of a variable is known, it is retroactively 
+effective to the start of the function, and proactively effective to the 
+end of the function.  This applies to local variables, formal parameters, 
+and function return types.</p>
+
+<p xmlns="http://topcoder.com">Informally the grammar can be defined as:</p>
+<ul xmlns="http://topcoder.com">
+<li>- A program is one or more function definitions.</li>
+<li>- A function definition always includes the name of the function, zero or more parameters with optional type definitions, and an optional return type. Every function will return a value, even if it is not explicitly declared. After the function definition, zero or more local variables will be defined,
+then zero or more program statements, then exactly one return statement.  Example:
+<pre>
+	function a(b:string)
+</pre>
+</li>
+<li>- Local variable definitions.  Variable definitions are optional, but when present, <i>must</i> specify the variable name <i>and</i> type:
+<pre>
+	a:int
+	b:string
+</pre>
+</li>
+<li>- Function call.  There can be zero or more actual arguments, which always match
+	the type and number of formal parameters. <i>All arguments are variables only and never
+        integer or string constants, nor expressions.</i>
+<pre>
+	a=b()
+	c=d(e,f,g)
+</pre>
+</li>
+<li>- Assignment.
+<pre>
+	a=12345
+	s="this is 'a' string constant!"
+	b=c
+</pre>
+</li>
+<li>- Expressions: (note, you cannot mix <tt>int</tt>s and <tt>string</tt>s, and cannot use constants in expressions)
+<pre>
+	a=b+c
+	a=b-c
+	a=b/c
+	a=b*c
+</pre>
+</li>
+<li>- Return statement: (you can return a variable, or an <tt>int</tt> or <tt>string</tt> constant)
+<pre>
+	return x
+</pre>
+</li>
+</ul>
+
+<p xmlns="http://topcoder.com">Function calls, assignments and expressions are all instances of "program statements" and can occur in any order within the function. A return statement will always be the last statement in a function.</p>
+
+<p xmlns="http://topcoder.com">Note that there are only two data types in TC--: <tt>int</tt> and 
+<tt>string</tt>.  You cannot mix <tt>int</tt>s and 
+<tt>string</tt>s in an assignment or an expression.  
+Only the + and - operators are valid on <tt>string</tt>s, whereas all four operators are valid on <tt>int</tt>s. 
+Both arguments to a binary operator must be variables or parameters 
+of the <i>same type</i> (no constants in expressions).</p>
+
+<p xmlns="http://topcoder.com">For example (line numbers and whitespace added for clarity):</p>
+<pre xmlns="http://topcoder.com">
+	 1  function f(a,b,c)
+	 2     e:int
+	 3     g=h(a)
+	 4     e=b+c
+	 5     return c
+	 6  
+	 7  function h(p:string):string
+	 8     return p
+</pre>
+
+<p xmlns="http://topcoder.com">The TC-- compiler will deduce the following types:</p>
+<ul xmlns="http://topcoder.com">
+<li>- The type of parameter <tt>a</tt> is <tt>string</tt> from the call on line 
+3 to function <tt>h</tt> - whose argument must be a <tt>string</tt>.
+</li>
+<li>- The type of parameters <tt>b</tt> and <tt>c</tt> is <tt>int</tt>, since <tt>e</tt> is 
+declared as an <tt>int</tt> on line 2 and you can only add 
+<tt>int</tt>s together, on line 4.
+</li>
+<li>- Since <tt>c</tt> is an <tt>int</tt>, and function f returns it 
+on line 5, we know that the return type of <tt>f</tt> is  
+<tt>int</tt>.
+</li>
+<li>- Therefore the complete signature of function <tt>f</tt> is:
+<pre>
+	function f(a:string,b:int,c:int):int
+</pre>
+</li>
+<li>- The type of local variable <tt>g</tt> must be <tt>string</tt> because on line 3 
+it calls function <tt>h</tt>, which returns a <tt>string</tt>, defined 
+on line 7. (Note: the fact that <tt>p</tt> is declared as a 
+<tt>string</tt> on line 7, and returned on line 8, is another way to 
+determine that the return type of <tt>h</tt> is <tt>string</tt>.)
+</li>
+</ul>
+
+<p xmlns="http://topcoder.com">Write a method, deduceTypes, which is given a valid TC-- <b>program</b> 
+which follows the grammar defined above, and determines each function's 
+complete signature and the types of all local variables in each function.  The 
+program provided will be syntactically valid, and will be guaranteed to 
+have only one unique type assignment.  Your method should return a <type>String[]</type> 
+which contains two types of entries:</p>
+<ol xmlns="http://topcoder.com">
+<li>1. function signatures, <i>in the order they were defined</i> in <b>program</b>, 
+in the following format:
+<pre>
+	function name(param:type,...):type
+</pre>
+	The only whitespace should be a single space between the word 
+"<tt>function</tt>" (quotes added for clarity) and the name of the 
+function.  As listed in the constraints section, all function and
+parameter names are single letters, lower case.
+<br/><br/>
+</li>
+<li>2. local variable declarations, in <i>alphabetical order</i> within each function, 
+in the following format:
+<pre>
+	var:type
+</pre>
+	There should be no whitespace.  <tt>type</tt> should be either 
+"<tt>string</tt>" or "<tt>int</tt>" (quotes added for clarity). As 
+listed in the constraints section, all variable names are single letters,
+lower case.
+</li>
+</ol>
+
+<p xmlns="http://topcoder.com">Therefore, for the above example, your output should be:</p>
+<pre xmlns="http://topcoder.com">
+	function f(a:string,b:int,c:int):int
+	e:int
+	g:string
+	function h(p:string):string
+</pre>
+
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>TCMinMin</span></dd><dt>Method:</dt><dd><span>deduceTypes</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] deduceTypes(String[] program)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>Function names may be reused as parameter or variable names.</li><li>Variables can be used before they are assigned a value.</li><li>A formal grammar for the input can be found at the end of the problem.</li></ul></div><div><h3>Constraints</h3><ul><li><span>There will be at least one function defined in program</span></li><li><span>There will be at most one definition for each function (no overloading).</span></li><li><span>program will contain between 2 and 50 elements, inclusive.</span></li><li><span>Each element in program contain between 3 and 50 characters, inclusive.</span></li><li><span>All variable, parameter and function names will be single letters in lower case.</span></li><li><span>Integer constants range from zero (inclusive) to positive infinity, subject to line length constraints</span></li><li><span>String constants will always start and end with double quotes</span></li><li><span>String constants may contain any upper or lower case letter, digit, space, or any of the following characters: !@#$%^*()_+`~-={}|;:,.?</span></li><li><span>Spaces (outside quotes) will only be present in two locations: 1.  After the function keyword (exactly one single space will always be present) 2. After the return keyword (exactly one single space will always be present)</span></li><li><span>The program provided will be syntactically valid, and will be guaranteed to have only one unique type assignment.</span></li><li><span>The number of arguments in each function call will always match the number of formal parameters defined for that function.</span></li><li><span>Variable names will not 'shadow' parameter names, or vice versa.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{"function f(a,b,c)",
+	"e:int",
+	"g=h(a)",
+	"e=b+c",
+	"return c",
+"function h(p:string):string",
+	"return p"}</p>
+<p>Returns: { "function f(a:string,b:int,c:int):int",  "e:int",  "g:string",  "function h(p:string):string" }</p>
+<p>This is the example from above. (Note that the indenting was added for clarity only, and is NOT within the strings themselves.)</p></div></li><li><div><p>{"function a()",
+	"return 0"}</p>
+<p>Returns: { "function a():int" }</p>
+<p>This is the smallest possible TC-- program.</p></div></li><li><div><p>{"function a(b:int):int",
+	"c:int",
+	"return c"}</p>
+<p>Returns: { "function a(b:int):int",  "c:int" }</p>
+<p>Already a fully-specified program; the compiler doesn't have much to do.</p></div></li><li><div><p>{"function f(a,b,c)",
+	"g=a(a)",
+	"f=b+c",
+	"return f",
+"function a(a:string)",
+	"return a",
+"function b()",
+	"a=f(b,a,c)",
+	"a=0123456789012345678901234567890",
+	"return a"}</p>
+<p>Returns: { "function f(a:string,b:int,c:int):int",  "f:int",  "g:string",  "function a(a:string):string",  "function b():int",  "a:int",  "b:string",  "c:int" }</p></div></li><li><div><p>{"function f(a:string,b:int,c:int):int",
+"g:string",
+"f:int",
+"g=a(a)",
+"f=b+c",
+"return f",
+"function a(a:string):string",
+"return a",
+"function b():int",
+"b:string",
+"c:int",
+"a:int",
+"a=f(b,a,c)",
+"return a"}</p>
+<p>Returns: { "function f(a:string,b:int,c:int):int",  "f:int",  "g:string",  "function a(a:string):string",  "function b():int",  "a:int",  "b:string",  "c:int" }</p></div></li><li><div><p>{"function a()",
+	"b=1",
+	"d=d+b",
+	"return d"}</p>
+<p>Returns: { "function a():int",  "b:int",  "d:int" }</p></div></li><li><div><p>{"function a(a)",
+"a=a(a)",
+"b=b(b)",
+"return a",
+"function b(c)",
+"c=a(c)",
+"c=0",
+"return c"}</p>
+<p>Returns: { "function a(a:int):int",  "b:int",  "function b(c:int):int" }</p></div></li><li><div><p>{"function a()",
+"a=b",
+"b=c",
+"c=d",
+"d=e",
+"e=f",
+"f=g",
+"g=h",
+"h=i",
+"i=j",
+"j=k",
+"k=l",
+"l=m",
+"m=n",
+"n=o",
+"o=p",
+"p=q",
+"q=r",
+"r=s",
+"s=t",
+"t=u",
+"u=v",
+"v=w",
+"w=x",
+"x=y",
+"y=z",
+"z=a()",
+"return 0"}</p>
+<p>Returns: { "function a():int",  "a:int",  "b:int",  "c:int",  "d:int",  "e:int",  "f:int",  "g:int",  "h:int",  "i:int",  "j:int",  "k:int",  "l:int",  "m:int",  "n:int",  "o:int",  "p:int",  "q:int",  "r:int",  "s:int",  "t:int",  "u:int",  "v:int",  "w:int",  "x:int",  "y:int",  "z:int" }</p></div></li><li><div><p>{"function u()",
+"return 0",
+"function v(s)",
+"s=u()",
+"return \"s\""}</p>
+<p>Returns: { "function u():int",  "function v(s:int):string" }</p></div></li><li><div><p>{"function s(s)",
+"s=s(s)",
+"s=\"hi\"",
+"return s"}
+</p>
+<p>Returns: { "function s(s:string):string" }</p></div></li><li><div><p>{"function s(s)",
+"s=s*s",
+"return s",
+"function f():int",
+"a=f()",
+"return b"}
+</p>
+<p>Returns: { "function s(s:int):int",  "function f():int",  "a:int",  "b:int" }</p>
+<p>Remember, * and / are only for integers, not strings.
+
+
+For your reference, the BNF grammar for TC-- is:
+
+	program ::= function | program function
+	function ::= functionDef optionalLocalVars optionalStatements returnStmt
+	functionDef ::= 'function' var '(' optionalParams ')' | 
+			'function' var '(' optionalParams ')'  ':' type
+	optionalParams ::= params | e
+	params ::= param | param ',' params
+	param ::= var | var ':' type
+	optionalLocalVars ::= localVars | e
+	localVars ::= localVar | localVar localVars
+	localVar ::= var ':' type
+	type ::= 'int' | 'string'
+	optionalStatements ::= statements | e
+	statements ::= statement | statement statements
+	statement ::= funCall | assign | expression
+	funCall ::= var '=' var '(' optionalArgs ')'
+	optionalArgs ::= args | e
+	args ::= var | var ',' args
+	assign ::= var '=' intConstant | var '=' stringConstant | var '=' var
+	expression ::= var '=' var op var 
+	returnStmt ::= 'return' var | 'return' intConstant | 'return' stringConstant
+	op ::= '+' | '-' | '*' | '/'
+	intConstant ::= 0..infinity
+	stringConstant ::= '"' chars '"'
+	chars ::= char | chars char
+	char ::= [a-zA-Z0-9!@#$%^*()_+`~-={}|;:,.? ]
+	var ::= [a-z]
+
+(Note, 'e' means empty and [] is used for grouping)
+</p></div></li><li><div><p>{"function s(s)",
+"s=s/s",
+"return s"}
+</p>
+<p>Returns: { "function s(s:int):int" }</p></div></li><li><div><p>{"function s(s):string",
+"s=s-s",
+"return s"}</p>
+<p>Returns: { "function s(s:string):string" }</p></div></li><li><div><p>{"function s(s):string",
+"s=s+s",
+"return s"}
+</p>
+<p>Returns: { "function s(s:string):string" }</p></div></li><li><div><p>{"function s(s):int",
+"s=s-s",
+"return s"}
+</p>
+<p>Returns: { "function s(s:int):int" }</p></div></li><li><div><p>{"function s(s)",
+"s=\"s-s\"",
+"return s"}
+</p>
+<p>Returns: { "function s(s:string):string" }</p></div></li><li><div><p>{"function b()",
+"t=a()",
+"return t",
+"function c()",
+"t=b()",
+"return t",
+"function d()",
+"t=c()",
+"return t",
+"function e()",
+"t=d()",
+"return t",
+"function f()",
+"t=e()",
+"return t",
+"function g()",
+"t=f()",
+"return t",
+"function h()",
+"t=g()",
+"return t",
+"function i()",
+"t=h()",
+"return t",
+"function j()",
+"t=i()",
+"return t",
+"function k()",
+"t=j()",
+"return t",
+"function l()",
+"t=k()",
+"return t",
+"function m()",
+"t=l()",
+"return t",
+"function n()",
+"t=m()",
+"return t",
+"function o()",
+"t=n()",
+"return t",
+"function p()",
+"t=o()",
+"return t",
+"function a()",
+"t=p()",
+"return \"\""}</p>
+<p>Returns: { "function b():string",  "t:string",  "function c():string",  "t:string",  "function d():string",  "t:string",  "function e():string",  "t:string",  "function f():string",  "t:string",  "function g():string",  "t:string",  "function h():string",  "t:string",  "function i():string",  "t:string",  "function j():string",  "t:string",  "function k():string",  "t:string",  "function l():string",  "t:string",  "function m():string",  "t:string",  "function n():string",  "t:string",  "function o():string",  "t:string",  "function p():string",  "t:string",  "function a():string",  "t:string" }</p></div></li><li><div><p>{"function a()",
+"a=11111111111111111111111111111111111111111111111",
+"return a",
+"function b()",
+"a=a+a",
+"a=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs\"",
+"a=\"tuvwxyz 01234567890!@#$%^*()_+`~-={}|;:,.?\"",
+"return a"}
+</p>
+<p>Returns: { "function a():int",  "a:int",  "function b():string",  "a:string" }</p></div></li><li><div><p>{"function a()",
+"a=b()",
+"return a",
+"function b()",
+"c:int",
+"c=a()",
+"return c"}
+</p>
+<p>Returns: { "function a():int",  "a:int",  "function b():int",  "c:int" }</p></div></li><li><div><p>{"function a(a)",
+"a=a-a",
+"b=1",
+"c=b+c",
+"return \"it\"",
+"function b()",
+"s:string",
+"s=a(s)",
+"return s"}
+</p>
+<p>Returns: { "function a(a:string):string",  "b:int",  "c:int",  "function b():string",  "s:string" }</p></div></li><li><div><p>{"function a(a)",
+"a=a(a)",
+"b=b(b)",
+"return a",
+"function b(c)",
+"c=a(c)",
+"c=\"\"",
+"return c"}
+</p>
+<p>Returns: { "function a(a:string):string",  "b:string",  "function b(c:string):string" }</p></div></li><li><div><p>{"function f(b,c)",
+"e:int",
+"g=h(z)",
+"e=b+c",
+"return c",
+"function h(p:string):string",
+"return p"}
+</p>
+<p>Returns: { "function f(b:int,c:int):int",  "e:int",  "g:string",  "z:string",  "function h(p:string):string" }</p></div></li><li><div><p>{"function f(a,b,c)",
+"g=h(z)",
+"a=z",
+"e=b+c",
+"c=\"\"",
+"return c",
+"function h(p:string):string",
+"return p"}</p>
+<p>Returns: { "function f(a:string,b:string,c:string):string",  "e:string",  "g:string",  "z:string",  "function h(p:string):string" }</p></div></li><li><div><p>{"function f(a,b,c)",
+"g=h(z)",
+"a=z",
+"e=b+c",
+"c=1",
+"return c",
+"function h(p:string):string",
+"return p"}</p>
+<p>Returns: { "function f(a:string,b:int,c:int):int",  "e:int",  "g:string",  "z:string",  "function h(p:string):string" }</p></div></li><li><div><p>{"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+"a=b",
+"b=c",
+"c=d",
+"d=e",
+"e=f",
+"f=g",
+"g=h",
+"h=i",
+"i=j",
+"j=k",
+"k=l",
+"l=m",
+"m=n",
+"n=o",
+"o=p",
+"p=q",
+"q=r",
+"r=s",
+"s=t",
+"t=u",
+"u=v",
+"v=w",
+"w=x",
+"x=y",
+"y=z",
+"z=b()",
+"return 0",
+"function b()",
+"a=0",
+"b=0",
+"c=0",
+"d=0",
+"e=0",
+"a=0",
+"b=0",
+"c=0",
+"d=0",
+"e=0",
+"b=0",
+"c=0",
+"d=0",
+"e=0",
+"f=0",
+"g=0",
+"h=0",
+"i=0",
+"return a"}
+</p>
+<p>Returns: { "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int",  "t:int",  "u:int",  "v:int",  "w:int",  "x:int",  "y:int",  "z:int",  "function b():int",  "a:int",  "b:int",  "c:int",  "d:int",  "e:int",  "f:int",  "g:int",  "h:int",  "i:int" }</p></div></li><li><div><p>{"function a(a:int,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)",
+"b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)",
+"b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)",
+"b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)",
+"b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)",
+"b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)",
+"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)",
+"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)",
+"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)",
+"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)",
+"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)",
+"b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"q=\"a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\"",
+"return 0"}
+</p>
+<p>Returns: { "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",  "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int" }</p></div></li><li><div><p>{"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q:int)",
+"b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)",
+"b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)",
+"b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)",
+"b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)",
+"b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)",
+"b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)",
+"b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)",
+"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)",
+"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)",
+"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)",
+"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)",
+"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)",
+"b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"a=b",
+"return 0"}
+</p>
+<p>Returns: { "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int" }</p></div></li><li><div><p>{"function a()",
+"a=b",
+"b=c+d",
+"c=d+e",
+"d=e+f",
+"e=f+g",
+"f=g+h",
+"g=h+i",
+"h=i+j",
+"i=j+k",
+"j=k+l",
+"k=l+m",
+"l=m+n",
+"m=n+o",
+"n=o+p",
+"o=p+q",
+"p=q+r",
+"q=r+s",
+"r=s+t",
+"s=t+u",
+"t=u+v",
+"u=v+w",
+"v=w+x",
+"w=x+y",
+"x=y+z",
+"y=z+x",
+"z=a()",
+"return 0"}
+</p>
+<p>Returns: { "function a():int",  "a:int",  "b:int",  "c:int",  "d:int",  "e:int",  "f:int",  "g:int",  "h:int",  "i:int",  "j:int",  "k:int",  "l:int",  "m:int",  "n:int",  "o:int",  "p:int",  "q:int",  "r:int",  "s:int",  "t:int",  "u:int",  "v:int",  "w:int",  "x:int",  "y:int",  "z:int" }</p></div></li><li><div><p>{"function a()",
+"a=b",
+"b=c+d",
+"c=d+e",
+"d=e+f",
+"e=f+g",
+"f=g+h",
+"g=h+i",
+"h=i+j",
+"i=j+k",
+"j=k+l",
+"k=l+m",
+"l=m+n",
+"m=n*o",
+"n=o+p",
+"o=p+q",
+"p=q+r",
+"q=r+s",
+"r=s+t",
+"s=t+u",
+"t=u+v",
+"u=v+w",
+"v=w+x",
+"w=x+y",
+"x=y+z",
+"y=z+x",
+"return 0"}
+</p>
+<p>Returns: { "function a():int",  "a:int",  "b:int",  "c:int",  "d:int",  "e:int",  "f:int",  "g:int",  "h:int",  "i:int",  "j:int",  "k:int",  "l:int",  "m:int",  "n:int",  "o:int",  "p:int",  "q:int",  "r:int",  "s:int",  "t:int",  "u:int",  "v:int",  "w:int",  "x:int",  "y:int",  "z:int" }</p></div></li><li><div><p>{"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+"a=b",
+"b=c",
+"c=d",
+"d=e",
+"e=f",
+"f=g",
+"g=h",
+"h=i",
+"i=j",
+"j=k",
+"k=l",
+"l=m",
+"m=n",
+"n=o",
+"o=p",
+"p=q",
+"q=r",
+"r=s",
+"s=t",
+"t=u",
+"u=v",
+"v=w",
+"w=x",
+"x=y",
+"y=z",
+"z=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+"return 0",
+"function b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+"a=0",
+"b=0",
+"c=0",
+"d=0",
+"e=0",
+"f=0",
+"g=0",
+"h=0",
+"i=0",
+"j=0",
+"k=0",
+"l=0",
+"m=0",
+"n=0",
+"o=0",
+"p=0",
+"q=0",
+"r=0",
+"s=0",
+"return a"}</p>
+<p>Returns: { "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int",  "t:int",  "u:int",  "v:int",  "w:int",  "x:int",  "y:int",  "z:int",  "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int" }</p></div></li><li><div><p>{"function a(a,b)",
+"b=b(a,b,c)",
+"return b",
+"function b(a,b,c)",
+"b=c(a,b,c,d)",
+"return b",
+"function c(a,b,c,d)",
+"b=d(a,b,c,d,e)",
+"return b",
+"function d(a,b,c,d,e)",
+"b=e(a,b,c,d,e,f)",
+"return b",
+"function e(a,b,c,d,e,f)",
+"b=f(a,b,c,d,e,f,g)",
+"return b",
+"function f(a,b,c,d,e,f,g)",
+"b=g(a,b,c,d,e,f,g,h)",
+"return b",
+"function g(a,b,c,d,e,f,g,h)",
+"b=h(a,b,c,d,e,f,g,h,i)",
+"return b",
+"function h(a,b,c,d,e,f,g,h,i)",
+"b=i(a,b,c,d,e,f,g,h,i,j)",
+"return b",
+"function i(a,b,c,d,e,f,g,h,i,j)",
+"b=j(a,b,c,d,e,f,g,h,i,j,k)",
+"return b",
+"function j(a,b,c,d,e,f,g,h,i,j,k)",
+"b=k(a,b,c,d,e,f,g,h,i,j,k,l)",
+"return b",
+"function k(a,b,c,d,e,f,g,h,i,j,k,l)",
+"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m)",
+"return b",
+"function l(a,b,c,d,e,f,g,h,i,j,k,l,m)",
+"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)",
+"return b",
+"function m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)",
+"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)",
+"return b",
+"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)",
+"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)",
+"return b",
+"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)",
+"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"return b",
+"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+"r=p(a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a)",
+"s=1",
+"return 0"}</p>
+<p>Returns: { "function a(a:int,b:int):int",  "c:int",  "function b(a:int,b:int,c:int):int",  "d:int",  "function c(a:int,b:int,c:int,d:int):int",  "e:int",  "function d(a:int,b:int,c:int,d:int,e:int):int",  "f:int",  "function e(a:int,b:int,c:int,d:int,e:int,f:int):int",  "g:int",  "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int):int",  "h:int",  "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int):int",  "i:int",  "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int):int",  "j:int",  "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int):int",  "k:int",  "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int):int",  "l:int",  "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int):int",  "m:int",  "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int):int",  "n:int",  "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int):int",  "o:int",  "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int):int",  "p:int",  "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int):int",  "q:int",  "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",  "r:int",  "s:int" }</p></div></li><li><div><p>{"function f()",
+ "return \"\"",
+ "function g():int",
+ "return a"}</p>
+<p>Returns: { "function f():string",  "function g():int",  "a:int" }</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/5859/pm/2897">2004-<!-- --> <!-- -->SRM 213<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/2897/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"2897\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"2897\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"2897\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"2897\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"2897\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T16de,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003eYou have been charged with writing the 'type checking' module for a new \nlanguage called TC--.  When coding in TC--, the coder is allowed to \nomit the types of local variables and parameters, and the return types of functions, \n\u003ci\u003eonly when the compiler is able to deduce those types from their usage.\u003c/i\u003e Each \nvalid program has one and only one possible \"type set\".\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eSometimes a variable is used before its type is \"known\" when reading the \nprogram from top to bottom, but that should not deter the type checking module \nyou're writing. Once the type of a variable is known, it is retroactively \neffective to the start of the function, and proactively effective to the \nend of the function.  This applies to local variables, formal parameters, \nand function return types.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eInformally the grammar can be defined as:\u003c/p\u003e\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e- A program is one or more function definitions.\u003c/li\u003e\n\u003cli\u003e- A function definition always includes the name of the function, zero or more parameters with optional type definitions, and an optional return type. Every function will return a value, even if it is not explicitly declared. After the function definition, zero or more local variables will be defined,\nthen zero or more program statements, then exactly one return statement.  Example:\n\u003cpre\u003e\n\tfunction a(b:string)\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- Local variable definitions.  Variable definitions are optional, but when present, \u003ci\u003emust\u003c/i\u003e specify the variable name \u003ci\u003eand\u003c/i\u003e type:\n\u003cpre\u003e\n\ta:int\n\tb:string\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- Function call.  There can be zero or more actual arguments, which always match\n\tthe type and number of formal parameters. \u003ci\u003eAll arguments are variables only and never\n        integer or string constants, nor expressions.\u003c/i\u003e\n\u003cpre\u003e\n\ta=b()\n\tc=d(e,f,g)\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- Assignment.\n\u003cpre\u003e\n\ta=12345\n\ts=\"this is 'a' string constant!\"\n\tb=c\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- Expressions: (note, you cannot mix \u003ctt\u003eint\u003c/tt\u003es and \u003ctt\u003estring\u003c/tt\u003es, and cannot use constants in expressions)\n\u003cpre\u003e\n\ta=b+c\n\ta=b-c\n\ta=b/c\n\ta=b*c\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- Return statement: (you can return a variable, or an \u003ctt\u003eint\u003c/tt\u003e or \u003ctt\u003estring\u003c/tt\u003e constant)\n\u003cpre\u003e\n\treturn x\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eFunction calls, assignments and expressions are all instances of \"program statements\" and can occur in any order within the function. A return statement will always be the last statement in a function.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eNote that there are only two data types in TC--: \u003ctt\u003eint\u003c/tt\u003e and \n\u003ctt\u003estring\u003c/tt\u003e.  You cannot mix \u003ctt\u003eint\u003c/tt\u003es and \n\u003ctt\u003estring\u003c/tt\u003es in an assignment or an expression.  \nOnly the + and - operators are valid on \u003ctt\u003estring\u003c/tt\u003es, whereas all four operators are valid on \u003ctt\u003eint\u003c/tt\u003es. \nBoth arguments to a binary operator must be variables or parameters \nof the \u003ci\u003esame type\u003c/i\u003e (no constants in expressions).\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eFor example (line numbers and whitespace added for clarity):\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\t 1  function f(a,b,c)\n\t 2     e:int\n\t 3     g=h(a)\n\t 4     e=b+c\n\t 5     return c\n\t 6  \n\t 7  function h(p:string):string\n\t 8     return p\n\u003c/pre\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eThe TC-- compiler will deduce the following types:\u003c/p\u003e\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e- The type of parameter \u003ctt\u003ea\u003c/tt\u003e is \u003ctt\u003estring\u003c/tt\u003e from the call on line \n3 to function \u003ctt\u003eh\u003c/tt\u003e - whose argument must be a \u003ctt\u003estring\u003c/tt\u003e.\n\u003c/li\u003e\n\u003cli\u003e- The type of parameters \u003ctt\u003eb\u003c/tt\u003e and \u003ctt\u003ec\u003c/tt\u003e is \u003ctt\u003eint\u003c/tt\u003e, since \u003ctt\u003ee\u003c/tt\u003e is \ndeclared as an \u003ctt\u003eint\u003c/tt\u003e on line 2 and you can only add \n\u003ctt\u003eint\u003c/tt\u003es together, on line 4.\n\u003c/li\u003e\n\u003cli\u003e- Since \u003ctt\u003ec\u003c/tt\u003e is an \u003ctt\u003eint\u003c/tt\u003e, and function f returns it \non line 5, we know that the return type of \u003ctt\u003ef\u003c/tt\u003e is  \n\u003ctt\u003eint\u003c/tt\u003e.\n\u003c/li\u003e\n\u003cli\u003e- Therefore the complete signature of function \u003ctt\u003ef\u003c/tt\u003e is:\n\u003cpre\u003e\n\tfunction f(a:string,b:int,c:int):int\n\u003c/pre\u003e\n\u003c/li\u003e\n\u003cli\u003e- The type of local variable \u003ctt\u003eg\u003c/tt\u003e must be \u003ctt\u003estring\u003c/tt\u003e because on line 3 \nit calls function \u003ctt\u003eh\u003c/tt\u003e, which returns a \u003ctt\u003estring\u003c/tt\u003e, defined \non line 7. (Note: the fact that \u003ctt\u003ep\u003c/tt\u003e is declared as a \n\u003ctt\u003estring\u003c/tt\u003e on line 7, and returned on line 8, is another way to \ndetermine that the return type of \u003ctt\u003eh\u003c/tt\u003e is \u003ctt\u003estring\u003c/tt\u003e.)\n\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eWrite a method, deduceTypes, which is given a valid TC-- \u003cb\u003eprogram\u003c/b\u003e \nwhich follows the grammar defined above, and determines each function's \ncomplete signature and the types of all local variables in each function.  The \nprogram provided will be syntactically valid, and will be guaranteed to \nhave only one unique type assignment.  Your method should return a \u003ctype\u003eString[]\u003c/type\u003e \nwhich contains two types of entries:\u003c/p\u003e\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e1. function signatures, \u003ci\u003ein the order they were defined\u003c/i\u003e in \u003cb\u003eprogram\u003c/b\u003e, \nin the following format:\n\u003cpre\u003e\n\tfunction name(param:type,...):type\n\u003c/pre\u003e\n\tThe only whitespace should be a single space between the word \n\"\u003ctt\u003efunction\u003c/tt\u003e\" (quotes added for clarity) and the name of the \nfunction.  As listed in the constraints section, all function and\nparameter names are single letters, lower case.\n\u003cbr/\u003e\u003cbr/\u003e\n\u003c/li\u003e\n\u003cli\u003e2. local variable declarations, in \u003ci\u003ealphabetical order\u003c/i\u003e within each function, \nin the following format:\n\u003cpre\u003e\n\tvar:type\n\u003c/pre\u003e\n\tThere should be no whitespace.  \u003ctt\u003etype\u003c/tt\u003e should be either \n\"\u003ctt\u003estring\u003c/tt\u003e\" or \"\u003ctt\u003eint\u003c/tt\u003e\" (quotes added for clarity). As \nlisted in the constraints section, all variable names are single letters,\nlower case.\n\u003c/li\u003e\n\u003c/ol\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eTherefore, for the above example, your output should be:\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\tfunction f(a:string,b:int,c:int):int\n\te:int\n\tg:string\n\tfunction h(p:string):string\n\u003c/pre\u003e\n\n"])</script><script>self.__next_f.push([1,"10:T578,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"function s(s)\",\n\"s=s*s\",\n\"return s\",\n\"function f():int\",\n\"a=f()\",\n\"return b\"}\n\u003c/p\u003e\n\u003cp\u003eReturns: { \"function s(s:int):int\",  \"function f():int\",  \"a:int\",  \"b:int\" }\u003c/p\u003e\n\u003cp\u003eRemember, * and / are only for integers, not strings.\n\n\nFor your reference, the BNF grammar for TC-- is:\n\n\tprogram ::= function | program function\n\tfunction ::= functionDef optionalLocalVars optionalStatements returnStmt\n\tfunctionDef ::= 'function' var '(' optionalParams ')' | \n\t\t\t'function' var '(' optionalParams ')'  ':' type\n\toptionalParams ::= params | e\n\tparams ::= param | param ',' params\n\tparam ::= var | var ':' type\n\toptionalLocalVars ::= localVars | e\n\tlocalVars ::= localVar | localVar localVars\n\tlocalVar ::= var ':' type\n\ttype ::= 'int' | 'string'\n\toptionalStatements ::= statements | e\n\tstatements ::= statement | statement statements\n\tstatement ::= funCall | assign | expression\n\tfunCall ::= var '=' var '(' optionalArgs ')'\n\toptionalArgs ::= args | e\n\targs ::= var | var ',' args\n\tassign ::= var '=' intConstant | var '=' stringConstant | var '=' var\n\texpression ::= var '=' var op var \n\treturnStmt ::= 'return' var | 'return' intConstant | 'return' stringConstant\n\top ::= '+' | '-' | '*' | '/'\n\tintConstant ::= 0..infinity\n\tstringConstant ::= '\"' chars '\"'\n\tchars ::= char | chars char\n\tchar ::= [a-zA-Z0-9!@#$%^*()_+`~-={}|;:,.? ]\n\tvar ::= [a-z]\n\n(Note, 'e' means empty and [] is used for grouping)\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"11:T4bc,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"function b()\",\n\"t=a()\",\n\"return t\",\n\"function c()\",\n\"t=b()\",\n\"return t\",\n\"function d()\",\n\"t=c()\",\n\"return t\",\n\"function e()\",\n\"t=d()\",\n\"return t\",\n\"function f()\",\n\"t=e()\",\n\"return t\",\n\"function g()\",\n\"t=f()\",\n\"return t\",\n\"function h()\",\n\"t=g()\",\n\"return t\",\n\"function i()\",\n\"t=h()\",\n\"return t\",\n\"function j()\",\n\"t=i()\",\n\"return t\",\n\"function k()\",\n\"t=j()\",\n\"return t\",\n\"function l()\",\n\"t=k()\",\n\"return t\",\n\"function m()\",\n\"t=l()\",\n\"return t\",\n\"function n()\",\n\"t=m()\",\n\"return t\",\n\"function o()\",\n\"t=n()\",\n\"return t\",\n\"function p()\",\n\"t=o()\",\n\"return t\",\n\"function a()\",\n\"t=p()\",\n\"return \\\"\\\"\"}\u003c/p\u003e\n\u003cp\u003eReturns: { \"function b():string\",  \"t:string\",  \"function c():string\",  \"t:string\",  \"function d():string\",  \"t:string\",  \"function e():string\",  \"t:string\",  \"function f():string\",  \"t:string\",  \"function g():string\",  \"t:string\",  \"function h():string\",  \"t:string\",  \"function i():string\",  \"t:string\",  \"function j():string\",  \"t:string\",  \"function k():string\",  \"t:string\",  \"function l():string\",  \"t:string\",  \"function m():string\",  \"t:string\",  \"function n():string\",  \"t:string\",  \"function o():string\",  \"t:string\",  \"function p():string\",  \"t:string\",  \"function a():string\",  \"t:string\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"12:Tec8,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"function a(a:int,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)\",\n\"b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)\",\n\"b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)\",\n\"b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)\",\n\"b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)\",\n\"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)\",\n\"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)\",\n\"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)\",\n\"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)\",\n\"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)\",\n\"b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"q=\\\"a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\\\"\",\n\"return 0\"}\n\u003c/p\u003e\n\u003cp\u003eReturns: { \"function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\",  \"function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"13:Te71,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q:int)\",\n\"b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)\",\n\"b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)\",\n\"b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)\",\n\"b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)\",\n\"b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)\",\n\"b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)\",\n\"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)\",\n\"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)\",\n\"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)\",\n\"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)\",\n\"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)\",\n\"b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"a=b\",\n\"return 0\"}\n\u003c/p\u003e\n\u003cp\u003eReturns: { \"function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"14:Ta48,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"function a(a,b)\",\n\"b=b(a,b,c)\",\n\"return b\",\n\"function b(a,b,c)\",\n\"b=c(a,b,c,d)\",\n\"return b\",\n\"function c(a,b,c,d)\",\n\"b=d(a,b,c,d,e)\",\n\"return b\",\n\"function d(a,b,c,d,e)\",\n\"b=e(a,b,c,d,e,f)\",\n\"return b\",\n\"function e(a,b,c,d,e,f)\",\n\"b=f(a,b,c,d,e,f,g)\",\n\"return b\",\n\"function f(a,b,c,d,e,f,g)\",\n\"b=g(a,b,c,d,e,f,g,h)\",\n\"return b\",\n\"function g(a,b,c,d,e,f,g,h)\",\n\"b=h(a,b,c,d,e,f,g,h,i)\",\n\"return b\",\n\"function h(a,b,c,d,e,f,g,h,i)\",\n\"b=i(a,b,c,d,e,f,g,h,i,j)\",\n\"return b\",\n\"function i(a,b,c,d,e,f,g,h,i,j)\",\n\"b=j(a,b,c,d,e,f,g,h,i,j,k)\",\n\"return b\",\n\"function j(a,b,c,d,e,f,g,h,i,j,k)\",\n\"b=k(a,b,c,d,e,f,g,h,i,j,k,l)\",\n\"return b\",\n\"function k(a,b,c,d,e,f,g,h,i,j,k,l)\",\n\"b=l(a,b,c,d,e,f,g,h,i,j,k,l,m)\",\n\"return b\",\n\"function l(a,b,c,d,e,f,g,h,i,j,k,l,m)\",\n\"b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)\",\n\"return b\",\n\"function m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)\",\n\"b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)\",\n\"return b\",\n\"function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)\",\n\"b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)\",\n\"return b\",\n\"function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)\",\n\"b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"return b\",\n\"function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\",\n\"r=p(a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a)\",\n\"s=1\",\n\"return 0\"}\u003c/p\u003e\n\u003cp\u003eReturns: { \"function a(a:int,b:int):int\",  \"c:int\",  \"function b(a:int,b:int,c:int):int\",  \"d:int\",  \"function c(a:int,b:int,c:int,d:int):int\",  \"e:int\",  \"function d(a:int,b:int,c:int,d:int,e:int):int\",  \"f:int\",  \"function e(a:int,b:int,c:int,d:int,e:int,f:int):int\",  \"g:int\",  \"function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int):int\",  \"h:int\",  \"function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int):int\",  \"i:int\",  \"function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int):int\",  \"j:int\",  \"function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int):int\",  \"k:int\",  \"function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int):int\",  \"l:int\",  \"function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int):int\",  \"m:int\",  \"function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int):int\",  \"n:int\",  \"function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int):int\",  \"o:int\",  \"function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int):int\",  \"p:int\",  \"function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int):int\",  \"q:int\",  \"function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int\",  \"r:int\",  \"s:int\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"TCMinMin\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"TCMinMin\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"deduceTypes\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] deduceTypes(String[] program)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"Function names may be reused as parameter or variable names.\"}],[\"$\",\"li\",\"1\",{\"children\":\"Variables can be used before they are assigned a value.\"}],[\"$\",\"li\",\"2\",{\"children\":\"A formal grammar for the input can be found at the end of the problem.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"There will be at least one function defined in program\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"There will be at most one definition for each function (no overloading).\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"program will contain between 2 and 50 elements, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element in program contain between 3 and 50 characters, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"All variable, parameter and function names will be single letters in lower case.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Integer constants range from zero (inclusive) to positive infinity, subject to line length constraints\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String constants will always start and end with double quotes\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String constants may contain any upper or lower case letter, digit, space, or any of the following characters: !@#$%^*()_+`~-={}|;:,.?\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Spaces (outside quotes) will only be present in two locations: 1.  After the function keyword (exactly one single space will always be present) 2. After the return keyword (exactly one single space will always be present)\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"The program provided will be syntactically valid, and will be guaranteed to have only one unique type assignment.\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"The number of arguments in each function call will always match the number of formal parameters defined for that function.\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Variable names will not 'shadow' parameter names, or vice versa.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(a,b,c)\\\",\\n\\t\\\"e:int\\\",\\n\\t\\\"g=h(a)\\\",\\n\\t\\\"e=b+c\\\",\\n\\t\\\"return c\\\",\\n\\\"function h(p:string):string\\\",\\n\\t\\\"return p\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(a:string,b:int,c:int):int\\\",  \\\"e:int\\\",  \\\"g:string\\\",  \\\"function h(p:string):string\\\" }\u003c/p\u003e\\n\u003cp\u003eThis is the example from above. (Note that the indenting was added for clarity only, and is NOT within the strings themselves.)\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\t\\\"return 0\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\" }\u003c/p\u003e\\n\u003cp\u003eThis is the smallest possible TC-- program.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(b:int):int\\\",\\n\\t\\\"c:int\\\",\\n\\t\\\"return c\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(b:int):int\\\",  \\\"c:int\\\" }\u003c/p\u003e\\n\u003cp\u003eAlready a fully-specified program; the compiler doesn't have much to do.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(a,b,c)\\\",\\n\\t\\\"g=a(a)\\\",\\n\\t\\\"f=b+c\\\",\\n\\t\\\"return f\\\",\\n\\\"function a(a:string)\\\",\\n\\t\\\"return a\\\",\\n\\\"function b()\\\",\\n\\t\\\"a=f(b,a,c)\\\",\\n\\t\\\"a=0123456789012345678901234567890\\\",\\n\\t\\\"return a\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(a:string,b:int,c:int):int\\\",  \\\"f:int\\\",  \\\"g:string\\\",  \\\"function a(a:string):string\\\",  \\\"function b():int\\\",  \\\"a:int\\\",  \\\"b:string\\\",  \\\"c:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(a:string,b:int,c:int):int\\\",\\n\\\"g:string\\\",\\n\\\"f:int\\\",\\n\\\"g=a(a)\\\",\\n\\\"f=b+c\\\",\\n\\\"return f\\\",\\n\\\"function a(a:string):string\\\",\\n\\\"return a\\\",\\n\\\"function b():int\\\",\\n\\\"b:string\\\",\\n\\\"c:int\\\",\\n\\\"a:int\\\",\\n\\\"a=f(b,a,c)\\\",\\n\\\"return a\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(a:string,b:int,c:int):int\\\",  \\\"f:int\\\",  \\\"g:string\\\",  \\\"function a(a:string):string\\\",  \\\"function b():int\\\",  \\\"a:int\\\",  \\\"b:string\\\",  \\\"c:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\t\\\"b=1\\\",\\n\\t\\\"d=d+b\\\",\\n\\t\\\"return d\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"b:int\\\",  \\\"d:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(a)\\\",\\n\\\"a=a(a)\\\",\\n\\\"b=b(b)\\\",\\n\\\"return a\\\",\\n\\\"function b(c)\\\",\\n\\\"c=a(c)\\\",\\n\\\"c=0\\\",\\n\\\"return c\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(a:int):int\\\",  \\\"b:int\\\",  \\\"function b(c:int):int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\\"a=b\\\",\\n\\\"b=c\\\",\\n\\\"c=d\\\",\\n\\\"d=e\\\",\\n\\\"e=f\\\",\\n\\\"f=g\\\",\\n\\\"g=h\\\",\\n\\\"h=i\\\",\\n\\\"i=j\\\",\\n\\\"j=k\\\",\\n\\\"k=l\\\",\\n\\\"l=m\\\",\\n\\\"m=n\\\",\\n\\\"n=o\\\",\\n\\\"o=p\\\",\\n\\\"p=q\\\",\\n\\\"q=r\\\",\\n\\\"r=s\\\",\\n\\\"s=t\\\",\\n\\\"t=u\\\",\\n\\\"u=v\\\",\\n\\\"v=w\\\",\\n\\\"w=x\\\",\\n\\\"x=y\\\",\\n\\\"y=z\\\",\\n\\\"z=a()\\\",\\n\\\"return 0\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"a:int\\\",  \\\"b:int\\\",  \\\"c:int\\\",  \\\"d:int\\\",  \\\"e:int\\\",  \\\"f:int\\\",  \\\"g:int\\\",  \\\"h:int\\\",  \\\"i:int\\\",  \\\"j:int\\\",  \\\"k:int\\\",  \\\"l:int\\\",  \\\"m:int\\\",  \\\"n:int\\\",  \\\"o:int\\\",  \\\"p:int\\\",  \\\"q:int\\\",  \\\"r:int\\\",  \\\"s:int\\\",  \\\"t:int\\\",  \\\"u:int\\\",  \\\"v:int\\\",  \\\"w:int\\\",  \\\"x:int\\\",  \\\"y:int\\\",  \\\"z:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function u()\\\",\\n\\\"return 0\\\",\\n\\\"function v(s)\\\",\\n\\\"s=u()\\\",\\n\\\"return \\\\\\\"s\\\\\\\"\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function u():int\\\",  \\\"function v(s:int):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s)\\\",\\n\\\"s=s(s)\\\",\\n\\\"s=\\\\\\\"hi\\\\\\\"\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s)\\\",\\n\\\"s=s/s\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:int):int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s):string\\\",\\n\\\"s=s-s\\\",\\n\\\"return s\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s):string\\\",\\n\\\"s=s+s\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s):int\\\",\\n\\\"s=s-s\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:int):int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function s(s)\\\",\\n\\\"s=\\\\\\\"s-s\\\\\\\"\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function s(s:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$11\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\\"a=11111111111111111111111111111111111111111111111\\\",\\n\\\"return a\\\",\\n\\\"function b()\\\",\\n\\\"a=a+a\\\",\\n\\\"a=\\\\\\\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs\\\\\\\"\\\",\\n\\\"a=\\\\\\\"tuvwxyz 01234567890!@#$%^*()_+`~-={}|;:,.?\\\\\\\"\\\",\\n\\\"return a\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"a:int\\\",  \\\"function b():string\\\",  \\\"a:string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\\"a=b()\\\",\\n\\\"return a\\\",\\n\\\"function b()\\\",\\n\\\"c:int\\\",\\n\\\"c=a()\\\",\\n\\\"return c\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"a:int\\\",  \\\"function b():int\\\",  \\\"c:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(a)\\\",\\n\\\"a=a-a\\\",\\n\\\"b=1\\\",\\n\\\"c=b+c\\\",\\n\\\"return \\\\\\\"it\\\\\\\"\\\",\\n\\\"function b()\\\",\\n\\\"s:string\\\",\\n\\\"s=a(s)\\\",\\n\\\"return s\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(a:string):string\\\",  \\\"b:int\\\",  \\\"c:int\\\",  \\\"function b():string\\\",  \\\"s:string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(a)\\\",\\n\\\"a=a(a)\\\",\\n\\\"b=b(b)\\\",\\n\\\"return a\\\",\\n\\\"function b(c)\\\",\\n\\\"c=a(c)\\\",\\n\\\"c=\\\\\\\"\\\\\\\"\\\",\\n\\\"return c\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(a:string):string\\\",  \\\"b:string\\\",  \\\"function b(c:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(b,c)\\\",\\n\\\"e:int\\\",\\n\\\"g=h(z)\\\",\\n\\\"e=b+c\\\",\\n\\\"return c\\\",\\n\\\"function h(p:string):string\\\",\\n\\\"return p\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(b:int,c:int):int\\\",  \\\"e:int\\\",  \\\"g:string\\\",  \\\"z:string\\\",  \\\"function h(p:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(a,b,c)\\\",\\n\\\"g=h(z)\\\",\\n\\\"a=z\\\",\\n\\\"e=b+c\\\",\\n\\\"c=\\\\\\\"\\\\\\\"\\\",\\n\\\"return c\\\",\\n\\\"function h(p:string):string\\\",\\n\\\"return p\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(a:string,b:string,c:string):string\\\",  \\\"e:string\\\",  \\\"g:string\\\",  \\\"z:string\\\",  \\\"function h(p:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f(a,b,c)\\\",\\n\\\"g=h(z)\\\",\\n\\\"a=z\\\",\\n\\\"e=b+c\\\",\\n\\\"c=1\\\",\\n\\\"return c\\\",\\n\\\"function h(p:string):string\\\",\\n\\\"return p\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f(a:string,b:int,c:int):int\\\",  \\\"e:int\\\",  \\\"g:string\\\",  \\\"z:string\\\",  \\\"function h(p:string):string\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)\\\",\\n\\\"a=b\\\",\\n\\\"b=c\\\",\\n\\\"c=d\\\",\\n\\\"d=e\\\",\\n\\\"e=f\\\",\\n\\\"f=g\\\",\\n\\\"g=h\\\",\\n\\\"h=i\\\",\\n\\\"i=j\\\",\\n\\\"j=k\\\",\\n\\\"k=l\\\",\\n\\\"l=m\\\",\\n\\\"m=n\\\",\\n\\\"n=o\\\",\\n\\\"o=p\\\",\\n\\\"p=q\\\",\\n\\\"q=r\\\",\\n\\\"r=s\\\",\\n\\\"s=t\\\",\\n\\\"t=u\\\",\\n\\\"u=v\\\",\\n\\\"v=w\\\",\\n\\\"w=x\\\",\\n\\\"x=y\\\",\\n\\\"y=z\\\",\\n\\\"z=b()\\\",\\n\\\"return 0\\\",\\n\\\"function b()\\\",\\n\\\"a=0\\\",\\n\\\"b=0\\\",\\n\\\"c=0\\\",\\n\\\"d=0\\\",\\n\\\"e=0\\\",\\n\\\"a=0\\\",\\n\\\"b=0\\\",\\n\\\"c=0\\\",\\n\\\"d=0\\\",\\n\\\"e=0\\\",\\n\\\"b=0\\\",\\n\\\"c=0\\\",\\n\\\"d=0\\\",\\n\\\"e=0\\\",\\n\\\"f=0\\\",\\n\\\"g=0\\\",\\n\\\"h=0\\\",\\n\\\"i=0\\\",\\n\\\"return a\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int\\\",  \\\"t:int\\\",  \\\"u:int\\\",  \\\"v:int\\\",  \\\"w:int\\\",  \\\"x:int\\\",  \\\"y:int\\\",  \\\"z:int\\\",  \\\"function b():int\\\",  \\\"a:int\\\",  \\\"b:int\\\",  \\\"c:int\\\",  \\\"d:int\\\",  \\\"e:int\\\",  \\\"f:int\\\",  \\\"g:int\\\",  \\\"h:int\\\",  \\\"i:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$12\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$13\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\\"a=b\\\",\\n\\\"b=c+d\\\",\\n\\\"c=d+e\\\",\\n\\\"d=e+f\\\",\\n\\\"e=f+g\\\",\\n\\\"f=g+h\\\",\\n\\\"g=h+i\\\",\\n\\\"h=i+j\\\",\\n\\\"i=j+k\\\",\\n\\\"j=k+l\\\",\\n\\\"k=l+m\\\",\\n\\\"l=m+n\\\",\\n\\\"m=n+o\\\",\\n\\\"n=o+p\\\",\\n\\\"o=p+q\\\",\\n\\\"p=q+r\\\",\\n\\\"q=r+s\\\",\\n\\\"r=s+t\\\",\\n\\\"s=t+u\\\",\\n\\\"t=u+v\\\",\\n\\\"u=v+w\\\",\\n\\\"v=w+x\\\",\\n\\\"w=x+y\\\",\\n\\\"x=y+z\\\",\\n\\\"y=z+x\\\",\\n\\\"z=a()\\\",\\n\\\"return 0\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"a:int\\\",  \\\"b:int\\\",  \\\"c:int\\\",  \\\"d:int\\\",  \\\"e:int\\\",  \\\"f:int\\\",  \\\"g:int\\\",  \\\"h:int\\\",  \\\"i:int\\\",  \\\"j:int\\\",  \\\"k:int\\\",  \\\"l:int\\\",  \\\"m:int\\\",  \\\"n:int\\\",  \\\"o:int\\\",  \\\"p:int\\\",  \\\"q:int\\\",  \\\"r:int\\\",  \\\"s:int\\\",  \\\"t:int\\\",  \\\"u:int\\\",  \\\"v:int\\\",  \\\"w:int\\\",  \\\"x:int\\\",  \\\"y:int\\\",  \\\"z:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a()\\\",\\n\\\"a=b\\\",\\n\\\"b=c+d\\\",\\n\\\"c=d+e\\\",\\n\\\"d=e+f\\\",\\n\\\"e=f+g\\\",\\n\\\"f=g+h\\\",\\n\\\"g=h+i\\\",\\n\\\"h=i+j\\\",\\n\\\"i=j+k\\\",\\n\\\"j=k+l\\\",\\n\\\"k=l+m\\\",\\n\\\"l=m+n\\\",\\n\\\"m=n*o\\\",\\n\\\"n=o+p\\\",\\n\\\"o=p+q\\\",\\n\\\"p=q+r\\\",\\n\\\"q=r+s\\\",\\n\\\"r=s+t\\\",\\n\\\"s=t+u\\\",\\n\\\"t=u+v\\\",\\n\\\"u=v+w\\\",\\n\\\"v=w+x\\\",\\n\\\"w=x+y\\\",\\n\\\"x=y+z\\\",\\n\\\"y=z+x\\\",\\n\\\"return 0\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a():int\\\",  \\\"a:int\\\",  \\\"b:int\\\",  \\\"c:int\\\",  \\\"d:int\\\",  \\\"e:int\\\",  \\\"f:int\\\",  \\\"g:int\\\",  \\\"h:int\\\",  \\\"i:int\\\",  \\\"j:int\\\",  \\\"k:int\\\",  \\\"l:int\\\",  \\\"m:int\\\",  \\\"n:int\\\",  \\\"o:int\\\",  \\\"p:int\\\",  \\\"q:int\\\",  \\\"r:int\\\",  \\\"s:int\\\",  \\\"t:int\\\",  \\\"u:int\\\",  \\\"v:int\\\",  \\\"w:int\\\",  \\\"x:int\\\",  \\\"y:int\\\",  \\\"z:int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)\\\",\\n\\\"a=b\\\",\\n\\\"b=c\\\",\\n\\\"c=d\\\",\\n\\\"d=e\\\",\\n\\\"e=f\\\",\\n\\\"f=g\\\",\\n\\\"g=h\\\",\\n\\\"h=i\\\",\\n\\\"i=j\\\",\\n\\\"j=k\\\",\\n\\\"k=l\\\",\\n\\\"l=m\\\",\\n\\\"m=n\\\",\\n\\\"n=o\\\",\\n\\\"o=p\\\",\\n\\\"p=q\\\",\\n\\\"q=r\\\",\\n\\\"r=s\\\",\\n\\\"s=t\\\",\\n\\\"t=u\\\",\\n\\\"u=v\\\",\\n\\\"v=w\\\",\\n\\\"w=x\\\",\\n\\\"x=y\\\",\\n\\\"y=z\\\",\\n\\\"z=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)\\\",\\n\\\"return 0\\\",\\n\\\"function b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)\\\",\\n\\\"a=0\\\",\\n\\\"b=0\\\",\\n\\\"c=0\\\",\\n\\\"d=0\\\",\\n\\\"e=0\\\",\\n\\\"f=0\\\",\\n\\\"g=0\\\",\\n\\\"h=0\\\",\\n\\\"i=0\\\",\\n\\\"j=0\\\",\\n\\\"k=0\\\",\\n\\\"l=0\\\",\\n\\\"m=0\\\",\\n\\\"n=0\\\",\\n\\\"o=0\\\",\\n\\\"p=0\\\",\\n\\\"q=0\\\",\\n\\\"r=0\\\",\\n\\\"s=0\\\",\\n\\\"return a\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int\\\",  \\\"t:int\\\",  \\\"u:int\\\",  \\\"v:int\\\",  \\\"w:int\\\",  \\\"x:int\\\",  \\\"y:int\\\",  \\\"z:int\\\",  \\\"function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$14\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"function f()\\\",\\n \\\"return \\\\\\\"\\\\\\\"\\\",\\n \\\"function g():int\\\",\\n \\\"return a\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"function f():string\\\",  \\\"function g():int\\\",  \\\"a:int\\\" }\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/5859/pm/2897\",\"children\":[\"2004-\",\" \",\"SRM 213\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

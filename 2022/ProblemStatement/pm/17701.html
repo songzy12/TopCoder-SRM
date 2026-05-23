@@ -1,0 +1,853 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->WordleBack<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+This problem is about the popular word-guessing game Wordle. Knowledge of this game is not necessary to solve the problem.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+In Wordle the goal is to guess a hidden string of uppercase English letters ('A'-'Z').
+In this problem, the hidden string can have anywhere between 1 and 50 letters.
+</p>
+<p xmlns="http://topcoder.com">
+The player plays the game by making guesses. Each guess is a string of uppercase letters of the same length as the hidden string.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Whenever a player makes a guess, the game tells the player how well the guess matches the hidden string.
+This is done using colors: the letters of the guess that are in correct place are highlighted in green and the letters that are in the 
+secret word but at some other index are highlighted in yellow.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Formally, the coloring works as follows:
+</p>
+<p xmlns="http://topcoder.com">
+Assume that we have the secret string in the variable "hidden" and the guess made by the player in the variable "<b>guess</b>".
+A pair of indices (i, j) is called <i>valid</i> if <b>guess</b>[i] = hidden[j].
+</p>
+<p xmlns="http://topcoder.com">
+When coloring the letters of <b>guess</b> we will look for valid pairs of indices.
+Among these pairs each index can only be used at most once:
+there cannot be two pairs (i, j1) and (i, j2) with j1 != j2, and there cannot be two pairs (i1, j) and (i2, j) with i1 != i2.
+</p>
+<p xmlns="http://topcoder.com">
+We will create these pairs in two passes. 
+</p>
+<ol xmlns="http://topcoder.com">
+<li>
+In the first pass we create all valid pairs of the form (i, i).
+These correspond to the green letters.
+</li>
+<li>
+In the second pass we go through all possible i from 0 to length(<b>guess</b>)-1, in this order.
+For each i, if there is a j such that (i, j) is a valid pair disjoint from all the ones we already have, we take the smallest such j and we add the pair (i, j) to our collection.
+For each pair (i, j) added in this step the letter at position i in <b>guess</b> will be yellow.
+</li>
+</ol>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+You are given the <type>String</type> <b>guess</b> and the <type>String</type> <b>colors</b>.
+The string <b>guess</b> represents a guess made by the player, and the string <b>colors</b> the colors assigned to the letters of this guess.
+In <b>colors</b> we use 'g' for green, 'y' for yellow, and '-' for letters that did not get any color.
+</p>
+<p xmlns="http://topcoder.com">
+Determine whether there is some hidden string H such that the guess given in <b>guess</b> would get the colors given in <b>colors</b>.
+If yes, return any one such H.
+If no, return an empty <type>String</type> instead.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>WordleBack</span></dd><dt>Method:</dt><dd><span>deduce</span></dd><dt>Parameters:</dt><dd><span>String, String</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String deduce(String guess, String colors)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>In the actual game Wordle there is an extra constraint that both the guess and the secret are valid dictionary words. There is no such constraint in this problem.</li></ul></div><div><h3>Constraints</h3><ul><li><span>guess will have between 1 and 50 characters, inclusive.</span></li><li><span>Each character in guess will be an uppercase English letter ('A'-'Z').</span></li><li><span>colors will have the same number of characters as guess.</span></li><li><span>Each character in colors will be one of 'g', 'y', and '-'.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>"HELLO"</p>
+<p>"ggggg"</p>
+<p>Returns: "HELLO"</p>
+<p>The secret word must clearly be "HELLO".</p></div></li><li><div><p>"STARE"</p>
+<p>"yyggy"</p>
+<p>Returns: "ESART"</p>
+<p>The two valid answers for this test case are "TEARS" and "ESART".</p></div></li><li><div><p>"HELLO"</p>
+<p>"-g---"</p>
+<p>Returns: "MERRY"</p>
+<p>Note that "DECOY" would not be a valid answer here: if "DECOY" were the secret word, "HELLO" would get the colors "-g--y" instead of "-g---".</p></div></li><li><div><p>"AAAAAAA"</p>
+<p>"gggygyg"</p>
+<p>Returns: ""</p>
+<p>This is clearly an impossible situation. There is no hidden word for which the guess "AAAAAAA" gets five green and two yellow letters. If the hidden word is exactly "AAAAAAA" you'll get seven 'g's for this guess, and if the hidden word is anything else you'd get at least one '-'.</p></div></li><li><div><p>"C"</p>
+<p>"y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CC"</p>
+<p>"y-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CC"</p>
+<p>"-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CCDD"</p>
+<p>"-yy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CCDD"</p>
+<p>"y-y-"</p>
+<p>Returns: "DACA"</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNM"</p>
+<p>"-------------------------y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNM"</p>
+<p>"----------------------y--y"</p>
+<p>Returns: "MVMMMMMMMMMMMMMMMMMMMMMMMV"</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNMV"</p>
+<p>"----------------------y--y-"</p>
+<p>Returns: "MMMMMMMMMMMMMMMMMMMMMMMMMVM"</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNMVM"</p>
+<p>"----------------------y--y--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"STSTUTSTVTWTS"</p>
+<p>"ygygygygygygy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"STSTUTSTVTWTS"</p>
+<p>"ygyg-gyg-g-gy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"STSTUTSTVTWTSTS"</p>
+<p>"ygyg-gyg-g-gyg-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"STSTUTSTVTWTSTSP"</p>
+<p>"ygyg-gyg-g-gyg--"</p>
+<p>Returns: "ATATSTATSTSTATAS"</p>
+<p></p></div></li><li><div><p>"STSTUTSTVTWTSP"</p>
+<p>"ygygygygygygyy"</p>
+<p>Returns: "PTUTSTVTSTSTWS"</p>
+<p></p></div></li><li><div><p>"V"</p>
+<p>"g"</p>
+<p>Returns: "V"</p>
+<p></p></div></li><li><div><p>"A"</p>
+<p>"-"</p>
+<p>Returns: "B"</p>
+<p></p></div></li><li><div><p>"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM"</p>
+<p>"yyyyyyyy--------------------------"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM"</p>
+<p>"yyyyyyyyy-------------------------"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM"</p>
+<p>"yyyyyyyy-y------------------------"</p>
+<p>Returns: "WWWWWWWWWQQQQQQQQWWWWWWWWWWWWWWWWW"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"ggg"</p>
+<p>Returns: "CAB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"ggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"gg-"</p>
+<p>Returns: "CAA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"gyy"</p>
+<p>Returns: "CBA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"gy-"</p>
+<p>Returns: "CCA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"g-g"</p>
+<p>Returns: "CBB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"g-y"</p>
+<p>Returns: "CBC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"g--"</p>
+<p>Returns: "CCC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"ygg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"ygy"</p>
+<p>Returns: "BAC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"yg-"</p>
+<p>Returns: "AAC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"yyg"</p>
+<p>Returns: "ACB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"yyy"</p>
+<p>Returns: "ABC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"yy-"</p>
+<p>Returns: "ACA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"y-g"</p>
+<p>Returns: "BCB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"y-y"</p>
+<p>Returns: "BCC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"y--"</p>
+<p>Returns: "DCC"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-gg"</p>
+<p>Returns: "AAB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-gy"</p>
+<p>Returns: "BAA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-g-"</p>
+<p>Returns: "AAA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-yg"</p>
+<p>Returns: "ABB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-yy"</p>
+<p>Returns: "ABA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"-y-"</p>
+<p>Returns: "ADA"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"--g"</p>
+<p>Returns: "BBB"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"--y"</p>
+<p>Returns: "BBD"</p>
+<p></p></div></li><li><div><p>"CAB"</p>
+<p>"---"</p>
+<p>Returns: "DDD"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"ggg"</p>
+<p>Returns: "FEE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"ggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"gg-"</p>
+<p>Returns: "FEA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"gyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"gy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"g-g"</p>
+<p>Returns: "FAE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"g-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"g--"</p>
+<p>Returns: "FAA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"ygg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"ygy"</p>
+<p>Returns: "EEF"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"yg-"</p>
+<p>Returns: "AEF"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"yyg"</p>
+<p>Returns: "EFE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"yyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"yy-"</p>
+<p>Returns: "EFA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"y-g"</p>
+<p>Returns: "AFE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"y-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"y--"</p>
+<p>Returns: "AFA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-gg"</p>
+<p>Returns: "AEE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-gy"</p>
+<p>Returns: "EEA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-g-"</p>
+<p>Returns: "AEA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-yg"</p>
+<p>Returns: "EAE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-yy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"-y-"</p>
+<p>Returns: "EAA"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"--g"</p>
+<p>Returns: "AAE"</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"--y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FEE"</p>
+<p>"---"</p>
+<p>Returns: "AAA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"ggg"</p>
+<p>Returns: "EWE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"ggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"gg-"</p>
+<p>Returns: "EWA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"gyy"</p>
+<p>Returns: "EEW"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"gy-"</p>
+<p>Returns: "EAW"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"g-g"</p>
+<p>Returns: "EAE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"g-y"</p>
+<p>Returns: "EEA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"g--"</p>
+<p>Returns: "EAA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"ygg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"ygy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"yg-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"yyg"</p>
+<p>Returns: "WEE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"yyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"yy-"</p>
+<p>Returns: "WEA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"y-g"</p>
+<p>Returns: "AEE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"y-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"y--"</p>
+<p>Returns: "AEA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-gg"</p>
+<p>Returns: "AWE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-gy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-g-"</p>
+<p>Returns: "AWA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-yg"</p>
+<p>Returns: "WAE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-yy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"-y-"</p>
+<p>Returns: "WAA"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"--g"</p>
+<p>Returns: "AAE"</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"--y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EWE"</p>
+<p>"---"</p>
+<p>Returns: "AAA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"ggg"</p>
+<p>Returns: "LOO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"ggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"gg-"</p>
+<p>Returns: "LOA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"gyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"gy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"g-g"</p>
+<p>Returns: "LAO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"g-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"g--"</p>
+<p>Returns: "LAA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"ygg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"ygy"</p>
+<p>Returns: "OOL"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"yg-"</p>
+<p>Returns: "AOL"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"yyg"</p>
+<p>Returns: "OLO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"yyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"yy-"</p>
+<p>Returns: "OLA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"y-g"</p>
+<p>Returns: "ALO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"y-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"y--"</p>
+<p>Returns: "ALA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-gg"</p>
+<p>Returns: "AOO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-gy"</p>
+<p>Returns: "OOA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-g-"</p>
+<p>Returns: "AOA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-yg"</p>
+<p>Returns: "OAO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-yy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"-y-"</p>
+<p>Returns: "OAA"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"--g"</p>
+<p>Returns: "AAO"</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"--y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"LOO"</p>
+<p>"---"</p>
+<p>Returns: "AAA"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"ggg"</p>
+<p>Returns: "XXX"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"ggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"gg-"</p>
+<p>Returns: "XXA"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"gyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"gy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"g-g"</p>
+<p>Returns: "XAX"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"g-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"g--"</p>
+<p>Returns: "XAA"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"ygg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"ygy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"yg-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"yyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"yyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"yy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"y-g"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"y-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"y--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-gg"</p>
+<p>Returns: "AXX"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-gy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-g-"</p>
+<p>Returns: "AXA"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-yg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-yy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"-y-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"--g"</p>
+<p>Returns: "AAX"</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"--y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXX"</p>
+<p>"---"</p>
+<p>Returns: "AAA"</p>
+<p></p></div></li><li><div><p>"SSSS"</p>
+<p>"gggg"</p>
+<p>Returns: "SSSS"</p>
+<p></p></div></li><li><div><p>"AAAA"</p>
+<p>"gyyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"OOOOOOOOOOOOOOOOOOOOOOOOOO"</p>
+<p>"gggggggggggggggggggggggggg"</p>
+<p>Returns: "OOOOOOOOOOOOOOOOOOOOOOOOOO"</p>
+<p></p></div></li><li><div><p>"SSSSSSSSSSSSSSSSSSSSSSSSSS"</p>
+<p>"yyy--gggg-y-g-ggygggyg-yg-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"</p>
+<p>"gggggggggggggggggggggggggggggggggggggggggggggggggg"</p>
+<p>Returns: "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"</p>
+<p></p></div></li><li><div><p>"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT"</p>
+<p>"g-gy-y--yy--g-y-y--ygygy-gyygg-y-yggg-yygyy--y-yg-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"GBGG"</p>
+<p>"-g--"</p>
+<p>Returns: "ABAA"</p>
+<p></p></div></li><li><div><p>"XXXX"</p>
+<p>"gyyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"NVVNNVNVNVNNVNNVNVNNVNNNN"</p>
+<p>"yyggggyyyygyygggyyg-g--gg"</p>
+<p>Returns: "VNVNNVVNVNNVNNNVVNNAVAANN"</p>
+<p></p></div></li><li><div><p>"GGGZGZGZZGGGGGZGZZZGZZGZZ"</p>
+<p>"ygg-yygggg----gg-gggyyy-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"XSSXXXXXSSSXXXSSSSSSSXSSSSSSSSSSXXSXXSXSSXSSSXS"</p>
+<p>"gygyyygyyyggyyggygggyggyggygy-g-yyggggg-gg-g-g-"</p>
+<p>Returns: "XXSSSSXSXXSXSSSSXSSSXXSXSSXSXASASSSXXSXASXASAXA"</p>
+<p></p></div></li><li><div><p>"SSSBBSSBBSBSSBBBSBBBBSSSBSSBBSBSSSSBSSBSSSBBBBS"</p>
+<p>"y--y-gyygg-ggyyygg-gyggyggyyyggggygggg--gyggg-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"OOBB"</p>
+<p>"gg-g"</p>
+<p>Returns: "OOAB"</p>
+<p></p></div></li><li><div><p>"OOVV"</p>
+<p>"ggyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"RRRRRVVRVVVVRVRVRVRVRRVVVVVV"</p>
+<p>"ygygygyggygyygyggygggygygy-g"</p>
+<p>Returns: "VRVRVVRRVRVRVVVVRRRVRVVRVRAV"</p>
+<p></p></div></li><li><div><p>"AOAOOOOOAAAAOAOOAAOAAOOAAAAO"</p>
+<p>"--g--g--gg-yyg--gg-gggggy-gg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"IIICCICCCCIICCIICICCICIICICCICCICIIIICICCIIIIIIC"</p>
+<p>"yyyygygyygygyyygygyggggggyygggyggygyggggyyggg-gg"</p>
+<p>Returns: "CCCICCCIICCIIICIIIICICIICCICICIICCICICICICIIIAIC"</p>
+<p></p></div></li><li><div><p>"PPKKKKPPPPPKPPKPKPPPKKKKPPKPPKKKKKPKKKPPKKKPPPKP"</p>
+<p>"g-g-----gyg--gggg--g-----g--yg--g--g----g-------"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QMMQ"</p>
+<p>"yy-g"</p>
+<p>Returns: "MQAQ"</p>
+<p></p></div></li><li><div><p>"GGGG"</p>
+<p>"--g-"</p>
+<p>Returns: "AAGA"</p>
+<p></p></div></li><li><div><p>"BTTWWWWTWWBWWTWWWBBTWTT"</p>
+<p>"yyygyyyyy-y-gyg--yyg-yg"</p>
+<p>Returns: "TBBWBBTWTTTAWWWAAWWTAAT"</p>
+<p></p></div></li><li><div><p>"ZVVVRZVZZZZRZVZRZVZRRZR"</p>
+<p>"ygygggygggyyyyygy--g-gy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FFZZUZZUZFZUZZZFZZFFZUZUUZFZUFZFZZZUZFZZZFFZZUUFZ"</p>
+<p>"yyggyyyyggggygyygggyyy-yygy-gy-g---yggg--gy--ygg-"</p>
+<p>Returns: "UUZZFFFFZFZUFZFUZZFUFZUZZZUUUZAFAAAZZFZAAFAAAAUFA"</p>
+<p></p></div></li><li><div><p>"LHHKHLLHKLKLKHHLLKLLKHHKKHHHHHHKKHHKKKKHKKHHHHLHK"</p>
+<p>"ggygyyggygygg-yygygyggyygggggygygygggygygyggggygy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EEZZ"</p>
+<p>"--gg"</p>
+<p>Returns: "AAZZ"</p>
+<p></p></div></li><li><div><p>"PPZS"</p>
+<p>"yyyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"RQUURQUURQUQQQURURQU"</p>
+<p>"yyyyyyyyyggygy-y-g-g"</p>
+<p>Returns: "QRQQQRRRUQUUQUAUARAU"</p>
+<p></p></div></li><li><div><p>"UOUUOOOOQUQQUUOOUUUQ"</p>
+<p>"yg--g-gyyg-y----gyy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"RRYIIYYRRYIYYIRRYRYRRIIRIIIYRYYIIRRYIYIRIYIIYII"</p>
+<p>"yyyygyygygyyygyyyyyggygyyyygyyygygy-y-ygygygggy"</p>
+<p>Returns: "IIIRIIIRIYRIIIIIIIRRRRIYRRRYYRRIYRYAYAYRYYYIYIY"</p>
+<p></p></div></li><li><div><p>"FQQFFTFFTQTTFFFFTTFTFQFTFTFTTFQQTFFTFFTFFQQQQQQ"</p>
+<p>"y---g-y-yy-yg-gg------yyy-y-g-gyyy--y-y-yyyyyyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"MJMJ"</p>
+<p>"----"</p>
+<p>Returns: "AAAA"</p>
+<p></p></div></li><li><div><p>"HDDH"</p>
+<p>"--gg"</p>
+<p>Returns: "AADH"</p>
+<p></p></div></li><li><div><p>"CCJZCCJJCCCVCCJJCCCCCCVCZJC"</p>
+<p>"gyyyy-gy--gg-gyg------y-yy-"</p>
+<p>Returns: "CJCCJJJVJZCVZCAJAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"QCPAQCQQCQQAAQQQQPQQPQQQQQQ"</p>
+<p>"-g-ggggg-gggggggygygg--gggg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"PZQZPZZPZQZTZZPZZZQQPZQQZTZZZZZZZTPZZZZZZPQPZZPZZ"</p>
+<p>"gyygyygyygyygyyyg-yyy-yygg---g---yy-----gggy---g-"</p>
+<p>Returns: "PPPZQPZQPQPPZQQQZTTZZAZZZTAAAZAAAZZAAAAAZPQAAAAZA"</p>
+<p></p></div></li><li><div><p>"IWWIIWWWIWWWIWWAIAIIWHHWIWHWWWHWWHWHWWWIWIWWHWWHW"</p>
+<p>"-gygg--ygggggg-yygggggggyg--gygy-gg-yy-gyyyggg-gy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"ZZQZ"</p>
+<p>"--y-"</p>
+<p>Returns: "QAAA"</p>
+<p></p></div></li><li><div><p>"LLCO"</p>
+<p>"----"</p>
+<p>Returns: "AAAA"</p>
+<p></p></div></li><li><div><p>"DRKDDODRRDROODRODKKODRDROD"</p>
+<p>"yyygyyyyy-yyg-yy-yygg-g---"</p>
+<p>Returns: "KDDDKDKOOOARORARRRAODADAAA"</p>
+<p></p></div></li><li><div><p>"HHTIIEEEEHHEEIHEHEHHETHTTT"</p>
+<p>"y-yy-ggyyggyyg--y-gg-yyyyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"ULJUJULTUJULLLUTUJJTUULJJJLLUTTLUTLTTJLTJUJJJTJ"</p>
+<p>"ygygyyyyyyyyyyyyyggyygyyyyyggggyyyyy-yggygyyy-y"</p>
+<p>Returns: "JLLULJJJJLJJJJJJJJJLLUTLLLTLUTTTTUTUUULTUUUUUAA"</p>
+<p></p></div></li><li><div><p>"CUZUIUZIIIZUUIIZCZZCCUUUCUUUZUZIUZUICIIIUZZZIIU"</p>
+<p>"yyy-g--yyggy--y--y-yy-gygy-ggy-y----y-y-yyyy-y-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"AAAA"</p>
+<p>"----"</p>
+<p>Returns: "BBBB"</p>
+<p></p></div></li><li><div><p>"YRYM"</p>
+<p>"-gyg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"TRRMTTOBTJMTOTTTTOTTOXTRTTT"</p>
+<p>"-y-y--yy-yy----------g-g---"</p>
+<p>Returns: "BJMOMRAAAAAAAAAAAAAAAXARAAA"</p>
+<p></p></div></li><li><div><p>"AEYFEFAFHFFFCQAFCFQFQFFFYFF"</p>
+<p>"ygy-yggg-yg-y-y-g-gyygyyy--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"PWPWAPPFNPFFPPAPPPPWPAPPBDPPPPPFPDTPPPPPAPWPBFPTCN"</p>
+<p>"gyyyyy--g-----yg--g-----yyg-g-g--yy-g---g-g-y--yyy"</p>
+<p>Returns: "PAABBCDDNNPPTTWPWBPBBBBBCBPBPBPBBBBBPBBBABWBCBBBBB"</p>
+<p></p></div></li><li><div><p>"FXFTFFWFIFFSFGWFFTTFQTIFFDTFDSFFQFWFDFDTFXFDXVFFGV"</p>
+<p>"yyyyygyyyy-g-yyy-yy-y-yyyy-yyyygyyyyy--gy-yyy-yyyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QSUE"</p>
+<p>"g---"</p>
+<p>Returns: "QAAA"</p>
+<p></p></div></li><li><div><p>"ZGLB"</p>
+<p>"y-g-"</p>
+<p>Returns: "AZLA"</p>
+<p></p></div></li><li><div><p>"MBHOIOZYHIBHHHLLHYYHYYGZZ"</p>
+<p>"gy-yyyyy--y---yy------ygy"</p>
+<p>Returns: "MGBBLILOOYZZAAAAAAAAAAAZA"</p>
+<p></p></div></li><li><div><p>"SOABMUNVBLAANMMMNVSTTASAO"</p>
+<p>"g--ggggggg-ggggy-ggggy-yy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"NDFORINRNERMFFRIWDFIFRGMWWGNDOFINRMIEFFMEDMONIFD"</p>
+<p>"yyyyyyyyyyyyyyy-yyygyyyy-gy-yy----y-y--ygyyy---y"</p>
+<p>Returns: "DEDDDDEFFFFFGGIMMMMIMNNNOWOORRRRRWAAAAAAEAAAAAAA"</p>
+<p></p></div></li><li><div><p>"VHIGPGRHPEGHRHGBLEVEVHIERRJEVJHVRLJGPBBRLBBPGRVE"</p>
+<p>"-yy-yg-yy-gg----y-g-----g------gyyg-g-yggy-y----"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FFFF"</p>
+<p>"g---"</p>
+<p>Returns: "FAAA"</p>
+<p></p></div></li><li><div><p>"EUZE"</p>
+<p>"-g-y"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"YAWOWWCZWWWZWWXJWUZNWTF"</p>
+<p>"-yyy----------yy-y----y"</p>
+<p>Returns: "AFJUOXWAAAAAAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"SIVSSSEIGRSWSSSOSSFSBZS"</p>
+<p>"y-yy-gyyyyyggyy-ggyygy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"SGSSSOBSTCIJSASHSSSSLSSXSELSSOISSSPALSESEHSESSE"</p>
+<p>"-y---gy-y-gygy-y----y----yyg--y---yyygy--y-----"</p>
+<p>Returns: "AABEEOGHHIILSJLLPTAAAAAAAAASAAAAAAABASAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"VHHJRDHSHBKHOPHSHHIJHFHYJPKHHQZHHHHHHHBBIHHMWHV"</p>
+<p>"-----y--yy-yg-gggg-yyygygg--ygyyg--gg-g-g--gg--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"BPRJ"</p>
+<p>"--y-"</p>
+<p>Returns: "RAAA"</p>
+<p></p></div></li><li><div><p>"RCRE"</p>
+<p>"y-yg"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"EJCRJHXYPZATHDONJESTEKM"</p>
+<p>"y-yy----yy-y-yyy-----yy"</p>
+<p>Returns: "CDEKMNOPRTZBBBBBBBBBBBB"</p>
+<p></p></div></li><li><div><p>"XUTNPZMQIBUNHOAOZEWERFK"</p>
+<p>"-y--ygggy-yg--gyg-g-gy-"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"QMBMTLYUJKYIBITQJWBIMBGUVAHOXEQDQEEZNWWQXIQFLOE"</p>
+<p>"yyyyyyg-yyyyyyy-yy------yyygyy-y-y--yy-----y-y-"</p>
+<p>Returns: "ABDBEEYFHIIJJKLMMNOQTTVWWXYOAAAAAAAAAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"IZDXEYHYGTDWXPTHAGBZGDFUWKHMQXNRVKSFTMQBTILJDDX"</p>
+<p>"yyy-yyg-yyy--yy-y-gyyyy--gyyyygyy--yy---y-yyggy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO"</p>
+<p>"yyygygygyyyyygyggyyyggyyyyyyyygyyyyy-----g--g--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"</p>
+<p>"gyyyy--g------g----gg--------gg-g--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"</p>
+<p>"yyyyyyyyyygyyygg----------------------g-----"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"WWWTTWTWWWWTTTWWTTWTTTWTTWTWTTWTWWWWTWTWWTWWWWWWW"</p>
+<p>"yyyyyyyyyyyyy-yy--y---y--y-y--y-yyyy-y-yy-y------"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"TNTTNNTTNNTTNTNTNTTNTTNTNTTNTTT"</p>
+<p>"g-ygg-gy--yg-y----gg--gggg--g-g"</p>
+<p>Returns: "TTATNTTATTATAAAAAATNAANTNTAATAT"</p>
+<p></p></div></li><li><div><p>"STSTSTSSTTTTTSTSSSTSSTSSSTSSTSTTT"</p>
+<p>"yyyyyyyyyyyy-y-yyy-yy-yyy-yy-y---"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"YYYEEEEEEYYYYYYYEEYYYYYYYYYYEYEYYEEEYYEEYYEEYY"</p>
+<p>"yyyygyyyyy------yyg--gg-----y-y------g--------"</p>
+<p>Returns: "EEEYEYYYAEEEEEEAAAYAAYYAAAAAAAAAAAAAAYAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"MGGMGMMMGGMGGMGGMGGGMMGGGMMMGGGMGMM"</p>
+<p>"yyyygyygyyyyyyyyyyyy--yyy---yyy-y--"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"OOGGOOGGGGOOGGOGGGGOGOOOOOOGGOGGOGGOOGOO"</p>
+<p>"yygyyyyyyyygyygyyyyyygygyg-gg---g-g-----"</p>
+<p>Returns: "GGGOGGOOOOGOOOOOAAAGAOGOGOGGGGAAOAGGGAAA"</p>
+<p></p></div></li><li><div><p>"OHBOHBHHBOHOHHHHBHBBHOOOOHBBBOOBHHOOBBHHHOBHOH"</p>
+<p>"-yy-yyyyg-y-y---y-gy-g----y----------g-g-g----"</p>
+<p>Returns: "BBHBBHBABHAHAAAAHABHAOAAAAAAAAAAAAAAABAHAOAAAA"</p>
+<p></p></div></li><li><div><p>"MEMEEEMENENMMEEMNNEEMEEENEENEMEMNEMEMEMNNEMENN"</p>
+<p>"yyygyyyggy-yg--yg---y--g-g-gg--g--g---g-g---gg"</p>
+<p>Returns: "EMEEMMEENMEAMMMANAAAAAAEAEANEAAMAAMAAAMANAAANN"</p>
+<p></p></div></li><li><div><p>"HOONOOHHHHNNHHHHHOHOOHHNNHHOHNNONOHNOHHOHOH"</p>
+<p>"gygyggggyygyyyyygyyygyygyy-y-ygyy----g----g"</p>
+<p>Returns: "HHOHOOHHNNNHNNNOHHOHOOONHOAHAHNHHAAAAHAAAAH"</p>
+<p></p></div></li><li><div><p>"XEEEOEXXXEXOEOXXOXOXOXEEXOOEXEEXXEEOEXEXEE"</p>
+<p>"gyyygyygyyyyygyyyg-ygyygy--yyy-yyg---yg---"</p>
+<p>Returns: "XOOXOXEXEXEEXOEEEXEEOAXEAXXXAXXAAEXXAAEAAA"</p>
+<p></p></div></li><li><div><p>"RXRRRVVXRXXRXVVXRRXXVXVRVXRRXVRVRRRRRRRRXRRVXVRRRX"</p>
+<p>"yyygyyyyggyyy--yyygy-y-y-gygygy-yyyygyyy-y-------g"</p>
+<p>Returns: "VRVRXRRRRXRXRRRRXXXRRRRXRXXRRVXRXAAARAAARAAAAAAAAX"</p>
+<p></p></div></li><li><div><p>"ZOOOZYZOYOZZYOZOOYZYZYOOYOZOOYOZOZYOOZZOZZZZOZO"</p>
+<p>"yyyyyyyyy-yyy-y--yyyyy--y-y--y-y-yy--yy-y------"</p>
+<p>Returns: "OYYYOOOYZYYYZYYZZZAZAZZZZZAZZZAAAAAAAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"ZZQSGGGQZZGZGGZZZZZQGZZZSZQGZZSGZGSZSZ"</p>
+<p>"gggyyg-ggy-y-ggygyyy-yy--gggg------g-g"</p>
+<p>Returns: "ZZQGQGSQZAZAZGZAZAAZZAAAZZQGZAZZAAAZAZ"</p>
+<p></p></div></li><li><div><p>"EBEEBBBBUBFFBEUUBEBUUBBUFBFFBBEBFUUUEBBUUEEBUFEBBB"</p>
+<p>"ygyyyyyyyyyyyyyyyyyygyyyyyyyyyyyyy-gy-------gy-g--"</p>
+<p>Returns: "BBBBEEEEBEBBEBBBEBFBUFFBBFBUFFFUUAAUUUUAAAAAUAABAA"</p>
+<p></p></div></li><li><div><p>"LKKUUUKUUUUURLRULUUUURUUUUKUUURULUUKKRUU"</p>
+<p>"y-gyyy-yygygyg-gygyyy-gyyy-yg-g-y-------"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"PPZBZBMMMPMPBPMBPPBZZPPZMPZPPMMZZPMBBBMMZBBBMZB"</p>
+<p>"gyggyyyyyyyyyyyyg-yyy--yy-y--y-yy--------------"</p>
+<p>Returns: "PBZBBMBBPMPMMMPMPMPAAZZAZZAZZZAAAAAAAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"MGAAMAMAGGMMMGGAMXAGGXMMMXXXAMAMXXGMGGAMAMG"</p>
+<p>"yyyyygyygyyggyyyyyggyygggyygy-y-y--g--yg---"</p>
+<p>Returns: "AAGGAAAGGAAMMAMGGMAGMMMMMMBXXXXXBBXMBBBMBBB"</p>
+<p></p></div></li><li><div><p>"AAAAWAWBTAABTWWWBATAATTAATTWATBTBWBTTWBTBTBTBTA"</p>
+<p>"yy--y-yyyg-yyy--y-y-ggy--yy--yyyy-yyy-y-y-yg---"</p>
+<p>Returns: "BBBBABATBABTBBTTTTWTATWTTWCTCCCCCCCCCCCCCCCTCCC"</p>
+<p></p></div></li><li><div><p>"BSHBMJPBBBBBBBWJBBBBBBHKBBBVBBHASBMHBBB"</p>
+<p>"yyyyy-yyyyyyyy--yyyyyyyyyyyyyyy--y-yyyy"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"BWAAAZAAAZAAIAKAWALKAHAIAAAIAAKAI"</p>
+<p>"gyygyyyyy-yyyyyy-yyyyy----gg-gyg-"</p>
+<p>Returns: "BAHAIAKKKALWAZABABAABABABBAIBAAAB"</p>
+<p></p></div></li><li><div><p>"YNOYJJFXKYYYYDYYKXYYZYZNXYXYYXYONXXYJYYYUDZYOYO"</p>
+<p>"ggyy--yyyyyyyyy-yy--y-yy-------yy---g----gg-ygy"</p>
+<p>Returns: "YNDFKKNNOOOOXXZZYYAAYAYYYAAAAAAAAAAAJAAAADZAAYA"</p>
+<p></p></div></li><li><div><p>"KGFUGKUXZUWXWXFMGWWKLWLMWKFWUGKDDXGFGUUF"</p>
+<p>"yyyyyyyyyyyyyyy-yyyyy-y--yy-y-y--y-y-y-y"</p>
+<p>Returns: "FFGFFFGGKKKKKLLUUUUUWXWWXWXXZAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"LYWEEJJWLAYWWLYJWEWKKYQPKQPNQLWNLWEYKPKEJANEYQAEW"</p>
+<p>"yyyyyyyyyy-yyy-yyyyyy--yy--y-yyy--y-y-yyyy-------"</p>
+<p>Returns: "AAEJJEEEEJJKKKKKLLLLNNPWWWWWWWYBBBBBBBBBBBBBBBBBB"</p>
+<p></p></div></li><li><div><p>"BBZZHSJJASACZCCAZZOBJVSJXHJHHCOAOHVOOZCA"</p>
+<p>"yyyyyyyyyyyyyyg-g-ygg-yyyy-yyyy-yy---g--"</p>
+<p>Returns: "AABBCCCHHHHHJJCJZOSBJOOSSXZZZBBBBBBBBZBB"</p>
+<p></p></div></li><li><div><p>"IGIBIIIEVCIOIIMRIYIQIIDIWZHSVZKNLHIIRIPIII"</p>
+<p>"yggggyyy--gyyyy-yyygyg-g---g---yy--g--gg--"</p>
+<p>Returns: "EGIBILMIIIIINOIIYIAQAIIIAAASAAAAAAAIAAPIAA"</p>
+<p></p></div></li><li><div><p>"QAABJQEBQQZQQWQQYGBQXQVQTMQEQWQQTQTQXMQFSQU"</p>
+<p>"gy-ygy-gyg-yyyygyg-gyy-yyyg--ygg---g-g--gg-"</p>
+<p>Returns: "QBMAJTQBWQQWXQYQQGQQQCQCCCQCCCQQCCCQCMCCSQC"</p>
+<p></p></div></li><li><div><p>"FEPATWWOEEECEEEEOEELEEEEEEUEEYEMETMEZOEE"</p>
+<p>"-gggyygy---gg-g-y-----gg--g-----gg-g-y-g"</p>
+<p>Returns: "OEPAOOWTWAACEAEAAAAAAAEEAAUAAAAAETAEAAAE"</p>
+<p></p></div></li><li><div><p>"JDNMPBUHYXDYYBPCRQHKWIOXBWWCVSXRE"</p>
+<p>"-yyy-yy-yyyyyy--yy-yy--yyy--yy--y"</p>
+<p>Returns: "BBBDDEKMNQRSUVWWXXYYYAAAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"REZRMVSZDCBQSJVHQERUJXFYKDANPHD"</p>
+<p>"yyy-g--yg-gy-y-yyy--gy-ggyyy-gg"</p>
+<p>Returns: "ADEEMHJNDQBRQXZZAAAAJAAYKABAAHD"</p>
+<p></p></div></li><li><div><p>"XTDXYCUNKZEFBJXLZMNNGECCUUQBRJLGLQKRWJFKDYWZTMFFB"</p>
+<p>"-gy--gyyyg-y-ygyygy-y-gggy--y-ygg-yy--g-y----yyy-"</p>
+<p>Returns: "DTFDFCFGJZKKLLXMNMRRNUCCUZUAAAAGLAAAAAFAAAAAAAAAA"</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNMQ"</p>
+<p>"y------------------------y-"</p>
+<p>Returns: "MMMMMMMMMMMMMMMMMMMMMMMMMQM"</p>
+<p></p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBNMMMMMMMMMMMMMMMMMMMMM"</p>
+<p>"y------------------------yyyyyyyyyyyyyyyyyyyyy"</p>
+<p>Returns: "MMMMMMMMMMMMMMMMMMMMMQMMMQQQQQQQQQQQQQQQQQQQQQ"</p>
+<p></p></div></li><li><div><p>"QWERMMMMTYUIOPASDFGHJKLZXCVBNMMMMMMMMMMMMMMMMMMMMM"</p>
+<p>"y---yyyy---------------------yyyyyyyyyyyyyyyyyyyyy"</p>
+<p>Returns: "MMMMQQQQMMMMMMMMMMMMMMMMMMMMMQQQQQQQQQQQQQQQQQQQQQ"</p>
+<p></p></div></li><li><div><p>"HAHAHAHAHHHH"</p>
+<p>"y-y-y-y-----"</p>
+<p>Returns: "BHBHBHBHBBBB"</p>
+<p></p></div></li><li><div><p>"HAHAHAHAHHHH"</p>
+<p>"y-y-y-y-y---"</p>
+<p>Returns: ""</p>
+<p></p></div></li><li><div><p>"IPZZRZ"</p>
+<p>"ygg-yy"</p>
+<p>Returns: ""</p></div></li><li><div><p>"QWERTYUIOPASDFGHJKLZXCVBMN"</p>
+<p>"-------------------------y"</p>
+<p>Returns: ""</p></div></li><li><div><p>"BCDEFGHIJKLMNOPQRSTUVWXYAAAAAAAAAAAAAAZZZZZZZZZZZZ"</p>
+<p>"------------------------yyyyyyyyyyyyyyyyyyyyyyyyyy"</p>
+<p>Returns: "AAAAAAAAAAAAAAZZZZZZZZZZZZZZZZZZZZZZZZAAAAAAAAAAAA"</p></div></li><li><div><p>"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</p>
+<p>"y-------------------------"</p>
+<p>Returns: ""</p></div></li><li><div><p>"AAAABBB"</p>
+<p>"yyy-yy-"</p>
+<p>Returns: "BBCCAAA"</p></div></li><li><div><p>"ABCDEFGHIJKLMNOPQRSTUVWXYZ"</p>
+<p>"--------------------------"</p>
+<p>Returns: ""</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/19331/pm/17701">2022-<!-- --> <!-- -->SRM 834<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/17701/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"17701\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"17701\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"17701\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"17701\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"17701\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Tb43,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nThis problem is about the popular word-guessing game Wordle. Knowledge of this game is not necessary to solve the problem.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn Wordle the goal is to guess a hidden string of uppercase English letters ('A'-'Z').\nIn this problem, the hidden string can have anywhere between 1 and 50 letters.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe player plays the game by making guesses. Each guess is a string of uppercase letters of the same length as the hidden string.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWhenever a player makes a guess, the game tells the player how well the guess matches the hidden string.\nThis is done using colors: the letters of the guess that are in correct place are highlighted in green and the letters that are in the \nsecret word but at some other index are highlighted in yellow.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFormally, the coloring works as follows:\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nAssume that we have the secret string in the variable \"hidden\" and the guess made by the player in the variable \"\u003cb\u003eguess\u003c/b\u003e\".\nA pair of indices (i, j) is called \u003ci\u003evalid\u003c/i\u003e if \u003cb\u003eguess\u003c/b\u003e[i] = hidden[j].\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWhen coloring the letters of \u003cb\u003eguess\u003c/b\u003e we will look for valid pairs of indices.\nAmong these pairs each index can only be used at most once:\nthere cannot be two pairs (i, j1) and (i, j2) with j1 != j2, and there cannot be two pairs (i1, j) and (i2, j) with i1 != i2.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWe will create these pairs in two passes. \n\u003c/p\u003e\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e\nIn the first pass we create all valid pairs of the form (i, i).\nThese correspond to the green letters.\n\u003c/li\u003e\n\u003cli\u003e\nIn the second pass we go through all possible i from 0 to length(\u003cb\u003eguess\u003c/b\u003e)-1, in this order.\nFor each i, if there is a j such that (i, j) is a valid pair disjoint from all the ones we already have, we take the smallest such j and we add the pair (i, j) to our collection.\nFor each pair (i, j) added in this step the letter at position i in \u003cb\u003eguess\u003c/b\u003e will be yellow.\n\u003c/li\u003e\n\u003c/ol\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are given the \u003ctype\u003eString\u003c/type\u003e \u003cb\u003eguess\u003c/b\u003e and the \u003ctype\u003eString\u003c/type\u003e \u003cb\u003ecolors\u003c/b\u003e.\nThe string \u003cb\u003eguess\u003c/b\u003e represents a guess made by the player, and the string \u003cb\u003ecolors\u003c/b\u003e the colors assigned to the letters of this guess.\nIn \u003cb\u003ecolors\u003c/b\u003e we use 'g' for green, 'y' for yellow, and '-' for letters that did not get any color.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nDetermine whether there is some hidden string H such that the guess given in \u003cb\u003eguess\u003c/b\u003e would get the colors given in \u003cb\u003ecolors\u003c/b\u003e.\nIf yes, return any one such H.\nIf no, return an empty \u003ctype\u003eString\u003c/type\u003e instead.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"WordleBack\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"WordleBack\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"deduce\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String deduce(String guess, String colors)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"In the actual game Wordle there is an extra constraint that both the guess and the secret are valid dictionary words. There is no such constraint in this problem.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"guess will have between 1 and 50 characters, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in guess will be an uppercase English letter ('A'-'Z').\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"colors will have the same number of characters as guess.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in colors will be one of 'g', 'y', and '-'.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HELLO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"HELLO\\\"\u003c/p\u003e\\n\u003cp\u003eThe secret word must clearly be \\\"HELLO\\\".\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STARE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ESART\\\"\u003c/p\u003e\\n\u003cp\u003eThe two valid answers for this test case are \\\"TEARS\\\" and \\\"ESART\\\".\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HELLO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MERRY\\\"\u003c/p\u003e\\n\u003cp\u003eNote that \\\"DECOY\\\" would not be a valid answer here: if \\\"DECOY\\\" were the secret word, \\\"HELLO\\\" would get the colors \\\"-g--y\\\" instead of \\\"-g---\\\".\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gggygyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003eThis is clearly an impossible situation. There is no hidden word for which the guess \\\"AAAAAAA\\\" gets five green and two yellow letters. If the hidden word is exactly \\\"AAAAAAA\\\" you'll get seven 'g's for this guess, and if the hidden word is anything else you'd get at least one '-'.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"C\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCDD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCDD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"DACA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-------------------------y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----------------------y--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MVMMMMMMMMMMMMMMMMMMMMMMMV\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNMV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----------------------y--y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MMMMMMMMMMMMMMMMMMMMMMMMMVM\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNMVM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----------------------y--y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTUTSTVTWTS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygygygygygygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTUTSTVTWTS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygyg-gyg-g-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTUTSTVTWTSTS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygyg-gyg-g-gyg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTUTSTVTWTSTSP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygyg-gyg-g-gyg--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ATATSTATSTSTATAS\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTUTSTVTWTSP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygygygygygygyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"PTUTSTVTSTSTWS\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"V\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"V\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"A\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"B\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyy--------------------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyy-------------------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QQQQQQQQQWERTYUIOPASDFGHJKLZXCVBNM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyy-y------------------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"WWWWWWWWWQQQQQQQQWWWWWWWWWWWWWWWWW\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CBA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CCA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CBC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CCC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BAC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ACB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ABC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ACA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BCB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BCC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"DCC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ABB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ABA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ADA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBD\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CAB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"DDD\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EEF\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AEF\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EFE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EFA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AFE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AFA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AEE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"75\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"76\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"77\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"78\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"79\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EWA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"80\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"81\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EEW\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"82\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EAW\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"83\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"84\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"85\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"86\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"87\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"88\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"89\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"WEE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"90\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"91\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"WEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"92\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AEE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"93\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"94\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AEA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"95\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AWE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"96\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"97\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AWA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"98\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"WAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"99\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"100\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"WAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"101\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"102\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"103\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EWE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"104\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"105\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"106\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"LOA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"107\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"108\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"109\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"110\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"LAO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"111\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"112\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"LAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"113\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"114\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OOL\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"115\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AOL\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"116\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OLO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"117\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"118\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OLA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"119\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ALO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"120\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"121\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ALA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"122\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AOO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"123\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OOA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"124\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AOA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"125\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OAO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"126\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"127\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"128\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"129\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"130\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"131\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"132\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"133\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XXA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"134\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"135\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"136\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"137\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XAX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"138\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"139\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"140\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"141\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"142\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"143\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"144\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"145\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"146\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"147\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"148\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"149\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AXX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"150\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"151\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AXA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"152\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"153\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"154\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"155\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"156\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"157\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"158\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SSSS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"SSSS\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"159\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"160\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOOOOOOOOOOOOOOOOOOOOOOOOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gggggggggggggggggggggggggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OOOOOOOOOOOOOOOOOOOOOOOOOO\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"161\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SSSSSSSSSSSSSSSSSSSSSSSSSS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy--gggg-y-g-ggygggyg-yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"162\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gggggggggggggggggggggggggggggggggggggggggggggggggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"163\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-gy-y--yy--g-y-y--ygygy-gyygg-y-yggg-yygyy--y-yg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"164\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GBGG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ABAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"165\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XXXX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"166\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NVVNNVNVNVNNVNNVNVNNVNNNN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyggggyyyygyygggyyg-g--gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"VNVNNVVNVNNVNNNVVNNAVAANN\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"167\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GGGZGZGZZGGGGGZGZZZGZZGZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg-yygggg----gg-gggyyy-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"168\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XSSXXXXXSSSXXXSSSSSSSXSSSSSSSSSSXXSXXSXSSXSSSXS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gygyyygyyyggyyggygggyggyggygy-g-yyggggg-gg-g-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XXSSSSXSXXSXSSSSXSSSXXSXSSXSXASASSSXXSXASXASAXA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"169\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SSSBBSSBBSBSSBBBSBBBBSSSBSSBBSBSSSSBSSBSSSBBBBS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y--y-gyygg-ggyyygg-gyggyggyyyggggygggg--gyggg-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"170\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOBB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gg-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OOAB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"171\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOVV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"172\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RRRRRVVRVVVVRVRVRVRVRRVVVVVV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygygygyggygyygyggygggygygy-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"VRVRVVRRVRVRVVVVRRRVRVVRVRAV\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"173\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AOAOOOOOAAAAOAOOAAOAAOOAAAAO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g--g--gg-yyg--gg-gggggy-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"174\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IIICCICCCCIICCIICICCICIICICCICCICIIIICICCIIIIIIC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyygygyygygyyygygyggggggyygggyggygyggggyyggg-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CCCICCCIICCIIICIIIICICIICCICICIICCICICICICIIIAIC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"175\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PPKKKKPPPPPKPPKPKPPPKKKKPPKPPKKKKKPKKKPPKKKPPPKP\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-g-----gyg--gggg--g-----g--yg--g--g----g-------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"176\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QMMQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MQAQ\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"177\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"GGGG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAGA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"178\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BTTWWWWTWWBWWTWWWBBTWTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyygyyyyy-y-gyg--yyg-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"TBBWBBTWTTTAWWWAAWWTAAT\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"179\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZVVVRZVZZZZRZVZRZVZRRZR\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygygggygggyyyyygy--g-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"180\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FFZZUZZUZFZUZZZFZZFFZUZUUZFZUFZFZZZUZFZZZFFZZUUFZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyggyyyyggggygyygggyyy-yygy-gy-g---yggg--gy--ygg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"UUZZFFFFZFZUFZFUZZFUFZUZZZUUUZAFAAAZZFZAAFAAAAUFA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"181\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LHHKHLLHKLKLKHHLLKLLKHHKKHHHHHHKKHHKKKKHKKHHHHLHK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggygyyggygygg-yygygyggyygggggygygygggygygyggggygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"182\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EEZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"183\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PPZS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"184\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RQUURQUURQUQQQURURQU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyggygy-y-g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"QRQQQRRRUQUUQUAUARAU\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"185\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"UOUUOOOOQUQQUUOOUUUQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yg--g-gyyg-y----gyy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"186\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RRYIIYYRRYIYYIRRYRYRRIIRIIIYRYYIIRRYIYIRIYIIYII\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyygyygygyyygyyyyyggygyyyygyyygygy-y-ygygygggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"IIIRIIIRIYRIIIIIIIRRRRIYRRRYYRRIYRYAYAYRYYYIYIY\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"187\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FQQFFTFFTQTTFFFFTTFTFQFTFTFTTFQQTFFTFFTFFQQQQQQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y---g-y-yy-yg-gg------yyy-y-g-gyyy--y-y-yyyyyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"188\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MJMJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"189\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HDDH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AADH\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"190\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CCJZCCJJCCCVCCJJCCCCCCVCZJC\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyyy-gy--gg-gyg------y-yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CJCCJJJVJZCVZCAJAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"191\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QCPAQCQQCQQAAQQQQPQQPQQQQQQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-ggggg-gggggggygygg--gggg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"192\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PZQZPZZPZQZTZZPZZZQQPZQQZTZZZZZZZTPZZZZZZPQPZZPZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyygyygyygyygyyyg-yyy-yygg---g---yy-----gggy---g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"PPPZQPZQPQPPZQQQZTTZZAZZZTAAAZAAAZZAAAAAZPQAAAAZA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"193\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IWWIIWWWIWWWIWWAIAIIWHHWIWHWWWHWWHWHWWWIWIWWHWWHW\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gygg--ygggggg-yygggggggyg--gygy-gg-yy-gyyyggg-gy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"194\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZZQZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"QAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"195\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LLCO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"196\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"DRKDDODRRDROODRODKKODRDROD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyygyyyyy-yyg-yy-yygg-g---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"KDDDKDKOOOARORARRRAODADAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"197\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HHTIIEEEEHHEEIHEHEHHETHTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-yy-ggyyggyyg--y-gg-yyyyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"198\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ULJUJULTUJULLLUTUJJTUULJJJLLUTTLUTLTTJLTJUJJJTJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygygyyyyyyyyyyyyyggyygyyyyyggggyyyyy-yggygyyy-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"JLLULJJJJLJJJJJJJJJLLUTLLLTLUTTTTUTUUULTUUUUUAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"199\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"CUZUIUZIIIZUUIIZCZZCCUUUCUUUZUZIUZUICIIIUZZZIIU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy-g--yyggy--y--y-yy-gygy-ggy-y----y-y-yyyy-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"200\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"201\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YRYM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gyg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"202\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"TRRMTTOBTJMTOTTTTOTTOXTRTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y-y--yy-yy----------g-g---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BJMOMRAAAAAAAAAAAAAAAXARAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"203\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AEYFEFAFHFFFCQAFCFQFQFFFYFF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygy-yggg-yg-y-y-g-gyygyyy--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"204\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PWPWAPPFNPFFPPAPPPPWPAPPBDPPPPPFPDTPPPPPAPWPBFPTCN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyyyy--g-----yg--g-----yyg-g-g--yy-g---g-g-y--yyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"PAABBCDDNNPPTTWPWBPBBBBBCBPBPBPBBBBBPBBBABWBCBBBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"205\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FXFTFFWFIFFSFGWFFTTFQTIFFDTFDSFFQFWFDFDTFXFDXVFFGV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyygyyyy-g-yyy-yy-y-yyyy-yyyygyyyyy--gy-yyy-yyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"206\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QSUE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"QAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"207\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZGLB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-g-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AZLA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"208\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MBHOIOZYHIBHHHLLHYYHYYGZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-yyyyy--y---yy------ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MGBBLILOOYZZAAAAAAAAAAAZA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"209\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SOABMUNVBLAANMMMNVSTTASAO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g--ggggggg-ggggy-ggggy-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"210\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"NDFORINRNERMFFRIWDFIFRGMWWGNDOFINRMIEFFMEDMONIFD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyyyyyyy-yyygyyyy-gy-yy----y-y--ygyyy---y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"DEDDDDEFFFFFGGIMMMMIMNNNOWOORRRRRWAAAAAAEAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"211\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"VHIGPGRHPEGHRHGBLEVEVHIERRJEVJHVRLJGPBBRLBBPGRVE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy-yg-yy-gg----y-g-----g------gyyg-g-yggy-y----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"212\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FFFF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"213\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EUZE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-g-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"214\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YAWOWWCZWWWZWWXJWUZNWTF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yyy----------yy-y----y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AFJUOXWAAAAAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"215\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SIVSSSEIGRSWSSSOSSFSBZS\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-yy-gyyyyyggyy-ggyygy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"216\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"SGSSSOBSTCIJSASHSSSSLSSXSELSSOISSSPALSESEHSESSE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y---gy-y-gygy-y----y----yyg--y---yyygy--y-----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AABEEOGHHIILSJLLPTAAAAAAAAASAAAAAAABASAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"217\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"VHHJRDHSHBKHOPHSHHIJHFHYJPKHHQZHHHHHHHBBIHHMWHV\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-----y--yy-yg-gggg-yyygygg--ygyyg--gg-g-g--gg--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"218\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BPRJ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"RAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"219\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RCRE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-yg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"220\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EJCRJHXYPZATHDONJESTEKM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-yy----yy-y-yyy-----yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"CDEKMNOPRTZBBBBBBBBBBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"221\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XUTNPZMQIBUNHOAOZEWERFK\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-y--ygggy-yg--gyg-g-gy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"222\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QMBMTLYUJKYIBITQJWBIMBGUVAHOXEQDQEEZNWWQXIQFLOE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyg-yyyyyyy-yy------yyygyy-y-y--yy-----y-y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ABDBEEYFHIIJJKLMMNOQTTVWWXYOAAAAAAAAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"223\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IZDXEYHYGTDWXPTHAGBZGDFUWKHMQXNRVKSFTMQBTILJDDX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy-yyg-yyy--yy-y-gyyyy--gyyyygyy--yy---y-yyggy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"224\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyygygygyyyyygyggyyyggyyyyyyyygyyyyy-----g--g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"225\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyyy--g------g----gg--------gg-g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"226\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyygyyygg----------------------g-----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"227\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"WWWTTWTWWWWTTTWWTTWTTTWTTWTWTTWTWWWWTWTWWTWWWWWWW\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyyyyy-yy--y---y--y-y--y-yyyy-y-yy-y------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"228\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"TNTTNNTTNNTTNTNTNTTNTTNTNTTNTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"g-ygg-gy--yg-y----gg--gggg--g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"TTATNTTATTATAAAAAATNAANTNTAATAT\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"229\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"STSTSTSSTTTTTSTSSSTSSTSSSTSSTSTTT\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyyyy-y-yyy-yy-yyy-yy-y---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"230\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YYYEEEEEEYYYYYYYEEYYYYYYYYYYEYEYYEEEYYEEYYEEYY\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyygyyyyy------yyg--gg-----y-y------g--------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EEEYEYYYAEEEEEEAAAYAAYYAAAAAAAAAAAAAAYAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"231\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MGGMGMMMGGMGGMGGMGGGMMGGGMMMGGGMGMM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyygyygyyyyyyyyyyyy--yyy---yyy-y--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"232\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OOGGOOGGGGOOGGOGGGGOGOOOOOOGGOGGOGGOOGOO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yygyyyyyyyygyygyyyyyygygyg-gg---g-g-----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"GGGOGGOOOOGOOOOOAAAGAOGOGOGGGGAAOAGGGAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"233\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"OHBOHBHHBOHOHHHHBHBBHOOOOHBBBOOBHHOOBBHHHOBHOH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yy-yyyyg-y-y---y-gy-g----y----------g-g-g----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBHBBHBABHAHAAAAHABHAOAAAAAAAAAAAAAAABAHAOAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"234\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MEMEEEMENENMMEEMNNEEMEEENEENEMEMNEMEMEMNNEMENN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyygyyyggy-yg--yg---y--g-g-gg--g--g---g-g---gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EMEEMMEENMEAMMMANAAAAAAEAEANEAAMAAMAAAMANAAANN\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"235\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HOONOOHHHHNNHHHHHOHOOHHNNHHOHNNONOHNOHHOHOH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gygyggggyygyyyyygyyygyygyy-y-ygyy----g----g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"HHOHOOHHNNNHNNNOHHOHOOONHOAHAHNHHAAAAHAAAAH\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"236\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XEEEOEXXXEXOEOXXOXOXOXEEXOOEXEEXXEEOEXEXEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyyygyygyyyyygyyyg-ygyygy--yyy-yyg---yg---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"XOOXOXEXEXEEXOEEEXEEOAXEAXXXAXXAAEXXAAEAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"237\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"RXRRRVVXRXXRXVVXRRXXVXVRVXRRXVRVRRRRRRRRXRRVXVRRRX\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyygyyyyggyyy--yyygy-y-y-gygygy-yyyygyyy-y-------g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"VRVRXRRRRXRXRRRRXXXRRRRXRXXRRVXRXAAARAAARAAAAAAAAX\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"238\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZOOOZYZOYOZZYOZOOYZYZYOOYOZOOYOZOZYOOZZOZZZZOZO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyy-yyy-y--yyyyy--y-y--y-y-yy--yy-y------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OYYYOOOYZYYYZYYZZZAZAZZZZZAZZZAAAAAAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"239\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ZZQSGGGQZZGZGGZZZZZQGZZZSZQGZZSGZGSZSZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gggyyg-ggy-y-ggygyyy-yy--gggg------g-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ZZQGQGSQZAZAZGZAZAAZZAAAZZQGZAZZAAAZAZ\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"240\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"EBEEBBBBUBFFBEUUBEBUUBBUFBFFBBEBFUUUEBBUUEEBUFEBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygyyyyyyyyyyyyyyyyyygyyyyyyyyyyyyy-gy-------gy-g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBBBEEEEBEBBEBBBEBFBUFFBBFBUFFFUUAAUUUUAAAAAUAABAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"241\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LKKUUUKUUUUURLRULUUUURUUUUKUUURULUUKKRUU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-gyyy-yygygyg-gygyyy-gyyy-yg-g-y-------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"242\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"PPZBZBMMMPMPBPMBPPBZZPPZMPZPPMMZZPMBBBMMZBBBMZB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyggyyyyyyyyyyyyg-yyy--yy-y--y-yy--------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"PBZBBMBBPMPMMMPMPMPAAZZAZZAZZZAAAAAAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"243\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"MGAAMAMAGGMMMGGAMXAGGXMMMXXXAMAMXXGMGGAMAMG\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyygyygyyggyyyyyggyygggyygy-y-y--g--yg---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAGGAAAGGAAMMAMGGMAGMMMMMMBXXXXXBBXMBBBMBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"244\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAAWAWBTAABTWWWBATAATTAATTWATBTBWBTTWBTBTBTBTA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yy--y-yyyg-yyy--y-y-ggy--yy--yyyy-yyy-y-y-yg---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBBBABATBABTBBTTTTWTATWTTWCTCCCCCCCCCCCCCCCTCCC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"245\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BSHBMJPBBBBBBBWJBBBBBBHKBBBVBBHASBMHBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyy-yyyyyyyy--yyyyyyyyyyyyyyy--y-yyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"246\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BWAAAZAAAZAAIAKAWALKAHAIAAAIAAKAI\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gyygyyyyy-yyyyyy-yyyyy----gg-gyg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BAHAIAKKKALWAZABABAABABABBAIBAAAB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"247\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"YNOYJJFXKYYYYDYYKXYYZYZNXYXYYXYONXXYJYYYUDZYOYO\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ggyy--yyyyyyyyy-yy--y-yy-------yy---g----gg-ygy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"YNDFKKNNOOOOXXZZYYAAYAYYYAAAAAAAAAAAJAAAADZAAYA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"248\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"KGFUGKUXZUWXWXFMGWWKLWLMWKFWUGKDDXGFGUUF\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyyyyyyy-yyyyy-y--yy-y-y--y-y-y-y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"FFGFFFGGKKKKKLLUUUUUWXWWXWXXZAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"249\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"LYWEEJJWLAYWWLYJWEWKKYQPKQPNQLWNLWEYKPKEJANEYQAEW\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyy-yyy-yyyyyy--yy--y-yyy--y-y-yyyy-------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAEJJEEEEJJKKKKKLLLLNNPWWWWWWWYBBBBBBBBBBBBBBBBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"250\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BBZZHSJJASACZCCAZZOBJVSJXHJHHCOAOHVOOZCA\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyyyyyyyyyyyyyg-g-ygg-yyyy-yyyy-yy---g--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AABBCCCHHHHHJJCJZOSBJOOSSXZZZBBBBBBBBZBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"251\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IGIBIIIEVCIOIIMRIYIQIIDIWZHSVZKNLHIIRIPIII\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yggggyyy--gyyyy-yyygyg-g---g---yy--g--gg--\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"EGIBILMIIIIINOIIYIAQAIIIAAASAAAAAAAIAAPIAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"252\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QAABJQEBQQZQQWQQYGBQXQVQTMQEQWQQTQTQXMQFSQU\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"gy-ygy-gyg-yyyygyg-gyy-yyyg--ygg---g-g--gg-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"QBMAJTQBWQQWXQYQQGQQQCQCCCQCCCQQCCCQCMCCSQC\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"253\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"FEPATWWOEEECEEEEOEELEEEEEEUEEYEMETMEZOEE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gggyygy---gg-g-y-----gg--g-----gg-g-y-g\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"OEPAOOWTWAACEAEAAAAAAAEEAAUAAAAAETAEAAAE\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"254\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"JDNMPBUHYXDYYBPCRQHKWIOXBWWCVSXRE\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-yyy-yy-yyyyyy--yy-yy--yyy--yy--y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBBDDEKMNQRSUVWWXXYYYAAAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"255\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"REZRMVSZDCBQSJVHQERUJXFYKDANPHD\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy-g--yg-gy-y-yyy--gy-ggyyy-gg\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ADEEMHJNDQBRQXZZAAAAJAAYKABAAHD\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"256\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"XTDXYCUNKZEFBJXLZMNNGECCUUQBRJLGLQKRWJFKDYWZTMFFB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-gy--gyyyg-y-ygyygy-y-gggy--y-ygg-yy--g-y----yyy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"DTFDFCFGJZKKLLXMNMRRNUCCUZUAAAAGLAAAAAFAAAAAAAAAA\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"257\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNMQ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y------------------------y-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MMMMMMMMMMMMMMMMMMMMMMMMMQM\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"258\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBNMMMMMMMMMMMMMMMMMMMMM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y------------------------yyyyyyyyyyyyyyyyyyyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MMMMMMMMMMMMMMMMMMMMMQMMMQQQQQQQQQQQQQQQQQQQQQ\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"259\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERMMMMTYUIOPASDFGHJKLZXCVBNMMMMMMMMMMMMMMMMMMMMM\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y---yyyy---------------------yyyyyyyyyyyyyyyyyyyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"MMMMQQQQMMMMMMMMMMMMMMMMMMMMMQQQQQQQQQQQQQQQQQQQQQ\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"260\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HAHAHAHAHHHH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y-y-y-----\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BHBHBHBHBBBB\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"261\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"HAHAHAHAHHHH\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-y-y-y-y---\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"262\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"IPZZRZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"ygg-yy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"263\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"QWERTYUIOPASDFGHJKLZXCVBMN\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"-------------------------y\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"264\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"BCDEFGHIJKLMNOPQRSTUVWXYAAAAAAAAAAAAAAZZZZZZZZZZZZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"------------------------yyyyyyyyyyyyyyyyyyyyyyyyyy\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"AAAAAAAAAAAAAAZZZZZZZZZZZZZZZZZZZZZZZZAAAAAAAAAAAA\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"265\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"y-------------------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"266\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"AAAABBB\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"yyy-yy-\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"BBCCAAA\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"267\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"ABCDEFGHIJKLMNOPQRSTUVWXYZ\\\"\u003c/p\u003e\\n\u003cp\u003e\\\"--------------------------\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"\\\"\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/19331/pm/17701\",\"children\":[\"2022-\",\" \",\"SRM 834\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

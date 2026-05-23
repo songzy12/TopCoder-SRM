@@ -1,0 +1,182 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->LogicAnalyzer<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+Given a circuit consisting of logical AND and OR gates, INPUT and OUTPUT
+components, connections (wires), and the values (TRUE / FALSE) of the inputs to
+the circuit, you must determine the output of the circuit.
+
+All values in the circuit are TRUE, FALSE, or UNDEFINED.
+
+The AND and OR gates take two inputs and have one output.  The outputs are
+defined in terms of their inputs as follows:
+For an AND gate:
+  * the output is TRUE if both inputs are TRUE
+  * the output is FALSE if at least 1 input is FALSE
+  * the output is UNDEFINED otherwise.
+For an OR gate
+  * the output is TRUE if at least 1 input is TRUE.
+  * the output is FALSE if both inputs are FALSE.
+  * the output is UNDEFINED otherwise.
+
+For this program, the circuit will be defined with two String[] and the inputs
+will be defined in a third String[].
+
+The first String[] defines the components in the circuit.  Components are an
+AND gate, an OR gate, an INPUT component, or an OUTPUT component.  Each element
+of the String[] will specify one component in the circuit.  The elements of the
+String[] will be of the form "&lt;COMPONENT_NAME&gt; &lt;COMPONENT_TYPE&gt;". The component
+names will be unique.  Component types will be "AND", "OR", "INPUT", or
+"OUTPUT" where INPUT specifies places where values are inputted to the circuit
+and OUTPUT specifies the place where the value of the circuit is outputted.
+The circuit can have only one OUTPUT.  For example, an element may be "ANDGATE
+AND".
+
+The second String[] defines the wires in the circuit.  Each element of the
+String[] will specify one connection or input line or output line.  The
+elements will be of the form "&lt;POINT_1&gt; &lt;POINT_2&gt;" which corresponds to a
+connection connecting POINT_1 to POINT_2.  POINT_1 and POINT_2 will be of the
+form "&lt;COMPONENT_NAME&gt;-&lt;PIN_NUMBER&gt;"  The COMPONENT_NAME specifies which
+component the connection connects to and the PIN_NUMBER specifies where on the
+component the connection connects to.  For gates, a PIN_NUMBER of "1"
+corresponds to the first input, a PIN_NUMBER of "2" corresponds to the second
+input and a PIN_NUMBER of "3" corresponds to the output.  INPUT and OUTPUT
+components have only one place to connect to, PIN_NUMBER = 1. For example, an
+element may be "IN-1 OUT-1".
+
+The input to the circuit is specified in a third String[] with elements of the
+form "&lt;COMPONENT_NAME&gt; &lt;VALUE&gt;" where COMPONENT_NAME is the name of the INPUT
+component, and VALUE is "TRUE" or "FALSE".  For example, an element may be "IN
+TRUE".
+
+The program should output a String which is the value connected to the OUTPUT
+component.  The output string should be TRUE, FALSE, or UNDEFINED.
+
+DEFINITION:
+Class Name: LogicAnalyzer
+Method Name: getOutput
+Parameters: String[], String[], String[]
+Returns: String
+Method Signature (be sure your method is public): String getOutput(String[]
+components, String[] connections, String[] inputs);
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+* components contains at most 20 elements.
+* connections contains at most 50 elements.
+* each element of components will contain between 4 and 20 characters, inclusive.
+* components contains exactly one OUTPUT component and at least one INPUT
+component.
+* components elements are of the form "&lt;COMPONENT_NAME&gt; &lt;COMPONENT_TYPE&gt;"
+(quotes and &lt; and &gt; for clarity only).  There will be exactly one space in the
+String, and the remaining characters will be capital letters.  COMPONENT_NAME
+will contain capital letters and COMPONENT_TYPE will be one of "AND", "OR",
+"INPUT", and "OUTPUT".
+* Component names are all unique.
+* connections elements will be of the form "&lt;COMPONENT_NAME_1&gt;-&lt;PIN_NUMBER_1&gt;
+&lt;COMPONENT_NAME_2&gt;-&lt;PIN_NUMBER_2&gt;" (quotes and &lt; and &gt; for clarity only).
+There will be exactly 1 space and 2 dashes in the String. COMPONENT_NAME_1 and
+COMPONENT_NAME_2 are names of components specified in the components String[]
+and PIN_NUMBER_1 and PIN_NUMBER_2 are either "1", "2", or "3" for gates and are
+"1" for INPUT and OUTPUT components.
+* inputs elements are of the form "&lt;COMPONENT_NAME&gt; &lt;VALUE&gt;" (quotes and &lt; and
+&gt; for clarity only). There is exactly one space in this String.  COMPONENT_NAME
+will be one of the names of one of the INPUT components specified in
+components.  VALUE will be either "TRUE" or "FALSE"
+* There will be exactly one element in inputs corresponding to each input
+component specified in components.
+* There will be no loops in the circuit.  That is a component will never be
+dependent on its own output
+
+NOTES:
+* If multiple wires (connections) are connected to a pin, the values on all
+connecting wires must always be identical.
+* If a wire, or set of connected wires, are connected to the outputs of gates
+(or the output of an INPUT component) which are outputting different values,
+the wire(s) have the value UNDEFINED.  That is, if there is ever a conflict of
+value on a wire or set of connected wires, the value on the wire(s) is UNDEFINED.
+* As an example, if a wire connects an INPUT called A with an INPUT called B
+and another wire connects B to an OUTPUT called O and the input values of A and
+B are TRUE and FALSE, respectively, the output is UNDEFINED.
+* With both AND and OR gates, in some cases, one of the inputs can be
+UNDEFINED, yet the output can still be determined.
+* If the output of a gate cannot be determined for some reason, but the circuit
+output does not depend on the output of that gate, the output of the circuit is
+not necessarily UNDEFINED.
+* For an AND gate, if one of the inputs is FALSE and the other input is
+UNDEFINED (or has nothing connected to it) the output can still be determined
+and is FALSE.
+* For an OR gate, it one of the inputs is TRUE and the other input is
+UNDEFINED, (or has nothing connected to it) the output can still be determined
+and is TRUE.
+
+EXAMPLES:
+
+EXAMPLE 1:
+If components = {"IA INPUT", 
+                 "IB INPUT",
+                 "AA AND"
+                 "O OUTPUT"}
+and connections = {"IA-1 AA-1",
+                   "IB-1 AA-2",
+                   "O-1 AA-3"}
+and inputs = {"IA TRUE",
+              "IB TRUE"}
+This corresponds to a circuit with two inputs going into an AND gate (AA), and
+the output of AA being the output of the circuit.  Both inputs to AA are TRUE,
+so its output is TRUE and the program should output TRUE.
+
+To help visualize, here is a picture of the circuit in Example 1:
+
+IA --&gt; |---\
+       |AA  |---&gt; O
+AB --&gt; |---/
+
+EXAMPLE 2:
+If components = {"IA INPUT", 
+                 "IB INPUT",
+                 "AA AND"
+                 "O OUTPUT"}
+and connections = {"IA-1 AA-1",
+                   "IB-1 O-1",
+                   "O-1 AA-3"}
+and inputs = {"IA TRUE",
+              "IB TRUE"}
+O (the OUTPUT) has two connections to it.  The output of AA (the AND cannot) be
+determined, so the value going to O from AA cannot be determined.  Thus there
+is a conflict and the program should output UNDEFINED.
+
+To help visualize, here is a picture of the circuit in example 2:
+
+IA --&gt; |---\
+       |AA  |--+&gt; O
+       |---/   |
+IB ------------+
+
+EXAMPLE 3:
+If components = {"IA INPUT", 
+                 "IB INPUT",
+                 "AA AND"
+                 "O OUTPUT"}
+and connections = {"IA-1 AA-1",
+                   "IB-1 O-1",
+                   "O-1 AA-3"}
+and inputs = {"IA FALSE",
+              "IB FALSE"}
+O (the OUTPUT) has two connections to it.  Even though there is only one
+connection to AA (the AND gate), it is FALSE, so the output of AA can be
+determined to be FALSE.  Thus both connections to O are FALSE, so the program
+outputs FALSE.
+
+EXAMPLE 4:
+
+components:
+{IA INPUT,IB INPUT,IC INPUT,ID INPUT,AA AND,OA OR,AB AND,O OUTPUT}
+
+connections:
+{IA-1 AA-1,IB-1 AA-2,AA-3 OA-1,IC-1 OA-2,OA-3 AB-1,ID-1 AB-2,AB-3 O-1,AB-3
+O-1,AB-3 O-1,AA-1 AA-2}
+
+inputs:
+{IA TRUE,IB FALSE,IC FALSE,ID TRUE}
+
+returns:
+UNDEFINED</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>LogicAnalyzer</span></dd><dt>Method:</dt><dd><span>getOutput</span></dd><dt>Parameters:</dt><dd><span>String[], String[], String[]</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String getOutput(String[] param0, String[] param1, String[] param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4170/pm/643">2002-<!-- --> <!-- -->SRM 90<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/643/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"643\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"643\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"643\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"643\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"643\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1f49,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nGiven a circuit consisting of logical AND and OR gates, INPUT and OUTPUT\ncomponents, connections (wires), and the values (TRUE / FALSE) of the inputs to\nthe circuit, you must determine the output of the circuit.\n\nAll values in the circuit are TRUE, FALSE, or UNDEFINED.\n\nThe AND and OR gates take two inputs and have one output.  The outputs are\ndefined in terms of their inputs as follows:\nFor an AND gate:\n  * the output is TRUE if both inputs are TRUE\n  * the output is FALSE if at least 1 input is FALSE\n  * the output is UNDEFINED otherwise.\nFor an OR gate\n  * the output is TRUE if at least 1 input is TRUE.\n  * the output is FALSE if both inputs are FALSE.\n  * the output is UNDEFINED otherwise.\n\nFor this program, the circuit will be defined with two String[] and the inputs\nwill be defined in a third String[].\n\nThe first String[] defines the components in the circuit.  Components are an\nAND gate, an OR gate, an INPUT component, or an OUTPUT component.  Each element\nof the String[] will specify one component in the circuit.  The elements of the\nString[] will be of the form \"\u0026lt;COMPONENT_NAME\u0026gt; \u0026lt;COMPONENT_TYPE\u0026gt;\". The component\nnames will be unique.  Component types will be \"AND\", \"OR\", \"INPUT\", or\n\"OUTPUT\" where INPUT specifies places where values are inputted to the circuit\nand OUTPUT specifies the place where the value of the circuit is outputted.\nThe circuit can have only one OUTPUT.  For example, an element may be \"ANDGATE\nAND\".\n\nThe second String[] defines the wires in the circuit.  Each element of the\nString[] will specify one connection or input line or output line.  The\nelements will be of the form \"\u0026lt;POINT_1\u0026gt; \u0026lt;POINT_2\u0026gt;\" which corresponds to a\nconnection connecting POINT_1 to POINT_2.  POINT_1 and POINT_2 will be of the\nform \"\u0026lt;COMPONENT_NAME\u0026gt;-\u0026lt;PIN_NUMBER\u0026gt;\"  The COMPONENT_NAME specifies which\ncomponent the connection connects to and the PIN_NUMBER specifies where on the\ncomponent the connection connects to.  For gates, a PIN_NUMBER of \"1\"\ncorresponds to the first input, a PIN_NUMBER of \"2\" corresponds to the second\ninput and a PIN_NUMBER of \"3\" corresponds to the output.  INPUT and OUTPUT\ncomponents have only one place to connect to, PIN_NUMBER = 1. For example, an\nelement may be \"IN-1 OUT-1\".\n\nThe input to the circuit is specified in a third String[] with elements of the\nform \"\u0026lt;COMPONENT_NAME\u0026gt; \u0026lt;VALUE\u0026gt;\" where COMPONENT_NAME is the name of the INPUT\ncomponent, and VALUE is \"TRUE\" or \"FALSE\".  For example, an element may be \"IN\nTRUE\".\n\nThe program should output a String which is the value connected to the OUTPUT\ncomponent.  The output string should be TRUE, FALSE, or UNDEFINED.\n\nDEFINITION:\nClass Name: LogicAnalyzer\nMethod Name: getOutput\nParameters: String[], String[], String[]\nReturns: String\nMethod Signature (be sure your method is public): String getOutput(String[]\ncomponents, String[] connections, String[] inputs);\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n* components contains at most 20 elements.\n* connections contains at most 50 elements.\n* each element of components will contain between 4 and 20 characters, inclusive.\n* components contains exactly one OUTPUT component and at least one INPUT\ncomponent.\n* components elements are of the form \"\u0026lt;COMPONENT_NAME\u0026gt; \u0026lt;COMPONENT_TYPE\u0026gt;\"\n(quotes and \u0026lt; and \u0026gt; for clarity only).  There will be exactly one space in the\nString, and the remaining characters will be capital letters.  COMPONENT_NAME\nwill contain capital letters and COMPONENT_TYPE will be one of \"AND\", \"OR\",\n\"INPUT\", and \"OUTPUT\".\n* Component names are all unique.\n* connections elements will be of the form \"\u0026lt;COMPONENT_NAME_1\u0026gt;-\u0026lt;PIN_NUMBER_1\u0026gt;\n\u0026lt;COMPONENT_NAME_2\u0026gt;-\u0026lt;PIN_NUMBER_2\u0026gt;\" (quotes and \u0026lt; and \u0026gt; for clarity only).\nThere will be exactly 1 space and 2 dashes in the String. COMPONENT_NAME_1 and\nCOMPONENT_NAME_2 are names of components specified in the components String[]\nand PIN_NUMBER_1 and PIN_NUMBER_2 are either \"1\", \"2\", or \"3\" for gates and are\n\"1\" for INPUT and OUTPUT components.\n* inputs elements are of the form \"\u0026lt;COMPONENT_NAME\u0026gt; \u0026lt;VALUE\u0026gt;\" (quotes and \u0026lt; and\n\u0026gt; for clarity only). There is exactly one space in this String.  COMPONENT_NAME\nwill be one of the names of one of the INPUT components specified in\ncomponents.  VALUE will be either \"TRUE\" or \"FALSE\"\n* There will be exactly one element in inputs corresponding to each input\ncomponent specified in components.\n* There will be no loops in the circuit.  That is a component will never be\ndependent on its own output\n\nNOTES:\n* If multiple wires (connections) are connected to a pin, the values on all\nconnecting wires must always be identical.\n* If a wire, or set of connected wires, are connected to the outputs of gates\n(or the output of an INPUT component) which are outputting different values,\nthe wire(s) have the value UNDEFINED.  That is, if there is ever a conflict of\nvalue on a wire or set of connected wires, the value on the wire(s) is UNDEFINED.\n* As an example, if a wire connects an INPUT called A with an INPUT called B\nand another wire connects B to an OUTPUT called O and the input values of A and\nB are TRUE and FALSE, respectively, the output is UNDEFINED.\n* With both AND and OR gates, in some cases, one of the inputs can be\nUNDEFINED, yet the output can still be determined.\n* If the output of a gate cannot be determined for some reason, but the circuit\noutput does not depend on the output of that gate, the output of the circuit is\nnot necessarily UNDEFINED.\n* For an AND gate, if one of the inputs is FALSE and the other input is\nUNDEFINED (or has nothing connected to it) the output can still be determined\nand is FALSE.\n* For an OR gate, it one of the inputs is TRUE and the other input is\nUNDEFINED, (or has nothing connected to it) the output can still be determined\nand is TRUE.\n\nEXAMPLES:\n\nEXAMPLE 1:\nIf components = {\"IA INPUT\", \n                 \"IB INPUT\",\n                 \"AA AND\"\n                 \"O OUTPUT\"}\nand connections = {\"IA-1 AA-1\",\n                   \"IB-1 AA-2\",\n                   \"O-1 AA-3\"}\nand inputs = {\"IA TRUE\",\n              \"IB TRUE\"}\nThis corresponds to a circuit with two inputs going into an AND gate (AA), and\nthe output of AA being the output of the circuit.  Both inputs to AA are TRUE,\nso its output is TRUE and the program should output TRUE.\n\nTo help visualize, here is a picture of the circuit in Example 1:\n\nIA --\u0026gt; |---\\\n       |AA  |---\u0026gt; O\nAB --\u0026gt; |---/\n\nEXAMPLE 2:\nIf components = {\"IA INPUT\", \n                 \"IB INPUT\",\n                 \"AA AND\"\n                 \"O OUTPUT\"}\nand connections = {\"IA-1 AA-1\",\n                   \"IB-1 O-1\",\n                   \"O-1 AA-3\"}\nand inputs = {\"IA TRUE\",\n              \"IB TRUE\"}\nO (the OUTPUT) has two connections to it.  The output of AA (the AND cannot) be\ndetermined, so the value going to O from AA cannot be determined.  Thus there\nis a conflict and the program should output UNDEFINED.\n\nTo help visualize, here is a picture of the circuit in example 2:\n\nIA --\u0026gt; |---\\\n       |AA  |--+\u0026gt; O\n       |---/   |\nIB ------------+\n\nEXAMPLE 3:\nIf components = {\"IA INPUT\", \n                 \"IB INPUT\",\n                 \"AA AND\"\n                 \"O OUTPUT\"}\nand connections = {\"IA-1 AA-1\",\n                   \"IB-1 O-1\",\n                   \"O-1 AA-3\"}\nand inputs = {\"IA FALSE\",\n              \"IB FALSE\"}\nO (the OUTPUT) has two connections to it.  Even though there is only one\nconnection to AA (the AND gate), it is FALSE, so the output of AA can be\ndetermined to be FALSE.  Thus both connections to O are FALSE, so the program\noutputs FALSE.\n\nEXAMPLE 4:\n\ncomponents:\n{IA INPUT,IB INPUT,IC INPUT,ID INPUT,AA AND,OA OR,AB AND,O OUTPUT}\n\nconnections:\n{IA-1 AA-1,IB-1 AA-2,AA-3 OA-1,IC-1 OA-2,OA-3 AB-1,ID-1 AB-2,AB-3 O-1,AB-3\nO-1,AB-3 O-1,AA-1 AA-2}\n\ninputs:\n{IA TRUE,IB FALSE,IC FALSE,ID TRUE}\n\nreturns:\nUNDEFINED\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"LogicAnalyzer\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"LogicAnalyzer\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getOutput\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String getOutput(String[] param0, String[] param1, String[] param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4170/pm/643\",\"children\":[\"2002-\",\" \",\"SRM 90\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

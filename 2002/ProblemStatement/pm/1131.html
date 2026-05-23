@@ -1,0 +1,412 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->HigherMaze<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+We all know that there are not necessarily three dimensions, and that there are wormholes scattered throughout the universe which will transport you through time and space.  However, because it is often difficult for people to conceptualize higher dimensions, we will probably have to have computers do most of our navigation for us.  Your task is to write a program that will simulate a pseudo-random asteroid field, and then navigate a ship through the asteroid field as quickly as possible.
+</p>
+<p xmlns="http://topcoder.com">
+The first step will be to generate the asteroid field.  You will be given a <type>int[]</type>, <b>dim</b>, that will specify how large you should make each dimension in your asteroid field.  For example, if <b>dim</b> is {3,4,5}, the generated asteroid field will be a 3 x 4 x 5 box, with corners at (0,0,0) and (2,3,4).  If <b>dim</b> is {3,4,5,4}, the generated asteroid field will be a 3 x 4 x 5 x 4 hyper-box (a hyper box is analogous to a regular box, but in more than three dimensions).  Then, you must determine which spaces in the asteroid field actually contain asteroids.  This will be done pseudo-randomly using something like the following code, where <b>a</b> and <b>p</b> are inputs (remember that there are a variable number of dimensions):
+</p>
+<pre xmlns="http://topcoder.com">
+int current = 1;
+for(int i<sub>0</sub> = 0; i<sub>0</sub>&lt;dim<sub>0</sub>; i<sub>0</sub>++)
+for(int i<sub>1</sub> = 0; i<sub>1</sub>&lt;dim<sub>1</sub>; i<sub>1</sub>++)
+... one loop per dimension
+{
+    current = (current*a)%p;
+    if((current&amp;1)==1){
+        //add an asteroid at (i<sub>0</sub>,i<sub>1</sub>,i<sub>2</sub>,...)
+    }
+}
+</pre>
+<p xmlns="http://topcoder.com">
+Once the asteroid field is generated, you have to navigate through it.  You will be given a <type>int[]</type>, <b>start</b>, and a <type>int[]</type>, <b>finish</b>.  You must find your way through the asteroid field, as quickly as possible without running into an asteroid.  You may move from any location (a<sub>0</sub>,a<sub>1</sub>,a<sub>2</sub>...) to any other location, (b<sub>0</sub>,b<sub>1</sub>,b<sub>2</sub>...) so long as for all i, the differences between a<sub>i</sub> and b<sub>i</sub> is either 1 or 0, and b<sub>i</sub> is between 0 and dim<sub>i</sub>-1, inclusive.  Each such movement takes one unit of time.  For example, if you were at the S below, you could move to any of the locations marked with T, where '.' represents open space.
+</p>
+<pre xmlns="http://topcoder.com">
+.....
+.TTT.
+.TST.
+.TTT.
+.....
+</pre>
+<p xmlns="http://topcoder.com">
+
+In addition to this type of movement, you may also (but are not required to) travel through wormholes.  You will be given a <type>String[]</type>, <b>wormholes</b>, which specifies the origin, length of time travel, and destination of some wormholes.  To go through a wormhole, you must first reach the origin of the wormhole.  Then, after going through the wormhole, you will be transported to the destination of the wormhole.  Additionally, wormholes transport you in time.  So, each wormhole has a fixed amount of time travel associated with it, and each time you go through the wormhole, you will go forward or backward in time by that amount.  Each element of <b>wormholes</b> will be formatted as "&lt;origin&gt; &lt;time&gt; &lt;destination&gt;", where &lt;origin&gt; and &lt;destination&gt; and coordinates as a space delimited list.  For example, "0 0 -1 3 7" would represent a wormhole that starts at (0,0), transports you back in time 1 unit, and leaves you at (3,7) in space.  Thus, if you reached (0,0) 5 units of time after you started, it would be possible to reach (3,7) from there 4 units of time after you started.
+</p><p xmlns="http://topcoder.com">
+Sometimes, it will be impossible to reach <b>finish</b> from <b>start</b>.  In this case return, 2^31-1 = 2147483647.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>HigherMaze</span></dd><dt>Method:</dt><dd><span>navigate</span></dd><dt>Parameters:</dt><dd><span>int, int, int[], int[], int[], String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int navigate(int a, int p, int[] dim, int[] start, int[] finish, String[] wormholes)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>The product of all the elements of dim will be between 2 and 1000, inclusive.</span></li><li><span>Each element of dim will be between 2 and 20, inclusive.</span></li><li><span>dim will contain between 1 and 5 elements, inclusive.</span></li><li><span>a and p will be between 1 and 2,000,000,000, inclusive.</span></li><li><span>a times p will be between 1 and 2,000,000,000, inclusive.</span></li><li><span>start and finish will be within the hyper-box defined by dim.</span></li><li><span>start and finish will be both be empty space (not an asteroid, possibly a wormhole).</span></li><li><span>wormholes will contain between 0 and 50 elements, inclusive.</span></li><li><span>Each element of wormholes will be formatted as "<origin> <time> <destination>".</span></li><li><span><origin> and <destination> will both be space delimited (no extra, leading or trailing spaces) lists of integers, representing a coordinate in space within the hyper-box defined by dim.</span></li><li><span><origin> and <destination> will both be empty space (not an asteroid).</span></li><li><span><time> will be an integer in the range -1,000,000 to 1,000,000.</span></li><li><span>There will be no way to go back in time infinitely.  (In other words, there will be no reachable cycles that take negative amounts of time.  However, there may be unreachable ones, but they can not affect the return, since they are unreachable.)</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>138</p>
+<p>193</p>
+<p>{5,5}</p>
+<p>{0,0}</p>
+<p>{4,4}</p>
+<p>{}</p>
+<p>Returns: 6</p>
+<p>This input generates the following two dimensional asteroid field, where an 'X' is an asteroid, and a '.' is open space.  (Here, (0,0) is the upper left corner, and (4,4) is the lower right, and (4,0) is in the lower left):
+
+...XX
+XX.X.
+..XXX
+....X
+.XXX.
+
+Here is one path that takes 6 time units, where 'S' represents the start, 'F' the finish, and '*' the path.
+
+S*.XX
+XX*X.
+.*XXX
+..**X
+.XXXF
+
+</p></div></li><li><div><p>138</p>
+<p>193</p>
+<p>{5,5}</p>
+<p>{0,0}</p>
+<p>{4,4}</p>
+<p>{"0 0 2 4 4"}</p>
+<p>Returns: 2</p>
+<p>While there is still a path from (0,0) to (4,4) which takes 6 time units, there is also a wormhole, which transports you directly from (0,0) to (4,4), and ahead 2 units of time.</p></div></li><li><div><p>138</p>
+<p>193</p>
+<p>{5,5}</p>
+<p>{0,0}</p>
+<p>{4,4}</p>
+<p>{"0 0 2 4 4","0 0 8 1 4","0 2 5 1 4","1 4 -8 4 4"}</p>
+<p>Returns: -1</p>
+<p>This is the same asteroid configuration as the previous two examples, but now there are more wormholes.  The quickest way to get from (0,0) to (4,4) is to move from from (0,0) to (0,2), which takes 2 units of time.  From (0,2) we should go through the wormhole to (1,4), which transports us ahead 5 units of time, for a total of 7.  Then, we can take the wormhole from (1,4) to (4,4), which takes us back 8 units of time.  Thus, the total time for the trip is 2 + 5 - 8 = -1, and we arrive before we left!(note that two wormholes can start at the same location, and could even start and end at the same location)</p></div></li><li><div><p>54</p>
+<p>73</p>
+<p>{20,20}</p>
+<p>{1,2}</p>
+<p>{12,12}</p>
+<p>{}</p>
+<p>Returns: 23</p></div></li><li><div><p>139</p>
+<p>193</p>
+<p>{20,20}</p>
+<p>{0,2}</p>
+<p>{18,19}</p>
+<p>{"0 2 -100000 0 19","4 18 -100000 7 0","8 0 1000000 19 10","19 6 -800000 13 8"}</p>
+<p>Returns: 21</p>
+<p>The only way to get all the way is to go through all 4 wormholes, in order. </p></div></li><li><div><p>138</p>
+<p>193</p>
+<p>{5,5}</p>
+<p>{0,0}</p>
+<p>{4,0}</p>
+<p>{"0 0 -6 4 4"}</p>
+<p>Returns: -2</p></div></li><li><div><p>139</p>
+<p>193</p>
+<p>{20}</p>
+<p>{2}</p>
+<p>{19}</p>
+<p>{}</p>
+<p>Returns: 2147483647</p></div></li><li><div><p>19</p>
+<p>37</p>
+<p>{20,20}</p>
+<p>{0,1}</p>
+<p>{19,18}</p>
+<p>{"0 1 10 19 18","0 1 -10 19 18"}</p>
+<p>Returns: -10</p></div></li><li><div><p>19</p>
+<p>37</p>
+<p>{20,20}</p>
+<p>{0,1}</p>
+<p>{19,18}</p>
+<p>{"0 1 -10 19 18","0 1 10 19 18"}</p>
+<p>Returns: -10</p></div></li><li><div><p>139</p>
+<p>193</p>
+<p>{10,10,10}</p>
+<p>{0,0,2}</p>
+<p>{3,0,7}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>16249</p>
+<p>78901</p>
+<p>{5,3,4,4,4}</p>
+<p>{1,0,1,0,0}</p>
+<p>{4,2,3,3,2}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>{20,20}</p>
+<p>{0,0}</p>
+<p>{0,0}</p>
+<p>{}</p>
+<p>Returns: 0</p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>{10,10,10}</p>
+<p>{9,9,9}</p>
+<p>{0,0,0}</p>
+<p>{}</p>
+<p>Returns: 9</p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>{10,10,10}</p>
+<p>{9,9,9}</p>
+<p>{0,0,0}</p>
+<p>{}</p>
+<p>Returns: 9</p></div></li><li><div><p>3</p>
+<p>7</p>
+<p>{20,20}</p>
+<p>{19,17}</p>
+<p>{0,3}</p>
+<p>{
+"18 19 -1000000 19 11",
+"15 19 -1000000 19 5",
+"12 19 -1000000 19 0",
+"9 19 -1000000 16 0",
+"6 19 -1000000 13 0",
+"3 19 -1000000 10 0",
+"0 19 -1000000 7 0",
+"0 15 -1000000 4 0",
+"0 9 -1000000 1 0"
+
+
+}</p>
+<p>Returns: -8999873</p></div></li><li><div><p>3</p>
+<p>5</p>
+<p>{20,19}</p>
+<p>{19,1}</p>
+<p>{0,18}</p>
+<p>{
+"18 0 1000000 19 5",
+"14 0 1000000 19 9",
+"10 0 1000000 19 13",
+"6 0 1000000 19 17",
+"2 0 1000000 17 18",
+"0 1 1000000 13 18",
+"0 5 1000000 9 18",
+"0 9 1000000 5 18",
+"0 13 1000000 1 18"
+}</p>
+<p>Returns: 9000090</p></div></li><li><div><p>30386</p>
+<p>23560</p>
+<p>{6}</p>
+<p>{4}</p>
+<p>{5}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>21360</p>
+<p>17206</p>
+<p>{9,6,4,2}</p>
+<p>{1,0,1,0}</p>
+<p>{5,2,1,1}</p>
+<p>{}</p>
+<p>Returns: 4</p></div></li><li><div><p>35365</p>
+<p>36821</p>
+<p>{9,6,7}</p>
+<p>{0,0,2}</p>
+<p>{7,3,5}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>18686</p>
+<p>25641</p>
+<p>{7,9,9}</p>
+<p>{0,2,8}</p>
+<p>{4,1,1}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>10080</p>
+<p>39190</p>
+<p>{9,5}</p>
+<p>{0,1}</p>
+<p>{6,4}</p>
+<p>{}</p>
+<p>Returns: 6</p></div></li><li><div><p>36720</p>
+<p>26435</p>
+<p>{2,7,9}</p>
+<p>{0,2,3}</p>
+<p>{1,3,2}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>18176</p>
+<p>15495</p>
+<p>{2,3,6,3}</p>
+<p>{0,0,3,1}</p>
+<p>{0,0,0,2}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>12014</p>
+<p>30847</p>
+<p>{10,10,2}</p>
+<p>{6,3,1}</p>
+<p>{9,4,0}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>25598</p>
+<p>11004</p>
+<p>{7,10}</p>
+<p>{4,8}</p>
+<p>{1,2}</p>
+<p>{}</p>
+<p>Returns: 6</p></div></li><li><div><p>5434</p>
+<p>32492</p>
+<p>{7,4,6}</p>
+<p>{6,1,4}</p>
+<p>{1,3,3}</p>
+<p>{}</p>
+<p>Returns: 5</p></div></li><li><div><p>24668</p>
+<p>14682</p>
+<p>{7,4,5}</p>
+<p>{6,3,4}</p>
+<p>{6,3,1}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>4118</p>
+<p>4831</p>
+<p>{3,5}</p>
+<p>{1,2}</p>
+<p>{0,3}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>38086</p>
+<p>33378</p>
+<p>{3}</p>
+<p>{1}</p>
+<p>{1}</p>
+<p>{}</p>
+<p>Returns: 0</p></div></li><li><div><p>33530</p>
+<p>25978</p>
+<p>{7}</p>
+<p>{2}</p>
+<p>{4}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>17596</p>
+<p>33708</p>
+<p>{3}</p>
+<p>{1}</p>
+<p>{2}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>9664</p>
+<p>21308</p>
+<p>{7,8}</p>
+<p>{2,2}</p>
+<p>{5,1}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>30098</p>
+<p>18890</p>
+<p>{10}</p>
+<p>{4}</p>
+<p>{8}</p>
+<p>{}</p>
+<p>Returns: 4</p></div></li><li><div><p>14616</p>
+<p>20404</p>
+<p>{2}</p>
+<p>{0}</p>
+<p>{1}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>38718</p>
+<p>8880</p>
+<p>{2,4,2,5,10}</p>
+<p>{1,1,1,2,0}</p>
+<p>{0,1,0,3,7}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>32178</p>
+<p>7772</p>
+<p>{6}</p>
+<p>{3}</p>
+<p>{5}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>3448</p>
+<p>26490</p>
+<p>{3,2,3,10}</p>
+<p>{0,0,1,5}</p>
+<p>{1,1,1,7}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>32599</p>
+<p>5843</p>
+<p>{3,9}</p>
+<p>{0,0}</p>
+<p>{0,2}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>1572</p>
+<p>444</p>
+<p>{9,8}</p>
+<p>{5,4}</p>
+<p>{3,2}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>34902</p>
+<p>20352</p>
+<p>{4,8}</p>
+<p>{1,1}</p>
+<p>{2,1}</p>
+<p>{}</p>
+<p>Returns: 1</p></div></li><li><div><p>13380</p>
+<p>212</p>
+<p>{10,5,5}</p>
+<p>{0,0,0}</p>
+<p>{7,0,1}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>13714</p>
+<p>561</p>
+<p>{3,4,3,3,5}</p>
+<p>{2,3,2,2,0}</p>
+<p>{0,2,1,0,1}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>21078</p>
+<p>33077</p>
+<p>{8}</p>
+<p>{6}</p>
+<p>{6}</p>
+<p>{}</p>
+<p>Returns: 0</p></div></li><li><div><p>35306</p>
+<p>17868</p>
+<p>{6,2,2,8}</p>
+<p>{4,0,1,5}</p>
+<p>{0,0,0,5}</p>
+<p>{}</p>
+<p>Returns: 4</p></div></li><li><div><p>34852</p>
+<p>30058</p>
+<p>{5,5,5}</p>
+<p>{3,2,3}</p>
+<p>{0,2,0}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>9088</p>
+<p>746</p>
+<p>{10}</p>
+<p>{9}</p>
+<p>{0}</p>
+<p>{}</p>
+<p>Returns: 9</p></div></li><li><div><p>8606</p>
+<p>38046</p>
+<p>{9,10}</p>
+<p>{6,3}</p>
+<p>{8,0}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>1947</p>
+<p>28159</p>
+<p>{6,3}</p>
+<p>{3,2}</p>
+<p>{1,1}</p>
+<p>{}</p>
+<p>Returns: 2</p></div></li><li><div><p>32916</p>
+<p>33502</p>
+<p>{2,4}</p>
+<p>{0,3}</p>
+<p>{0,0}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>31354</p>
+<p>25432</p>
+<p>{6}</p>
+<p>{0}</p>
+<p>{3}</p>
+<p>{}</p>
+<p>Returns: 3</p></div></li><li><div><p>29472</p>
+<p>30981</p>
+<p>{7,9}</p>
+<p>{1,0}</p>
+<p>{6,4}</p>
+<p>{}</p>
+<p>Returns: 2147483647</p></div></li><li><div><p>20566</p>
+<p>9270</p>
+<p>{7,7}</p>
+<p>{6,5}</p>
+<p>{6,0}</p>
+<p>{}</p>
+<p>Returns: 5</p></div></li><li><div><p>13248</p>
+<p>19698</p>
+<p>{3,2}</p>
+<p>{2,0}</p>
+<p>{2,0}</p>
+<p>{}</p>
+<p>Returns: 0</p></div></li><li><div><p>24196</p>
+<p>2337</p>
+<p>{10,3,4,6}</p>
+<p>{5,0,0,4}</p>
+<p>{0,2,3,1}</p>
+<p>{}</p>
+<p>Returns: 5</p></div></li><li><div><p>5306</p>
+<p>21258</p>
+<p>{10,2,7,3}</p>
+<p>{9,0,1,2}</p>
+<p>{2,1,5,0}</p>
+<p>{}</p>
+<p>Returns: 7</p></div></li><li><div><p>29686</p>
+<p>38115</p>
+<p>{8,2,6,6}</p>
+<p>{3,1,1,0}</p>
+<p>{0,0,5,0}</p>
+<p>{}</p>
+<p>Returns: 4</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4370/pm/1131">2002-<!-- --> <!-- -->TCI &#x27;02 Semifinals 1<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1131/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1131\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1131\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1131\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1131\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1131\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Tf3d,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nWe all know that there are not necessarily three dimensions, and that there are wormholes scattered throughout the universe which will transport you through time and space.  However, because it is often difficult for people to conceptualize higher dimensions, we will probably have to have computers do most of our navigation for us.  Your task is to write a program that will simulate a pseudo-random asteroid field, and then navigate a ship through the asteroid field as quickly as possible.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe first step will be to generate the asteroid field.  You will be given a \u003ctype\u003eint[]\u003c/type\u003e, \u003cb\u003edim\u003c/b\u003e, that will specify how large you should make each dimension in your asteroid field.  For example, if \u003cb\u003edim\u003c/b\u003e is {3,4,5}, the generated asteroid field will be a 3 x 4 x 5 box, with corners at (0,0,0) and (2,3,4).  If \u003cb\u003edim\u003c/b\u003e is {3,4,5,4}, the generated asteroid field will be a 3 x 4 x 5 x 4 hyper-box (a hyper box is analogous to a regular box, but in more than three dimensions).  Then, you must determine which spaces in the asteroid field actually contain asteroids.  This will be done pseudo-randomly using something like the following code, where \u003cb\u003ea\u003c/b\u003e and \u003cb\u003ep\u003c/b\u003e are inputs (remember that there are a variable number of dimensions):\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\nint current = 1;\nfor(int i\u003csub\u003e0\u003c/sub\u003e = 0; i\u003csub\u003e0\u003c/sub\u003e\u0026lt;dim\u003csub\u003e0\u003c/sub\u003e; i\u003csub\u003e0\u003c/sub\u003e++)\nfor(int i\u003csub\u003e1\u003c/sub\u003e = 0; i\u003csub\u003e1\u003c/sub\u003e\u0026lt;dim\u003csub\u003e1\u003c/sub\u003e; i\u003csub\u003e1\u003c/sub\u003e++)\n... one loop per dimension\n{\n    current = (current*a)%p;\n    if((current\u0026amp;1)==1){\n        //add an asteroid at (i\u003csub\u003e0\u003c/sub\u003e,i\u003csub\u003e1\u003c/sub\u003e,i\u003csub\u003e2\u003c/sub\u003e,...)\n    }\n}\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nOnce the asteroid field is generated, you have to navigate through it.  You will be given a \u003ctype\u003eint[]\u003c/type\u003e, \u003cb\u003estart\u003c/b\u003e, and a \u003ctype\u003eint[]\u003c/type\u003e, \u003cb\u003efinish\u003c/b\u003e.  You must find your way through the asteroid field, as quickly as possible without running into an asteroid.  You may move from any location (a\u003csub\u003e0\u003c/sub\u003e,a\u003csub\u003e1\u003c/sub\u003e,a\u003csub\u003e2\u003c/sub\u003e...) to any other location, (b\u003csub\u003e0\u003c/sub\u003e,b\u003csub\u003e1\u003c/sub\u003e,b\u003csub\u003e2\u003c/sub\u003e...) so long as for all i, the differences between a\u003csub\u003ei\u003c/sub\u003e and b\u003csub\u003ei\u003c/sub\u003e is either 1 or 0, and b\u003csub\u003ei\u003c/sub\u003e is between 0 and dim\u003csub\u003ei\u003c/sub\u003e-1, inclusive.  Each such movement takes one unit of time.  For example, if you were at the S below, you could move to any of the locations marked with T, where '.' represents open space.\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n.....\n.TTT.\n.TST.\n.TTT.\n.....\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n\nIn addition to this type of movement, you may also (but are not required to) travel through wormholes.  You will be given a \u003ctype\u003eString[]\u003c/type\u003e, \u003cb\u003ewormholes\u003c/b\u003e, which specifies the origin, length of time travel, and destination of some wormholes.  To go through a wormhole, you must first reach the origin of the wormhole.  Then, after going through the wormhole, you will be transported to the destination of the wormhole.  Additionally, wormholes transport you in time.  So, each wormhole has a fixed amount of time travel associated with it, and each time you go through the wormhole, you will go forward or backward in time by that amount.  Each element of \u003cb\u003ewormholes\u003c/b\u003e will be formatted as \"\u0026lt;origin\u0026gt; \u0026lt;time\u0026gt; \u0026lt;destination\u0026gt;\", where \u0026lt;origin\u0026gt; and \u0026lt;destination\u0026gt; and coordinates as a space delimited list.  For example, \"0 0 -1 3 7\" would represent a wormhole that starts at (0,0), transports you back in time 1 unit, and leaves you at (3,7) in space.  Thus, if you reached (0,0) 5 units of time after you started, it would be possible to reach (3,7) from there 4 units of time after you started.\n\u003c/p\u003e\u003cp xmlns=\"http://topcoder.com\"\u003e\nSometimes, it will be impossible to reach \u003cb\u003efinish\u003c/b\u003e from \u003cb\u003estart\u003c/b\u003e.  In this case return, 2^31-1 = 2147483647.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"HigherMaze\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"HigherMaze\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"navigate\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int[], int[], int[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int navigate(int a, int p, int[] dim, int[] start, int[] finish, String[] wormholes)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"The product of all the elements of dim will be between 2 and 1000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of dim will be between 2 and 20, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"dim will contain between 1 and 5 elements, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"a and p will be between 1 and 2,000,000,000, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"a times p will be between 1 and 2,000,000,000, inclusive.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"start and finish will be within the hyper-box defined by dim.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"start and finish will be both be empty space (not an asteroid, possibly a wormhole).\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"wormholes will contain between 0 and 50 elements, inclusive.\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of wormholes will be formatted as \\\"\u003corigin\u003e \u003ctime\u003e \u003cdestination\u003e\\\".\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003corigin\u003e and \u003cdestination\u003e will both be space delimited (no extra, leading or trailing spaces) lists of integers, representing a coordinate in space within the hyper-box defined by dim.\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003corigin\u003e and \u003cdestination\u003e will both be empty space (not an asteroid).\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003ctime\u003e will be an integer in the range -1,000,000 to 1,000,000.\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"There will be no way to go back in time infinitely.  (In other words, there will be no reachable cycles that take negative amounts of time.  However, there may be unreachable ones, but they can not affect the return, since they are unreachable.)\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e138\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{5,5}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{4,4}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 6\u003c/p\u003e\\n\u003cp\u003eThis input generates the following two dimensional asteroid field, where an 'X' is an asteroid, and a '.' is open space.  (Here, (0,0) is the upper left corner, and (4,4) is the lower right, and (4,0) is in the lower left):\\n\\n...XX\\nXX.X.\\n..XXX\\n....X\\n.XXX.\\n\\nHere is one path that takes 6 time units, where 'S' represents the start, 'F' the finish, and '*' the path.\\n\\nS*.XX\\nXX*X.\\n.*XXX\\n..**X\\n.XXXF\\n\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e138\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{5,5}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{4,4}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 0 2 4 4\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003eWhile there is still a path from (0,0) to (4,4) which takes 6 time units, there is also a wormhole, which transports you directly from (0,0) to (4,4), and ahead 2 units of time.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e138\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{5,5}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{4,4}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 0 2 4 4\\\",\\\"0 0 8 1 4\\\",\\\"0 2 5 1 4\\\",\\\"1 4 -8 4 4\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\\n\u003cp\u003eThis is the same asteroid configuration as the previous two examples, but now there are more wormholes.  The quickest way to get from (0,0) to (4,4) is to move from from (0,0) to (0,2), which takes 2 units of time.  From (0,2) we should go through the wormhole to (1,4), which transports us ahead 5 units of time, for a total of 7.  Then, we can take the wormhole from (1,4) to (4,4), which takes us back 8 units of time.  Thus, the total time for the trip is 2 + 5 - 8 = -1, and we arrive before we left!(note that two wormholes can start at the same location, and could even start and end at the same location)\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e54\u003c/p\u003e\\n\u003cp\u003e73\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{1,2}\u003c/p\u003e\\n\u003cp\u003e{12,12}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 23\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e139\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{0,2}\u003c/p\u003e\\n\u003cp\u003e{18,19}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 2 -100000 0 19\\\",\\\"4 18 -100000 7 0\\\",\\\"8 0 1000000 19 10\\\",\\\"19 6 -800000 13 8\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 21\u003c/p\u003e\\n\u003cp\u003eThe only way to get all the way is to go through all 4 wormholes, in order. \u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e138\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{5,5}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{4,0}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 0 -6 4 4\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e139\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{20}\u003c/p\u003e\\n\u003cp\u003e{2}\u003c/p\u003e\\n\u003cp\u003e{19}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2147483647\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{0,1}\u003c/p\u003e\\n\u003cp\u003e{19,18}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 1 10 19 18\\\",\\\"0 1 -10 19 18\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{0,1}\u003c/p\u003e\\n\u003cp\u003e{19,18}\u003c/p\u003e\\n\u003cp\u003e{\\\"0 1 -10 19 18\\\",\\\"0 1 10 19 18\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e139\u003c/p\u003e\\n\u003cp\u003e193\u003c/p\u003e\\n\u003cp\u003e{10,10,10}\u003c/p\u003e\\n\u003cp\u003e{0,0,2}\u003c/p\u003e\\n\u003cp\u003e{3,0,7}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16249\u003c/p\u003e\\n\u003cp\u003e78901\u003c/p\u003e\\n\u003cp\u003e{5,3,4,4,4}\u003c/p\u003e\\n\u003cp\u003e{1,0,1,0,0}\u003c/p\u003e\\n\u003cp\u003e{4,2,3,3,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{10,10,10}\u003c/p\u003e\\n\u003cp\u003e{9,9,9}\u003c/p\u003e\\n\u003cp\u003e{0,0,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{10,10,10}\u003c/p\u003e\\n\u003cp\u003e{9,9,9}\u003c/p\u003e\\n\u003cp\u003e{0,0,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{20,20}\u003c/p\u003e\\n\u003cp\u003e{19,17}\u003c/p\u003e\\n\u003cp\u003e{0,3}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"18 19 -1000000 19 11\\\",\\n\\\"15 19 -1000000 19 5\\\",\\n\\\"12 19 -1000000 19 0\\\",\\n\\\"9 19 -1000000 16 0\\\",\\n\\\"6 19 -1000000 13 0\\\",\\n\\\"3 19 -1000000 10 0\\\",\\n\\\"0 19 -1000000 7 0\\\",\\n\\\"0 15 -1000000 4 0\\\",\\n\\\"0 9 -1000000 1 0\\\"\\n\\n\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: -8999873\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{20,19}\u003c/p\u003e\\n\u003cp\u003e{19,1}\u003c/p\u003e\\n\u003cp\u003e{0,18}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"18 0 1000000 19 5\\\",\\n\\\"14 0 1000000 19 9\\\",\\n\\\"10 0 1000000 19 13\\\",\\n\\\"6 0 1000000 19 17\\\",\\n\\\"2 0 1000000 17 18\\\",\\n\\\"0 1 1000000 13 18\\\",\\n\\\"0 5 1000000 9 18\\\",\\n\\\"0 9 1000000 5 18\\\",\\n\\\"0 13 1000000 1 18\\\"\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: 9000090\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e30386\u003c/p\u003e\\n\u003cp\u003e23560\u003c/p\u003e\\n\u003cp\u003e{6}\u003c/p\u003e\\n\u003cp\u003e{4}\u003c/p\u003e\\n\u003cp\u003e{5}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e21360\u003c/p\u003e\\n\u003cp\u003e17206\u003c/p\u003e\\n\u003cp\u003e{9,6,4,2}\u003c/p\u003e\\n\u003cp\u003e{1,0,1,0}\u003c/p\u003e\\n\u003cp\u003e{5,2,1,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e35365\u003c/p\u003e\\n\u003cp\u003e36821\u003c/p\u003e\\n\u003cp\u003e{9,6,7}\u003c/p\u003e\\n\u003cp\u003e{0,0,2}\u003c/p\u003e\\n\u003cp\u003e{7,3,5}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e18686\u003c/p\u003e\\n\u003cp\u003e25641\u003c/p\u003e\\n\u003cp\u003e{7,9,9}\u003c/p\u003e\\n\u003cp\u003e{0,2,8}\u003c/p\u003e\\n\u003cp\u003e{4,1,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10080\u003c/p\u003e\\n\u003cp\u003e39190\u003c/p\u003e\\n\u003cp\u003e{9,5}\u003c/p\u003e\\n\u003cp\u003e{0,1}\u003c/p\u003e\\n\u003cp\u003e{6,4}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 6\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e36720\u003c/p\u003e\\n\u003cp\u003e26435\u003c/p\u003e\\n\u003cp\u003e{2,7,9}\u003c/p\u003e\\n\u003cp\u003e{0,2,3}\u003c/p\u003e\\n\u003cp\u003e{1,3,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e18176\u003c/p\u003e\\n\u003cp\u003e15495\u003c/p\u003e\\n\u003cp\u003e{2,3,6,3}\u003c/p\u003e\\n\u003cp\u003e{0,0,3,1}\u003c/p\u003e\\n\u003cp\u003e{0,0,0,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12014\u003c/p\u003e\\n\u003cp\u003e30847\u003c/p\u003e\\n\u003cp\u003e{10,10,2}\u003c/p\u003e\\n\u003cp\u003e{6,3,1}\u003c/p\u003e\\n\u003cp\u003e{9,4,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e25598\u003c/p\u003e\\n\u003cp\u003e11004\u003c/p\u003e\\n\u003cp\u003e{7,10}\u003c/p\u003e\\n\u003cp\u003e{4,8}\u003c/p\u003e\\n\u003cp\u003e{1,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 6\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5434\u003c/p\u003e\\n\u003cp\u003e32492\u003c/p\u003e\\n\u003cp\u003e{7,4,6}\u003c/p\u003e\\n\u003cp\u003e{6,1,4}\u003c/p\u003e\\n\u003cp\u003e{1,3,3}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e24668\u003c/p\u003e\\n\u003cp\u003e14682\u003c/p\u003e\\n\u003cp\u003e{7,4,5}\u003c/p\u003e\\n\u003cp\u003e{6,3,4}\u003c/p\u003e\\n\u003cp\u003e{6,3,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4118\u003c/p\u003e\\n\u003cp\u003e4831\u003c/p\u003e\\n\u003cp\u003e{3,5}\u003c/p\u003e\\n\u003cp\u003e{1,2}\u003c/p\u003e\\n\u003cp\u003e{0,3}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e38086\u003c/p\u003e\\n\u003cp\u003e33378\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e33530\u003c/p\u003e\\n\u003cp\u003e25978\u003c/p\u003e\\n\u003cp\u003e{7}\u003c/p\u003e\\n\u003cp\u003e{2}\u003c/p\u003e\\n\u003cp\u003e{4}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17596\u003c/p\u003e\\n\u003cp\u003e33708\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e{2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e9664\u003c/p\u003e\\n\u003cp\u003e21308\u003c/p\u003e\\n\u003cp\u003e{7,8}\u003c/p\u003e\\n\u003cp\u003e{2,2}\u003c/p\u003e\\n\u003cp\u003e{5,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e30098\u003c/p\u003e\\n\u003cp\u003e18890\u003c/p\u003e\\n\u003cp\u003e{10}\u003c/p\u003e\\n\u003cp\u003e{4}\u003c/p\u003e\\n\u003cp\u003e{8}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e14616\u003c/p\u003e\\n\u003cp\u003e20404\u003c/p\u003e\\n\u003cp\u003e{2}\u003c/p\u003e\\n\u003cp\u003e{0}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e38718\u003c/p\u003e\\n\u003cp\u003e8880\u003c/p\u003e\\n\u003cp\u003e{2,4,2,5,10}\u003c/p\u003e\\n\u003cp\u003e{1,1,1,2,0}\u003c/p\u003e\\n\u003cp\u003e{0,1,0,3,7}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e32178\u003c/p\u003e\\n\u003cp\u003e7772\u003c/p\u003e\\n\u003cp\u003e{6}\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e{5}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3448\u003c/p\u003e\\n\u003cp\u003e26490\u003c/p\u003e\\n\u003cp\u003e{3,2,3,10}\u003c/p\u003e\\n\u003cp\u003e{0,0,1,5}\u003c/p\u003e\\n\u003cp\u003e{1,1,1,7}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e32599\u003c/p\u003e\\n\u003cp\u003e5843\u003c/p\u003e\\n\u003cp\u003e{3,9}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{0,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1572\u003c/p\u003e\\n\u003cp\u003e444\u003c/p\u003e\\n\u003cp\u003e{9,8}\u003c/p\u003e\\n\u003cp\u003e{5,4}\u003c/p\u003e\\n\u003cp\u003e{3,2}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e34902\u003c/p\u003e\\n\u003cp\u003e20352\u003c/p\u003e\\n\u003cp\u003e{4,8}\u003c/p\u003e\\n\u003cp\u003e{1,1}\u003c/p\u003e\\n\u003cp\u003e{2,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13380\u003c/p\u003e\\n\u003cp\u003e212\u003c/p\u003e\\n\u003cp\u003e{10,5,5}\u003c/p\u003e\\n\u003cp\u003e{0,0,0}\u003c/p\u003e\\n\u003cp\u003e{7,0,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13714\u003c/p\u003e\\n\u003cp\u003e561\u003c/p\u003e\\n\u003cp\u003e{3,4,3,3,5}\u003c/p\u003e\\n\u003cp\u003e{2,3,2,2,0}\u003c/p\u003e\\n\u003cp\u003e{0,2,1,0,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e21078\u003c/p\u003e\\n\u003cp\u003e33077\u003c/p\u003e\\n\u003cp\u003e{8}\u003c/p\u003e\\n\u003cp\u003e{6}\u003c/p\u003e\\n\u003cp\u003e{6}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e35306\u003c/p\u003e\\n\u003cp\u003e17868\u003c/p\u003e\\n\u003cp\u003e{6,2,2,8}\u003c/p\u003e\\n\u003cp\u003e{4,0,1,5}\u003c/p\u003e\\n\u003cp\u003e{0,0,0,5}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e34852\u003c/p\u003e\\n\u003cp\u003e30058\u003c/p\u003e\\n\u003cp\u003e{5,5,5}\u003c/p\u003e\\n\u003cp\u003e{3,2,3}\u003c/p\u003e\\n\u003cp\u003e{0,2,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e9088\u003c/p\u003e\\n\u003cp\u003e746\u003c/p\u003e\\n\u003cp\u003e{10}\u003c/p\u003e\\n\u003cp\u003e{9}\u003c/p\u003e\\n\u003cp\u003e{0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e8606\u003c/p\u003e\\n\u003cp\u003e38046\u003c/p\u003e\\n\u003cp\u003e{9,10}\u003c/p\u003e\\n\u003cp\u003e{6,3}\u003c/p\u003e\\n\u003cp\u003e{8,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1947\u003c/p\u003e\\n\u003cp\u003e28159\u003c/p\u003e\\n\u003cp\u003e{6,3}\u003c/p\u003e\\n\u003cp\u003e{3,2}\u003c/p\u003e\\n\u003cp\u003e{1,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e32916\u003c/p\u003e\\n\u003cp\u003e33502\u003c/p\u003e\\n\u003cp\u003e{2,4}\u003c/p\u003e\\n\u003cp\u003e{0,3}\u003c/p\u003e\\n\u003cp\u003e{0,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e31354\u003c/p\u003e\\n\u003cp\u003e25432\u003c/p\u003e\\n\u003cp\u003e{6}\u003c/p\u003e\\n\u003cp\u003e{0}\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e29472\u003c/p\u003e\\n\u003cp\u003e30981\u003c/p\u003e\\n\u003cp\u003e{7,9}\u003c/p\u003e\\n\u003cp\u003e{1,0}\u003c/p\u003e\\n\u003cp\u003e{6,4}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 2147483647\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20566\u003c/p\u003e\\n\u003cp\u003e9270\u003c/p\u003e\\n\u003cp\u003e{7,7}\u003c/p\u003e\\n\u003cp\u003e{6,5}\u003c/p\u003e\\n\u003cp\u003e{6,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13248\u003c/p\u003e\\n\u003cp\u003e19698\u003c/p\u003e\\n\u003cp\u003e{3,2}\u003c/p\u003e\\n\u003cp\u003e{2,0}\u003c/p\u003e\\n\u003cp\u003e{2,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e24196\u003c/p\u003e\\n\u003cp\u003e2337\u003c/p\u003e\\n\u003cp\u003e{10,3,4,6}\u003c/p\u003e\\n\u003cp\u003e{5,0,0,4}\u003c/p\u003e\\n\u003cp\u003e{0,2,3,1}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5306\u003c/p\u003e\\n\u003cp\u003e21258\u003c/p\u003e\\n\u003cp\u003e{10,2,7,3}\u003c/p\u003e\\n\u003cp\u003e{9,0,1,2}\u003c/p\u003e\\n\u003cp\u003e{2,1,5,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e29686\u003c/p\u003e\\n\u003cp\u003e38115\u003c/p\u003e\\n\u003cp\u003e{8,2,6,6}\u003c/p\u003e\\n\u003cp\u003e{3,1,1,0}\u003c/p\u003e\\n\u003cp\u003e{0,0,5,0}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4370/pm/1131\",\"children\":[\"2002-\",\" \",\"TCI '02 Semifinals 1\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

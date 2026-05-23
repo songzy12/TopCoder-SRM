@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->ShuttleBus<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+A shuttle bus services a ferry terminal. The bus goes around the city in loops,
+picks up the passengers, and brings them to the ferry terminal. The shuttle bus
+has many designated stops around the city, but only a few stops actually have
+passengers waiting for the bus at any given time. Before the bus departs from
+the terminal, the dispatcher gives the driver a list of all the stops with
+passengers (passengers call dispatchers and let them know where they are). The
+driver needs to design the shortest loop to pick up all the passengers waiting
+for the bus.
+
+DEFINITION
+Class name: ShuttleBus
+Method name: minLoop
+Parameters: String[], int[]
+Return type: int
+Method signature (be sure your method is public): int minLoop (String[] map,
+int[] passengers);
+
+Each entry in the map represents one bus stop - it specifies the distances to
+the bus stops connected to this one with direct routes. Entries are formatted
+as follows (here and below quotation marks are for clarity only):
+"STOP:DISTANCE STOP:DISTANCE ... STOP:DISTANCE"
+STOP is the index in the map of the bus stop to which there is a direct route;
+DISTANCE is the length of that route. The STOP:DISTANCE groups are separated by
+one or more ' ' (space) characters. Entries of the map may have leading and/or
+trailing spaces - your method should ignore them.
+
+int[] passengers specify the indexes of the bus stops with waiting passengers.
+There will be up to seven stops with passengers.
+
+The bus starts at the stop 0, which is the ferry terminal. The method returns
+the length of the shortest loop required to pick up all passengers, and return
+back to the ferry terminal (bus stop 0). If there is no loop connecting all the
+bus stops with passengers, the method should return -1.
+
+TopCoder will ensure the validity of the inputs. Inputs are valid if all of the
+following criteria are met:
+- map has 1 to 50 entries, inclusive,
+- Each map entry is 0 to 50 characters in length, and is formatted as described
+above,
+- The values of STOP in each map entry reference only existing map entries,
+- The values of STOP in an entry do not refer back to the same stop,
+- There are no duplicate STOP values in the same map entry (for example, "0:1
+0:2" is an illegal entry),
+- Each bus station has 0 to (N-1), inclusive, direct routes leaving from it,
+where N is the size of the map,
+- The values of DISTANCE in each map entry are in the range from 1 to 99,
+inclusive,
+- passengers has 1 to 7 entries, inclusive,
+- passengers does not contain duplicate or invalid (out of the map) entries,
+- passengers does not contain 0 - the index of the bus stop that corresponds to
+the ferry terminal.
+
+NOTES
+- The shortest loop does not necessarily need to visit all the bus stops - it
+may, but does not have to, skip the stops with no passengers.
+- Some of the streets connecting bus stops may be one-way. See example 3.
+- If there is a direct route from a bus stop A to a bus stop B, and another
+direct route from the bus stop B to the bus stop A, the lengths of these two
+routes are not necessarily identical. See example 3.
+- When there are no routes leaving from a bus stop, the corresponding map entry
+is an empty String "" (see example 5).
+
+EXAMPLES
+1. Consider the following city map (all streets are two-way streets; horizontal
+and vertical lines represent streets of length 10, diagonal lines represent
+streets of length 14).
+
+0---1---2
+| \ | / |
+3---4---5
+
+This corresponds to the following map:
+{ "1:10 3:10 4:14",
+  "0:10 2:10 4:10",
+  "1:10 4:14 5:10",
+  "0:10 4:10",
+  "0:14 1:10 2:14 3:10 5:10",
+  "2:10 4:10" }
+
+If passengers={1}, your method should return 20; the loop is 0-1*-0 (here and
+below '*' denotes bus stops with passengers).
+If passengers={1,4}, your method should return 34, the loop is 0-1*-4*-0.
+If passengers={1,2,4,5}, your method should return 54, the loop is
+0-1*-2*-5*-4*-0.
+If passengers={1,2,3,4,5}, your method should return 60, the loop is
+0-1*-2*-5*-4*-3*-0.
+
+2. Consider the following city map (all streets are two-way streets; horizontal
+and vertical lines represent streets of length 10, diagonal lines represent
+streets of length 14).
+
+ 0---1---2---3---4
+ | \ |   | / | \ |
+ 5---6   7   8---9
+ | / | / | \ | / |
+10--11--12--13--14
+
+This corresponds to the following map:
+{ "1:10 5:10 6:14",
+  "0:10 2:10 6:10",
+  "1:10 3:10 7:10",
+  "2:10 4:10 7:14 8:10 9:14",
+  "3:10 9:10",
+  "0:10 6:10 10:10",
+  "0:14 1:10 5:10 10:14 11:10",
+  "2:10 3:14 11:14 12:10 13:14",
+  "3:10 9:10 13:10",
+  "3:14 4:10 8:10 13:14 14:10",
+  "5:10 6:14 11:10",
+  "6:10 7:14 10:10 12:10",
+  "7:10 11:10 13:10",
+  "7:14 8:10 9:14 12:10 14:10",
+  "9:10 13:10" }
+
+If passengers={6,7,14}, your method should return 108, an example loop is
+0-1-2-7*-13-14*-13-12-11-6*-0.
+If passengers={1,7,5}, your method should return 74, an example loop is
+0-1*-2-7*-11-10-5*-0.
+If passengers={2,3,4,7,8,9,11}, your method should return 122, an example loop
+is 0-6-11*-7*-13-8*-9*-4*-3*-2*-1-0.
+If passengers={3,10,11,12,13}, your method should return 100, an example loop
+is 0-1-2-3*-8-13*-12*-11*-10*-5-0.
+
+3. Here is an asymmetric example:
+The map= {
+  "1:3 3:8 7:10",
+  "2:2 4:3 5:4",
+  "0:6 3:7 5:3 6:4",
+  "0:8 2:7 6:2 8:9",
+  "1:4 7:4",
+  "3:2 7:3 9:5",
+  "2:3 3:3 9:2",
+  "2:6 5:4",
+  "6:2 7:3",
+  "5:5 8:2" }
+
+If passengers={1,2,3}, your method should return 18.
+If passengers={4,6,7}, your method should return 27.
+If passengers={3,4,5,6,7,8,9}, your method should return 33.
+
+4. Consider the following (disconnected) city map (all streets are two-way
+streets; horizontal lines represent streets of length 10).
+
+0---1   2---3
+
+This corresponds to the following map: { "1:10", "0:10", "3:10", "2:10"}
+
+If passengers={1}, your method should return 20, the loop is 0-1*-0.
+If passengers={2,3}, your method should return -1, because there is no path
+from the ferry terminal (0) to bus stops 2 and 3.
+
+5. Consider the case when the map= {"  1:10 ", " "}. There is a single one-way
+street from the ferry terminal to the bus stop 1. If passengers={1}, your
+method should return -1.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>ShuttleBus</span></dd><dt>Method:</dt><dd><span>minLoop</span></dd><dt>Parameters:</dt><dd><span>String[], int[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int minLoop(String[] param0, int[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4050/pm/412">2002-<!-- --> <!-- -->SRM 64<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/4050/pm/412">2002-<!-- --> <!-- -->SRM 64<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/412/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"412\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"412\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"412\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"412\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"412\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T17c0,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nA shuttle bus services a ferry terminal. The bus goes around the city in loops,\npicks up the passengers, and brings them to the ferry terminal. The shuttle bus\nhas many designated stops around the city, but only a few stops actually have\npassengers waiting for the bus at any given time. Before the bus departs from\nthe terminal, the dispatcher gives the driver a list of all the stops with\npassengers (passengers call dispatchers and let them know where they are). The\ndriver needs to design the shortest loop to pick up all the passengers waiting\nfor the bus.\n\nDEFINITION\nClass name: ShuttleBus\nMethod name: minLoop\nParameters: String[], int[]\nReturn type: int\nMethod signature (be sure your method is public): int minLoop (String[] map,\nint[] passengers);\n\nEach entry in the map represents one bus stop - it specifies the distances to\nthe bus stops connected to this one with direct routes. Entries are formatted\nas follows (here and below quotation marks are for clarity only):\n\"STOP:DISTANCE STOP:DISTANCE ... STOP:DISTANCE\"\nSTOP is the index in the map of the bus stop to which there is a direct route;\nDISTANCE is the length of that route. The STOP:DISTANCE groups are separated by\none or more ' ' (space) characters. Entries of the map may have leading and/or\ntrailing spaces - your method should ignore them.\n\nint[] passengers specify the indexes of the bus stops with waiting passengers.\nThere will be up to seven stops with passengers.\n\nThe bus starts at the stop 0, which is the ferry terminal. The method returns\nthe length of the shortest loop required to pick up all passengers, and return\nback to the ferry terminal (bus stop 0). If there is no loop connecting all the\nbus stops with passengers, the method should return -1.\n\nTopCoder will ensure the validity of the inputs. Inputs are valid if all of the\nfollowing criteria are met:\n- map has 1 to 50 entries, inclusive,\n- Each map entry is 0 to 50 characters in length, and is formatted as described\nabove,\n- The values of STOP in each map entry reference only existing map entries,\n- The values of STOP in an entry do not refer back to the same stop,\n- There are no duplicate STOP values in the same map entry (for example, \"0:1\n0:2\" is an illegal entry),\n- Each bus station has 0 to (N-1), inclusive, direct routes leaving from it,\nwhere N is the size of the map,\n- The values of DISTANCE in each map entry are in the range from 1 to 99,\ninclusive,\n- passengers has 1 to 7 entries, inclusive,\n- passengers does not contain duplicate or invalid (out of the map) entries,\n- passengers does not contain 0 - the index of the bus stop that corresponds to\nthe ferry terminal.\n\nNOTES\n- The shortest loop does not necessarily need to visit all the bus stops - it\nmay, but does not have to, skip the stops with no passengers.\n- Some of the streets connecting bus stops may be one-way. See example 3.\n- If there is a direct route from a bus stop A to a bus stop B, and another\ndirect route from the bus stop B to the bus stop A, the lengths of these two\nroutes are not necessarily identical. See example 3.\n- When there are no routes leaving from a bus stop, the corresponding map entry\nis an empty String \"\" (see example 5).\n\nEXAMPLES\n1. Consider the following city map (all streets are two-way streets; horizontal\nand vertical lines represent streets of length 10, diagonal lines represent\nstreets of length 14).\n\n0---1---2\n| \\ | / |\n3---4---5\n\nThis corresponds to the following map:\n{ \"1:10 3:10 4:14\",\n  \"0:10 2:10 4:10\",\n  \"1:10 4:14 5:10\",\n  \"0:10 4:10\",\n  \"0:14 1:10 2:14 3:10 5:10\",\n  \"2:10 4:10\" }\n\nIf passengers={1}, your method should return 20; the loop is 0-1*-0 (here and\nbelow '*' denotes bus stops with passengers).\nIf passengers={1,4}, your method should return 34, the loop is 0-1*-4*-0.\nIf passengers={1,2,4,5}, your method should return 54, the loop is\n0-1*-2*-5*-4*-0.\nIf passengers={1,2,3,4,5}, your method should return 60, the loop is\n0-1*-2*-5*-4*-3*-0.\n\n2. Consider the following city map (all streets are two-way streets; horizontal\nand vertical lines represent streets of length 10, diagonal lines represent\nstreets of length 14).\n\n 0---1---2---3---4\n | \\ |   | / | \\ |\n 5---6   7   8---9\n | / | / | \\ | / |\n10--11--12--13--14\n\nThis corresponds to the following map:\n{ \"1:10 5:10 6:14\",\n  \"0:10 2:10 6:10\",\n  \"1:10 3:10 7:10\",\n  \"2:10 4:10 7:14 8:10 9:14\",\n  \"3:10 9:10\",\n  \"0:10 6:10 10:10\",\n  \"0:14 1:10 5:10 10:14 11:10\",\n  \"2:10 3:14 11:14 12:10 13:14\",\n  \"3:10 9:10 13:10\",\n  \"3:14 4:10 8:10 13:14 14:10\",\n  \"5:10 6:14 11:10\",\n  \"6:10 7:14 10:10 12:10\",\n  \"7:10 11:10 13:10\",\n  \"7:14 8:10 9:14 12:10 14:10\",\n  \"9:10 13:10\" }\n\nIf passengers={6,7,14}, your method should return 108, an example loop is\n0-1-2-7*-13-14*-13-12-11-6*-0.\nIf passengers={1,7,5}, your method should return 74, an example loop is\n0-1*-2-7*-11-10-5*-0.\nIf passengers={2,3,4,7,8,9,11}, your method should return 122, an example loop\nis 0-6-11*-7*-13-8*-9*-4*-3*-2*-1-0.\nIf passengers={3,10,11,12,13}, your method should return 100, an example loop\nis 0-1-2-3*-8-13*-12*-11*-10*-5-0.\n\n3. Here is an asymmetric example:\nThe map= {\n  \"1:3 3:8 7:10\",\n  \"2:2 4:3 5:4\",\n  \"0:6 3:7 5:3 6:4\",\n  \"0:8 2:7 6:2 8:9\",\n  \"1:4 7:4\",\n  \"3:2 7:3 9:5\",\n  \"2:3 3:3 9:2\",\n  \"2:6 5:4\",\n  \"6:2 7:3\",\n  \"5:5 8:2\" }\n\nIf passengers={1,2,3}, your method should return 18.\nIf passengers={4,6,7}, your method should return 27.\nIf passengers={3,4,5,6,7,8,9}, your method should return 33.\n\n4. Consider the following (disconnected) city map (all streets are two-way\nstreets; horizontal lines represent streets of length 10).\n\n0---1   2---3\n\nThis corresponds to the following map: { \"1:10\", \"0:10\", \"3:10\", \"2:10\"}\n\nIf passengers={1}, your method should return 20, the loop is 0-1*-0.\nIf passengers={2,3}, your method should return -1, because there is no path\nfrom the ferry terminal (0) to bus stops 2 and 3.\n\n5. Consider the case when the map= {\"  1:10 \", \" \"}. There is a single one-way\nstreet from the ferry terminal to the bus stop 1. If passengers={1}, your\nmethod should return -1.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"ShuttleBus\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"ShuttleBus\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"minLoop\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int minLoop(String[] param0, int[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4050/pm/412\",\"children\":[\"2002-\",\" \",\"SRM 64\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4050/pm/412\",\"children\":[\"2002-\",\" \",\"SRM 64\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

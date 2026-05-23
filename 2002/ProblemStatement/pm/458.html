@@ -1,0 +1,232 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->PhotoQuick<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+Inept Imaging needs your help to develop photo editing software with a
+programmatic interface.  Fortunately, their images are very rudimentary and
+only consist of white, grey, and black pixels.
+Let '.' represent a white pixel, 'x' represent a grey pixel, and '#' represent
+a black pixel.  Below is a sample image.
+
+
+..#####...
+..xxxxx...
+..x...x...
+..x...x...
+..xxxxx...
+..#####...
+..........
+..###.xxx.
+..#.#.x.x.
+..###.xxx.
+
+
+To be consistent with most graphics programming, the top left corner is (0,0).
+Assuming (x,y) coordinates, x increases as the pixels go farther to the right,
+and y increases as the pixels go farther down.
+
+Common operations on images include the following:
+
+FILLTOOL - like the paint-bucket tool in many other programs, it fills the
+selected region with a given color
+
+ROTATECW - rotates the image 90 degrees clock-wise
+
+ROTATECCW - rotates the image 90 degrees counter clock-wise
+
+DRAWAT - changes a single pixel to the specified color
+
+DRAWRECT - changes all the pixels within the given rectangle to the specified
+color
+
+UNDO - reverts the image back to the previous state
+
+
+DEFINITION
+
+You are to write a class PhotoQuick with method render that takes as parameters
+a String[] image, representing the default image buffer, and a String[]
+operations, which represents a sequence of commands to perform on the image.
+The method returns the resulting image buffer after the sequence of operations.
+
+Class: PhotoQuick
+Parameters: String[], String[]
+Returns: String[]
+Method Signature: String[] render (String[] image, String[] operations)
+Be sure to declare your method public.
+
+Below are the possible operations, their formats, and their semantics.
+
+FILLTOOL
+
+format:  "FILLTOOL,c,xxx,yyy"
+c must be a single char, either '.', 'x', or '#'
+xxx and yyy correspond to x and y coordinates, which must be in bounds.
+
+semantics:
+The current region containing the pixel at coordinate (x,y) will be entirely
+converted to pixels represented by c.
+A region is a set of same-color pixels such that, for any two pixels A and B,
+there is a path from A to B where:
+1.) Every pixel traversed in the path is the same color as A and B.
+2.) The path only moves in the four cardinal directions, up, down, left , or
+right (no diagonals).  
+
+DRAWAT
+
+format: "DRAWAT,c,xxx,yyy"
+c must be a single char, either '.', 'x', or '#'
+xxx and yyy correspond to x and y coordinates, which must be in bounds.
+
+semantics:
+The pixel at coordinate (x,y) will be converted into the pixel represented by c
+
+ROTATECW
+
+format: "ROTATECW"
+
+semantics:
+The resulting image has a width equal to the original height, and a height
+equal to the original width.  Each pixel of the old image belongs in the pixel
+of the resulting image as if the buffer were rotated clock-wise by 90 degree.
+For example, the upper left-hand corner of the original image becomes the upper
+right-hand corner of the resulting image and so on.  The rotation occurs about
+the center of the the image buffer.
+
+ROTATECCW
+
+format: "ROTATECCW"
+
+semantics:
+The resulting image has a width equal to the original height, and a height
+equal to the original width.  Each pixel of the old image belongs in the pixel
+of the resulting image as if the buffer were rotated counter clock-wise by 90
+degree.  For example, the upper right-hand corner of the original image becomes
+the upper left-hand corner of the resulting image and so on.  The rotation
+occurs about the center of the the image buffer.
+
+DRAWRECT
+
+format: "DRAWRECT,c,xxx,yyy,aaa,bbb"
+c must be a single char, either '.', 'x', or '#'
+xxx and yyy correspond to x1 and y1 coordinates, which must be in bounds.
+aaa and bbb also correspond to x2 and y2 coordinates, which must be in bounds.
+
+x1 &lt;= x2,
+y1 &lt;= y2
+
+semantics:
+All the pixels within the closed bounds of the rectangle with (x1,y1) as the
+top left corner and (x2,y2) at bottom right corner will be converted into the
+pixel represented by c
+
+UNDO
+
+format: "UNDO"
+
+semantics:
+UNDO undoes the most previously executed function which was not an UNDO command
+and which was not already undone. An UNDO command called on the initial state
+of the image does nothing. In other words, for each undo in the sequence of
+operations, conceptually remove the first non-undo command previously found in
+the sequence. A-B-C-UNDO-D-UNDO-UNDO would cause us to revert to the image just
+after operation A. Also, A-B-UNDO-UNDO-UNDO-UNDO-C would result in command C
+executed on the initial image. See example 4. 
+
+TopCoder will check the validity of the inputs.  Inputs are valid if all of the
+following criteria are met:
+-image contains between 1 and 12 elements inclusive
+-Each String in image must be the same length, and the length must be between
+1-12 inclusive
+-Each character of each String in image must be one of the following: '.' 'x' '#'
+-commands contains between 1 and 20 elements inclusive
+-Each element of commands is one of the formats described above
+-Each string in commands can not contain an out of bounds pixel reference
+
+
+
+
+EXAMPLES:
+
+Example 1
+
+image:
+.....
+.....
+..x..
+.x.x.
+..x..
+
+commands:
+DRAWAT,#,0,0
+DRAWAT,#,1,1
+DRAWAT,#,0,2
+FILLTOOL,x,0,1
+FILLTOOL,x,2,3
+
+solution should be:
+
+#....
+x#...
+#.x..
+.xxx.
+..x..
+
+Example 2
+
+image:
+.....
+.....
+..x..
+.x.x.
+..x..
+
+ROTATECW
+FILLTOOL,#,1,2
+ROTATECCW
+
+solution:
+.....
+.....
+..x..
+.x#x.
+..x..
+
+Example 3
+
+image:
+.....
+.....
+..x..
+.x.x.
+..x..
+
+ROTATECCW
+FILLTOOL,#,1,2
+ROTATECW
+
+solution:
+#####
+#####
+##x##
+#x.x#
+##x##
+
+Example 4
+
+image:
+...
+...
+...
+
+FILLTOOL,x,1,1
+FILLTOOL,#,1,1
+UNDO
+UNDO
+UNDO
+DRAWRECT,x,0,0,1,1
+FILLTOOL,#,0,0
+UNDO
+
+solution:
+xx.
+xx.
+...</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>PhotoQuick</span></dd><dt>Method:</dt><dd><span>render</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] render(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4097/pm/458">2002-<!-- --> <!-- -->SRM 74<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/458/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"458\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"458\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"458\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"458\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"458\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1601,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nInept Imaging needs your help to develop photo editing software with a\nprogrammatic interface.  Fortunately, their images are very rudimentary and\nonly consist of white, grey, and black pixels.\nLet '.' represent a white pixel, 'x' represent a grey pixel, and '#' represent\na black pixel.  Below is a sample image.\n\n\n..#####...\n..xxxxx...\n..x...x...\n..x...x...\n..xxxxx...\n..#####...\n..........\n..###.xxx.\n..#.#.x.x.\n..###.xxx.\n\n\nTo be consistent with most graphics programming, the top left corner is (0,0).\nAssuming (x,y) coordinates, x increases as the pixels go farther to the right,\nand y increases as the pixels go farther down.\n\nCommon operations on images include the following:\n\nFILLTOOL - like the paint-bucket tool in many other programs, it fills the\nselected region with a given color\n\nROTATECW - rotates the image 90 degrees clock-wise\n\nROTATECCW - rotates the image 90 degrees counter clock-wise\n\nDRAWAT - changes a single pixel to the specified color\n\nDRAWRECT - changes all the pixels within the given rectangle to the specified\ncolor\n\nUNDO - reverts the image back to the previous state\n\n\nDEFINITION\n\nYou are to write a class PhotoQuick with method render that takes as parameters\na String[] image, representing the default image buffer, and a String[]\noperations, which represents a sequence of commands to perform on the image.\nThe method returns the resulting image buffer after the sequence of operations.\n\nClass: PhotoQuick\nParameters: String[], String[]\nReturns: String[]\nMethod Signature: String[] render (String[] image, String[] operations)\nBe sure to declare your method public.\n\nBelow are the possible operations, their formats, and their semantics.\n\nFILLTOOL\n\nformat:  \"FILLTOOL,c,xxx,yyy\"\nc must be a single char, either '.', 'x', or '#'\nxxx and yyy correspond to x and y coordinates, which must be in bounds.\n\nsemantics:\nThe current region containing the pixel at coordinate (x,y) will be entirely\nconverted to pixels represented by c.\nA region is a set of same-color pixels such that, for any two pixels A and B,\nthere is a path from A to B where:\n1.) Every pixel traversed in the path is the same color as A and B.\n2.) The path only moves in the four cardinal directions, up, down, left , or\nright (no diagonals).  \n\nDRAWAT\n\nformat: \"DRAWAT,c,xxx,yyy\"\nc must be a single char, either '.', 'x', or '#'\nxxx and yyy correspond to x and y coordinates, which must be in bounds.\n\nsemantics:\nThe pixel at coordinate (x,y) will be converted into the pixel represented by c\n\nROTATECW\n\nformat: \"ROTATECW\"\n\nsemantics:\nThe resulting image has a width equal to the original height, and a height\nequal to the original width.  Each pixel of the old image belongs in the pixel\nof the resulting image as if the buffer were rotated clock-wise by 90 degree.\nFor example, the upper left-hand corner of the original image becomes the upper\nright-hand corner of the resulting image and so on.  The rotation occurs about\nthe center of the the image buffer.\n\nROTATECCW\n\nformat: \"ROTATECCW\"\n\nsemantics:\nThe resulting image has a width equal to the original height, and a height\nequal to the original width.  Each pixel of the old image belongs in the pixel\nof the resulting image as if the buffer were rotated counter clock-wise by 90\ndegree.  For example, the upper right-hand corner of the original image becomes\nthe upper left-hand corner of the resulting image and so on.  The rotation\noccurs about the center of the the image buffer.\n\nDRAWRECT\n\nformat: \"DRAWRECT,c,xxx,yyy,aaa,bbb\"\nc must be a single char, either '.', 'x', or '#'\nxxx and yyy correspond to x1 and y1 coordinates, which must be in bounds.\naaa and bbb also correspond to x2 and y2 coordinates, which must be in bounds.\n\nx1 \u0026lt;= x2,\ny1 \u0026lt;= y2\n\nsemantics:\nAll the pixels within the closed bounds of the rectangle with (x1,y1) as the\ntop left corner and (x2,y2) at bottom right corner will be converted into the\npixel represented by c\n\nUNDO\n\nformat: \"UNDO\"\n\nsemantics:\nUNDO undoes the most previously executed function which was not an UNDO command\nand which was not already undone. An UNDO command called on the initial state\nof the image does nothing. In other words, for each undo in the sequence of\noperations, conceptually remove the first non-undo command previously found in\nthe sequence. A-B-C-UNDO-D-UNDO-UNDO would cause us to revert to the image just\nafter operation A. Also, A-B-UNDO-UNDO-UNDO-UNDO-C would result in command C\nexecuted on the initial image. See example 4. \n\nTopCoder will check the validity of the inputs.  Inputs are valid if all of the\nfollowing criteria are met:\n-image contains between 1 and 12 elements inclusive\n-Each String in image must be the same length, and the length must be between\n1-12 inclusive\n-Each character of each String in image must be one of the following: '.' 'x' '#'\n-commands contains between 1 and 20 elements inclusive\n-Each element of commands is one of the formats described above\n-Each string in commands can not contain an out of bounds pixel reference\n\n\n\n\nEXAMPLES:\n\nExample 1\n\nimage:\n.....\n.....\n..x..\n.x.x.\n..x..\n\ncommands:\nDRAWAT,#,0,0\nDRAWAT,#,1,1\nDRAWAT,#,0,2\nFILLTOOL,x,0,1\nFILLTOOL,x,2,3\n\nsolution should be:\n\n#....\nx#...\n#.x..\n.xxx.\n..x..\n\nExample 2\n\nimage:\n.....\n.....\n..x..\n.x.x.\n..x..\n\nROTATECW\nFILLTOOL,#,1,2\nROTATECCW\n\nsolution:\n.....\n.....\n..x..\n.x#x.\n..x..\n\nExample 3\n\nimage:\n.....\n.....\n..x..\n.x.x.\n..x..\n\nROTATECCW\nFILLTOOL,#,1,2\nROTATECW\n\nsolution:\n#####\n#####\n##x##\n#x.x#\n##x##\n\nExample 4\n\nimage:\n...\n...\n...\n\nFILLTOOL,x,1,1\nFILLTOOL,#,1,1\nUNDO\nUNDO\nUNDO\nDRAWRECT,x,0,0,1,1\nFILLTOOL,#,0,0\nUNDO\n\nsolution:\nxx.\nxx.\n...\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"PhotoQuick\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"PhotoQuick\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"render\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] render(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4097/pm/458\",\"children\":[\"2002-\",\" \",\"SRM 74\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

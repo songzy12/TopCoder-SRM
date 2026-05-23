@@ -1,0 +1,608 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->MarbleMachine<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">You have built a moving sculpture containing several devices that move marbles around on a grid.  Each device occupies a single square on the grid and repeatedly executes a sequence of actions.  The possible actions are:</p>
+
+<ul xmlns="http://topcoder.com"><li>Digits 0-9: Bring up 0-9 marbles from the central store (which never runs out of marbles) and place them on the square.</li>
+<li>N,E,S,W: Move all the marbles on the square one square North, East, South, or West.  If this causes the marbles to leave the grid, they will be removed and placed back in the central store.</li>
+<li>D: Remove all the marbles from the square and drop them back into the central store.</li></ul>
+
+<p xmlns="http://topcoder.com">Each device has its own sequence of actions, and different devices may have sequences of different lengths.  At time 0, each device executes its first action, at time 1, each device executes its second action, etc.  When a device reaches the end of its sequence, it starts again at the beginning of the sequence.</p>
+<p xmlns="http://topcoder.com">&amp;nbsp;</p>
+
+<p xmlns="http://topcoder.com">During each unit of time, all actions happen simultaneously and only operate on marbles on the squares at the beginning of that time unit.  For example, suppose there is one marble on square (0, 0) and one on square (1, 0).  Now suppose the first square's action is 'E' and the second square's action is 'D'.  At the end of this time unit, the first square will have 0 marbles and the second will have 1.  The second square drops the marble that it had at the beginning of the time unit, but it does not drop the marble that arrives from the first square during that time unit.</p>
+<p xmlns="http://topcoder.com">&amp;nbsp;</p>
+<p xmlns="http://topcoder.com">You are given a <type>String[]</type> <b>actions</b>, the i-th element of which is the action sequence for a device of type i (where i is a 0-based index).  You are also given a <type>String[]</type> <b>layout</b>, where the j-th character of the i-th element is a digit representing the type of device located in row i, column j of the grid.  Rows are numbered in increasing order from North to South, and columns are numbered in increasing order from West to East.  Return the maximum number of marbles that exist on a single square after <b>t</b> time units have passed.</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>MarbleMachine</span></dd><dt>Method:</dt><dd><span>maxMarbles</span></dd><dt>Parameters:</dt><dd><span>String[], String[], int</span></dd><dt>Returns:</dt><dd><span>long</span></dd><dt>Method signature:</dt><dd><span>long maxMarbles(String[] layout, String[] actions, int t)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>layout will contain between 1 and 8 elements, inclusive.</span></li><li><span>Each element of layout will contain between 1 and 8 characters, inclusive.</span></li><li><span>Each element of layout will contain the same number of characters.</span></li><li><span>Each element of layout will contain only digits between 0 and n-1, inclusive, where n is the number of elements in actions.</span></li><li><span>actions will contain between 1 and 10 elements, inclusive.</span></li><li><span>Each element of actions will contain between 1 and 6 characters, inclusive.</span></li><li><span>Each element of actions will contain only digits ('0'-'9') and the characters 'N', 'E', 'S', 'W' and 'D'.</span></li><li><span>t will be between 1 and 100,000,000, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{
+"0101",
+"1010",
+"0101"}</p>
+<p>{"4","5353"}</p>
+<p>5</p>
+<p>Returns: 21</p>
+<p>Devices of type 0 are simple; they pull up 4 marbles on each turn.  Over 5 cycles, this is 20 marbles.  Devices of type 1 will complete just over 1 cycle in this time - pulling up a total of 5+3+5+3+5=21 marbles.  So the maximum marbles at any position will be 21 (which occurs at each location with a device of type 1).</p></div></li><li><div><p>{"011112"}
+</p>
+<p>{"1E","E","0"}</p>
+<p>1000</p>
+<p>Returns: 498</p>
+<p>This structure functions as a kind of conveyor belt.  At the left, the device of type 0 alternately grabs one marble and pushes it East.  The devices of type 1 move the marble along to the East until they reach the device of type 2, which accumulates the marbles.  After 1000 cycles, 500 marbles have been brought up.  2 are still on the "conveyor belt", and 498 are on the square at the East end.  </p></div></li><li><div><p>{
+"01",
+"32"}</p>
+<p>{"1E","SSDSS","W","00000W"}</p>
+<p>23</p>
+<p>Returns: 3</p>
+<p>This machine delivers marbles to the Southwest corner, from which they are periodically dumped off the West edge.  The Northeast corner also occasionally loses its marbles.</p></div></li><li><div><p>{"0101"}</p>
+<p>{"4","5353"}</p>
+<p>5</p>
+<p>Returns: 21</p>
+<p>Devices of type 0 are simple; they pull up 4 marbles on each turn.  Over 5 cycles, this is 20 marbles.  Devices of type 1 will complete just over 1 cycle in this time - pulling up a total of 5+3+5+3+5=21 marbles.  In total, there are 20+21+20+21=82 marbles.</p></div></li><li><div><p>{"102"}</p>
+<p>{"1E1W","D","0"}</p>
+<p>20</p>
+<p>Returns: 5</p>
+<p>The type 0 device pulls up marbles and sends them East and West in alternating fashion.  The marbles that go West to the type 1 device are dumped each turn.  The marbles that go East to the type 2 device are stockpiled.  After 20 turns, there's 5 marbles at the East end and 1 marble at the West end (that will be dropped next turn).</p></div></li><li><div><p>{
+"40001",
+"03222"}</p>
+<p>{
+"EEE","SS","W","NNNND","11E"
+}</p>
+<p>2000</p>
+<p>Returns: 4</p>
+<p>For the most part, marbles entering the system from the type 4 device move in a continuous cycle.  However, the type 3 device occasionally loses its marbles, which limits the number of marbles that accumulate.</p></div></li><li><div><p>{
+"51111112",
+"11111122",
+"41111222",
+"44112222",
+"44403222",
+"44433322",
+"44333332",
+"43333333"
+}</p>
+<p>{
+"000000",
+"00000E",
+"00000S",
+"00000W",
+"00000N",
+"10000E"
+}</p>
+<p>390</p>
+<p>Returns: 3</p>
+<p>At 390, the third marble reaches the center.</p></div></li><li><div><p>{
+"51111112",
+"11111122",
+"41111222",
+"44112222",
+"44403222",
+"44433322",
+"44333332",
+"43333333"
+}</p>
+<p>{
+"000000",
+"00000E",
+"00000S",
+"00000W",
+"00000N",
+"10000E"
+}</p>
+<p>38400000</p>
+<p>Returns: 6399938</p>
+<p>38,400,000/6=6,400,000-62 (all spaces but center and top-left)=6,399,938</p></div></li><li><div><p>{
+"51111112",
+"11111122",
+"41111222",
+"44112222",
+"44403222",
+"44433322",
+"44333332",
+"43333333"
+}</p>
+<p>{
+"000000",
+"00000E",
+"00000S",
+"00000W",
+"00000N",
+"99999E"
+}</p>
+<p>38399999</p>
+<p>Returns: 287997165</p>
+<p>38,400,000*45/6=288000000-45*63 (all spaces but top-left)=287,997,165</p></div></li><li><div><p>{
+"51111112",
+"11111122",
+"41111222",
+"44112222",
+"44403222",
+"44433322",
+"44333332",
+"43333333"
+}</p>
+<p>{
+"000000",
+"00000E",
+"00000S",
+"00000W",
+"00000N",
+"10000E"
+}</p>
+<p>389</p>
+<p>Returns: 2</p>
+<p>One time unit before third marble.</p></div></li><li><div><p>{
+"30000001",
+"03333330",
+"06222240",
+"07219240",
+"06281240",
+"06222240",
+"05555540",
+"20000004"}</p>
+<p>{"0",
+"1ESENW",
+"S2WEE",
+"WE3NS",
+"N4SW",
+"DWE6SN",
+"N5SWW",
+"ESW7W",
+"N8S",
+"9NEW"}
+</p>
+<p>6000005</p>
+<p>Returns: 37399929</p>
+<p></p></div></li><li><div><p>{
+"30000001",
+"03333330",
+"06222240",
+"07219240",
+"06281240",
+"06222240",
+"05555540",
+"20000004"}</p>
+<p>{"1",
+"DW6WN",
+"N5SDW",
+"ESN7W",
+"3WSENW",
+"S2WEE",
+"WE3NS",
+"N4SS",
+"E8SW",
+"9NW"}
+</p>
+<p>100000000</p>
+<p>Returns: 403333321</p>
+<p></p></div></li><li><div><p>{
+"12000000",
+"71120120",
+"13020320",
+"00011320",
+"00000020",
+"06544440",
+"00000000",
+"00000000"}</p>
+<p>{"D","EEE","SSS","NNNNN","W","DWD","0","1N2S"}</p>
+<p>60</p>
+<p>Returns: 9</p>
+<p>A 2 just arrived, the previous 1 was lost.</p></div></li><li><div><p>{
+"75633808",
+"87049849",
+"19458165",
+"36633886",
+"92725170",
+"61183034",
+"39432264",
+"59384396"
+}
+
+</p>
+<p>{
+"11SS",
+"564N",
+"76W",
+"7N9W0",
+"N2DS",
+"3SS",
+"628E",
+"9S1N",
+"31NN6",
+"NS"
+}</p>
+<p>987273</p>
+<p>Returns: 25685297</p>
+<p>(13-20 are just random big cases)</p></div></li><li><div><p>{
+"43973731",
+"03832533",
+"05296793",
+"51641963",
+"15210359",
+"54887735",
+"47245854",
+"31526495"
+}
+</p>
+<p>{
+"S99",
+"SEE",
+"WW4S",
+"EE2N",
+"8S6",
+"S83",
+"WN14",
+"718D3",
+"0DW",
+"SNS"
+}
+</p>
+<p>77738377</p>
+<p>Returns: 285040712</p>
+<p></p></div></li><li><div><p>{
+"27768282",
+"91184511",
+"20756257",
+"74971670",
+"44916312",
+"14955244",
+"35156974",
+"71775223"
+}
+</p>
+<p>{
+"NWW0E",
+"S21",
+"93",
+"WN6",
+"526",
+"E",
+"N",
+"E1",
+"16NE",
+"DWE4"
+}</p>
+<p>100000000</p>
+<p>Returns: 799999998</p>
+<p></p></div></li><li><div><p>{
+"83879245",
+"42661168",
+"64258455",
+"44747523",
+"13638382",
+"31546031",
+"38685629",
+"36687783"
+}
+</p>
+<p>{
+"0N5WD",
+"EWN",
+"E8N",
+"S75",
+"3S",
+"N",
+"6S",
+"0S",
+"N0",
+"72"
+}</p>
+<p>6000</p>
+<p>Returns: 42997</p>
+<p></p></div></li><li><div><p>{
+"78415614",
+"54932535",
+"43164594",
+"64111183",
+"10785851",
+"63374429",
+"14657130",
+"89329244"
+}
+</p>
+<p>{
+"8W1N",
+"W9N8",
+"WE0",
+"EN",
+"18",
+"W76",
+"4W0W",
+"EW16",
+"W0S",
+"038"
+}</p>
+<p>606060</p>
+<p>Returns: 10151433</p>
+<p></p></div></li><li><div><p>{
+"39165948",
+"81658417",
+"77582739",
+"74161731",
+"65689217",
+"56833932",
+"22254372",
+"73093744"
+}
+</p>
+<p>{
+"SS",
+"0E",
+"W7D",
+"45",
+"5E6",
+"9N",
+"6",
+"DNN",
+"N4",
+"1ED"
+}
+</p>
+<p>2520</p>
+<p>Returns: 40721</p>
+<p></p></div></li><li><div><p>{
+"57398512",
+"59081678",
+"48293136",
+"29249548",
+"72278643",
+"82762987",
+"15178505",
+"69336456"
+}
+</p>
+<p>{
+"5W85",
+"3",
+"DWS6",
+"W5SW",
+"9N3",
+"NE",
+"D",
+"109EW",
+"S0E",
+"918"
+}
+</p>
+<p>2521</p>
+<p>Returns: 44696</p>
+<p></p></div></li><li><div><p>{
+"62798913",
+"73998929",
+"18795925",
+"46037121",
+"82885731",
+"32436485",
+"54673983",
+"95295083"
+}
+</p>
+<p>{
+"D4N5",
+"0EES",
+"N056",
+"96",
+"87WN",
+"64WEE",
+"WNS",
+"70E8",
+"S5",
+"DS"
+}
+</p>
+<p>4000</p>
+<p>Returns: 70914</p>
+<p></p></div></li><li><div><p>{
+"00",
+"01"}</p>
+<p>{"0","1"}</p>
+<p>6065</p>
+<p>Returns: 6065</p>
+<p></p></div></li><li><div><p>{
+"00",
+"00"}</p>
+<p>{"0","1","2","3","4","5","6","7","8","9"}</p>
+<p>99886772</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>{"0","0","0","0","0","0","0","0"}</p>
+<p>{"1S"}</p>
+<p>18</p>
+<p>Returns: 7</p>
+<p></p></div></li><li><div><p>{"0","0","0","0","0","0","0","0"}</p>
+<p>{"1S"}</p>
+<p>19</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>{"0","0","0","0","0","0","0","0"}</p>
+<p>{"1S"}</p>
+<p>99778991</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>{
+"01",
+"01",
+"01",
+"21",
+"01",
+"01",
+"01"}
+</p>
+<p>{"0","NNNSSS","1E11E","D0WN","W0NDE4"}</p>
+<p>1001003</p>
+<p>Returns: 200202</p>
+<p></p></div></li><li><div><p>{"012345"}</p>
+<p>{"1","01","001","0001","00001","000001"}</p>
+<p>60</p>
+<p>Returns: 60</p>
+<p></p></div></li><li><div><p>{"012345"}</p>
+<p>{"1","02","003","0004","00005","000006"}</p>
+<p>99999959</p>
+<p>Returns: 99999959</p>
+<p></p></div></li><li><div><p>{
+"01",
+"32"}</p>
+<p>{"1E","S","W","00000W"}</p>
+<p>66666623</p>
+<p>Returns: 3</p>
+<p></p></div></li><li><div><p>{
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000002"
+}</p>
+<p>{
+"99999E",
+"99999S",
+"999999"
+}</p>
+<p>6</p>
+<p>Returns: 144</p>
+<p>9*(6+5+5)=144</p></div></li><li><div><p>{
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000001",
+"00000002"
+}</p>
+<p>{
+"99999E",
+"99999S",
+"999999"
+}</p>
+<p>99999996</p>
+<p>Returns: 48149980749</p>
+<p>99999996/6=16666666
+16666666*(45*63+9*6)=48149998074
+(with the remaining ones still "on the way")</p></div></li><li><div><p>{"01111111",
+ "22222222",
+ "22222222",
+ "22222222",
+ "22222222",
+ "22222222",
+ "22222222",
+ "22222222"}</p>
+<p>{"9","9W","9S"}</p>
+<p>100000000</p>
+<p>Returns: 4049999811</p>
+<p></p></div></li><li><div><p>{"13983779", "56620380", "91254988", "20656288", "43363525", "67824559", "93351733", "15817451" }</p>
+<p>{"5EE8", "7", "37S", "S4", "85N5S", "D", "5DD1", "7E9N8S", "5E0", "9" }</p>
+<p>100000000</p>
+<p>Returns: 2184999955</p></div></li><li><div><p>{"01", "32" }</p>
+<p>{"1E", "SSDSS", "W", "00000W" }</p>
+<p>100000000</p>
+<p>Returns: 3</p></div></li><li><div><p>{"055556", "189996", "289996", "389996", "487777" }</p>
+<p>{"1E", "2E1E", "3EE4", "9EEEE1", "E5E6E", "E", "S", "W", "N", "1D" }</p>
+<p>100000000</p>
+<p>Returns: 63750000</p></div></li><li><div><p>{"01111112", "23333333", "11111112", "23333333", "11111112", "23333333", "11111112", "43333333" }</p>
+<p>{"0000E1", "E0EW0W", "N0NSS0", "0EW0WE", "0000E0" }</p>
+<p>100000000</p>
+<p>Returns: 16666666</p></div></li><li><div><p>{"12311114", "12311114", "12311114", "12311114", "12311114", "12311114", "12311114", "12311110" }</p>
+<p>{"9", "99999E", "9999E", "999E", "99999S" }</p>
+<p>100000000</p>
+<p>Returns: 47309982228</p></div></li><li><div><p>{"011112" }</p>
+<p>{"1E", "E", "0" }</p>
+<p>100000000</p>
+<p>Returns: 49999998</p></div></li><li><div><p>{"01111112", "01111112", "01111112", "01111112", "01111112", "01111112", "01111112", "01111112" }</p>
+<p>{"1E", "E", "0" }</p>
+<p>100000000</p>
+<p>Returns: 49999997</p></div></li><li><div><p>{"0001", "3001", "3001", "3222" }</p>
+<p>{"1EEE", "1SSS", "1WWW", "1NNN" }</p>
+<p>100000000</p>
+<p>Returns: 37500000</p></div></li><li><div><p>{"10000002", "10000002", "10000002", "10000002", "10000002", "10000002", "10000002", "10000003" }</p>
+<p>{"E", "9E", "S", "9" }</p>
+<p>100000000</p>
+<p>Returns: 4499999640</p></div></li><li><div><p>{"01010101", "10101010", "01010101", "01010101", "10101010", "01010201", "10101010", "01010101" }</p>
+<p>{"4NWD", "5353S", "9" }</p>
+<p>100000000</p>
+<p>Returns: 1299999980</p></div></li><li><div><p>{"0101", "1010", "0101" }</p>
+<p>{"4", "5353" }</p>
+<p>31231231</p>
+<p>Returns: 124924925</p></div></li><li><div><p>{"01234567", "80124567", "11124567", "11124567", "89014567", "88884567", "99012367", "90123407" }</p>
+<p>{"1E", "SSDSS", "W", "00W", "98SS65", "923D3", "9NNN1", "8S1", "7E374", "45456" }</p>
+<p>98765431</p>
+<p>Returns: 888888860</p></div></li><li><div><p>{"01234567", "90123456", "89012345", "78901234", "67890123", "56789012", "45678901", "34567890" }</p>
+<p>{"9E9E9E", "9W9W9W", "9S9S9S", "9N9N9", "9E9E9E", "9W9W9W", "9S9S9S", "9N9N9", "9E9E9E", "9W9W9W" }</p>
+<p>100000000</p>
+<p>Returns: 945000000</p></div></li><li><div><p>{"01234568", "76503210", "56549214", "26563210", "76043212", "46529910", "70343210", "16749610" }</p>
+<p>{"99WWN9", "77", "WWN99", "999999", "NWSE", "E", "000123", "887EE9", "9", "WWN9N" }</p>
+<p>100000000</p>
+<p>Returns: 1799999937</p></div></li><li><div><p>{"00100010", "00010000", "10000100", "00100001", "00010000", "00001000", "01000100", "00010010" }</p>
+<p>{"95S9WD", "8E7N9" }</p>
+<p>100000000</p>
+<p>Returns: 141</p></div></li><li><div><p>{"00000001", "00000001", "00000001", "00020001", "00000001", "00000001", "00000001", "00000002" }</p>
+<p>{"9E", "0000S", "0" }</p>
+<p>100000000</p>
+<p>Returns: 23399995284</p></div></li><li><div><p>{"00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000" }</p>
+<p>{"9" }</p>
+<p>100000000</p>
+<p>Returns: 900000000</p></div></li><li><div><p>{"01" }</p>
+<p>{"1E", "0E" }</p>
+<p>100000</p>
+<p>Returns: 1</p></div></li><li><div><p>{"035872", "179234", "235872", "239583", "238957", "328953", "238957", "892370" }</p>
+<p>{"DNEWE5", "23NEE7", "SSWW39", "927NE", "23", "3253NE", "237", "3256NE", "235WN", "4" }</p>
+<p>99999999</p>
+<p>Returns: 2026666513</p></div></li><li><div><p>{"01111111", "04444442", "04444442", "04444442", "04444442", "04444442", "04444442", "33333332" }</p>
+<p>{"9E99E9", "8S98S", "9W", "8N99", "5NESW8" }</p>
+<p>98765443</p>
+<p>Returns: 2423045223</p></div></li><li><div><p>{"0" }</p>
+<p>{"D7" }</p>
+<p>100000000</p>
+<p>Returns: 7</p></div></li><li><div><p>{"0101", "1010", "0101" }</p>
+<p>{"4", "5353" }</p>
+<p>100000000</p>
+<p>Returns: 400000000</p></div></li><li><div><p>{"00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000" }</p>
+<p>{"999999" }</p>
+<p>100000000</p>
+<p>Returns: 900000000</p></div></li><li><div><p>{"21212121", "01010101", "01010101", "01010101", "01010101", "01010101", "01010101", "42020203" }</p>
+<p>{"8N", "8S", "8E", "8", "9N" }</p>
+<p>100000000</p>
+<p>Returns: 26049984314</p></div></li><li><div><p>{"011111", "000003", "004003", "000003", "222223" }</p>
+<p>{"SSSSS", "WW", "EEE", "NNNN", "12N39W" }</p>
+<p>100000000</p>
+<p>Returns: 83333340</p></div></li><li><div><p>{"01234567", "98765432", "01234567", "98765432", "01234567", "98765432", "01234567", "98765432" }</p>
+<p>{"978", "47W", "9E8", "6DE", "9", "87N", "978", "9EE", "97S", "97E" }</p>
+<p>99999998</p>
+<p>Returns: 2233333212</p></div></li><li><div><p>{"012345", "543210", "010203", "302020", "102020", "120203" }</p>
+<p>{"423315", "ENNS12", "ENS2", "999", "9999", "119SEW", "WN90", "00" }</p>
+<p>100000000</p>
+<p>Returns: 974999997</p></div></li><li><div><p>{"00200", "00200", "11533", "00400", "00400" }</p>
+<p>{"9N9E9S", "9E", "9S", "9W", "9N", "9" }</p>
+<p>100000000</p>
+<p>Returns: 8099999748</p></div></li><li><div><p>{"4000001", "3222222" }</p>
+<p>{"E", "S", "W", "N", "1E" }</p>
+<p>100000000</p>
+<p>Returns: 7142858</p></div></li><li><div><p>{"0" }</p>
+<p>{"D1" }</p>
+<p>5040</p>
+<p>Returns: 1</p></div></li><li><div><p>{"01" }</p>
+<p>{"1E", "E" }</p>
+<p>80640</p>
+<p>Returns: 1</p></div></li><li><div><p>{"00000001", "00000001", "00000001", "00000001", "00000001", "00000001", "00000001", "22222223" }</p>
+<p>{"99999W", "99999S", "99999W", "9999" }</p>
+<p>99999999</p>
+<p>Returns: 6149998836</p></div></li><li><div><p>{"46298429", "53329479", "49219310", "34912321", "42131221", "41234125", "32409401", "21349401" }</p>
+<p>{"E", "D0", "SED", "5321", "9WW78", "040123", "219312", "NSEWSE", "243213", "NEWSSE" }</p>
+<p>100000000</p>
+<p>Returns: 914999969</p></div></li><li><div><p>{"010101", "010101", "212102", "324324", "010101" }</p>
+<p>{"1EE3W", "2E", "3W4", "4NE2", "2" }</p>
+<p>100000000</p>
+<p>Returns: 796666630</p></div></li><li><div><p>{"0111" }</p>
+<p>{"1E", "E" }</p>
+<p>72000</p>
+<p>Returns: 1</p></div></li><li><div><p>{"29298511", "70673258", "59922002", "63633048", "32740689", "41912685", "77960880", "91136945" }</p>
+<p>{"SWSDWS", "EDDDSD", "DDEWWS", "ESDEWS", "EWSWWW", "WESSWD", "EENEDS", "SWDWSE", "DWSNEN", "DWEWDS" }</p>
+<p>100000000</p>
+<p>Returns: 0</p></div></li><li><div><p>{"0" }</p>
+<p>{"12345" }</p>
+<p>37</p>
+<p>Returns: 108</p></div></li><li><div><p>{"40000001", "31222222", "30001000", "32222000" }</p>
+<p>{"E", "S", "W", "N", "1E" }</p>
+<p>100000000</p>
+<p>Returns: 3846154</p></div></li><li><div><p>{"00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000000", "00000001" }</p>
+<p>{"9D", "9D" }</p>
+<p>100000000</p>
+<p>Returns: 0</p></div></li><li><div><p>{"67293572", "02959182", "59591914", "19293911", "90123456", "19201001", "11929317", "95919291" }</p>
+<p>{"987651", "S1ENW9", "451W2", "91WN99", "765432", "582858", "NEWSD9", "85818", "9", "9591EW" }</p>
+<p>100000000</p>
+<p>Returns: 1599999927</p></div></li><li><div><p>{"32321", "32312", "13434" }</p>
+<p>{"ED987W", "3D40SN", "12D", "18DES", "E", "0", "1234", "WWWEEE", "EWS", "3477" }</p>
+<p>100000000</p>
+<p>Returns: 4</p></div></li><li><div><p>{"40000001", "31222222", "30001005", "32222006", "40000031", "31222222", "30000001", "32222222" }</p>
+<p>{"E", "S", "W", "N", "1E", "10000E", "SSSSSN" }</p>
+<p>100000000</p>
+<p>Returns: 3846154</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/10796/pm/8045">2007-<!-- --> <!-- -->SRM 376<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/8045/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"8045\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"8045\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"8045\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"8045\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"8045\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T94b,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003eYou have built a moving sculpture containing several devices that move marbles around on a grid.  Each device occupies a single square on the grid and repeatedly executes a sequence of actions.  The possible actions are:\u003c/p\u003e\n\n\u003cul xmlns=\"http://topcoder.com\"\u003e\u003cli\u003eDigits 0-9: Bring up 0-9 marbles from the central store (which never runs out of marbles) and place them on the square.\u003c/li\u003e\n\u003cli\u003eN,E,S,W: Move all the marbles on the square one square North, East, South, or West.  If this causes the marbles to leave the grid, they will be removed and placed back in the central store.\u003c/li\u003e\n\u003cli\u003eD: Remove all the marbles from the square and drop them back into the central store.\u003c/li\u003e\u003c/ul\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eEach device has its own sequence of actions, and different devices may have sequences of different lengths.  At time 0, each device executes its first action, at time 1, each device executes its second action, etc.  When a device reaches the end of its sequence, it starts again at the beginning of the sequence.\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\u0026amp;nbsp;\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eDuring each unit of time, all actions happen simultaneously and only operate on marbles on the squares at the beginning of that time unit.  For example, suppose there is one marble on square (0, 0) and one on square (1, 0).  Now suppose the first square's action is 'E' and the second square's action is 'D'.  At the end of this time unit, the first square will have 0 marbles and the second will have 1.  The second square drops the marble that it had at the beginning of the time unit, but it does not drop the marble that arrives from the first square during that time unit.\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\u0026amp;nbsp;\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eYou are given a \u003ctype\u003eString[]\u003c/type\u003e \u003cb\u003eactions\u003c/b\u003e, the i-th element of which is the action sequence for a device of type i (where i is a 0-based index).  You are also given a \u003ctype\u003eString[]\u003c/type\u003e \u003cb\u003elayout\u003c/b\u003e, where the j-th character of the i-th element is a digit representing the type of device located in row i, column j of the grid.  Rows are numbered in increasing order from North to South, and columns are numbered in increasing order from West to East.  Return the maximum number of marbles that exist on a single square after \u003cb\u003et\u003c/b\u003e time units have passed.\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"MarbleMachine\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MarbleMachine\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"maxMarbles\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long maxMarbles(String[] layout, String[] actions, int t)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"layout will contain between 1 and 8 elements, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of layout will contain between 1 and 8 characters, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of layout will contain the same number of characters.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of layout will contain only digits between 0 and n-1, inclusive, where n is the number of elements in actions.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"actions will contain between 1 and 10 elements, inclusive.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of actions will contain between 1 and 6 characters, inclusive.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of actions will contain only digits ('0'-'9') and the characters 'N', 'E', 'S', 'W' and 'D'.\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"t will be between 1 and 100,000,000, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"0101\\\",\\n\\\"1010\\\",\\n\\\"0101\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"4\\\",\\\"5353\\\"}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 21\u003c/p\u003e\\n\u003cp\u003eDevices of type 0 are simple; they pull up 4 marbles on each turn.  Over 5 cycles, this is 20 marbles.  Devices of type 1 will complete just over 1 cycle in this time - pulling up a total of 5+3+5+3+5=21 marbles.  So the maximum marbles at any position will be 21 (which occurs at each location with a device of type 1).\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"011112\\\"}\\n\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\",\\\"E\\\",\\\"0\\\"}\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 498\u003c/p\u003e\\n\u003cp\u003eThis structure functions as a kind of conveyor belt.  At the left, the device of type 0 alternately grabs one marble and pushes it East.  The devices of type 1 move the marble along to the East until they reach the device of type 2, which accumulates the marbles.  After 1000 cycles, 500 marbles have been brought up.  2 are still on the \\\"conveyor belt\\\", and 498 are on the square at the East end.  \u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"01\\\",\\n\\\"32\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\",\\\"SSDSS\\\",\\\"W\\\",\\\"00000W\\\"}\u003c/p\u003e\\n\u003cp\u003e23\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\\n\u003cp\u003eThis machine delivers marbles to the Southwest corner, from which they are periodically dumped off the West edge.  The Northeast corner also occasionally loses its marbles.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0101\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"4\\\",\\\"5353\\\"}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 21\u003c/p\u003e\\n\u003cp\u003eDevices of type 0 are simple; they pull up 4 marbles on each turn.  Over 5 cycles, this is 20 marbles.  Devices of type 1 will complete just over 1 cycle in this time - pulling up a total of 5+3+5+3+5=21 marbles.  In total, there are 20+21+20+21=82 marbles.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"102\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1E1W\\\",\\\"D\\\",\\\"0\\\"}\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\\n\u003cp\u003eThe type 0 device pulls up marbles and sends them East and West in alternating fashion.  The marbles that go West to the type 1 device are dumped each turn.  The marbles that go East to the type 2 device are stockpiled.  After 20 turns, there's 5 marbles at the East end and 1 marble at the West end (that will be dropped next turn).\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"40001\\\",\\n\\\"03222\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"EEE\\\",\\\"SS\\\",\\\"W\\\",\\\"NNNND\\\",\\\"11E\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e2000\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003eFor the most part, marbles entering the system from the type 4 device move in a continuous cycle.  However, the type 3 device occasionally loses its marbles, which limits the number of marbles that accumulate.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"51111112\\\",\\n\\\"11111122\\\",\\n\\\"41111222\\\",\\n\\\"44112222\\\",\\n\\\"44403222\\\",\\n\\\"44433322\\\",\\n\\\"44333332\\\",\\n\\\"43333333\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"000000\\\",\\n\\\"00000E\\\",\\n\\\"00000S\\\",\\n\\\"00000W\\\",\\n\\\"00000N\\\",\\n\\\"10000E\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e390\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\\n\u003cp\u003eAt 390, the third marble reaches the center.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"51111112\\\",\\n\\\"11111122\\\",\\n\\\"41111222\\\",\\n\\\"44112222\\\",\\n\\\"44403222\\\",\\n\\\"44433322\\\",\\n\\\"44333332\\\",\\n\\\"43333333\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"000000\\\",\\n\\\"00000E\\\",\\n\\\"00000S\\\",\\n\\\"00000W\\\",\\n\\\"00000N\\\",\\n\\\"10000E\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e38400000\u003c/p\u003e\\n\u003cp\u003eReturns: 6399938\u003c/p\u003e\\n\u003cp\u003e38,400,000/6=6,400,000-62 (all spaces but center and top-left)=6,399,938\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"51111112\\\",\\n\\\"11111122\\\",\\n\\\"41111222\\\",\\n\\\"44112222\\\",\\n\\\"44403222\\\",\\n\\\"44433322\\\",\\n\\\"44333332\\\",\\n\\\"43333333\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"000000\\\",\\n\\\"00000E\\\",\\n\\\"00000S\\\",\\n\\\"00000W\\\",\\n\\\"00000N\\\",\\n\\\"99999E\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e38399999\u003c/p\u003e\\n\u003cp\u003eReturns: 287997165\u003c/p\u003e\\n\u003cp\u003e38,400,000*45/6=288000000-45*63 (all spaces but top-left)=287,997,165\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"51111112\\\",\\n\\\"11111122\\\",\\n\\\"41111222\\\",\\n\\\"44112222\\\",\\n\\\"44403222\\\",\\n\\\"44433322\\\",\\n\\\"44333332\\\",\\n\\\"43333333\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"000000\\\",\\n\\\"00000E\\\",\\n\\\"00000S\\\",\\n\\\"00000W\\\",\\n\\\"00000N\\\",\\n\\\"10000E\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e389\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003eOne time unit before third marble.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"30000001\\\",\\n\\\"03333330\\\",\\n\\\"06222240\\\",\\n\\\"07219240\\\",\\n\\\"06281240\\\",\\n\\\"06222240\\\",\\n\\\"05555540\\\",\\n\\\"20000004\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"0\\\",\\n\\\"1ESENW\\\",\\n\\\"S2WEE\\\",\\n\\\"WE3NS\\\",\\n\\\"N4SW\\\",\\n\\\"DWE6SN\\\",\\n\\\"N5SWW\\\",\\n\\\"ESW7W\\\",\\n\\\"N8S\\\",\\n\\\"9NEW\\\"}\\n\u003c/p\u003e\\n\u003cp\u003e6000005\u003c/p\u003e\\n\u003cp\u003eReturns: 37399929\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"30000001\\\",\\n\\\"03333330\\\",\\n\\\"06222240\\\",\\n\\\"07219240\\\",\\n\\\"06281240\\\",\\n\\\"06222240\\\",\\n\\\"05555540\\\",\\n\\\"20000004\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1\\\",\\n\\\"DW6WN\\\",\\n\\\"N5SDW\\\",\\n\\\"ESN7W\\\",\\n\\\"3WSENW\\\",\\n\\\"S2WEE\\\",\\n\\\"WE3NS\\\",\\n\\\"N4SS\\\",\\n\\\"E8SW\\\",\\n\\\"9NW\\\"}\\n\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 403333321\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"12000000\\\",\\n\\\"71120120\\\",\\n\\\"13020320\\\",\\n\\\"00011320\\\",\\n\\\"00000020\\\",\\n\\\"06544440\\\",\\n\\\"00000000\\\",\\n\\\"00000000\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"D\\\",\\\"EEE\\\",\\\"SSS\\\",\\\"NNNNN\\\",\\\"W\\\",\\\"DWD\\\",\\\"0\\\",\\\"1N2S\\\"}\u003c/p\u003e\\n\u003cp\u003e60\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\\n\u003cp\u003eA 2 just arrived, the previous 1 was lost.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"75633808\\\",\\n\\\"87049849\\\",\\n\\\"19458165\\\",\\n\\\"36633886\\\",\\n\\\"92725170\\\",\\n\\\"61183034\\\",\\n\\\"39432264\\\",\\n\\\"59384396\\\"\\n}\\n\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"11SS\\\",\\n\\\"564N\\\",\\n\\\"76W\\\",\\n\\\"7N9W0\\\",\\n\\\"N2DS\\\",\\n\\\"3SS\\\",\\n\\\"628E\\\",\\n\\\"9S1N\\\",\\n\\\"31NN6\\\",\\n\\\"NS\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e987273\u003c/p\u003e\\n\u003cp\u003eReturns: 25685297\u003c/p\u003e\\n\u003cp\u003e(13-20 are just random big cases)\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"43973731\\\",\\n\\\"03832533\\\",\\n\\\"05296793\\\",\\n\\\"51641963\\\",\\n\\\"15210359\\\",\\n\\\"54887735\\\",\\n\\\"47245854\\\",\\n\\\"31526495\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"S99\\\",\\n\\\"SEE\\\",\\n\\\"WW4S\\\",\\n\\\"EE2N\\\",\\n\\\"8S6\\\",\\n\\\"S83\\\",\\n\\\"WN14\\\",\\n\\\"718D3\\\",\\n\\\"0DW\\\",\\n\\\"SNS\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e77738377\u003c/p\u003e\\n\u003cp\u003eReturns: 285040712\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"27768282\\\",\\n\\\"91184511\\\",\\n\\\"20756257\\\",\\n\\\"74971670\\\",\\n\\\"44916312\\\",\\n\\\"14955244\\\",\\n\\\"35156974\\\",\\n\\\"71775223\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"NWW0E\\\",\\n\\\"S21\\\",\\n\\\"93\\\",\\n\\\"WN6\\\",\\n\\\"526\\\",\\n\\\"E\\\",\\n\\\"N\\\",\\n\\\"E1\\\",\\n\\\"16NE\\\",\\n\\\"DWE4\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 799999998\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"83879245\\\",\\n\\\"42661168\\\",\\n\\\"64258455\\\",\\n\\\"44747523\\\",\\n\\\"13638382\\\",\\n\\\"31546031\\\",\\n\\\"38685629\\\",\\n\\\"36687783\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"0N5WD\\\",\\n\\\"EWN\\\",\\n\\\"E8N\\\",\\n\\\"S75\\\",\\n\\\"3S\\\",\\n\\\"N\\\",\\n\\\"6S\\\",\\n\\\"0S\\\",\\n\\\"N0\\\",\\n\\\"72\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e6000\u003c/p\u003e\\n\u003cp\u003eReturns: 42997\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"78415614\\\",\\n\\\"54932535\\\",\\n\\\"43164594\\\",\\n\\\"64111183\\\",\\n\\\"10785851\\\",\\n\\\"63374429\\\",\\n\\\"14657130\\\",\\n\\\"89329244\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"8W1N\\\",\\n\\\"W9N8\\\",\\n\\\"WE0\\\",\\n\\\"EN\\\",\\n\\\"18\\\",\\n\\\"W76\\\",\\n\\\"4W0W\\\",\\n\\\"EW16\\\",\\n\\\"W0S\\\",\\n\\\"038\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e606060\u003c/p\u003e\\n\u003cp\u003eReturns: 10151433\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"39165948\\\",\\n\\\"81658417\\\",\\n\\\"77582739\\\",\\n\\\"74161731\\\",\\n\\\"65689217\\\",\\n\\\"56833932\\\",\\n\\\"22254372\\\",\\n\\\"73093744\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"SS\\\",\\n\\\"0E\\\",\\n\\\"W7D\\\",\\n\\\"45\\\",\\n\\\"5E6\\\",\\n\\\"9N\\\",\\n\\\"6\\\",\\n\\\"DNN\\\",\\n\\\"N4\\\",\\n\\\"1ED\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e2520\u003c/p\u003e\\n\u003cp\u003eReturns: 40721\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"57398512\\\",\\n\\\"59081678\\\",\\n\\\"48293136\\\",\\n\\\"29249548\\\",\\n\\\"72278643\\\",\\n\\\"82762987\\\",\\n\\\"15178505\\\",\\n\\\"69336456\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"5W85\\\",\\n\\\"3\\\",\\n\\\"DWS6\\\",\\n\\\"W5SW\\\",\\n\\\"9N3\\\",\\n\\\"NE\\\",\\n\\\"D\\\",\\n\\\"109EW\\\",\\n\\\"S0E\\\",\\n\\\"918\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e2521\u003c/p\u003e\\n\u003cp\u003eReturns: 44696\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"62798913\\\",\\n\\\"73998929\\\",\\n\\\"18795925\\\",\\n\\\"46037121\\\",\\n\\\"82885731\\\",\\n\\\"32436485\\\",\\n\\\"54673983\\\",\\n\\\"95295083\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"D4N5\\\",\\n\\\"0EES\\\",\\n\\\"N056\\\",\\n\\\"96\\\",\\n\\\"87WN\\\",\\n\\\"64WEE\\\",\\n\\\"WNS\\\",\\n\\\"70E8\\\",\\n\\\"S5\\\",\\n\\\"DS\\\"\\n}\\n\u003c/p\u003e\\n\u003cp\u003e4000\u003c/p\u003e\\n\u003cp\u003eReturns: 70914\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"00\\\",\\n\\\"01\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"0\\\",\\\"1\\\"}\u003c/p\u003e\\n\u003cp\u003e6065\u003c/p\u003e\\n\u003cp\u003eReturns: 6065\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"00\\\",\\n\\\"00\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"0\\\",\\\"1\\\",\\\"2\\\",\\\"3\\\",\\\"4\\\",\\\"5\\\",\\\"6\\\",\\\"7\\\",\\\"8\\\",\\\"9\\\"}\u003c/p\u003e\\n\u003cp\u003e99886772\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1S\\\"}\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1S\\\"}\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\",\\\"0\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1S\\\"}\u003c/p\u003e\\n\u003cp\u003e99778991\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"01\\\",\\n\\\"01\\\",\\n\\\"01\\\",\\n\\\"21\\\",\\n\\\"01\\\",\\n\\\"01\\\",\\n\\\"01\\\"}\\n\u003c/p\u003e\\n\u003cp\u003e{\\\"0\\\",\\\"NNNSSS\\\",\\\"1E11E\\\",\\\"D0WN\\\",\\\"W0NDE4\\\"}\u003c/p\u003e\\n\u003cp\u003e1001003\u003c/p\u003e\\n\u003cp\u003eReturns: 200202\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"012345\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1\\\",\\\"01\\\",\\\"001\\\",\\\"0001\\\",\\\"00001\\\",\\\"000001\\\"}\u003c/p\u003e\\n\u003cp\u003e60\u003c/p\u003e\\n\u003cp\u003eReturns: 60\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"012345\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1\\\",\\\"02\\\",\\\"003\\\",\\\"0004\\\",\\\"00005\\\",\\\"000006\\\"}\u003c/p\u003e\\n\u003cp\u003e99999959\u003c/p\u003e\\n\u003cp\u003eReturns: 99999959\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"01\\\",\\n\\\"32\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\",\\\"S\\\",\\\"W\\\",\\\"00000W\\\"}\u003c/p\u003e\\n\u003cp\u003e66666623\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000002\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"99999E\\\",\\n\\\"99999S\\\",\\n\\\"999999\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003eReturns: 144\u003c/p\u003e\\n\u003cp\u003e9*(6+5+5)=144\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000001\\\",\\n\\\"00000002\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"99999E\\\",\\n\\\"99999S\\\",\\n\\\"999999\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e99999996\u003c/p\u003e\\n\u003cp\u003eReturns: 48149980749\u003c/p\u003e\\n\u003cp\u003e99999996/6=16666666\\n16666666*(45*63+9*6)=48149998074\\n(with the remaining ones still \\\"on the way\\\")\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01111111\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\",\\n \\\"22222222\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"9\\\",\\\"9W\\\",\\\"9S\\\"}\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 4049999811\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"13983779\\\", \\\"56620380\\\", \\\"91254988\\\", \\\"20656288\\\", \\\"43363525\\\", \\\"67824559\\\", \\\"93351733\\\", \\\"15817451\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"5EE8\\\", \\\"7\\\", \\\"37S\\\", \\\"S4\\\", \\\"85N5S\\\", \\\"D\\\", \\\"5DD1\\\", \\\"7E9N8S\\\", \\\"5E0\\\", \\\"9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 2184999955\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01\\\", \\\"32\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"SSDSS\\\", \\\"W\\\", \\\"00000W\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"055556\\\", \\\"189996\\\", \\\"289996\\\", \\\"389996\\\", \\\"487777\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"2E1E\\\", \\\"3EE4\\\", \\\"9EEEE1\\\", \\\"E5E6E\\\", \\\"E\\\", \\\"S\\\", \\\"W\\\", \\\"N\\\", \\\"1D\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 63750000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01111112\\\", \\\"23333333\\\", \\\"11111112\\\", \\\"23333333\\\", \\\"11111112\\\", \\\"23333333\\\", \\\"11111112\\\", \\\"43333333\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"0000E1\\\", \\\"E0EW0W\\\", \\\"N0NSS0\\\", \\\"0EW0WE\\\", \\\"0000E0\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 16666666\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"12311114\\\", \\\"12311114\\\", \\\"12311114\\\", \\\"12311114\\\", \\\"12311114\\\", \\\"12311114\\\", \\\"12311114\\\", \\\"12311110\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9\\\", \\\"99999E\\\", \\\"9999E\\\", \\\"999E\\\", \\\"99999S\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 47309982228\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"011112\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"E\\\", \\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 49999998\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\", \\\"01111112\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"E\\\", \\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 49999997\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0001\\\", \\\"3001\\\", \\\"3001\\\", \\\"3222\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1EEE\\\", \\\"1SSS\\\", \\\"1WWW\\\", \\\"1NNN\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 37500000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"10000002\\\", \\\"10000002\\\", \\\"10000002\\\", \\\"10000002\\\", \\\"10000002\\\", \\\"10000002\\\", \\\"10000002\\\", \\\"10000003\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"E\\\", \\\"9E\\\", \\\"S\\\", \\\"9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 4499999640\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01010101\\\", \\\"10101010\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"10101010\\\", \\\"01010201\\\", \\\"10101010\\\", \\\"01010101\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"4NWD\\\", \\\"5353S\\\", \\\"9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 1299999980\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0101\\\", \\\"1010\\\", \\\"0101\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"4\\\", \\\"5353\\\" }\u003c/p\u003e\\n\u003cp\u003e31231231\u003c/p\u003e\\n\u003cp\u003eReturns: 124924925\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01234567\\\", \\\"80124567\\\", \\\"11124567\\\", \\\"11124567\\\", \\\"89014567\\\", \\\"88884567\\\", \\\"99012367\\\", \\\"90123407\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"SSDSS\\\", \\\"W\\\", \\\"00W\\\", \\\"98SS65\\\", \\\"923D3\\\", \\\"9NNN1\\\", \\\"8S1\\\", \\\"7E374\\\", \\\"45456\\\" }\u003c/p\u003e\\n\u003cp\u003e98765431\u003c/p\u003e\\n\u003cp\u003eReturns: 888888860\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01234567\\\", \\\"90123456\\\", \\\"89012345\\\", \\\"78901234\\\", \\\"67890123\\\", \\\"56789012\\\", \\\"45678901\\\", \\\"34567890\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9E9E9E\\\", \\\"9W9W9W\\\", \\\"9S9S9S\\\", \\\"9N9N9\\\", \\\"9E9E9E\\\", \\\"9W9W9W\\\", \\\"9S9S9S\\\", \\\"9N9N9\\\", \\\"9E9E9E\\\", \\\"9W9W9W\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 945000000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01234568\\\", \\\"76503210\\\", \\\"56549214\\\", \\\"26563210\\\", \\\"76043212\\\", \\\"46529910\\\", \\\"70343210\\\", \\\"16749610\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"99WWN9\\\", \\\"77\\\", \\\"WWN99\\\", \\\"999999\\\", \\\"NWSE\\\", \\\"E\\\", \\\"000123\\\", \\\"887EE9\\\", \\\"9\\\", \\\"WWN9N\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 1799999937\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00100010\\\", \\\"00010000\\\", \\\"10000100\\\", \\\"00100001\\\", \\\"00010000\\\", \\\"00001000\\\", \\\"01000100\\\", \\\"00010010\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"95S9WD\\\", \\\"8E7N9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 141\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00020001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000002\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9E\\\", \\\"0000S\\\", \\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 23399995284\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 900000000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"0E\\\" }\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"035872\\\", \\\"179234\\\", \\\"235872\\\", \\\"239583\\\", \\\"238957\\\", \\\"328953\\\", \\\"238957\\\", \\\"892370\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"DNEWE5\\\", \\\"23NEE7\\\", \\\"SSWW39\\\", \\\"927NE\\\", \\\"23\\\", \\\"3253NE\\\", \\\"237\\\", \\\"3256NE\\\", \\\"235WN\\\", \\\"4\\\" }\u003c/p\u003e\\n\u003cp\u003e99999999\u003c/p\u003e\\n\u003cp\u003eReturns: 2026666513\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01111111\\\", \\\"04444442\\\", \\\"04444442\\\", \\\"04444442\\\", \\\"04444442\\\", \\\"04444442\\\", \\\"04444442\\\", \\\"33333332\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9E99E9\\\", \\\"8S98S\\\", \\\"9W\\\", \\\"8N99\\\", \\\"5NESW8\\\" }\u003c/p\u003e\\n\u003cp\u003e98765443\u003c/p\u003e\\n\u003cp\u003eReturns: 2423045223\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"D7\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0101\\\", \\\"1010\\\", \\\"0101\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"4\\\", \\\"5353\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 400000000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"999999\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 900000000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"21212121\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"01010101\\\", \\\"42020203\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"8N\\\", \\\"8S\\\", \\\"8E\\\", \\\"8\\\", \\\"9N\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 26049984314\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"011111\\\", \\\"000003\\\", \\\"004003\\\", \\\"000003\\\", \\\"222223\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"SSSSS\\\", \\\"WW\\\", \\\"EEE\\\", \\\"NNNN\\\", \\\"12N39W\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 83333340\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01234567\\\", \\\"98765432\\\", \\\"01234567\\\", \\\"98765432\\\", \\\"01234567\\\", \\\"98765432\\\", \\\"01234567\\\", \\\"98765432\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"978\\\", \\\"47W\\\", \\\"9E8\\\", \\\"6DE\\\", \\\"9\\\", \\\"87N\\\", \\\"978\\\", \\\"9EE\\\", \\\"97S\\\", \\\"97E\\\" }\u003c/p\u003e\\n\u003cp\u003e99999998\u003c/p\u003e\\n\u003cp\u003eReturns: 2233333212\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"012345\\\", \\\"543210\\\", \\\"010203\\\", \\\"302020\\\", \\\"102020\\\", \\\"120203\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"423315\\\", \\\"ENNS12\\\", \\\"ENS2\\\", \\\"999\\\", \\\"9999\\\", \\\"119SEW\\\", \\\"WN90\\\", \\\"00\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 974999997\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00200\\\", \\\"00200\\\", \\\"11533\\\", \\\"00400\\\", \\\"00400\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9N9E9S\\\", \\\"9E\\\", \\\"9S\\\", \\\"9W\\\", \\\"9N\\\", \\\"9\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 8099999748\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"4000001\\\", \\\"3222222\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"E\\\", \\\"S\\\", \\\"W\\\", \\\"N\\\", \\\"1E\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 7142858\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"D1\\\" }\u003c/p\u003e\\n\u003cp\u003e5040\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"E\\\" }\u003c/p\u003e\\n\u003cp\u003e80640\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"00000001\\\", \\\"22222223\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"99999W\\\", \\\"99999S\\\", \\\"99999W\\\", \\\"9999\\\" }\u003c/p\u003e\\n\u003cp\u003e99999999\u003c/p\u003e\\n\u003cp\u003eReturns: 6149998836\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"46298429\\\", \\\"53329479\\\", \\\"49219310\\\", \\\"34912321\\\", \\\"42131221\\\", \\\"41234125\\\", \\\"32409401\\\", \\\"21349401\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"E\\\", \\\"D0\\\", \\\"SED\\\", \\\"5321\\\", \\\"9WW78\\\", \\\"040123\\\", \\\"219312\\\", \\\"NSEWSE\\\", \\\"243213\\\", \\\"NEWSSE\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 914999969\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"010101\\\", \\\"010101\\\", \\\"212102\\\", \\\"324324\\\", \\\"010101\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1EE3W\\\", \\\"2E\\\", \\\"3W4\\\", \\\"4NE2\\\", \\\"2\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 796666630\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0111\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"1E\\\", \\\"E\\\" }\u003c/p\u003e\\n\u003cp\u003e72000\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"29298511\\\", \\\"70673258\\\", \\\"59922002\\\", \\\"63633048\\\", \\\"32740689\\\", \\\"41912685\\\", \\\"77960880\\\", \\\"91136945\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"SWSDWS\\\", \\\"EDDDSD\\\", \\\"DDEWWS\\\", \\\"ESDEWS\\\", \\\"EWSWWW\\\", \\\"WESSWD\\\", \\\"EENEDS\\\", \\\"SWDWSE\\\", \\\"DWSNEN\\\", \\\"DWEWDS\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"0\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"12345\\\" }\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003eReturns: 108\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"40000001\\\", \\\"31222222\\\", \\\"30001000\\\", \\\"32222000\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"E\\\", \\\"S\\\", \\\"W\\\", \\\"N\\\", \\\"1E\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 3846154\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000000\\\", \\\"00000001\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"9D\\\", \\\"9D\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"67293572\\\", \\\"02959182\\\", \\\"59591914\\\", \\\"19293911\\\", \\\"90123456\\\", \\\"19201001\\\", \\\"11929317\\\", \\\"95919291\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"987651\\\", \\\"S1ENW9\\\", \\\"451W2\\\", \\\"91WN99\\\", \\\"765432\\\", \\\"582858\\\", \\\"NEWSD9\\\", \\\"85818\\\", \\\"9\\\", \\\"9591EW\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 1599999927\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"32321\\\", \\\"32312\\\", \\\"13434\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"ED987W\\\", \\\"3D40SN\\\", \\\"12D\\\", \\\"18DES\\\", \\\"E\\\", \\\"0\\\", \\\"1234\\\", \\\"WWWEEE\\\", \\\"EWS\\\", \\\"3477\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"40000001\\\", \\\"31222222\\\", \\\"30001005\\\", \\\"32222006\\\", \\\"40000031\\\", \\\"31222222\\\", \\\"30000001\\\", \\\"32222222\\\" }\u003c/p\u003e\\n\u003cp\u003e{\\\"E\\\", \\\"S\\\", \\\"W\\\", \\\"N\\\", \\\"1E\\\", \\\"10000E\\\", \\\"SSSSSN\\\" }\u003c/p\u003e\\n\u003cp\u003e100000000\u003c/p\u003e\\n\u003cp\u003eReturns: 3846154\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/10796/pm/8045\",\"children\":[\"2007-\",\" \",\"SRM 376\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

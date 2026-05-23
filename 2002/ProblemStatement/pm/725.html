@@ -1,0 +1,168 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->NumberFill<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+You are given a picture that needs to be colored in.  To aid in the coloring
+process, color clues have been placed in the picture.  To color a particular
+region of the picture you must first locate the color clue with the highest
+value within the region.  In case of a tie the leftmost clue is chosen from
+among the highest.  For example:
+XXXXXXXXXX   
+...2.X....   
+.2...X..2.    
+...0.XXXXX      'X's are boundaries
+..1..X....      '.'s are blanks  
+.3...X....
+....3X....
+XXXXXXXXXX
+Above there are 3 regions: the left, the upper right, and the lower right.  The
+lower right has no clues.  The left does have clues so first we find the
+highest clue value(3).  There is a tie between two 3s in the region so the
+leftmost 3 is chosen.  The upper right does have a clue and we choose the
+highest clue, which is also the only clue in the region(2).
+
+Once we have chosen a clue for a region we ignore all other clues in that
+region.  Next, the point with the chosen clue on it is given the color value of
+the clue.  The picture before would now look like this once we have 1)chosen
+clues, 2)ignored the unchosen, &amp; 3)given the points corresponding to the chosen
+clues the corresponding color values:
+XXXXXXXXXX   
+.....X....   
+.....X..2.    
+.....XXXXX      'X's are boundaries
+.....X....      '.'s are blanks  
+.3...X....
+.....X....
+XXXXXXXXXX
+
+Finally we must ensure that the following criteria hold for the region:
+1) All points in a region with the same horizontal coordinate share the same
+color value.  
+2) A point in the region one step to the left of another point in the region
+must have a color value lower by one.  
+3) A point in the region one step to the right of another point in the region
+must have a color value higher by one.
+
+The picture used before would be colored as follows:
+XXXXXXXXXX   
+23456X0123   
+23456X0123   
+23456XXXXX      'X's are boundaries
+23456X....      '.'s are blanks  
+23456X....
+23456X....
+XXXXXXXXXX
+
+As can be seen, the coloring method creates something of a color gradient in
+each region.  The region on the lower right had no color clues so it could not
+be colored and remains blank.  Also note that all shading ends at the
+boundaries of the picture.  It is as if there is an imaginary boundary around
+the outside of the picture.  In other words, all regions that touch the edge of
+the picture end at the edge of the picture.
+
+Your method will color all of the regions in the picture that can be colored,
+and will then return the sum of all of the colors values in the picture not
+including blank regions and boundaries.  
+In the above example it would be:
+6*(2+3+4+5+6) + 2*(0+1+2+3) = 132
+Since the blank region and boundaries were disregarded, and there are 6 rows of
+2+3+4+5+6 in the left region and 2 rows of 0+1+2+3 in the upper right region.
+
+Two points are in the same region if and only if there exists a path between
+them that does not cross a boundary.  This path can only consist of vertical
+and horizontal moves (no one step diagonal moves).  This path must not contain
+boundary symbols and cannot leave the picture.
+
+Create a class NumberFill that contains the method gradient, which takes a
+String[] picture and returns the sum of all colors values within the picture
+once all regions that should be filled have been properly filled.  Boundary
+points and blank regions are not included in the summation calculation.
+
+DEFINITION
+Class: NumberFill
+Method: gradient
+Parameters: String[]
+Returns: int
+Method signature (be sure your method is public):  int gradient(String[]
+picture);
+
+Boundaries are represented by 'X' characters.
+Color clues are represented by characters '0'..'9' inclusive.
+Blank spots on the board are represented by '.' characters.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+
+- All characters in picture are either 'X', '.', or '0'..'9' inclusive (single
+quotes for clarity)
+- All elements of picture will have the same length.
+- All elements of picture will have length between 1 and 20 inclusive
+- picture will contain between 1 and 20 elements inclusive
+
+NOTES
+- Due to the nature of the process, negative color values and color values
+greater than 9 can occur in the picture after the gradient has been computed
+(see example 6 for more on negative color values)
+
+
+EXAMPLES
+1) picture = {
+"..X.....",
+"..X..0..",
+"1.X.....",
+"..X.....",
+"........"}
+
+The highest clue in the region is the 1 so it is chosen.
+The final picture would look like:
+12X45678
+12X45678
+12X45678 
+12X45678 
+12345678 
+The return value is thus: 5*(1+2+4+5+6+7+8)+3 = 168
+
+2) picture = {
+"5.X.....",
+"..X..3..",
+"..X.....",
+"..X.....",
+"..X....."}
+
+There are two regions in this picture: the left and the right.
+The highest clue in the left region is the 5 so it is chosen.
+The highest clue in the right region is the 3 so it is chosen.
+The final picture would look like:
+56X12345
+56X12345
+56X12345
+56X12345
+56X12345
+The return value is thus: 5*(5+6+1+2+3+4+5) = 130
+
+3) picture = {
+"........",
+"........",
+"........",
+"........"}
+There are no clues in the region so it is left blank.
+The return value is thus: 0
+
+4) picture = {"...3"}
+
+The highest clue in the region is the 3 so it is chosen. 
+The final picture would look like:
+0123
+The return value is thus 0+1+2+3 = 6
+
+5) picture = {".3....3"}
+
+Two clues of value 3 are tied for the highest clue in the region.  The leftmost
+3 is chosen.
+The final picture would look like:
+2345678
+The return value is thus 2+3+4+5+6+7+8 = 35
+
+6) picture = {"......0"}
+
+The highest clue in the region is the 0 so it is chosen.
+The final picture would look like:
+-6 -5 -4 -3 -2 -1 0
+The return value is thus -6+-5+-4+-3+-2+-1+0 = -21</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>NumberFill</span></dd><dt>Method:</dt><dd><span>gradient</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int gradient(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4190/pm/725">2002-<!-- --> <!-- -->SRM 94<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/725/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"725\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"725\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"725\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"725\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"725\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1671,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nYou are given a picture that needs to be colored in.  To aid in the coloring\nprocess, color clues have been placed in the picture.  To color a particular\nregion of the picture you must first locate the color clue with the highest\nvalue within the region.  In case of a tie the leftmost clue is chosen from\namong the highest.  For example:\nXXXXXXXXXX   \n...2.X....   \n.2...X..2.    \n...0.XXXXX      'X's are boundaries\n..1..X....      '.'s are blanks  \n.3...X....\n....3X....\nXXXXXXXXXX\nAbove there are 3 regions: the left, the upper right, and the lower right.  The\nlower right has no clues.  The left does have clues so first we find the\nhighest clue value(3).  There is a tie between two 3s in the region so the\nleftmost 3 is chosen.  The upper right does have a clue and we choose the\nhighest clue, which is also the only clue in the region(2).\n\nOnce we have chosen a clue for a region we ignore all other clues in that\nregion.  Next, the point with the chosen clue on it is given the color value of\nthe clue.  The picture before would now look like this once we have 1)chosen\nclues, 2)ignored the unchosen, \u0026amp; 3)given the points corresponding to the chosen\nclues the corresponding color values:\nXXXXXXXXXX   \n.....X....   \n.....X..2.    \n.....XXXXX      'X's are boundaries\n.....X....      '.'s are blanks  \n.3...X....\n.....X....\nXXXXXXXXXX\n\nFinally we must ensure that the following criteria hold for the region:\n1) All points in a region with the same horizontal coordinate share the same\ncolor value.  \n2) A point in the region one step to the left of another point in the region\nmust have a color value lower by one.  \n3) A point in the region one step to the right of another point in the region\nmust have a color value higher by one.\n\nThe picture used before would be colored as follows:\nXXXXXXXXXX   \n23456X0123   \n23456X0123   \n23456XXXXX      'X's are boundaries\n23456X....      '.'s are blanks  \n23456X....\n23456X....\nXXXXXXXXXX\n\nAs can be seen, the coloring method creates something of a color gradient in\neach region.  The region on the lower right had no color clues so it could not\nbe colored and remains blank.  Also note that all shading ends at the\nboundaries of the picture.  It is as if there is an imaginary boundary around\nthe outside of the picture.  In other words, all regions that touch the edge of\nthe picture end at the edge of the picture.\n\nYour method will color all of the regions in the picture that can be colored,\nand will then return the sum of all of the colors values in the picture not\nincluding blank regions and boundaries.  \nIn the above example it would be:\n6*(2+3+4+5+6) + 2*(0+1+2+3) = 132\nSince the blank region and boundaries were disregarded, and there are 6 rows of\n2+3+4+5+6 in the left region and 2 rows of 0+1+2+3 in the upper right region.\n\nTwo points are in the same region if and only if there exists a path between\nthem that does not cross a boundary.  This path can only consist of vertical\nand horizontal moves (no one step diagonal moves).  This path must not contain\nboundary symbols and cannot leave the picture.\n\nCreate a class NumberFill that contains the method gradient, which takes a\nString[] picture and returns the sum of all colors values within the picture\nonce all regions that should be filled have been properly filled.  Boundary\npoints and blank regions are not included in the summation calculation.\n\nDEFINITION\nClass: NumberFill\nMethod: gradient\nParameters: String[]\nReturns: int\nMethod signature (be sure your method is public):  int gradient(String[]\npicture);\n\nBoundaries are represented by 'X' characters.\nColor clues are represented by characters '0'..'9' inclusive.\nBlank spots on the board are represented by '.' characters.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n\n- All characters in picture are either 'X', '.', or '0'..'9' inclusive (single\nquotes for clarity)\n- All elements of picture will have the same length.\n- All elements of picture will have length between 1 and 20 inclusive\n- picture will contain between 1 and 20 elements inclusive\n\nNOTES\n- Due to the nature of the process, negative color values and color values\ngreater than 9 can occur in the picture after the gradient has been computed\n(see example 6 for more on negative color values)\n\n\nEXAMPLES\n1) picture = {\n\"..X.....\",\n\"..X..0..\",\n\"1.X.....\",\n\"..X.....\",\n\"........\"}\n\nThe highest clue in the region is the 1 so it is chosen.\nThe final picture would look like:\n12X45678\n12X45678\n12X45678 \n12X45678 \n12345678 \nThe return value is thus: 5*(1+2+4+5+6+7+8)+3 = 168\n\n2) picture = {\n\"5.X.....\",\n\"..X..3..\",\n\"..X.....\",\n\"..X.....\",\n\"..X.....\"}\n\nThere are two regions in this picture: the left and the right.\nThe highest clue in the left region is the 5 so it is chosen.\nThe highest clue in the right region is the 3 so it is chosen.\nThe final picture would look like:\n56X12345\n56X12345\n56X12345\n56X12345\n56X12345\nThe return value is thus: 5*(5+6+1+2+3+4+5) = 130\n\n3) picture = {\n\"........\",\n\"........\",\n\"........\",\n\"........\"}\nThere are no clues in the region so it is left blank.\nThe return value is thus: 0\n\n4) picture = {\"...3\"}\n\nThe highest clue in the region is the 3 so it is chosen. \nThe final picture would look like:\n0123\nThe return value is thus 0+1+2+3 = 6\n\n5) picture = {\".3....3\"}\n\nTwo clues of value 3 are tied for the highest clue in the region.  The leftmost\n3 is chosen.\nThe final picture would look like:\n2345678\nThe return value is thus 2+3+4+5+6+7+8 = 35\n\n6) picture = {\"......0\"}\n\nThe highest clue in the region is the 0 so it is chosen.\nThe final picture would look like:\n-6 -5 -4 -3 -2 -1 0\nThe return value is thus -6+-5+-4+-3+-2+-1+0 = -21\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"NumberFill\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"NumberFill\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"gradient\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int gradient(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4190/pm/725\",\"children\":[\"2002-\",\" \",\"SRM 94\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

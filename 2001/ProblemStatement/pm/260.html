@@ -1,0 +1,134 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->DandyLand<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+DandyLand is a board game for one to eight players. Players move around a
+circular board collecting a point each time the intersection from the last
+board position to the first board position is traversed in a forward direction.
+A deck of cards determines movement. Each player in turn selects a card from
+the deck and moves to a position on the board according to the movement rules
+defined below. Create a method that given a number of players, a card deck, and
+a board description, computes the number of points collected by each player.
+
+The board is represented as a string. The first character in the string is the
+first board position. The second character in the string is the second board
+position, and so on. The character names the board position. The same name can
+appear more than once on a board. The last character in the string is the last
+board position. From the last position movement continues at the first board
+position, thus making the board circular. 
+
+         1   2   3   4   5   6
+off--&gt;--&gt;a--&gt;b--&gt;c--&gt;a--&gt;b--&gt;c--      board "abcabc"  
+      ^                        |
+      |                        v
+      &lt;-----(earn a point)&lt;-----
+
+For example, given the board definition "abcabc", the first board position is
+the first character 'a', the last board position is the second character 'c'.
+Forward movement goes from the first 'a' to the first 'b' to the first 'c' to
+the second 'a' to the second 'b' to the second 'c' then back again to the first
+'a' then to the first 'b' and so on. If a player's turn movement takes a player
+from the last board position, the second 'c', to the first position, the first
+'a', one point is earned. Once earned, a point cannot be lost. Players
+initially begin off of the board and enter the board at the first board
+position (the first 'a').  
+
+The card deck is represented as a string in which each character is a card.
+Each player in turn selects a card and proceeds as follows. 
+
+If the card is a letter character (a through i), move forward around the board
+until a board position with a matching character is reached. If the board does
+not contain a position which matches the character on the card and the player
+is currently on the board, the player moves backward one position instead. If
+the player is on the first board position, moving backward one position places
+the player on the last board position. If the player is currently off of the
+board and there is no matching character on the board for the character on the
+card, the player simply remains off of the board.
+
+If the card is a digit (1 through 9), the player moves forward the number of
+board positions equal to the numeric value of the digit on the card. If the
+player begins off of the board, the player enters the board at the first
+position which counts as moving one position and continues to move forward
+around the board. (see Example E6)
+
+If a player's ending board position after movement is already occupied by
+another player, the player previously occupying the position is bumped off of
+the board.
+
+The game is over when the end of the card deck is reached, that is, all cards
+have been used. The points for each player are returned as an int[], equal in
+length to the number of players, with player one's points occupying int[]
+position zero, player two's points occupying int[] position one, and so on. 
+
+DEFINITION
+Class Name: DandyLand
+Method Name: play
+Parameters: int, String, String
+Returns: int[]
+Method signature (be sure your method is public): int[] play(int players,
+String cards, String board);  
+
+TopCoder will ensure the following:
+- players is from 1 to 8, inclusive 
+- cards consists only of the nine letter characters "abcdefghi" and the nine
+digit characters "123456789" (double quotes are not included)
+- board consists only of the nine letter characters "abcdefghi" (double quotes
+are not included) 
+- cards will contain between 0 and 50 elements inclusive
+- board will contain between 1 and 36 elements inclusive
+
+NOTES:
+N1: A player is either off of the board or occupies a specific position on the
+board. When entering the board from off the board, the first board position
+counts as a unit of movement. For example, using the board "abcabc" illustrated
+above, a card of '2' places the player moving from off of the board onto 'b',
+the second board position.  
+
+N2: Keep in mind that a point is earned by moving from the last board position
+to the first board position. In particular, should a player move backward from
+the first position to the last position, then move forward on a subsequent turn
+to or beyond the first position, a point is earned. Should the player then move
+backward again to the last square, then move forward on a subsequent turn to or
+beyond the first position, another point is earned. See example E2 below. 
+
+EXAMPLES
+
+play(2, "abab9abcaa", "abab") ==&gt; [3,1]
+
+There are two players initially off of the board. The board, "abab", has four
+positions, two named 'a' and two named 'b'. The game proceeds as follows. 
+
+M1: Player one selects the first card, 'a', and moves to the first board
+positon named 'a'. 
+M2: The second player selects card 'b' and moves to the second board position,
+the first position named 'b'. 
+M3: Player one selects 'a' and moves to the second board position named 'a'. 
+M4: Player two selects 'b' and moves to the second position named 'b' which is
+the last board position. 
+M5: Player one selects '9' and moves forward 9 positions earning two points for
+passing from the last board position to the first board position twice and
+ending on the last board position (the second 'b'). Since player two currently
+occupies the last board position, player two is bumped off of the board. 
+M6: Player two selects the card 'a' and moves from off of the board to the
+first board position named 'a'. 
+M7: Player one selects 'b' and moves from the last board position past the
+first board position ending on the second board position (the first position
+named 'b') earning another point. 
+M8: Player two selects 'c'. Since there is no board position named 'c', player
+two moves backward one position. Since player two is currently at the first
+board position, player two moves backwards to the last board position (the
+second board position named 'b'). 
+M9: Player one selects 'a' and moves to the second board position named 'a'. 
+M10: Player two selects 'a' and moves from the last board position to the first
+board position collecting one point. 
+
+The card deck is exhausted and so the final result, three points for player
+one, 1 point for player two, is returned. 
+
+More Examples 
+
+E1: play(1, "7aaa", "abcde") ==&gt; [4]     
+E2: play(1, "af1f1fa", "abcde") ==&gt; [3]
+E3: play(2, "1181a221aeeb1", "abcd") ==&gt; [4,1]
+E4: play(4, "9b8b2a11", "ab") ==&gt; [5,0,3,1]
+E5: play(8, "d53ab9e7b5decaacd59aeeeb", "abcdabcdabcd") ==&gt; [0,1,1,1,0,1,0,1] 
+E6: play(1, "4", "abcd") ==&gt; [0]
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>DandyLand</span></dd><dt>Method:</dt><dd><span>play</span></dd><dt>Parameters:</dt><dd><span>int, String, String</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] play(int param0, String param1, String param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/3998/pm/260">2001-<!-- --> <!-- -->SRM 48<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/3998/pm/260">2001-<!-- --> <!-- -->SRM 48<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/260/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"260\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"260\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"260\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"260\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"260\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1b4f,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nDandyLand is a board game for one to eight players. Players move around a\ncircular board collecting a point each time the intersection from the last\nboard position to the first board position is traversed in a forward direction.\nA deck of cards determines movement. Each player in turn selects a card from\nthe deck and moves to a position on the board according to the movement rules\ndefined below. Create a method that given a number of players, a card deck, and\na board description, computes the number of points collected by each player.\n\nThe board is represented as a string. The first character in the string is the\nfirst board position. The second character in the string is the second board\nposition, and so on. The character names the board position. The same name can\nappear more than once on a board. The last character in the string is the last\nboard position. From the last position movement continues at the first board\nposition, thus making the board circular. \n\n         1   2   3   4   5   6\noff--\u0026gt;--\u0026gt;a--\u0026gt;b--\u0026gt;c--\u0026gt;a--\u0026gt;b--\u0026gt;c--      board \"abcabc\"  \n      ^                        |\n      |                        v\n      \u0026lt;-----(earn a point)\u0026lt;-----\n\nFor example, given the board definition \"abcabc\", the first board position is\nthe first character 'a', the last board position is the second character 'c'.\nForward movement goes from the first 'a' to the first 'b' to the first 'c' to\nthe second 'a' to the second 'b' to the second 'c' then back again to the first\n'a' then to the first 'b' and so on. If a player's turn movement takes a player\nfrom the last board position, the second 'c', to the first position, the first\n'a', one point is earned. Once earned, a point cannot be lost. Players\ninitially begin off of the board and enter the board at the first board\nposition (the first 'a').  \n\nThe card deck is represented as a string in which each character is a card.\nEach player in turn selects a card and proceeds as follows. \n\nIf the card is a letter character (a through i), move forward around the board\nuntil a board position with a matching character is reached. If the board does\nnot contain a position which matches the character on the card and the player\nis currently on the board, the player moves backward one position instead. If\nthe player is on the first board position, moving backward one position places\nthe player on the last board position. If the player is currently off of the\nboard and there is no matching character on the board for the character on the\ncard, the player simply remains off of the board.\n\nIf the card is a digit (1 through 9), the player moves forward the number of\nboard positions equal to the numeric value of the digit on the card. If the\nplayer begins off of the board, the player enters the board at the first\nposition which counts as moving one position and continues to move forward\naround the board. (see Example E6)\n\nIf a player's ending board position after movement is already occupied by\nanother player, the player previously occupying the position is bumped off of\nthe board.\n\nThe game is over when the end of the card deck is reached, that is, all cards\nhave been used. The points for each player are returned as an int[], equal in\nlength to the number of players, with player one's points occupying int[]\nposition zero, player two's points occupying int[] position one, and so on. \n\nDEFINITION\nClass Name: DandyLand\nMethod Name: play\nParameters: int, String, String\nReturns: int[]\nMethod signature (be sure your method is public): int[] play(int players,\nString cards, String board);  \n\nTopCoder will ensure the following:\n- players is from 1 to 8, inclusive \n- cards consists only of the nine letter characters \"abcdefghi\" and the nine\ndigit characters \"123456789\" (double quotes are not included)\n- board consists only of the nine letter characters \"abcdefghi\" (double quotes\nare not included) \n- cards will contain between 0 and 50 elements inclusive\n- board will contain between 1 and 36 elements inclusive\n\nNOTES:\nN1: A player is either off of the board or occupies a specific position on the\nboard. When entering the board from off the board, the first board position\ncounts as a unit of movement. For example, using the board \"abcabc\" illustrated\nabove, a card of '2' places the player moving from off of the board onto 'b',\nthe second board position.  \n\nN2: Keep in mind that a point is earned by moving from the last board position\nto the first board position. In particular, should a player move backward from\nthe first position to the last position, then move forward on a subsequent turn\nto or beyond the first position, a point is earned. Should the player then move\nbackward again to the last square, then move forward on a subsequent turn to or\nbeyond the first position, another point is earned. See example E2 below. \n\nEXAMPLES\n\nplay(2, \"abab9abcaa\", \"abab\") ==\u0026gt; [3,1]\n\nThere are two players initially off of the board. The board, \"abab\", has four\npositions, two named 'a' and two named 'b'. The game proceeds as follows. \n\nM1: Player one selects the first card, 'a', and moves to the first board\npositon named 'a'. \nM2: The second player selects card 'b' and moves to the second board position,\nthe first position named 'b'. \nM3: Player one selects 'a' and moves to the second board position named 'a'. \nM4: Player two selects 'b' and moves to the second position named 'b' which is\nthe last board position. \nM5: Player one selects '9' and moves forward 9 positions earning two points for\npassing from the last board position to the first board position twice and\nending on the last board position (the second 'b'). Since player two currently\noccupies the last board position, player two is bumped off of the board. \nM6: Player two selects the card 'a' and moves from off of the board to the\nfirst board position named 'a'. \nM7: Player one selects 'b' and moves from the last board position past the\nfirst board position ending on the second board position (the first position\nnamed 'b') earning another point. \nM8: Player two selects 'c'. Since there is no board position named 'c', player\ntwo moves backward one position. Since player two is currently at the first\nboard position, player two moves backwards to the last board position (the\nsecond board position named 'b'). \nM9: Player one selects 'a' and moves to the second board position named 'a'. \nM10: Player two selects 'a' and moves from the last board position to the first\nboard position collecting one point. \n\nThe card deck is exhausted and so the final result, three points for player\none, 1 point for player two, is returned. \n\nMore Examples \n\nE1: play(1, \"7aaa\", \"abcde\") ==\u0026gt; [4]     \nE2: play(1, \"af1f1fa\", \"abcde\") ==\u0026gt; [3]\nE3: play(2, \"1181a221aeeb1\", \"abcd\") ==\u0026gt; [4,1]\nE4: play(4, \"9b8b2a11\", \"ab\") ==\u0026gt; [5,0,3,1]\nE5: play(8, \"d53ab9e7b5decaacd59aeeeb\", \"abcdabcdabcd\") ==\u0026gt; [0,1,1,1,0,1,0,1] \nE6: play(1, \"4\", \"abcd\") ==\u0026gt; [0]\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"DandyLand\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"DandyLand\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"play\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, String, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] play(int param0, String param1, String param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3998/pm/260\",\"children\":[\"2001-\",\" \",\"SRM 48\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3998/pm/260\",\"children\":[\"2001-\",\" \",\"SRM 48\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

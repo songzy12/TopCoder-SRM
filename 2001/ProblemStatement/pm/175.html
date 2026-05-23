@@ -1,0 +1,191 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->WhaleWatcher<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">
+Class name: WhaleWatcher
+Method name: getWhaleSightings
+Parameters: String[], int,  int , int , String 
+Returns: int
+
+Implement a class WhaleWatcher, which has a method getWhaleSightings.
+
+TopCoder will enforce the following rules:
+*WhalePositions has between 1 and 10 Strings, inclusive.
+*Passengers is between 1 and 100, inclusive.
+*StartPosition is between 0 and 9, inclusive
+*TripDistance is between 0 and 9, inclusive.
+*Weather is one of "Cloudy", "Foggy", "Sunny"
+*The elements of WhalePositions are of the form "X,Y", where X and Y represent
+integers between 0 and 9, inclusive.
+*The elements of WhalePositions will be distinct (not repeated)
+
+(In this problem statement, the variable names will sometimes be enclosed in
+angle brackets &lt;&gt; for clarity)
+
+The following are true:
+*All action takes place on a 10x10 grid whose cells are referenced by Strings
+of the form "X,Y" where X and Y are between 0 and 9.
+*The point "0,0" through "9,0" are the cells in the water next to the shoreline.
+*The good ship Orca takes on up to 100 passengers and leaves port at a point
+represented by "StartPosition,0".
+*It then travels straight out to sea until it reaches the position
+"StartPosition,TripDistance".  That is, the ship starts at the point
+"StartPosition,0", moves to "StartPosition,1", etc. until it reaches the point
+"StartPosition,TripDistance".
+Another way to say this is "The boat starts at &lt;StartPosition&gt; and moves up
+&lt;TripDistance&gt; number of grid spaces".  If you think of the boat moving through
+time, then at time 1, the boat would be at "StartPositionX,0".  At time 2, the
+boat would be at "StartPosition,1", and at time &lt;TripDistance&gt;, the boat would
+be at "StartPosition,TripDistance".
+
+Your method should return the total number of times a passenger sees a whale on
+this trip.
+
+*The passenger's position on the boat does not matter.
+The passengers will see whales in the following way:
+*The passengers never see whales that are directly under the boat.
+*If the weather is "Foggy", passengers will only see whales that are in the
+cells immediately adjacent to the boat. (If boat is at "2,3", passengers will
+see whales that are in the cells "1,4", "2,4", "3,4", "1,3", "3,3", "1,2",
+"2,2" and "3,2")
+*If the weather is "Cloudy", passengers will see whales up to 2 cells away from
+the boat.
+*If the weather is "Sunny", passengers will see whales up to 3 cells away from
+the boat.
+
+*The boat will move on the aforementioned path one graph unit at a time.
+Each time the boat moves, check to see which whales can be seen.
+*If a whale is seen by the passengers once, never count that whale again.
+
+The method signature is (be sure your method is public):
+public int getWhaleSightings(String[] WhalePositions, int Passengers, int
+StartPosition, int TripDistance, String Weather)
+
+Example 1:
+
+WhalePositions = { "2,3", "5,6" }
+passengers = 50
+StartPosition = 5
+TripDistance = 4
+Weather = "Sunny"
+
+The boat starts at "5,0" and will move through the cells "5,1", "5,2", "5,3",
+and "5,4".
+
+
+Grid: 
+
+  0 1 2 3 4 5 6 7 8 9
+ +-+-+-+-+-+-+-+-+-+-+
+9| | | | | | | | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+8| | | | | | | | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+7| | | | | | | | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+6| | | | | |W| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+5| | | | | | | | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+4| | | | | |5| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+3| | |W| | |4| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+2| | | | | |3| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+1| | | | | |2| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+0| | | | | |1| | | | |
+ +-+-+-+-+-+-+-+-+-+-+
+  0 1 2 3 4 5 6 7 8 9
+
+Legend: 
+W = whale
+A number N = the position the boat is in at time N
+
+
+When the boat is at:            Passengers See Whales at:
+---------------------------------------------------------
+"5,0"                           "2,3"
+"5,1"                           "2,3" (2nd sighting)
+"5,2"                           "2,3" (3rd sighting)
+"5,3"                           "2,3" (4th sighting), "5,6"
+"5,4"                           "2,3" (5th sighting), "5,6" (2nd sighting)
+
+The passengers saw a total of 2 whales so return 50 * 2 = 100.
+
+
+Example 1:
+
+WhalePositions = { "2,3", "5,6", "9,0", "9,1", "8,2"}
+passengers = 12
+StartPosition = 9
+TripDistance = 1
+Weather = "Foggy"
+
+The boat starts at "9,0" and will move to the cell "9,1".
+
+
+Grid:
+
+  0 1 2 3 4 5 6 7 8 9
+ +-+-+-+-+-+-+-+-+-+--+
+9| | | | | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+8| | | | | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+7| | | | | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+6| | | | | |W| | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+5| | | | | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+4| | | | | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+3| | |W| | | | | | |  |
+ +-+-+-+-+-+-+-+-+-+--+
+2| | | | | | | | |W|  |
+ +-+-+-+-+-+-+-+-+-+--+
+1| | | | | | | | | |2W|
+ +-+-+-+-+-+-+-+-+-+--+
+0| | | | | | | | | |1W|
+ +-+-+-+-+-+-+-+-+-+--+
+  0 1 2 3 4 5 6 7 8 9
+
+Legend: 
+W = whale
+A number N = the position the boat is in at time N
+
+(The ninth column is widened to accomodate the two chars that show
+that the boat and a whale are in the same cell at that time)
+
+
+When the boat is at:            Passengers See Whales at:
+---------------------------------------------------------
+"9,0"                           "9,1"
+"9,1"                           "9,0", "8,2"
+
+The passengers saw a total of 3 whales so return 12 * 3 = 36.
+
+
+Test cases:
+
+WhalePositions = "0,9"
+passengers = 14
+StartPosition = 0
+TripDistance = 9
+Weather = "Foggy"
+returns 14
+
+WhalePositions = "8,1" "8,2" "9,9"
+passengers = 10
+StartPosition = 9
+TripDistance = 4
+Weather = "Cloudy"
+returns 20
+
+WhalePositions = "5,5" "4,3" "6,1" "5,9"
+passengers = 5
+StartPosition = 5
+TripDistance = 5
+Weather = "Sunny"
+returns 15
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>WhaleWatcher</span></dd><dt>Method:</dt><dd><span>getWhaleSightings</span></dd><dt>Parameters:</dt><dd><span>String[], int, int, int, String</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int getWhaleSightings(String[] param0, int param1, int param2, int param3, String param4)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4003/pm/175">2001-<!-- --> <!-- -->SRM 33<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4003/pm/175">2001-<!-- --> <!-- -->SRM 33<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/175/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"175\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"175\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"175\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"175\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"175\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1646,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003e\nClass name: WhaleWatcher\nMethod name: getWhaleSightings\nParameters: String[], int,  int , int , String \nReturns: int\n\nImplement a class WhaleWatcher, which has a method getWhaleSightings.\n\nTopCoder will enforce the following rules:\n*WhalePositions has between 1 and 10 Strings, inclusive.\n*Passengers is between 1 and 100, inclusive.\n*StartPosition is between 0 and 9, inclusive\n*TripDistance is between 0 and 9, inclusive.\n*Weather is one of \"Cloudy\", \"Foggy\", \"Sunny\"\n*The elements of WhalePositions are of the form \"X,Y\", where X and Y represent\nintegers between 0 and 9, inclusive.\n*The elements of WhalePositions will be distinct (not repeated)\n\n(In this problem statement, the variable names will sometimes be enclosed in\nangle brackets \u0026lt;\u0026gt; for clarity)\n\nThe following are true:\n*All action takes place on a 10x10 grid whose cells are referenced by Strings\nof the form \"X,Y\" where X and Y are between 0 and 9.\n*The point \"0,0\" through \"9,0\" are the cells in the water next to the shoreline.\n*The good ship Orca takes on up to 100 passengers and leaves port at a point\nrepresented by \"StartPosition,0\".\n*It then travels straight out to sea until it reaches the position\n\"StartPosition,TripDistance\".  That is, the ship starts at the point\n\"StartPosition,0\", moves to \"StartPosition,1\", etc. until it reaches the point\n\"StartPosition,TripDistance\".\nAnother way to say this is \"The boat starts at \u0026lt;StartPosition\u0026gt; and moves up\n\u0026lt;TripDistance\u0026gt; number of grid spaces\".  If you think of the boat moving through\ntime, then at time 1, the boat would be at \"StartPositionX,0\".  At time 2, the\nboat would be at \"StartPosition,1\", and at time \u0026lt;TripDistance\u0026gt;, the boat would\nbe at \"StartPosition,TripDistance\".\n\nYour method should return the total number of times a passenger sees a whale on\nthis trip.\n\n*The passenger's position on the boat does not matter.\nThe passengers will see whales in the following way:\n*The passengers never see whales that are directly under the boat.\n*If the weather is \"Foggy\", passengers will only see whales that are in the\ncells immediately adjacent to the boat. (If boat is at \"2,3\", passengers will\nsee whales that are in the cells \"1,4\", \"2,4\", \"3,4\", \"1,3\", \"3,3\", \"1,2\",\n\"2,2\" and \"3,2\")\n*If the weather is \"Cloudy\", passengers will see whales up to 2 cells away from\nthe boat.\n*If the weather is \"Sunny\", passengers will see whales up to 3 cells away from\nthe boat.\n\n*The boat will move on the aforementioned path one graph unit at a time.\nEach time the boat moves, check to see which whales can be seen.\n*If a whale is seen by the passengers once, never count that whale again.\n\nThe method signature is (be sure your method is public):\npublic int getWhaleSightings(String[] WhalePositions, int Passengers, int\nStartPosition, int TripDistance, String Weather)\n\nExample 1:\n\nWhalePositions = { \"2,3\", \"5,6\" }\npassengers = 50\nStartPosition = 5\nTripDistance = 4\nWeather = \"Sunny\"\n\nThe boat starts at \"5,0\" and will move through the cells \"5,1\", \"5,2\", \"5,3\",\nand \"5,4\".\n\n\nGrid: \n\n  0 1 2 3 4 5 6 7 8 9\n +-+-+-+-+-+-+-+-+-+-+\n9| | | | | | | | | | |\n +-+-+-+-+-+-+-+-+-+-+\n8| | | | | | | | | | |\n +-+-+-+-+-+-+-+-+-+-+\n7| | | | | | | | | | |\n +-+-+-+-+-+-+-+-+-+-+\n6| | | | | |W| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n5| | | | | | | | | | |\n +-+-+-+-+-+-+-+-+-+-+\n4| | | | | |5| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n3| | |W| | |4| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n2| | | | | |3| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n1| | | | | |2| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n0| | | | | |1| | | | |\n +-+-+-+-+-+-+-+-+-+-+\n  0 1 2 3 4 5 6 7 8 9\n\nLegend: \nW = whale\nA number N = the position the boat is in at time N\n\n\nWhen the boat is at:            Passengers See Whales at:\n---------------------------------------------------------\n\"5,0\"                           \"2,3\"\n\"5,1\"                           \"2,3\" (2nd sighting)\n\"5,2\"                           \"2,3\" (3rd sighting)\n\"5,3\"                           \"2,3\" (4th sighting), \"5,6\"\n\"5,4\"                           \"2,3\" (5th sighting), \"5,6\" (2nd sighting)\n\nThe passengers saw a total of 2 whales so return 50 * 2 = 100.\n\n\nExample 1:\n\nWhalePositions = { \"2,3\", \"5,6\", \"9,0\", \"9,1\", \"8,2\"}\npassengers = 12\nStartPosition = 9\nTripDistance = 1\nWeather = \"Foggy\"\n\nThe boat starts at \"9,0\" and will move to the cell \"9,1\".\n\n\nGrid:\n\n  0 1 2 3 4 5 6 7 8 9\n +-+-+-+-+-+-+-+-+-+--+\n9| | | | | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n8| | | | | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n7| | | | | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n6| | | | | |W| | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n5| | | | | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n4| | | | | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n3| | |W| | | | | | |  |\n +-+-+-+-+-+-+-+-+-+--+\n2| | | | | | | | |W|  |\n +-+-+-+-+-+-+-+-+-+--+\n1| | | | | | | | | |2W|\n +-+-+-+-+-+-+-+-+-+--+\n0| | | | | | | | | |1W|\n +-+-+-+-+-+-+-+-+-+--+\n  0 1 2 3 4 5 6 7 8 9\n\nLegend: \nW = whale\nA number N = the position the boat is in at time N\n\n(The ninth column is widened to accomodate the two chars that show\nthat the boat and a whale are in the same cell at that time)\n\n\nWhen the boat is at:            Passengers See Whales at:\n---------------------------------------------------------\n\"9,0\"                           \"9,1\"\n\"9,1\"                           \"9,0\", \"8,2\"\n\nThe passengers saw a total of 3 whales so return 12 * 3 = 36.\n\n\nTest cases:\n\nWhalePositions = \"0,9\"\npassengers = 14\nStartPosition = 0\nTripDistance = 9\nWeather = \"Foggy\"\nreturns 14\n\nWhalePositions = \"8,1\" \"8,2\" \"9,9\"\npassengers = 10\nStartPosition = 9\nTripDistance = 4\nWeather = \"Cloudy\"\nreturns 20\n\nWhalePositions = \"5,5\" \"4,3\" \"6,1\" \"5,9\"\npassengers = 5\nStartPosition = 5\nTripDistance = 5\nWeather = \"Sunny\"\nreturns 15\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"WhaleWatcher\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"WhaleWatcher\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getWhaleSightings\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int, int, int, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int getWhaleSightings(String[] param0, int param1, int param2, int param3, String param4)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4003/pm/175\",\"children\":[\"2001-\",\" \",\"SRM 33\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4003/pm/175\",\"children\":[\"2001-\",\" \",\"SRM 33\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

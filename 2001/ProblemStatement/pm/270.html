@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Calculator<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+You are to write a class Calculator that simulates a real calculator supporting
+the four most common arithmetic operations. The specific model that you are
+simulating has the following 15 buttons: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ., +, -,
+*, /
+
+Notice that this calculator does not have a '=' button! If you want to perform
+a calculation you need to terminate it with an operation. For example, "1+1+",
+instead of, "1+1=". The last '+' can be also '-', '*' or '/' without having any
+impact on the computation. See the examples section below.
+
+Create a class Calculator that contains a method getResult. getResult takes a
+String that is a key sequence and returns the contents of the display after the
+last key was pressed.
+
+DEFINITION
+
+Class name:   Calculator
+Method name:  getResult
+Parameters:   String
+Returns:      String
+
+Method signature (make sure your method is public):
+  String getResult (String s);
+
+NOTES
+
+1. The LCD display of the calculator can hold up to 8 digits and a decimal
+point. As in most real calculators the decimal point is always shown (123 shows
+as "123."). In case the integer part of a result cannot fit in the screen,
+return "-ERROR-". If the entire fractional part of a result cannot fit on the
+display, show as many digits as you can, without doing any sort of rounding
+(e.g. 0.123456789 show as 0.1234567). Note that this applies to the results of
+all computations, even intermediate ones, as they need to be shown on the
+screen (see example 8 below).
+   
+2. If an input number is too big to fit on the screen, "-ERROR-" should be
+returned. Two such cases are "1234567890" and "1234.567890". Keep in mind that
+while processing "000000000123" the calculator will discard the leading zeros
+(see 6b below), so no more than 3 digits will be on the screen at any given
+time, thus no "-ERROR-" is returned. Rather, the display should read "123."
+after this sequence is keyed in. On the other extreme, if we try to input
+"1.00000000" the number will not be able to fit onscreen after the 7th zero, so
+"-ERROR-" should be returned.
+
+3. This specific model does not support negative numbers. In case you need to
+show a negative number on the display at any point of the key sequence, you
+should return "-ERROR-", discarding the rest of the sequence.
+
+4. Typing a number is done using the digit keys and the '.'. When an operation
+key is pressed ('+', '-', '*' or '/') the number is sealed, meaning you can't
+continue typing it.
+
+   Example: "123.456+789"
+
+Meaning: The first 7 keys type in the number 123.456. The '+' seals it.
+After 
+            that 789 does not continue that first number but rather starts a new
+            one, leaving "789." on the screen at the end.
+
+5. The calculator has 3 dedicated registers:
+      a) D - the display contents (a number), initially 0 (zero) and sealed
+      b) R - the last result (a number), initially 0 (zero)
+      c) Op - the last operation requested ('+', '-', '*' or '/'), initially '+'
+
+   Note that because the display is sealed initially, although it shows "0.",
+   pressing any number key (say 5) will throw the "0" out and show "5."
+
+6. Here is what happens when a key K is pressed:
+
+      a) K == '+', '-', '*', '/'
+
+         if (previous key pressed is not '+', '-', '*' or '/')
+         {
+           D = R Op D; // apply Op to arguments R, D; show result on display
+           R = D;     // copy display to R
+
+           seal the number on display, on error show "-ERROR-" and abort
+         }
+
+         Op = K;       // update last operation requested
+
+      b) K == '0' ... '9', '.'
+
+         The only thing to consider would be whether the number on display is
+         sealed or not. If so, just start a new number. Note that you can start
+         a number with '.', which is equivalent to "0." (see examples 3, 8,...).
+
+         Also a number on display should never have leading zeros in the integer
+         part (e.g. "00123" shows as "123.").
+
+         Further, '.' can be pressed multiple times while a single number is
+         typed, but only the first time matters (e.g. "12.34.56" is "12.3456").
+
+      Note: As you can see from (a) above, pressing multiple operations has the
+same effect as if only the last one was pressed (see first example
+below). 
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+- s is between 0 and 50 characters, inclusive
+- s consists only of the 15 characters "0123456789.+-*/" (quotes are for
+clarity and are not a valid character)
+
+EXAMPLES
+
+Sequence: "2-/+*3+"
+
+- When '2' is pressed the display (D) updates to "2.". 
+
+- The '-' that follows performs D = R Op D = 0 + 2 = 2 and then R = 2. 
+  The "2." is sealed on the display. Op gets updated to '-'. 
+
+- The following '/', '+' and '*' just update Op, leaving it with a value of '*' 
+  at the end. 
+
+- Pressing '3' now updates D to "3.". 
+
+- The following '+' performs D = R Op D = 2 * 3 = 6 and then R = 6. 
+  The "6." is sealed and Op is updated to '+'.
+
+So your method should return "6." as a result.
+
+Here are some more examples:
+
+    Sequence:     Display:                    Sequence:     Display:
+ 1. "1234"        "1234."                  6. "2+2"         "2."
+ 2. "1.23"        "1.23"                   7. "2+2+"        "4."
+ 3. ".123"        "0.123"                  8. "1000/3+0.000008+" "333.33333"
+ 4. "0.00"        "0.00"                   9. ".1*.1+"      "0.01"
+ 5. "0.00+"       "0."                    10. "4/3-1+"      "0.3333333"
+
+11. ".1+.01+"     "0.11"                  16. "1*-/+1*"     "2."
+12. ".1-.01*"     "0.09"                  17. "888888881"   "-ERROR-"
+13. ".1*.1+0.99-" "1."                    18. "000000123"   "123."
+14. ".0001*.001+" "0.0000001"             19. "99999*99999*" "-ERROR-"
+15. ".0001/1000+" "0.0000001"             20. "1-2+3*"      "-ERROR-"
+
+21. "*4+1-"       "1."                    26. "12.0000000"  "-ERROR-"
+22. "/-//8+2"     "2."                    27. "0012.000001" "12.000001"
+23. "33+++33*"    "66."                   28. "012.0000001" "-ERROR-"
+24. "3/*++5--8+"  "0."                    29. "000000000.1" "0.1"
+25. "+3+4+"       "7."                    30. "192.168.0.1" "192.16801"
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Calculator</span></dd><dt>Method:</dt><dd><span>getResult</span></dd><dt>Parameters:</dt><dd><span>String</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String getResult(String param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4020/pm/270">2001-<!-- --> <!-- -->SRM 49<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4020/pm/270">2001-<!-- --> <!-- -->SRM 49<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/270/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"270\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"270\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"270\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"270\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"270\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1861,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nYou are to write a class Calculator that simulates a real calculator supporting\nthe four most common arithmetic operations. The specific model that you are\nsimulating has the following 15 buttons: 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, ., +, -,\n*, /\n\nNotice that this calculator does not have a '=' button! If you want to perform\na calculation you need to terminate it with an operation. For example, \"1+1+\",\ninstead of, \"1+1=\". The last '+' can be also '-', '*' or '/' without having any\nimpact on the computation. See the examples section below.\n\nCreate a class Calculator that contains a method getResult. getResult takes a\nString that is a key sequence and returns the contents of the display after the\nlast key was pressed.\n\nDEFINITION\n\nClass name:   Calculator\nMethod name:  getResult\nParameters:   String\nReturns:      String\n\nMethod signature (make sure your method is public):\n  String getResult (String s);\n\nNOTES\n\n1. The LCD display of the calculator can hold up to 8 digits and a decimal\npoint. As in most real calculators the decimal point is always shown (123 shows\nas \"123.\"). In case the integer part of a result cannot fit in the screen,\nreturn \"-ERROR-\". If the entire fractional part of a result cannot fit on the\ndisplay, show as many digits as you can, without doing any sort of rounding\n(e.g. 0.123456789 show as 0.1234567). Note that this applies to the results of\nall computations, even intermediate ones, as they need to be shown on the\nscreen (see example 8 below).\n   \n2. If an input number is too big to fit on the screen, \"-ERROR-\" should be\nreturned. Two such cases are \"1234567890\" and \"1234.567890\". Keep in mind that\nwhile processing \"000000000123\" the calculator will discard the leading zeros\n(see 6b below), so no more than 3 digits will be on the screen at any given\ntime, thus no \"-ERROR-\" is returned. Rather, the display should read \"123.\"\nafter this sequence is keyed in. On the other extreme, if we try to input\n\"1.00000000\" the number will not be able to fit onscreen after the 7th zero, so\n\"-ERROR-\" should be returned.\n\n3. This specific model does not support negative numbers. In case you need to\nshow a negative number on the display at any point of the key sequence, you\nshould return \"-ERROR-\", discarding the rest of the sequence.\n\n4. Typing a number is done using the digit keys and the '.'. When an operation\nkey is pressed ('+', '-', '*' or '/') the number is sealed, meaning you can't\ncontinue typing it.\n\n   Example: \"123.456+789\"\n\nMeaning: The first 7 keys type in the number 123.456. The '+' seals it.\nAfter \n            that 789 does not continue that first number but rather starts a new\n            one, leaving \"789.\" on the screen at the end.\n\n5. The calculator has 3 dedicated registers:\n      a) D - the display contents (a number), initially 0 (zero) and sealed\n      b) R - the last result (a number), initially 0 (zero)\n      c) Op - the last operation requested ('+', '-', '*' or '/'), initially '+'\n\n   Note that because the display is sealed initially, although it shows \"0.\",\n   pressing any number key (say 5) will throw the \"0\" out and show \"5.\"\n\n6. Here is what happens when a key K is pressed:\n\n      a) K == '+', '-', '*', '/'\n\n         if (previous key pressed is not '+', '-', '*' or '/')\n         {\n           D = R Op D; // apply Op to arguments R, D; show result on display\n           R = D;     // copy display to R\n\n           seal the number on display, on error show \"-ERROR-\" and abort\n         }\n\n         Op = K;       // update last operation requested\n\n      b) K == '0' ... '9', '.'\n\n         The only thing to consider would be whether the number on display is\n         sealed or not. If so, just start a new number. Note that you can start\n         a number with '.', which is equivalent to \"0.\" (see examples 3, 8,...).\n\n         Also a number on display should never have leading zeros in the integer\n         part (e.g. \"00123\" shows as \"123.\").\n\n         Further, '.' can be pressed multiple times while a single number is\n         typed, but only the first time matters (e.g. \"12.34.56\" is \"12.3456\").\n\n      Note: As you can see from (a) above, pressing multiple operations has the\nsame effect as if only the last one was pressed (see first example\nbelow). \n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n- s is between 0 and 50 characters, inclusive\n- s consists only of the 15 characters \"0123456789.+-*/\" (quotes are for\nclarity and are not a valid character)\n\nEXAMPLES\n\nSequence: \"2-/+*3+\"\n\n- When '2' is pressed the display (D) updates to \"2.\". \n\n- The '-' that follows performs D = R Op D = 0 + 2 = 2 and then R = 2. \n  The \"2.\" is sealed on the display. Op gets updated to '-'. \n\n- The following '/', '+' and '*' just update Op, leaving it with a value of '*' \n  at the end. \n\n- Pressing '3' now updates D to \"3.\". \n\n- The following '+' performs D = R Op D = 2 * 3 = 6 and then R = 6. \n  The \"6.\" is sealed and Op is updated to '+'.\n\nSo your method should return \"6.\" as a result.\n\nHere are some more examples:\n\n    Sequence:     Display:                    Sequence:     Display:\n 1. \"1234\"        \"1234.\"                  6. \"2+2\"         \"2.\"\n 2. \"1.23\"        \"1.23\"                   7. \"2+2+\"        \"4.\"\n 3. \".123\"        \"0.123\"                  8. \"1000/3+0.000008+\" \"333.33333\"\n 4. \"0.00\"        \"0.00\"                   9. \".1*.1+\"      \"0.01\"\n 5. \"0.00+\"       \"0.\"                    10. \"4/3-1+\"      \"0.3333333\"\n\n11. \".1+.01+\"     \"0.11\"                  16. \"1*-/+1*\"     \"2.\"\n12. \".1-.01*\"     \"0.09\"                  17. \"888888881\"   \"-ERROR-\"\n13. \".1*.1+0.99-\" \"1.\"                    18. \"000000123\"   \"123.\"\n14. \".0001*.001+\" \"0.0000001\"             19. \"99999*99999*\" \"-ERROR-\"\n15. \".0001/1000+\" \"0.0000001\"             20. \"1-2+3*\"      \"-ERROR-\"\n\n21. \"*4+1-\"       \"1.\"                    26. \"12.0000000\"  \"-ERROR-\"\n22. \"/-//8+2\"     \"2.\"                    27. \"0012.000001\" \"12.000001\"\n23. \"33+++33*\"    \"66.\"                   28. \"012.0000001\" \"-ERROR-\"\n24. \"3/*++5--8+\"  \"0.\"                    29. \"000000000.1\" \"0.1\"\n25. \"+3+4+\"       \"7.\"                    30. \"192.168.0.1\" \"192.16801\"\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Calculator\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Calculator\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getResult\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String getResult(String param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4020/pm/270\",\"children\":[\"2001-\",\" \",\"SRM 49\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4020/pm/270\",\"children\":[\"2001-\",\" \",\"SRM 49\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

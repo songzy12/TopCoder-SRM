@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Crypto<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+There is the concept of a one-dimensional structure (a line), a two-dimensional
+structure with right angles (a rectangle), a three-dimensional structure with
+right angles (a rectangular prism), and the list goes on, but four-dimensional
+and higher structures are usually not comprehensible and are hence not discussed.
+
+They can, however, be made use of in cryptography. By arranging the letters of
+a message into a multi-dimensional structure and reading them back off after
+switching around the order of the dimensions, the message becomes scrambled,
+and without the correct key, is undecipherable. (not really, just for the
+purposes of this problem :-).
+
+For example, the text "thequickbrownfoxes" has 18 letters, and fits nicely into
+an 2x3x3 box of letters, with coordinates from (0,0,0) to (1,2,2). Starting at
+0,0,0, we put the letter 't', and then 'h' goes at 0,0,1, 'e' goes at 0,0,2,
+and 'q' goes at 0,1,0, etc.
+When done, we have:
+
+Layer 0    Layer 1
+
+the        row
+qui        nfo
+ckb        xes
+
+Now, if we read them back off with the dimensions in the same order, we of
+course get the original string. However, if we change the order of the
+dimensions so that they are backwards, we start at (0,0,0) next is (1,0,0) then
+(0,1,0), and (1,1,0), etc. Reading them of in this fashion, we obtain the string:
+"trqncxhoufkeewiobs"
+
+We can label the correct ordering as a sequence "012", where the highest number
+increments first, and when it rolls over, the next digit corresponding to the
+next lowest number in the translation increments. The backwards translation
+just done would be labeled as "210".
+
+Alternatively, we could use translations labeled "021", "102", "120", or "201".
+
+Using only dimensions of 2 and 3, it is possible to obtain a relatively close
+approximation to the size of the message. For instance, a message of length 14
+fits well in a 2x2x2x2 box. If the message does not fit perfectly, it is padded
+with any letter. For example, "helloworld", of length 10, fits best into a
+2x2x3 box, so any two letters would be appended to it, yielding "helloworld--",
+where '-' is any letter, number or a space. Note that you must always use a box
+of the smallest possible size that will still fit. For instance, a String of
+length 17 requires 2x3x3 = 18, and 2x2x2x3 = 24 is not allowed, since it is not
+the smallest possible fit. Also note that as necessary, a box can have 1, 2, 3,
+4, or 5 dimensions.
+
+In order to make things just slightly more interesting, the length of the
+scrambled message may be longer than the initial message. In this situation,
+the dimensions of the box are determined by the length of the scrambled
+message. For instance, given:
+unscramble("short","this is a longer string"), "short" fits best into a 2x3
+box, but "this is a longer string"
+fits best into a 2x2x2x3 box, and thus the 2x2x2x3 size must be used.
+
+When giving dimensions of a box, note that numbers are always given in
+increasing order. That is, a 3x2 box is not allowable, but 2x3 is.
+
+DEFINITION
+
+Class name: Crypto
+Method name: unscramble
+Parameters: String, String
+Returns: String[]
+
+The method signature (make sure it is declared public) is:
+String[] unscramble(String initial, String scrambled);
+
+Given the initial and scrambled Strings, determine which (if any) of the
+possible translations could have been used to scramble the String. Strings are
+case-sensitive.
+
+If multiple translations exist, return them all in lexicographical order. If no
+possible translations exist, return a String[] of size 0.
+
+If either initial or scrambled will not fit exactly into a box with dimensions
+of only 2 and 3, they should be treated as though they are of the smallest
+length which will fit, by padding them on the end with wildcards.
+
+After unscrambling a String, to determine if they match or not, use the
+following criterion. Wildcards in the initial word can match anything in the
+same index in the scrambled word. Wildcards in the scrambled word can only
+match wildcards in the same index in the inital word. Letters only match the
+same letter in the same index in the other word.
+
+In the following example, the 'h', 'e', and first 'l' match, since they are the
+same in both words.
+The second 'l' does not match, since it is a wildcard ('-') in the second word.
+The 'o' does not match, since it is not the same in either word.
+The '-' does match, since it is a wildcard in the first word and an 'o' in the
+second.
+"hello-"
+"hel-lo"
+
+TopCoder will enforce the following restrictions:
+* initial and scrambled will be between 2 and 50 characters in length
+* the length of initial will be less than or equal to the length of scrambled
+* initial and scrambled will contain only letters (A-Z,a-z), digits (0-9,
+inclusive), and spaces
+
+Example:
+unscramble("hello", "hleolo")
+
+"hleolo" has length 6, and fits best into a 2x3 box, and thus we arrange
+"hello-" into a 2x3 box.
+We have two dimensions that we can rearrange, so we have two translations: "01"
+and "10".
+
+"01" is the initial case, which of course yields "hello-".
+The other case, "10", yields "hleol-".
+Since the '-' can be anything, the scrambled string matches "10".
+Thus, the method returns {"10"}.
+
+unscramble("goodbye cruel world","grdobooueudloe ru dlwlo b eybdyw wyeeoleuc
+rwlodcl")
+returns: {"2301"}.
+
+unscramble("aaaaaaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaabaaaaaa")
+returns: {"0213", "0312", "0321", "2013", "3012", "3021"}.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Crypto</span></dd><dt>Method:</dt><dd><span>unscramble</span></dd><dt>Parameters:</dt><dd><span>String, String</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] unscramble(String param0, String param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4045/pm/338">2002-<!-- --> <!-- -->SRM 63<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/4045/pm/338">2002-<!-- --> <!-- -->SRM 63<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/338/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"338\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"338\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"338\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"338\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"338\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T154a,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nThere is the concept of a one-dimensional structure (a line), a two-dimensional\nstructure with right angles (a rectangle), a three-dimensional structure with\nright angles (a rectangular prism), and the list goes on, but four-dimensional\nand higher structures are usually not comprehensible and are hence not discussed.\n\nThey can, however, be made use of in cryptography. By arranging the letters of\na message into a multi-dimensional structure and reading them back off after\nswitching around the order of the dimensions, the message becomes scrambled,\nand without the correct key, is undecipherable. (not really, just for the\npurposes of this problem :-).\n\nFor example, the text \"thequickbrownfoxes\" has 18 letters, and fits nicely into\nan 2x3x3 box of letters, with coordinates from (0,0,0) to (1,2,2). Starting at\n0,0,0, we put the letter 't', and then 'h' goes at 0,0,1, 'e' goes at 0,0,2,\nand 'q' goes at 0,1,0, etc.\nWhen done, we have:\n\nLayer 0    Layer 1\n\nthe        row\nqui        nfo\nckb        xes\n\nNow, if we read them back off with the dimensions in the same order, we of\ncourse get the original string. However, if we change the order of the\ndimensions so that they are backwards, we start at (0,0,0) next is (1,0,0) then\n(0,1,0), and (1,1,0), etc. Reading them of in this fashion, we obtain the string:\n\"trqncxhoufkeewiobs\"\n\nWe can label the correct ordering as a sequence \"012\", where the highest number\nincrements first, and when it rolls over, the next digit corresponding to the\nnext lowest number in the translation increments. The backwards translation\njust done would be labeled as \"210\".\n\nAlternatively, we could use translations labeled \"021\", \"102\", \"120\", or \"201\".\n\nUsing only dimensions of 2 and 3, it is possible to obtain a relatively close\napproximation to the size of the message. For instance, a message of length 14\nfits well in a 2x2x2x2 box. If the message does not fit perfectly, it is padded\nwith any letter. For example, \"helloworld\", of length 10, fits best into a\n2x2x3 box, so any two letters would be appended to it, yielding \"helloworld--\",\nwhere '-' is any letter, number or a space. Note that you must always use a box\nof the smallest possible size that will still fit. For instance, a String of\nlength 17 requires 2x3x3 = 18, and 2x2x2x3 = 24 is not allowed, since it is not\nthe smallest possible fit. Also note that as necessary, a box can have 1, 2, 3,\n4, or 5 dimensions.\n\nIn order to make things just slightly more interesting, the length of the\nscrambled message may be longer than the initial message. In this situation,\nthe dimensions of the box are determined by the length of the scrambled\nmessage. For instance, given:\nunscramble(\"short\",\"this is a longer string\"), \"short\" fits best into a 2x3\nbox, but \"this is a longer string\"\nfits best into a 2x2x2x3 box, and thus the 2x2x2x3 size must be used.\n\nWhen giving dimensions of a box, note that numbers are always given in\nincreasing order. That is, a 3x2 box is not allowable, but 2x3 is.\n\nDEFINITION\n\nClass name: Crypto\nMethod name: unscramble\nParameters: String, String\nReturns: String[]\n\nThe method signature (make sure it is declared public) is:\nString[] unscramble(String initial, String scrambled);\n\nGiven the initial and scrambled Strings, determine which (if any) of the\npossible translations could have been used to scramble the String. Strings are\ncase-sensitive.\n\nIf multiple translations exist, return them all in lexicographical order. If no\npossible translations exist, return a String[] of size 0.\n\nIf either initial or scrambled will not fit exactly into a box with dimensions\nof only 2 and 3, they should be treated as though they are of the smallest\nlength which will fit, by padding them on the end with wildcards.\n\nAfter unscrambling a String, to determine if they match or not, use the\nfollowing criterion. Wildcards in the initial word can match anything in the\nsame index in the scrambled word. Wildcards in the scrambled word can only\nmatch wildcards in the same index in the inital word. Letters only match the\nsame letter in the same index in the other word.\n\nIn the following example, the 'h', 'e', and first 'l' match, since they are the\nsame in both words.\nThe second 'l' does not match, since it is a wildcard ('-') in the second word.\nThe 'o' does not match, since it is not the same in either word.\nThe '-' does match, since it is a wildcard in the first word and an 'o' in the\nsecond.\n\"hello-\"\n\"hel-lo\"\n\nTopCoder will enforce the following restrictions:\n* initial and scrambled will be between 2 and 50 characters in length\n* the length of initial will be less than or equal to the length of scrambled\n* initial and scrambled will contain only letters (A-Z,a-z), digits (0-9,\ninclusive), and spaces\n\nExample:\nunscramble(\"hello\", \"hleolo\")\n\n\"hleolo\" has length 6, and fits best into a 2x3 box, and thus we arrange\n\"hello-\" into a 2x3 box.\nWe have two dimensions that we can rearrange, so we have two translations: \"01\"\nand \"10\".\n\n\"01\" is the initial case, which of course yields \"hello-\".\nThe other case, \"10\", yields \"hleol-\".\nSince the '-' can be anything, the scrambled string matches \"10\".\nThus, the method returns {\"10\"}.\n\nunscramble(\"goodbye cruel world\",\"grdobooueudloe ru dlwlo b eybdyw wyeeoleuc\nrwlodcl\")\nreturns: {\"2301\"}.\n\nunscramble(\"aaaaaaaaaaaaaaaaaaa\",\"aaaaaaaaaaaaaaaaabaaaaaa\")\nreturns: {\"0213\", \"0312\", \"0321\", \"2013\", \"3012\", \"3021\"}.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Crypto\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Crypto\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"unscramble\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] unscramble(String param0, String param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4045/pm/338\",\"children\":[\"2002-\",\" \",\"SRM 63\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4045/pm/338\",\"children\":[\"2002-\",\" \",\"SRM 63\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

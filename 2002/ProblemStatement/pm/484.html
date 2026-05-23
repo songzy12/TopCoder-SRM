@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Omaha<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+Omaha is a variation of the card game Poker.  The rules are as follows:
+Each player holds 4 cards.
+There are 5 communal cards on the table, which are part of everyone's total
+hand of 9 cards.
+Each player must make the best hand possible out of 2 of the cards he/she is
+holding and 3 of the cards on the table.
+
+Given a String[] of a player's held cards and a String[] of the communal cards,
+return the best hand the player has.
+
+Each element of both of the String[] inputs will be a 2 character String.  The
+first character will represent the value and the second will represent the suit.
+
+Here are the card values in increasing order, where 2 is the lowest and A is
+the highest:
+2,3,4,5,6,7,8,9,T,J,Q,K,A (note the A, or ace, cannot be 1)
+Here are the different card suits (order does not matter--there cannot be
+flushes possible in 2 different suits):
+C,D,H,S
+
+The order of the hands goes as follows:
+straight flush (5 cards, sequentially ordered, all of the same suit)
+4 of a kind (4 cards of the same value)
+full house (3 cards of one value and 2 of another)
+flush (5 cards of the same suit)
+straight (5 cards sequentially ordered)
+3 of a kind (3 cards of the same value)
+
+Each hand beats all the hands below it.  So a straight flush beats everything,
+a 4 of a kind beats everything except straight flush, a full house beats
+everything except a 4 of a kind and a straight flush, and so forth.
+
+The return will be of the following format (quotes added for clarity):
+"THREE OF A KIND ?"
+"? HIGH STRAIGHT"
+"? HIGH FLUSH"
+"FULL HOUSE ? OVER ?"
+"FOUR OF A KIND ?"
+"? HIGH STRAIGHT FLUSH"
+Where the ? represents a single character card value (as shown below).
+
+The following section explains which hand wins given two of the same type:
+
+*straight flush:
+The higher straight flush wins.  The method should return "? HIGH STRAIGHT
+FLUSH". For example, "5S","6S","7S","8S","9S" beats "4S","5S","6S","7S","8S".
+Here, the "9 HIGH STRAIGHT FLUSH" would beat the "8 HIGH STRAIGHT FLUSH" so the
+method would return "9 HIGH STRAIGHT FLUSH".
+*4 of a kind:
+The higher 4 of a kind wins.  The method should return "FOUR OF A KIND ?".  For
+example, 4 9s beats 4 4s, and the method would return "FOUR OF A KIND 9", not
+the worse "FOUR OF A KIND 4".
+*full house:
+The full house with the higher value 3 of a kind wins.  After that, choose the
+highest possible pair.  For example, "9D","9S","TC","TD","TS" beats
+"9C","9D","9S","JD","JS" (since three Ts beats three 9s).  The method should
+return "FULL HOUSE ? OVER ?", where the first ? is the three of a kind, and the
+second ? is the pair.  Thus in this example, the "FULL HOUSE T OVER 9" beats
+"FULL HOUSE 9 OVER J".
+*flush:
+As mentioned, there can only be a flush of one suit on the table in Omaha.
+Choose the highest 3 cards of that suit from the table and the highest 2 cards
+of that suit from the player's hand.  The method should return "? HIGH FLUSH".
+So for example, "2S","3S","9S","JS","QS" would return "Q HIGH FLUSH".
+*straight:
+The higher straight wins (same as the rule for straight flush above).  The
+method should return "? HIGH STRAIGHT".  Thus "6C","7D","8D","9C","TS" would
+return "T HIGH STRAIGHT".
+*3 of a kind:
+Choose the highest 3 of a kind.  The method should return "THREE OF A KIND ?".
+For example, if the best hand is three Ks, the method would return "THREE OF A
+KIND K".
+
+DEFINITION
+Class name: Omaha
+Method name: bestHand
+Parameters: String[], String[]
+Returns: String
+The method signature is:
+String bestHand(String[] held, String[] communal)
+Be sure your method is public.
+
+TopCoder will ensure the following:
+*held will contain exactly 4 elements, formatted as above.
+*communal will contain exactly 5 elements, formatted as above.
+*all 9 cards will be unique.
+*there will be at least a 3 of a kind possible.
+*there will be no spaces in the input.
+
+NOTE:
+-The return String may not have leading, trailing, or extra spaces.
+-For both straight flush and straight, the sequence cannot wrap. For example,
+the following sequence is not a straight because "2S" cannot come after "AS":
+"2S","3C","4D","5H","AS".
+
+EXAMPLES
+All quotes added for clarity
+
+1)
+held={"9S","TS","JS","9D"}
+communal={"5S","KS","AS","2C","4H"}
+The best hand is a flush:
+"5S","TS","JS","KS","AS"
+"A HIGH FLUSH"
+
+2)
+held={"9S","TS","JS","9D"}
+communal={"5S","KS","AS","2C","9C"}
+Even though there is a 3 of a kind of 9s possible, the flush is still the
+highest hand:
+"5S","TS","JS","KS","AS"
+"A HIGH FLUSH"
+
+3)
+held={"4C","4D","TS","JS"}
+communal={"5S","KS","AS","4S","4H"}
+The 4 of a kind beats the flush.
+"FOUR OF A KIND 4"
+
+4)
+held={"AS","KS","QS","2C"}
+communal={"5S","6S","TD","JD","QC"}
+Since you must use 3 cards from the table and 2 from the held cards, a flush
+cannot be made.  The best hand is instead the straight:
+"TD","JD","QC","KS","AS"
+"A HIGH STRAIGHT"
+
+5)
+held={"QD","KS","QS","2C"}
+communal={"QC","3C","5D","7D","8S"}
+The best hand is the three of a kind.
+"THREE OF A KIND Q"
+
+6)
+held={"QS","QC","3S","4D"}
+communal={"5D","5C","QH","7C","8S"}
+The best hand is a full house, using the two Qs from the held cards, and the Q
+and two 5s from the communal cards.
+"FULL HOUSE Q OVER 5"
+
+7)
+held={"AS","KS","AC","KC"}
+communal={"TS","JS","QS","JC","QC"}
+There is a straight flush on the table, using the spades.  The method should
+return:
+"A HIGH STRAIGHT FLUSH"
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Omaha</span></dd><dt>Method:</dt><dd><span>bestHand</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String bestHand(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/64/pm/484">2002-<!-- --> <!-- -->TCCC &#x27;02 Semifinals 1<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/484/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"484\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"484\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"484\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"484\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"484\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T14ee,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nOmaha is a variation of the card game Poker.  The rules are as follows:\nEach player holds 4 cards.\nThere are 5 communal cards on the table, which are part of everyone's total\nhand of 9 cards.\nEach player must make the best hand possible out of 2 of the cards he/she is\nholding and 3 of the cards on the table.\n\nGiven a String[] of a player's held cards and a String[] of the communal cards,\nreturn the best hand the player has.\n\nEach element of both of the String[] inputs will be a 2 character String.  The\nfirst character will represent the value and the second will represent the suit.\n\nHere are the card values in increasing order, where 2 is the lowest and A is\nthe highest:\n2,3,4,5,6,7,8,9,T,J,Q,K,A (note the A, or ace, cannot be 1)\nHere are the different card suits (order does not matter--there cannot be\nflushes possible in 2 different suits):\nC,D,H,S\n\nThe order of the hands goes as follows:\nstraight flush (5 cards, sequentially ordered, all of the same suit)\n4 of a kind (4 cards of the same value)\nfull house (3 cards of one value and 2 of another)\nflush (5 cards of the same suit)\nstraight (5 cards sequentially ordered)\n3 of a kind (3 cards of the same value)\n\nEach hand beats all the hands below it.  So a straight flush beats everything,\na 4 of a kind beats everything except straight flush, a full house beats\neverything except a 4 of a kind and a straight flush, and so forth.\n\nThe return will be of the following format (quotes added for clarity):\n\"THREE OF A KIND ?\"\n\"? HIGH STRAIGHT\"\n\"? HIGH FLUSH\"\n\"FULL HOUSE ? OVER ?\"\n\"FOUR OF A KIND ?\"\n\"? HIGH STRAIGHT FLUSH\"\nWhere the ? represents a single character card value (as shown below).\n\nThe following section explains which hand wins given two of the same type:\n\n*straight flush:\nThe higher straight flush wins.  The method should return \"? HIGH STRAIGHT\nFLUSH\". For example, \"5S\",\"6S\",\"7S\",\"8S\",\"9S\" beats \"4S\",\"5S\",\"6S\",\"7S\",\"8S\".\nHere, the \"9 HIGH STRAIGHT FLUSH\" would beat the \"8 HIGH STRAIGHT FLUSH\" so the\nmethod would return \"9 HIGH STRAIGHT FLUSH\".\n*4 of a kind:\nThe higher 4 of a kind wins.  The method should return \"FOUR OF A KIND ?\".  For\nexample, 4 9s beats 4 4s, and the method would return \"FOUR OF A KIND 9\", not\nthe worse \"FOUR OF A KIND 4\".\n*full house:\nThe full house with the higher value 3 of a kind wins.  After that, choose the\nhighest possible pair.  For example, \"9D\",\"9S\",\"TC\",\"TD\",\"TS\" beats\n\"9C\",\"9D\",\"9S\",\"JD\",\"JS\" (since three Ts beats three 9s).  The method should\nreturn \"FULL HOUSE ? OVER ?\", where the first ? is the three of a kind, and the\nsecond ? is the pair.  Thus in this example, the \"FULL HOUSE T OVER 9\" beats\n\"FULL HOUSE 9 OVER J\".\n*flush:\nAs mentioned, there can only be a flush of one suit on the table in Omaha.\nChoose the highest 3 cards of that suit from the table and the highest 2 cards\nof that suit from the player's hand.  The method should return \"? HIGH FLUSH\".\nSo for example, \"2S\",\"3S\",\"9S\",\"JS\",\"QS\" would return \"Q HIGH FLUSH\".\n*straight:\nThe higher straight wins (same as the rule for straight flush above).  The\nmethod should return \"? HIGH STRAIGHT\".  Thus \"6C\",\"7D\",\"8D\",\"9C\",\"TS\" would\nreturn \"T HIGH STRAIGHT\".\n*3 of a kind:\nChoose the highest 3 of a kind.  The method should return \"THREE OF A KIND ?\".\nFor example, if the best hand is three Ks, the method would return \"THREE OF A\nKIND K\".\n\nDEFINITION\nClass name: Omaha\nMethod name: bestHand\nParameters: String[], String[]\nReturns: String\nThe method signature is:\nString bestHand(String[] held, String[] communal)\nBe sure your method is public.\n\nTopCoder will ensure the following:\n*held will contain exactly 4 elements, formatted as above.\n*communal will contain exactly 5 elements, formatted as above.\n*all 9 cards will be unique.\n*there will be at least a 3 of a kind possible.\n*there will be no spaces in the input.\n\nNOTE:\n-The return String may not have leading, trailing, or extra spaces.\n-For both straight flush and straight, the sequence cannot wrap. For example,\nthe following sequence is not a straight because \"2S\" cannot come after \"AS\":\n\"2S\",\"3C\",\"4D\",\"5H\",\"AS\".\n\nEXAMPLES\nAll quotes added for clarity\n\n1)\nheld={\"9S\",\"TS\",\"JS\",\"9D\"}\ncommunal={\"5S\",\"KS\",\"AS\",\"2C\",\"4H\"}\nThe best hand is a flush:\n\"5S\",\"TS\",\"JS\",\"KS\",\"AS\"\n\"A HIGH FLUSH\"\n\n2)\nheld={\"9S\",\"TS\",\"JS\",\"9D\"}\ncommunal={\"5S\",\"KS\",\"AS\",\"2C\",\"9C\"}\nEven though there is a 3 of a kind of 9s possible, the flush is still the\nhighest hand:\n\"5S\",\"TS\",\"JS\",\"KS\",\"AS\"\n\"A HIGH FLUSH\"\n\n3)\nheld={\"4C\",\"4D\",\"TS\",\"JS\"}\ncommunal={\"5S\",\"KS\",\"AS\",\"4S\",\"4H\"}\nThe 4 of a kind beats the flush.\n\"FOUR OF A KIND 4\"\n\n4)\nheld={\"AS\",\"KS\",\"QS\",\"2C\"}\ncommunal={\"5S\",\"6S\",\"TD\",\"JD\",\"QC\"}\nSince you must use 3 cards from the table and 2 from the held cards, a flush\ncannot be made.  The best hand is instead the straight:\n\"TD\",\"JD\",\"QC\",\"KS\",\"AS\"\n\"A HIGH STRAIGHT\"\n\n5)\nheld={\"QD\",\"KS\",\"QS\",\"2C\"}\ncommunal={\"QC\",\"3C\",\"5D\",\"7D\",\"8S\"}\nThe best hand is the three of a kind.\n\"THREE OF A KIND Q\"\n\n6)\nheld={\"QS\",\"QC\",\"3S\",\"4D\"}\ncommunal={\"5D\",\"5C\",\"QH\",\"7C\",\"8S\"}\nThe best hand is a full house, using the two Qs from the held cards, and the Q\nand two 5s from the communal cards.\n\"FULL HOUSE Q OVER 5\"\n\n7)\nheld={\"AS\",\"KS\",\"AC\",\"KC\"}\ncommunal={\"TS\",\"JS\",\"QS\",\"JC\",\"QC\"}\nThere is a straight flush on the table, using the spades.  The method should\nreturn:\n\"A HIGH STRAIGHT FLUSH\"\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Omaha\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Omaha\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"bestHand\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String bestHand(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/64/pm/484\",\"children\":[\"2002-\",\" \",\"TCCC '02 Semifinals 1\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

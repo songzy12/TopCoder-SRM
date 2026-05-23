@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Baseball<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">Class name: Baseball
+Method name: stats
+Parameters: int, String
+Returns: int[]
+
+
+The game of baseball is played between two teams.
+Each team has ten players.  One team plays in the field, and the other team
+bats.
+The teams take turns batting and playing in the field until the game is over.
+Each of these turns is called
+an INNING.
+
+The baseball field is shaped like a diamond, with a base on each corner, and a
+pitcher's mound in the center.
+
+Baseball (field) diamond:
+
+    2
+   / \
+  /   \
+ /     \
+3   P   1
+ \     /
+  \   /
+   \ /
+    H
+
+P = Pitcher's mound.
+1 = First Base.
+2 = Second Base.
+3 = Third Base.
+H = Home Plate (Fourth Base).
+
+A member of the batting team (the batter) stands at the bottom of the diamond
+at the base called home plate.
+A player from the opposing team stands on the pitcher's mound and throws a
+baseball toward home plate.
+The batter tries to hit the ball into the playing field with a bat (just a big
+stick).
+
+The batter then runs toward the base on the right side of the diamond (first
+base).
+If the ball is caught, or a player on the opposing team tags the batter with
+the baseball,
+the batter is called OUT, and leaves the field.
+
+If the batter is not called OUT, he will try to go around the diamond
+counter-clockwise as far as he can
+without danger of being called OUT.
+
+He can stop at any of the corners of the diamond, which are the bases.
+If he stays on a base, he is called SAFE, and he stays on the base until the
+INNING is over or
+until another player hits the baseball, and gives him another chance to
+complete rounding the bases.
+
+Two players CANNOT be on the same base.  If a player chooses to run to a base,
+and another player is on it,
+The first player must run back to the base he came from or the second player
+must run forward to the next base.
+
+For example, if a player is on first base, and the next player hits the ball,
+that second player gets
+to run to first base, and the first player is FORCED to run to second base.
+
+Players CANNOT go around each other.
+
+If a player ever reaches Home Plate (Fourth Base) he immediately leaves the
+field.  Nobody can ever be ON Home Plate.
+They can only reach Home Plate.
+
+An INNING is over when a total of three players have been called OUT that
+inning.  At that point,
+all players on base leave the field, the teams switch roles, with the pitching
+team becoming the batting team,
+and vice versa.
+
+The players on a team bat in a particular order.   That order is preserved
+throughout the
+entire game.  Player 1 always bats first for his team in the game, followed by
+Player 2.
+Player 10 is followed by Player 1.
+
+The end of an INNING does not affect this order.  If Player 5 batted last in an
+INNING, the next time
+his team comes to bat, Player 6 will bat, no matter when that may happen.
+
+Example:
+
+Team A is batting.
+Player 1 hits the ball, and makes it to first base (see diagram).  He stays
+there.
+Player 2 hits the ball, and he runs to first base.  Meanwhile, Player 1 runs
+all the way to third base.
+
+Now Player 1 is on Third Base, and Player 2 is on First Base.
+
+Player 3 gets called OUT.  Nothing else happens.
+
+Player 4 hits the ball out of the park.  Everybody rounds the bases until they
+reach Home Plate, whereupon
+they leave the field.
+
+Player 1 is the first to round the bases, followed by Player 2, and finally by
+Player 4.
+
+Player 5 hits the ball and gets to Second Base.
+
+Et cetera, ...
+
+
+A Team scores a point (called a RUN) when a player reaches Home Plate after
+rounding the bases.
+The player is also said to have scored a RUN.
+
+When a player hits the ball and gets to a base, successfully, he is said to
+have gotten a HIT.
+
+When a player hits the ball, and because of that HIT, another player scores a
+RUN, the player who
+got the hit is said to have gotten an RBI (Run Batted In).
+
+
+There is one way a player can get on base without getting a HIT.  This way is
+called a WALK.
+When a player gets a WALK, he goes to first base.  Everybody who is FORCED to
+move because of this,
+moves one base (possibly FORCING others to move).  Nobody can be called OUT
+during a WALK.
+If a Player scores a RUN as a result of a WALK, he gets a RUN, but nobody gets
+an RBI.
+
+
+
+How to calculate statistics: (HITS, RUNS, RBI, WALKS)
+
+If a player is batting, and he hits the ball, getting to a base, he gets 1 HIT.
+If a player rounds all the bases, crossing Home Plate, regardless of who is
+batting, he gets 1 RUN.
+If a player hits the ball, getting to a base, and another player scores a RUN,
+he gets an RBI.
+If a player gets a WALK, he gets 1 WALK.
+
+Implement a class Baseball, which has a method stats.
+
+Method signature: public int[] stats(int player, String whatHappened)
+
+*player is between 1 and 10, inclusive
+*whatHappened is a String between 1 and 100 characters long, inclusive
+
+*stats returns a int[] that represents the stats of the hitter in the "player"
+batting order, in the following order
+
+{ Hits, Runs, Runs Batted In, Walks }
+
+
+Hits are the number of HITS the player got in the game.
+Runs are the number of times the player crossed home plate.
+Runs Batted In is the number of runs scored on hits by the player.
+Walks are the number of walks the player got.
+
+The parameter whatHappened contains the results of each at-bat of the game.
+The first character in the string is
+the result of the first at-bat, the second character the results of the second
+at-bat, etc.
+
+Key:
+
+W = walk
+1 = base hit
+2 = double
+3 = triple
+H = home run
+O = out
+
+All at-bat results are for the same team.
+
+
+What to do:
+
+If you have a W, move the batter to first base.  Move anybody else who is
+FORCED to move.
+
+If you have a 1, 2, 3, or H, move the batter to that base.  Anybody who is on
+second or third base automatically
+crosses Home Plate and scores a RUN.
+The person on first merely moves to the next available base.
+
+Be sure to clear the bases between INNINGS - 3 outs is an INNING.
+
+There are always 10 batters.
+
+The game can end at any time - there does not have to be a specified number of
+outs or innings.
+
+Example:
+
+player = 2
+whatHappened = "12OOW11OHOO13O"
+
+player 1 gets a single - put him on first.
+When player 2 is at bat for the first time, he hits a double - GIVE PLAYER 2 A
+HIT
+The runner at first moves to 3rd. 
+Then two outs occur.
+player 5 gets a walk, loading the bases.
+player 6 hits a single, allowing player 1 to score.
+player 7 hits a single, allowing player 2 to score - GIVE PLAYER 2 A RUN
+player 8 is out - clear the bases.
+player 9 hits a home run
+player 10 is out
+player 1 is out
+player 2 gets a single - GIVE PLAYER 2 A HIT
+player 3 gets a triple - GIVE PLAYER 2 A RUN
+player 4 is out - game over
+
+player 2 has 2 HITS and 2 RUNS.
+
+Return { 2, 2, 0, 0 }
+
+Example 2:
+
+player = 5
+whatHappened = "OO32HOOOOOOOOOW"
+
+player 1 and 2 are out.
+player 3 gets a triple.
+player 4 hits a double, and 3 scores.
+player 5 gets a home run, and 4 scores - GIVE PLAYER 5 1 HIT, 1 RUNS, and 2 RBI
+players 6 - 10, 1 - 4 are out.
+player 5 gets a walk - GIVE PLAYER 5 A WALK
+
+player 5 has 1 HIT, 1 RUN, 2 RBI, and 1 WALK
+
+Return { 1, 1, 2, 1 }
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Baseball</span></dd><dt>Method:</dt><dd><span>stats</span></dd><dt>Parameters:</dt><dd><span>int, String</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] stats(int param0, String param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/3027/pm/158">2001-<!-- --> <!-- -->SRM 28<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/3027/pm/158">2001-<!-- --> <!-- -->SRM 28<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/158/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"158\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"158\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"158\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"158\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"158\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1ba5,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003eClass name: Baseball\nMethod name: stats\nParameters: int, String\nReturns: int[]\n\n\nThe game of baseball is played between two teams.\nEach team has ten players.  One team plays in the field, and the other team\nbats.\nThe teams take turns batting and playing in the field until the game is over.\nEach of these turns is called\nan INNING.\n\nThe baseball field is shaped like a diamond, with a base on each corner, and a\npitcher's mound in the center.\n\nBaseball (field) diamond:\n\n    2\n   / \\\n  /   \\\n /     \\\n3   P   1\n \\     /\n  \\   /\n   \\ /\n    H\n\nP = Pitcher's mound.\n1 = First Base.\n2 = Second Base.\n3 = Third Base.\nH = Home Plate (Fourth Base).\n\nA member of the batting team (the batter) stands at the bottom of the diamond\nat the base called home plate.\nA player from the opposing team stands on the pitcher's mound and throws a\nbaseball toward home plate.\nThe batter tries to hit the ball into the playing field with a bat (just a big\nstick).\n\nThe batter then runs toward the base on the right side of the diamond (first\nbase).\nIf the ball is caught, or a player on the opposing team tags the batter with\nthe baseball,\nthe batter is called OUT, and leaves the field.\n\nIf the batter is not called OUT, he will try to go around the diamond\ncounter-clockwise as far as he can\nwithout danger of being called OUT.\n\nHe can stop at any of the corners of the diamond, which are the bases.\nIf he stays on a base, he is called SAFE, and he stays on the base until the\nINNING is over or\nuntil another player hits the baseball, and gives him another chance to\ncomplete rounding the bases.\n\nTwo players CANNOT be on the same base.  If a player chooses to run to a base,\nand another player is on it,\nThe first player must run back to the base he came from or the second player\nmust run forward to the next base.\n\nFor example, if a player is on first base, and the next player hits the ball,\nthat second player gets\nto run to first base, and the first player is FORCED to run to second base.\n\nPlayers CANNOT go around each other.\n\nIf a player ever reaches Home Plate (Fourth Base) he immediately leaves the\nfield.  Nobody can ever be ON Home Plate.\nThey can only reach Home Plate.\n\nAn INNING is over when a total of three players have been called OUT that\ninning.  At that point,\nall players on base leave the field, the teams switch roles, with the pitching\nteam becoming the batting team,\nand vice versa.\n\nThe players on a team bat in a particular order.   That order is preserved\nthroughout the\nentire game.  Player 1 always bats first for his team in the game, followed by\nPlayer 2.\nPlayer 10 is followed by Player 1.\n\nThe end of an INNING does not affect this order.  If Player 5 batted last in an\nINNING, the next time\nhis team comes to bat, Player 6 will bat, no matter when that may happen.\n\nExample:\n\nTeam A is batting.\nPlayer 1 hits the ball, and makes it to first base (see diagram).  He stays\nthere.\nPlayer 2 hits the ball, and he runs to first base.  Meanwhile, Player 1 runs\nall the way to third base.\n\nNow Player 1 is on Third Base, and Player 2 is on First Base.\n\nPlayer 3 gets called OUT.  Nothing else happens.\n\nPlayer 4 hits the ball out of the park.  Everybody rounds the bases until they\nreach Home Plate, whereupon\nthey leave the field.\n\nPlayer 1 is the first to round the bases, followed by Player 2, and finally by\nPlayer 4.\n\nPlayer 5 hits the ball and gets to Second Base.\n\nEt cetera, ...\n\n\nA Team scores a point (called a RUN) when a player reaches Home Plate after\nrounding the bases.\nThe player is also said to have scored a RUN.\n\nWhen a player hits the ball and gets to a base, successfully, he is said to\nhave gotten a HIT.\n\nWhen a player hits the ball, and because of that HIT, another player scores a\nRUN, the player who\ngot the hit is said to have gotten an RBI (Run Batted In).\n\n\nThere is one way a player can get on base without getting a HIT.  This way is\ncalled a WALK.\nWhen a player gets a WALK, he goes to first base.  Everybody who is FORCED to\nmove because of this,\nmoves one base (possibly FORCING others to move).  Nobody can be called OUT\nduring a WALK.\nIf a Player scores a RUN as a result of a WALK, he gets a RUN, but nobody gets\nan RBI.\n\n\n\nHow to calculate statistics: (HITS, RUNS, RBI, WALKS)\n\nIf a player is batting, and he hits the ball, getting to a base, he gets 1 HIT.\nIf a player rounds all the bases, crossing Home Plate, regardless of who is\nbatting, he gets 1 RUN.\nIf a player hits the ball, getting to a base, and another player scores a RUN,\nhe gets an RBI.\nIf a player gets a WALK, he gets 1 WALK.\n\nImplement a class Baseball, which has a method stats.\n\nMethod signature: public int[] stats(int player, String whatHappened)\n\n*player is between 1 and 10, inclusive\n*whatHappened is a String between 1 and 100 characters long, inclusive\n\n*stats returns a int[] that represents the stats of the hitter in the \"player\"\nbatting order, in the following order\n\n{ Hits, Runs, Runs Batted In, Walks }\n\n\nHits are the number of HITS the player got in the game.\nRuns are the number of times the player crossed home plate.\nRuns Batted In is the number of runs scored on hits by the player.\nWalks are the number of walks the player got.\n\nThe parameter whatHappened contains the results of each at-bat of the game.\nThe first character in the string is\nthe result of the first at-bat, the second character the results of the second\nat-bat, etc.\n\nKey:\n\nW = walk\n1 = base hit\n2 = double\n3 = triple\nH = home run\nO = out\n\nAll at-bat results are for the same team.\n\n\nWhat to do:\n\nIf you have a W, move the batter to first base.  Move anybody else who is\nFORCED to move.\n\nIf you have a 1, 2, 3, or H, move the batter to that base.  Anybody who is on\nsecond or third base automatically\ncrosses Home Plate and scores a RUN.\nThe person on first merely moves to the next available base.\n\nBe sure to clear the bases between INNINGS - 3 outs is an INNING.\n\nThere are always 10 batters.\n\nThe game can end at any time - there does not have to be a specified number of\nouts or innings.\n\nExample:\n\nplayer = 2\nwhatHappened = \"12OOW11OHOO13O\"\n\nplayer 1 gets a single - put him on first.\nWhen player 2 is at bat for the first time, he hits a double - GIVE PLAYER 2 A\nHIT\nThe runner at first moves to 3rd. \nThen two outs occur.\nplayer 5 gets a walk, loading the bases.\nplayer 6 hits a single, allowing player 1 to score.\nplayer 7 hits a single, allowing player 2 to score - GIVE PLAYER 2 A RUN\nplayer 8 is out - clear the bases.\nplayer 9 hits a home run\nplayer 10 is out\nplayer 1 is out\nplayer 2 gets a single - GIVE PLAYER 2 A HIT\nplayer 3 gets a triple - GIVE PLAYER 2 A RUN\nplayer 4 is out - game over\n\nplayer 2 has 2 HITS and 2 RUNS.\n\nReturn { 2, 2, 0, 0 }\n\nExample 2:\n\nplayer = 5\nwhatHappened = \"OO32HOOOOOOOOOW\"\n\nplayer 1 and 2 are out.\nplayer 3 gets a triple.\nplayer 4 hits a double, and 3 scores.\nplayer 5 gets a home run, and 4 scores - GIVE PLAYER 5 1 HIT, 1 RUNS, and 2 RBI\nplayers 6 - 10, 1 - 4 are out.\nplayer 5 gets a walk - GIVE PLAYER 5 A WALK\n\nplayer 5 has 1 HIT, 1 RUN, 2 RBI, and 1 WALK\n\nReturn { 1, 1, 2, 1 }\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Baseball\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Baseball\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] stats(int param0, String param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3027/pm/158\",\"children\":[\"2001-\",\" \",\"SRM 28\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/3027/pm/158\",\"children\":[\"2001-\",\" \",\"SRM 28\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

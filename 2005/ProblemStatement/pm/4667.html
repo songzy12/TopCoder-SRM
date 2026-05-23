@@ -1,0 +1,320 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Pitches<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+A struggling baseball pitcher is hoping to improve his results by analyzing the statistics of how various batters perform against each of his two types of pitches: his "fast ball" and his "curve ball".  He has developed a model to help him decide which pitch to select in any given circumstance.
+</p>
+
+<p xmlns="http://topcoder.com">
+In the game of baseball (slightly simplified for this problem), each pitch thrown will result in one of three outcomes: a "strike", a "ball", or a "hit". If a batter ever gets a hit or accumulates 4 balls before accumulating 3 strikes, this is a victory for the batter. However, if he gets 3 strikes first, this is a victory for the pitcher.  The running count of balls and strikes is collectively referred to as the "count".
+</p>
+
+<p xmlns="http://topcoder.com">
+For this analysis, both the pitcher and batter are modelled as having a table of probabilities computed before the game.  For each of the 12 possible counts, the pitcher has a probability for selecting to throw a curve ball instead of a fast ball.  Similarly, for each possible count, the batter has a probability for <i>expecting</i> the pitcher to throw a curve ball.  Before each pitch, the pitcher randomly selects which pitch to throw and the batter randomly selects which pitch to expect strictly according to the probabilities in the table for the current count.
+</p>
+
+<p xmlns="http://topcoder.com">
+Computing the optimal values for the probabilities in this table depends on the statistics for how the batter performs for each of the 4 possible combinations of thrown and expected pitches.  These statistics will be provided by an 8-element <type>double[]</type>, <b>stats</b>, in the following form:
+</p>
+
+<pre xmlns="http://topcoder.com">
+
+    pitcher throws   batter expects   ball      strike    hit
+    --------------   --------------   --------  --------  -----------------------
+    fast ball        fast ball        stats[0]  stats[1]  1 - (stats[0]+stats[1])
+    fast ball        curve ball       stats[2]  stats[3]  1 - (stats[2]+stats[3])
+    curve ball       fast ball        stats[4]  stats[5]  1 - (stats[4]+stats[5])
+    curve ball       curve ball       stats[6]  stats[7]  1 - (stats[6]+stats[7])
+</pre>
+
+<p xmlns="http://topcoder.com">
+The pitcher attempts to maximize his chance of getting 3 strikes, knowing that the batter will be attempting to maximize his chance of getting 4 balls or a hit.  For a given count, the optimal probability for the pitcher to throw a curve ball is the probability that minimizes the batter's ability to succeed.  Similarly, the optimal probability for the batter to expect a curve ball is the probability that minimizes the pitcher's ability to succeed.  In other words, the optimal pair of probabilities for a given count are such that if either the pitcher's or the batter's probability were to change, the other would be able to improve their chances by changing their probability as well.  The optimal pair of probabilities forms an equilibrium, where neither the batter nor the pitcher can improve their chances if the other does not change their probability.
+</p>
+
+<p xmlns="http://topcoder.com">
+For example, consider the following (unrealistic) statistics: { 0, 0, 0, 1, 0, 1, 0, 0 }, with a count of 3 balls and 2 strikes.  In this case, if the batter expects the same pitch that the pitcher throws, he will get a hit, otherwise, it will be a strike.  The optimal probabilities are for both the pitcher and batter to select a curve ball exactly 50% of the time.  50% is optimal for the pitcher because if he were to prefer one pitch or the other, the batter could improve his performance by preferring that same pitch.  Similarly, 50% is optimal for the batter because if he preferred one pitch or the other, the pitcher would be able to take advantage of that fact by preferring the opposite pitch.
+</p>
+
+<p xmlns="http://topcoder.com">
+Given the statistics in the format described above as a <type>double[]</type> <b>stats</b> and the current number of <b>balls</b> and <b>strikes</b>, compute the probability that the pitcher will get a total of 3 strikes before the batter gets a hit or a total of 4 balls.
+</p>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Pitches</span></dd><dt>Method:</dt><dd><span>strikeOut</span></dd><dt>Parameters:</dt><dd><span>double[], int, int</span></dd><dt>Returns:</dt><dd><span>double</span></dd><dt>Method signature:</dt><dd><span>double strikeOut(double[] stats, int balls, int strikes)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>Your return value must have an absolute or relative error less than 1e-9.</li></ul></div><div><h3>Constraints</h3><ul><li><span>stats will contain exactly 8 elements.</span></li><li><span>Each element of stats will be between 0.0 and 1.0, inclusive.</span></li><li><span>stats[0] + stats[1] will be less than or equal to 1.0.</span></li><li><span>stats[2] + stats[3] will be less than or equal to 1.0.</span></li><li><span>stats[4] + stats[5] will be less than or equal to 1.0.</span></li><li><span>stats[6] + stats[7] will be less than or equal to 1.0.</span></li><li><span>balls will be between 0 and 3, inclusive.</span></li><li><span>strikes will be between 0 and 2, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{ 0, 0,
+  0, 1,
+  0, 1,
+  0, 0 }</p>
+<p>3</p>
+<p>2</p>
+<p>Returns: 0.5</p>
+<p>This is the example in the problem statement.</p></div></li><li><div><p>{0.541360678953378,0.251311079561226,0.810364006439709,0.172433517475874,0.224491762214985,0.40885541054179,0.586207954897386,0.118656938732521}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.06393930309319609</p></div></li><li><div><p>{0.576011612426814,0.418368878292426,0.00659910848814249,0.466372046112021,0.289294236388617,0.280864375524416,0.556361780182097,0.382662625898313}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.1949923005099184</p></div></li><li><div><p>{ 0, 0, 0, 0.51, 0, 1, 0, 0.49 }</p>
+<p>3</p>
+<p>2</p>
+<p>Returns: 0.5</p></div></li><li><div><p>{ 0.375, 0.25,
+  0.375, 0.25,
+  0.375, 0.25, 
+  0.375, 0.25 }</p>
+<p>0</p>
+<p>2</p>
+<p>Returns: 0.39208984375</p></div></li><li><div><p>{ 0, 0, 0, 0,
+  0, 0, 0, 1 }</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 0.0</p></div></li><li><div><p>{ 0.33, 0,
+  0, 1,
+  0.44, 0,
+  0, 1 }</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 0.0</p>
+<p>It doesn't matter which pitch the pitcher throws; if the batter expects a fast ball, he will always get a ball or a hit.</p></div></li><li><div><p>{ 0, 1,
+  0, 1,
+  0, 0,
+  0, 0 }</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 1.0</p>
+<p>It doesn't matter which pitch the batter expects; if the pitcher throws a fast ball, he will always get a strike.</p></div></li><li><div><p>{ 0, 0.5, 0, 0,
+  0, 0, 0, 0.5 }</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0.0625</p></div></li><li><div><p>{ 0, 0.4,
+  0.05, 0.75,
+  0.2, 0.7,
+  0.85, 0.1 }</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.32194802205218886</p></div></li><li><div><p>{0.046,0.046,0.046,0.046,0.046,0.046,0.046,0.046}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 1.1209888882495999E-4</p></div></li><li><div><p>{0.264,0.389,0.242,0.389,0.251,0.389,0.418,0.389}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.14019653097450774</p></div></li><li><div><p>{0.262,0.319,0.601,0.319,0.576,0.319,0.486,0.25}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.13921041179085655</p></div></li><li><div><p>{0.139,0.162,0.682,0.162,0.455,0.162,0.237,0.389}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.019340684483310003</p></div></li><li><div><p>{0.02,0.485,0.169,0.485,0.377,0.439,0.22,0.439}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.18662321614905125</p></div></li><li><div><p>{0.413,0.431,0.286,0.431,0.616,0.244,0.056,0.431}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.20677969244686692</p></div></li><li><div><p>{0.008,0.382,0.363,0.382,0.372,0.355,0.208,0}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.07267762409605114</p></div></li><li><div><p>{0.204,0.353,0.147,0.353,0.727,0.152,0.336,0.211}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.07048557781436769</p></div></li><li><div><p>{0.67,0.176,0.083,0.176,0.219,0.037,0.595,0.367}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.021552986306934228</p></div></li><li><div><p>{0.246,0.05,0.028,0.05,0.241,0.101,0.309,0.05}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 3.493652862500001E-4</p></div></li><li><div><p>{0.367,0.017,0.653,0.017,0.645,0.318,0.494,0.318}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.16566717379053886</p></div></li><li><div><p>{0.72,0.099,0.065,0.099,0.476,0.236,0.714,0.076}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.0051374113568896235</p></div></li><li><div><p>{0.286,0.244,0.742,0.244,0.372,0.34,0.304,0.275}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.08675955241817294</p></div></li><li><div><p>{0.047,0.081,0.469,0.081,0.079,0.269,0.088,0.31}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.024903200883376518</p></div></li><li><div><p>{0.578,0.395,0.094,0.224,0.774,0.224,0.579,0.224}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.07518603007655936</p></div></li><li><div><p>{0.134,0.366,0.57,0.261,0.598,0.261,0.554,0.366}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.13983521193903417</p></div></li><li><div><p>{0.21,0.419,0.803,0.187,0.547,0.187,0.441,0.087}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.0800709794625522</p></div></li><li><div><p>{0.358,0.289,0.844,0.01,0.335,0.01,0.586,0.203}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.01243702310799791</p></div></li><li><div><p>{0.191,0.15,0.182,0.114,0.017,0.114,0.318,0.387}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.005474707149656154</p></div></li><li><div><p>{0.377,0.437,0.542,0.237,0.303,0.437,0.197,0.237}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.07961652530415864</p></div></li><li><div><p>{0.4,0.396,0.606,0.151,0.425,0.396,0.371,0.396}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.214210603868089</p></div></li><li><div><p>{0.424,0.4,0.403,0.154,0.064,0.4,0.2,0.129}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.01401725143207928</p></div></li><li><div><p>{0.503,0.443,0.549,0.074,0.463,0.443,0.146,0.101}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.002899747636088471</p></div></li><li><div><p>{0.391,0.358,0.739,0.192,0.067,0.358,0.033,0.401}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.12904666808018028</p></div></li><li><div><p>{0.533,0.278,0.364,0.098,0.47,0.001,0.544,0.001}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.00317112191323648</p></div></li><li><div><p>{0.22,0.404,0.719,0.259,0.315,0.248,0.359,0.259}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.12746563858037338</p></div></li><li><div><p>{0.154,0.326,0.602,0.141,0.24,0.112,0.195,0.326}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.037959851581878826</p></div></li><li><div><p>{0.339,0.484,0.01,0.399,0.377,0.291,0.604,0.219}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.10945104972766692</p></div></li><li><div><p>{0.053,0.4,0.01,0.397,0.759,0.226,0.316,0.293}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.0768685878069554</p></div></li><li><div><p>{0.384,0.489,0.049,0.431,0.448,0.252,0.218,0.44}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.14865457593791112</p></div></li><li><div><p>{0.018,0.302,0.686,0.085,0.913,0.023,0.076,0.43}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.028070464636325575</p></div></li><li><div><p>{0.511,0.441,0.58,0.004,0.186,0.377,0.262,0.004}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 4.2940928E-7</p></div></li><li><div><p>{0.098,0.442,0.297,0.101,0.176,0.246,0.153,0.246}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.024344156408724716</p></div></li><li><div><p>{0.335,0.379,0.561,0.07,0.812,0.124,0.469,0.379}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.08996536688037415</p></div></li><li><div><p>{0.025,0.46,0.616,0.152,0.469,0.269,0.85,0.082}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.026228272892608512</p></div></li><li><div><p>{0.138,0.46,0.61,0.171,0.195,0.323,0.168,0.221}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.04225203959426001</p></div></li><li><div><p>{0.001,0.403,0.324,0.073,0.432,0.135,0.586,0.251}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.032211756243620666</p></div></li><li><div><p>{0.533,0.342,0.259,0.054,0.465,0.132,0.535,0.426}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.06328648667111784</p></div></li><li><div><p>{0.466,0.125,0.74,0.116,0.35,0.492,0.317,0.116}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.015098964802057115</p></div></li><li><div><p>{0.139,0.37,0.652,0.301,0.466,0.397,0.054,0.37}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.13983272921820197</p></div></li><li><div><p>{0.334,0.17,0.172,0.062,0.134,0.355,0.203,0.355}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.06862035404792999</p></div></li><li><div><p>{0.575,0.387,0.762,0.211,0.167,0.419,0.742,0.21}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.10515915139270166</p></div></li><li><div><p>{0.428,0.121,0.297,0.015,0.299,0.44,0.192,0.101}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.0019245640232268804</p></div></li><li><div><p>{0.437,0.073,0.925,0.026,0.524,0.472,0.051,0.226}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.014390633034280655</p></div></li><li><div><p>{0.244,0.027,0.094,0.023,0.725,0.144,0.033,0.345}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.029793945553919992</p></div></li><li><div><p>{0.12,0.049,0.202,0.282,0.49,0.049,0.03,0.049}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 5.270289628740813E-4</p></div></li><li><div><p>{0.141,0.125,0.494,0.42,0.125,0.125,0.363,0.42}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.00306702775390625</p></div></li><li><div><p>{0.552,0.362,0.288,0.415,0.616,0.362,0.231,0.195}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.1826916112516655</p></div></li><li><div><p>{0.876,0.048,0.19,0.39,0.102,0.048,0.271,0.122}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.00165384471969792</p></div></li><li><div><p>{0.402,0.348,0.549,0.374,0.255,0.348,0.366,0.461}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.16121300099175934</p></div></li><li><div><p>{0.516,0.243,0.417,0.28,0.124,0.28,0.63,0.243}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.08122719984466728</p></div></li><li><div><p>{0.333,0.096,0.483,0.479,0.198,0.479,0.29,0.479}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.20956685584049287</p></div></li><li><div><p>{0.143,0.131,0.204,0.479,0.507,0.479,0.419,0.082}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.07042996282442894</p></div></li><li><div><p>{0.684,0.064,0.298,0.312,0.115,0.312,0.007,0.137}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.02357175626604909</p></div></li><li><div><p>{0.155,0.083,0.337,0.143,0.766,0.143,0.135,0.458}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.033081808080040714</p></div></li><li><div><p>{0.165,0.306,0.428,0.397,0.078,0.225,0.381,0.225}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.04880317707008999</p></div></li><li><div><p>{0.525,0.382,0.18,0.396,0.623,0.096,0.415,0.382}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.15076250862157328</p></div></li><li><div><p>{0.177,0.402,0.215,0.446,0.105,0.012,0.069,0.446}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.11527526583859465</p></div></li><li><div><p>{0.274,0.249,0.504,0.418,0.484,0.083,0.474,0.073}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.038258516600015766</p></div></li><li><div><p>{0.581,0.338,0.443,0.409,0.217,0.034,0.327,0.317}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.25705032816220863</p></div></li><li><div><p>{0.153,0.192,0.338,0.383,0.119,0.024,0.404,0.294}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.011574256281845762</p></div></li><li><div><p>{0.27,0.172,0.148,0.221,0.287,0.071,0.111,0.46}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.012437337255039997</p></div></li><li><div><p>{0.792,0.127,0.287,0.41,0.535,0.283,0.792,0.127}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.08925935909420737</p></div></li><li><div><p>{0.262,0.013,0.08,0.349,0.173,0.056,0.788,0.056}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 3.0738967107072E-4</p></div></li><li><div><p>{0.347,0.027,0.094,0.379,0.221,0.218,0.139,0.379}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.021383359404029523</p></div></li><li><div><p>{0.132,0.272,0.267,0.48,0.059,0.303,0.073,0.209}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.032707712261783504</p></div></li><li><div><p>{0.307,0.248,0.388,0.45,0.29,0.318,0.51,0.294}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.08393147068672727</p></div></li><li><div><p>{0.804,0.056,0.524,0.323,0.724,0.065,0.8,0.187}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.0027884002088800004</p></div></li><li><div><p>{0.78,0.06,0.077,0.453,0.088,0.216,0.383,0.481}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.014129547965890561</p></div></li><li><div><p>{0.684,0.068,0.59,0.163,0.363,0.402,0.582,0.068}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.02005008649770985</p></div></li><li><div><p>{0.407,0.119,0.431,0.299,0.507,0.367,0.685,0.299}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.23127786276592244</p></div></li><li><div><p>{0.115,0.079,0.052,0.182,0.534,0.208,0.142,0.208}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.014178837648834559</p></div></li><li><div><p>{0.529,0.087,0.144,0.441,0.228,0.474,0.6,0.057}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.06377471607787412</p></div></li><li><div><p>{0.403,0.117,0.418,0.179,0.307,0.373,0.129,0.127}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.016320920120349514</p></div></li><li><div><p>{0.465,0.227,0.33,0.288,0.32,0.4,0.468,0.383}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.18441875249561604</p></div></li><li><div><p>{0.262,0.077,0.156,0.155,0.14,0.205,0.3,0.462}</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: 0.013483015229999997</p></div></li><li><div><p>{.000001, 0.999, 0.5, 0.49,.000001,.000001, 0.99, 0.0}
+</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0.660275</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/7227/pm/4667">2005-<!-- --> <!-- -->SRM 253<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/4667/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"4667\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"4667\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"4667\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"4667\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"4667\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1078,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nA struggling baseball pitcher is hoping to improve his results by analyzing the statistics of how various batters perform against each of his two types of pitches: his \"fast ball\" and his \"curve ball\".  He has developed a model to help him decide which pitch to select in any given circumstance.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn the game of baseball (slightly simplified for this problem), each pitch thrown will result in one of three outcomes: a \"strike\", a \"ball\", or a \"hit\". If a batter ever gets a hit or accumulates 4 balls before accumulating 3 strikes, this is a victory for the batter. However, if he gets 3 strikes first, this is a victory for the pitcher.  The running count of balls and strikes is collectively referred to as the \"count\".\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor this analysis, both the pitcher and batter are modelled as having a table of probabilities computed before the game.  For each of the 12 possible counts, the pitcher has a probability for selecting to throw a curve ball instead of a fast ball.  Similarly, for each possible count, the batter has a probability for \u003ci\u003eexpecting\u003c/i\u003e the pitcher to throw a curve ball.  Before each pitch, the pitcher randomly selects which pitch to throw and the batter randomly selects which pitch to expect strictly according to the probabilities in the table for the current count.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nComputing the optimal values for the probabilities in this table depends on the statistics for how the batter performs for each of the 4 possible combinations of thrown and expected pitches.  These statistics will be provided by an 8-element \u003ctype\u003edouble[]\u003c/type\u003e, \u003cb\u003estats\u003c/b\u003e, in the following form:\n\u003c/p\u003e\n\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\n    pitcher throws   batter expects   ball      strike    hit\n    --------------   --------------   --------  --------  -----------------------\n    fast ball        fast ball        stats[0]  stats[1]  1 - (stats[0]+stats[1])\n    fast ball        curve ball       stats[2]  stats[3]  1 - (stats[2]+stats[3])\n    curve ball       fast ball        stats[4]  stats[5]  1 - (stats[4]+stats[5])\n    curve ball       curve ball       stats[6]  stats[7]  1 - (stats[6]+stats[7])\n\u003c/pre\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe pitcher attempts to maximize his chance of getting 3 strikes, knowing that the batter will be attempting to maximize his chance of getting 4 balls or a hit.  For a given count, the optimal probability for the pitcher to throw a curve ball is the probability that minimizes the batter's ability to succeed.  Similarly, the optimal probability for the batter to expect a curve ball is the probability that minimizes the pitcher's ability to succeed.  In other words, the optimal pair of probabilities for a given count are such that if either the pitcher's or the batter's probability were to change, the other would be able to improve their chances by changing their probability as well.  The optimal pair of probabilities forms an equilibrium, where neither the batter nor the pitcher can improve their chances if the other does not change their probability.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor example, consider the following (unrealistic) statistics: { 0, 0, 0, 1, 0, 1, 0, 0 }, with a count of 3 balls and 2 strikes.  In this case, if the batter expects the same pitch that the pitcher throws, he will get a hit, otherwise, it will be a strike.  The optimal probabilities are for both the pitcher and batter to select a curve ball exactly 50% of the time.  50% is optimal for the pitcher because if he were to prefer one pitch or the other, the batter could improve his performance by preferring that same pitch.  Similarly, 50% is optimal for the batter because if he preferred one pitch or the other, the pitcher would be able to take advantage of that fact by preferring the opposite pitch.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nGiven the statistics in the format described above as a \u003ctype\u003edouble[]\u003c/type\u003e \u003cb\u003estats\u003c/b\u003e and the current number of \u003cb\u003eballs\u003c/b\u003e and \u003cb\u003estrikes\u003c/b\u003e, compute the probability that the pitcher will get a total of 3 strikes before the batter gets a hit or a total of 4 balls.\n\u003c/p\u003e\n"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Pitches\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Pitches\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"strikeOut\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double[], int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double strikeOut(double[] stats, int balls, int strikes)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"Your return value must have an absolute or relative error less than 1e-9.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats will contain exactly 8 elements.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of stats will be between 0.0 and 1.0, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats[0] + stats[1] will be less than or equal to 1.0.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats[2] + stats[3] will be less than or equal to 1.0.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats[4] + stats[5] will be less than or equal to 1.0.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"stats[6] + stats[7] will be less than or equal to 1.0.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"balls will be between 0 and 3, inclusive.\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"strikes will be between 0 and 2, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 0,\\n  0, 1,\\n  0, 1,\\n  0, 0 }\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5\u003c/p\u003e\\n\u003cp\u003eThis is the example in the problem statement.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.541360678953378,0.251311079561226,0.810364006439709,0.172433517475874,0.224491762214985,0.40885541054179,0.586207954897386,0.118656938732521}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.06393930309319609\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.576011612426814,0.418368878292426,0.00659910848814249,0.466372046112021,0.289294236388617,0.280864375524416,0.556361780182097,0.382662625898313}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1949923005099184\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 0, 0, 0.51, 0, 1, 0, 0.49 }\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0.375, 0.25,\\n  0.375, 0.25,\\n  0.375, 0.25, \\n  0.375, 0.25 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 0.39208984375\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 0, 0, 0,\\n  0, 0, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0.33, 0,\\n  0, 1,\\n  0.44, 0,\\n  0, 1 }\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0\u003c/p\u003e\\n\u003cp\u003eIt doesn't matter which pitch the pitcher throws; if the batter expects a fast ball, he will always get a ball or a hit.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 1,\\n  0, 1,\\n  0, 0,\\n  0, 0 }\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1.0\u003c/p\u003e\\n\u003cp\u003eIt doesn't matter which pitch the batter expects; if the pitcher throws a fast ball, he will always get a strike.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 0.5, 0, 0,\\n  0, 0, 0, 0.5 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0625\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ 0, 0.4,\\n  0.05, 0.75,\\n  0.2, 0.7,\\n  0.85, 0.1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.32194802205218886\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.046,0.046,0.046,0.046,0.046,0.046,0.046,0.046}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1.1209888882495999E-4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.264,0.389,0.242,0.389,0.251,0.389,0.418,0.389}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.14019653097450774\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.262,0.319,0.601,0.319,0.576,0.319,0.486,0.25}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.13921041179085655\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.139,0.162,0.682,0.162,0.455,0.162,0.237,0.389}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.019340684483310003\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.02,0.485,0.169,0.485,0.377,0.439,0.22,0.439}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.18662321614905125\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.413,0.431,0.286,0.431,0.616,0.244,0.056,0.431}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.20677969244686692\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.008,0.382,0.363,0.382,0.372,0.355,0.208,0}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.07267762409605114\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.204,0.353,0.147,0.353,0.727,0.152,0.336,0.211}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.07048557781436769\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.67,0.176,0.083,0.176,0.219,0.037,0.595,0.367}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.021552986306934228\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.246,0.05,0.028,0.05,0.241,0.101,0.309,0.05}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 3.493652862500001E-4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.367,0.017,0.653,0.017,0.645,0.318,0.494,0.318}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.16566717379053886\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.72,0.099,0.065,0.099,0.476,0.236,0.714,0.076}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0051374113568896235\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.286,0.244,0.742,0.244,0.372,0.34,0.304,0.275}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.08675955241817294\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.047,0.081,0.469,0.081,0.079,0.269,0.088,0.31}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.024903200883376518\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.578,0.395,0.094,0.224,0.774,0.224,0.579,0.224}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.07518603007655936\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.134,0.366,0.57,0.261,0.598,0.261,0.554,0.366}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.13983521193903417\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.21,0.419,0.803,0.187,0.547,0.187,0.441,0.087}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0800709794625522\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.358,0.289,0.844,0.01,0.335,0.01,0.586,0.203}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.01243702310799791\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.191,0.15,0.182,0.114,0.017,0.114,0.318,0.387}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.005474707149656154\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.377,0.437,0.542,0.237,0.303,0.437,0.197,0.237}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.07961652530415864\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.4,0.396,0.606,0.151,0.425,0.396,0.371,0.396}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.214210603868089\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.424,0.4,0.403,0.154,0.064,0.4,0.2,0.129}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.01401725143207928\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.503,0.443,0.549,0.074,0.463,0.443,0.146,0.101}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.002899747636088471\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.391,0.358,0.739,0.192,0.067,0.358,0.033,0.401}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.12904666808018028\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.533,0.278,0.364,0.098,0.47,0.001,0.544,0.001}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.00317112191323648\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.22,0.404,0.719,0.259,0.315,0.248,0.359,0.259}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.12746563858037338\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.154,0.326,0.602,0.141,0.24,0.112,0.195,0.326}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.037959851581878826\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.339,0.484,0.01,0.399,0.377,0.291,0.604,0.219}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.10945104972766692\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.053,0.4,0.01,0.397,0.759,0.226,0.316,0.293}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0768685878069554\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.384,0.489,0.049,0.431,0.448,0.252,0.218,0.44}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.14865457593791112\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.018,0.302,0.686,0.085,0.913,0.023,0.076,0.43}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.028070464636325575\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.511,0.441,0.58,0.004,0.186,0.377,0.262,0.004}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 4.2940928E-7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.098,0.442,0.297,0.101,0.176,0.246,0.153,0.246}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.024344156408724716\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.335,0.379,0.561,0.07,0.812,0.124,0.469,0.379}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.08996536688037415\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.025,0.46,0.616,0.152,0.469,0.269,0.85,0.082}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.026228272892608512\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.138,0.46,0.61,0.171,0.195,0.323,0.168,0.221}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.04225203959426001\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.001,0.403,0.324,0.073,0.432,0.135,0.586,0.251}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.032211756243620666\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.533,0.342,0.259,0.054,0.465,0.132,0.535,0.426}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.06328648667111784\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.466,0.125,0.74,0.116,0.35,0.492,0.317,0.116}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.015098964802057115\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.139,0.37,0.652,0.301,0.466,0.397,0.054,0.37}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.13983272921820197\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.334,0.17,0.172,0.062,0.134,0.355,0.203,0.355}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.06862035404792999\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.575,0.387,0.762,0.211,0.167,0.419,0.742,0.21}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.10515915139270166\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.428,0.121,0.297,0.015,0.299,0.44,0.192,0.101}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0019245640232268804\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.437,0.073,0.925,0.026,0.524,0.472,0.051,0.226}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.014390633034280655\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.244,0.027,0.094,0.023,0.725,0.144,0.033,0.345}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.029793945553919992\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.12,0.049,0.202,0.282,0.49,0.049,0.03,0.049}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 5.270289628740813E-4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.141,0.125,0.494,0.42,0.125,0.125,0.363,0.42}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.00306702775390625\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.552,0.362,0.288,0.415,0.616,0.362,0.231,0.195}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1826916112516655\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.876,0.048,0.19,0.39,0.102,0.048,0.271,0.122}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.00165384471969792\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.402,0.348,0.549,0.374,0.255,0.348,0.366,0.461}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.16121300099175934\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.516,0.243,0.417,0.28,0.124,0.28,0.63,0.243}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.08122719984466728\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.333,0.096,0.483,0.479,0.198,0.479,0.29,0.479}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.20956685584049287\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.143,0.131,0.204,0.479,0.507,0.479,0.419,0.082}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.07042996282442894\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.684,0.064,0.298,0.312,0.115,0.312,0.007,0.137}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.02357175626604909\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.155,0.083,0.337,0.143,0.766,0.143,0.135,0.458}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.033081808080040714\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.165,0.306,0.428,0.397,0.078,0.225,0.381,0.225}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.04880317707008999\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.525,0.382,0.18,0.396,0.623,0.096,0.415,0.382}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.15076250862157328\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.177,0.402,0.215,0.446,0.105,0.012,0.069,0.446}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.11527526583859465\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.274,0.249,0.504,0.418,0.484,0.083,0.474,0.073}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.038258516600015766\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.581,0.338,0.443,0.409,0.217,0.034,0.327,0.317}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.25705032816220863\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.153,0.192,0.338,0.383,0.119,0.024,0.404,0.294}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.011574256281845762\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.27,0.172,0.148,0.221,0.287,0.071,0.111,0.46}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.012437337255039997\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.792,0.127,0.287,0.41,0.535,0.283,0.792,0.127}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.08925935909420737\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.262,0.013,0.08,0.349,0.173,0.056,0.788,0.056}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 3.0738967107072E-4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.347,0.027,0.094,0.379,0.221,0.218,0.139,0.379}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.021383359404029523\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"75\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.132,0.272,0.267,0.48,0.059,0.303,0.073,0.209}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.032707712261783504\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"76\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.307,0.248,0.388,0.45,0.29,0.318,0.51,0.294}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.08393147068672727\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"77\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.804,0.056,0.524,0.323,0.724,0.065,0.8,0.187}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0027884002088800004\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"78\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.78,0.06,0.077,0.453,0.088,0.216,0.383,0.481}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.014129547965890561\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"79\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.684,0.068,0.59,0.163,0.363,0.402,0.582,0.068}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.02005008649770985\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"80\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.407,0.119,0.431,0.299,0.507,0.367,0.685,0.299}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.23127786276592244\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"81\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.115,0.079,0.052,0.182,0.534,0.208,0.142,0.208}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.014178837648834559\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"82\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.529,0.087,0.144,0.441,0.228,0.474,0.6,0.057}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.06377471607787412\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"83\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.403,0.117,0.418,0.179,0.307,0.373,0.129,0.127}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.016320920120349514\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"84\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.465,0.227,0.33,0.288,0.32,0.4,0.468,0.383}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.18441875249561604\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"85\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{0.262,0.077,0.156,0.155,0.14,0.205,0.3,0.462}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0.013483015229999997\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"86\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{.000001, 0.999, 0.5, 0.49,.000001,.000001, 0.99, 0.0}\\n\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0.660275\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/7227/pm/4667\",\"children\":[\"2005-\",\" \",\"SRM 253\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

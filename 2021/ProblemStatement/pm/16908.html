@@ -1,0 +1,277 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->MarriageAndGamingChallenge<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+One of the biggest challenges after marriage is deciding who will do which of the chores in the household.
+Our lucky bride and groom decided to settle each of these questions by playing a game.
+</p>
+<p xmlns="http://topcoder.com">
+They will play many different versions of the game.
+Each version of the game will start by looking at the same weighted tree.
+The tree has <b>N</b> vertices, numbered from 0 to <b>N</b>-1.
+When rooted at vertex 0, we will the parent of vertex i will be denoted parent[i] and the weight of the edge i-parent[i] will be denoted weight[i].
+The tree can be generated using the following pseudocode:
+</p>
+<pre xmlns="http://topcoder.com">
+
+def rnd():
+    state = (state * 1103515245 + 12345) modulo 2^31
+    return state
+
+# generate the parents of vertices other than 0
+for i = 1 to N-1:
+    parent[i] = max( 0, i - 1 - (rnd() % D) )
+
+# prepare a bank of some edge weights that will appear frequently
+bank = empty sequence
+for i = 0 to B-1:
+    bank.append( rnd() % N )
+
+# assign edge weights
+for i = 1 to N-1:
+    if rnd() % 100 &amp;lt; P:
+        weight[i] = rnd() % N
+    else:
+        weight[i] = bank[ rnd() % B ]
+
+</pre>
+<p xmlns="http://topcoder.com">
+Please make sure to generate the data in the given order: all parents, then bank, then all weights.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+For each game the bride and groom will select four parameters: (U, V, hi, lo).
+The game will be played on the path from vertex U to vertex V in their tree.
+The players will be covering some of the edges of this path by tokens.
+</p>
+<p xmlns="http://topcoder.com">
+The players take alternating turns, starting with the bride.
+In each turn the current player must choose an edge on the path that has no token yet and place a token onto that edge.
+</p>
+<p xmlns="http://topcoder.com">
+During the game the players maintain a single value called X.
+At the beginning of the game X = hi.
+When a player chooses an edge, they must choose an edge whose weight is at most X.
+Once they place the token onto that edge, X becomes equal to the weight of that edge.
+</p>
+<p xmlns="http://topcoder.com">
+The player who cannot perform a valid move loses.
+Also, the player who is forced to make X strictly less than lo (by placing a token onto an edge with weight smaller than lo) loses the game.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+You are given a sequence of queries. Each query has the form (U, V, hi).
+For each query q, compute answer[q] = the number of values lo in the range [0, hi] such that the <i>groom</i> will win the game if both the bride and the groom play optimally.
+Return the sum of answers to all the queries.
+</p>
+<p xmlns="http://topcoder.com">
+There are <b>Q</b> queries.
+Use the following pseudocode <i>after you already generated all other data</i> to generate them.
+(The order matters because each call to rnd() changes the state of the pseudorandom generator.)
+</p>
+<pre xmlns="http://topcoder.com">
+
+for q = 0 to Q-1:
+    U = rnd() % N
+    V = rnd() % N
+    hi = rnd() % N
+    make a query (U, V, hi)
+</pre>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>MarriageAndGamingChallenge</span></dd><dt>Method:</dt><dd><span>solve</span></dd><dt>Parameters:</dt><dd><span>int, int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>long</span></dd><dt>Method signature:</dt><dd><span>long solve(int N, int D, int state, int B, int P, int Q)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>N will be between 2 and 100,000, inclusive.</span></li><li><span>D will be between 1 and N, inclusive.</span></li><li><span>state will be between 0 and 2^31 - 1, inclusive.</span></li><li><span>B will be between 1 and N, inclusive.</span></li><li><span>P will be between 0 and 100, inclusive.</span></li><li><span>Q will be between 1 and 200,000, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>7</p>
+<p>2</p>
+<p>47474747</p>
+<p>2</p>
+<p>50</p>
+<p>9</p>
+<p>Returns: 10</p>
+<p>When generating the tree we will generate these arrays, in the given order:
+
+parent = {None, 0, 0, 2, 2, 4, 4}
+bank = {2, 6}
+weight = {None, 1, 6, 2, 6, 5, 6}
+
+
+The queries are:
+
+query 0: 5 3 4
+query 1: 2 5 6
+query 2: 4 3 0
+query 3: 5 0 5
+query 4: 2 5 2
+query 5: 4 0 1
+query 6: 3 1 3
+query 7: 1 6 6
+query 8: 0 0 0
+
+
+
+The answers to the individual queries, in the given order, are as follows: 2, 0, 1, 0, 3, 2, 1, 0, 1.
+
+
+Query 0: If lo is in {0, 1, 2}, the bride places a token onto the edge 2-3 (weight 2) and the groom loses the game. If lo is in {3, 4} the bride has no valid move and loses the game. Hence, the groom wins for two choices of lo.
+
+
+Query 1: For any lo in [0,6] the bride wins. If lo=6 she places her first token onto the edge 2-4 (weight 6), in all other cases she places her first token onto the edge 4-5 (weight 5). In either case the groom loses immediately.
+
+
+Query 2: The value of lo must be 0. The bride has no valid move and thus she loses the game and the groom wins.
+
+
+Query 7: The edges on the path 1-6 have weights {1, 6, 6, 6}. The bride always wins. If lo is in [0,1] she places her token onto the edge 1-0 (weight 1) and the groom loses. If lo is in [2,6] the bride places her token on any one of the three edges of weight 6, the groom onto another, the bride then covers the third edge and then the groom loses the game.
+
+
+
+Helpful data for checking that you have the correct instance:
+
+
+The values weight[2] and weight[4] were chosen from the bank, all other were chosen at random.
+
+
+The function rnd() returned the following sequence of values:
+81038168, 1862554801, 143404438, 831999255, 766706948, 1708690157, 2010484002, 1631167411, 81620336, ... 
+</p></div></li><li><div><p>7</p>
+<p>2</p>
+<p>47474747</p>
+<p>1</p>
+<p>0</p>
+<p>9</p>
+<p>Returns: 23</p>
+<p>This is the same tree but now every edge has weight 2.
+The individual answers are 4, 3, 1, 1, 6, 1, 2, 4, 1.</p></div></li><li><div><p>100000</p>
+<p>1</p>
+<p>47</p>
+<p>10</p>
+<p>10</p>
+<p>100000</p>
+<p>Returns: 13264051</p>
+<p></p></div></li><li><div><p>5000</p>
+<p>2</p>
+<p>47</p>
+<p>3</p>
+<p>0</p>
+<p>5000</p>
+<p>Returns: 6462069</p>
+<p></p></div></li><li><div><p>1000</p>
+<p>10</p>
+<p>47</p>
+<p>5</p>
+<p>1</p>
+<p>3000</p>
+<p>Returns: 800879</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>10</p>
+<p>47</p>
+<p>10</p>
+<p>10</p>
+<p>200000</p>
+<p>Returns: 142083211</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>10000</p>
+<p>47</p>
+<p>1</p>
+<p>100</p>
+<p>200000</p>
+<p>Returns: 1039136720</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>100000</p>
+<p>47</p>
+<p>10</p>
+<p>3</p>
+<p>200000</p>
+<p>Returns: 5173889603</p>
+<p></p></div></li><li><div><p>97882</p>
+<p>14</p>
+<p>1948501517</p>
+<p>32</p>
+<p>3</p>
+<p>197895</p>
+<p>Returns: 270902177</p>
+<p></p></div></li><li><div><p>99923</p>
+<p>17540</p>
+<p>539016619</p>
+<p>12</p>
+<p>3</p>
+<p>199985</p>
+<p>Returns: 4055913661</p>
+<p></p></div></li><li><div><p>99234</p>
+<p>1</p>
+<p>907804592</p>
+<p>13</p>
+<p>1</p>
+<p>195341</p>
+<p>Returns: 2316868768</p>
+<p></p></div></li><li><div><p>96150</p>
+<p>2029</p>
+<p>863925910</p>
+<p>10</p>
+<p>66</p>
+<p>195725</p>
+<p>Returns: 363108901</p>
+<p></p></div></li><li><div><p>97479</p>
+<p>6</p>
+<p>1027003835</p>
+<p>1</p>
+<p>3</p>
+<p>199442</p>
+<p>Returns: 206822182</p>
+<p></p></div></li><li><div><p>98954</p>
+<p>62</p>
+<p>1554617535</p>
+<p>1</p>
+<p>51</p>
+<p>196014</p>
+<p>Returns: 92230007</p>
+<p></p></div></li><li><div><p>96390</p>
+<p>25005</p>
+<p>1344280466</p>
+<p>10</p>
+<p>48</p>
+<p>198976</p>
+<p>Returns: 2491865556</p>
+<p></p></div></li><li><div><p>95759</p>
+<p>2023</p>
+<p>1036425125</p>
+<p>20</p>
+<p>20</p>
+<p>199825</p>
+<p>Returns: 866673747</p>
+<p></p></div></li><li><div><p>98225</p>
+<p>2</p>
+<p>581846500</p>
+<p>1</p>
+<p>60</p>
+<p>199774</p>
+<p>Returns: 10783072</p>
+<p></p></div></li><li><div><p>96016</p>
+<p>53</p>
+<p>1877567921</p>
+<p>6</p>
+<p>6</p>
+<p>195362</p>
+<p>Returns: 448587444</p>
+<p></p></div></li><li><div><p>95051</p>
+<p>55356</p>
+<p>825599650</p>
+<p>3880</p>
+<p>1</p>
+<p>196562</p>
+<p>Returns: 2974038685</p>
+<p></p></div></li><li><div><p>98418</p>
+<p>15</p>
+<p>1145921960</p>
+<p>10</p>
+<p>0</p>
+<p>195935</p>
+<p>Returns: 5121343718</p>
+<p></p></div></li><li><div><p>99952</p>
+<p>46727</p>
+<p>1600605750</p>
+<p>3</p>
+<p>0</p>
+<p>195895</p>
+<p>Returns: 5083003229</p>
+<p></p></div></li><li><div><p>95168</p>
+<p>2</p>
+<p>1646888126</p>
+<p>2</p>
+<p>7</p>
+<p>198796</p>
+<p>Returns: 65255994</p>
+<p></p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/18601/pm/16908">2021-<!-- --> <!-- -->SRM 803<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/16908/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"16908\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"16908\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"16908\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"16908\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"16908\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Tc43,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nOne of the biggest challenges after marriage is deciding who will do which of the chores in the household.\nOur lucky bride and groom decided to settle each of these questions by playing a game.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThey will play many different versions of the game.\nEach version of the game will start by looking at the same weighted tree.\nThe tree has \u003cb\u003eN\u003c/b\u003e vertices, numbered from 0 to \u003cb\u003eN\u003c/b\u003e-1.\nWhen rooted at vertex 0, we will the parent of vertex i will be denoted parent[i] and the weight of the edge i-parent[i] will be denoted weight[i].\nThe tree can be generated using the following pseudocode:\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\ndef rnd():\n    state = (state * 1103515245 + 12345) modulo 2^31\n    return state\n\n# generate the parents of vertices other than 0\nfor i = 1 to N-1:\n    parent[i] = max( 0, i - 1 - (rnd() % D) )\n\n# prepare a bank of some edge weights that will appear frequently\nbank = empty sequence\nfor i = 0 to B-1:\n    bank.append( rnd() % N )\n\n# assign edge weights\nfor i = 1 to N-1:\n    if rnd() % 100 \u0026amp;lt; P:\n        weight[i] = rnd() % N\n    else:\n        weight[i] = bank[ rnd() % B ]\n\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nPlease make sure to generate the data in the given order: all parents, then bank, then all weights.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor each game the bride and groom will select four parameters: (U, V, hi, lo).\nThe game will be played on the path from vertex U to vertex V in their tree.\nThe players will be covering some of the edges of this path by tokens.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe players take alternating turns, starting with the bride.\nIn each turn the current player must choose an edge on the path that has no token yet and place a token onto that edge.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nDuring the game the players maintain a single value called X.\nAt the beginning of the game X = hi.\nWhen a player chooses an edge, they must choose an edge whose weight is at most X.\nOnce they place the token onto that edge, X becomes equal to the weight of that edge.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe player who cannot perform a valid move loses.\nAlso, the player who is forced to make X strictly less than lo (by placing a token onto an edge with weight smaller than lo) loses the game.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are given a sequence of queries. Each query has the form (U, V, hi).\nFor each query q, compute answer[q] = the number of values lo in the range [0, hi] such that the \u003ci\u003egroom\u003c/i\u003e will win the game if both the bride and the groom play optimally.\nReturn the sum of answers to all the queries.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThere are \u003cb\u003eQ\u003c/b\u003e queries.\nUse the following pseudocode \u003ci\u003eafter you already generated all other data\u003c/i\u003e to generate them.\n(The order matters because each call to rnd() changes the state of the pseudorandom generator.)\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\nfor q = 0 to Q-1:\n    U = rnd() % N\n    V = rnd() % N\n    hi = rnd() % N\n    make a query (U, V, hi)\n\u003c/pre\u003e\n"])</script><script>self.__next_f.push([1,"10:T6ef,"])</script><script>self.__next_f.push([1,"\u003cp\u003e7\u003c/p\u003e\n\u003cp\u003e2\u003c/p\u003e\n\u003cp\u003e47474747\u003c/p\u003e\n\u003cp\u003e2\u003c/p\u003e\n\u003cp\u003e50\u003c/p\u003e\n\u003cp\u003e9\u003c/p\u003e\n\u003cp\u003eReturns: 10\u003c/p\u003e\n\u003cp\u003eWhen generating the tree we will generate these arrays, in the given order:\n\nparent = {None, 0, 0, 2, 2, 4, 4}\nbank = {2, 6}\nweight = {None, 1, 6, 2, 6, 5, 6}\n\n\nThe queries are:\n\nquery 0: 5 3 4\nquery 1: 2 5 6\nquery 2: 4 3 0\nquery 3: 5 0 5\nquery 4: 2 5 2\nquery 5: 4 0 1\nquery 6: 3 1 3\nquery 7: 1 6 6\nquery 8: 0 0 0\n\n\n\nThe answers to the individual queries, in the given order, are as follows: 2, 0, 1, 0, 3, 2, 1, 0, 1.\n\n\nQuery 0: If lo is in {0, 1, 2}, the bride places a token onto the edge 2-3 (weight 2) and the groom loses the game. If lo is in {3, 4} the bride has no valid move and loses the game. Hence, the groom wins for two choices of lo.\n\n\nQuery 1: For any lo in [0,6] the bride wins. If lo=6 she places her first token onto the edge 2-4 (weight 6), in all other cases she places her first token onto the edge 4-5 (weight 5). In either case the groom loses immediately.\n\n\nQuery 2: The value of lo must be 0. The bride has no valid move and thus she loses the game and the groom wins.\n\n\nQuery 7: The edges on the path 1-6 have weights {1, 6, 6, 6}. The bride always wins. If lo is in [0,1] she places her token onto the edge 1-0 (weight 1) and the groom loses. If lo is in [2,6] the bride places her token on any one of the three edges of weight 6, the groom onto another, the bride then covers the third edge and then the groom loses the game.\n\n\n\nHelpful data for checking that you have the correct instance:\n\n\nThe values weight[2] and weight[4] were chosen from the bank, all other were chosen at random.\n\n\nThe function rnd() returned the following sequence of values:\n81038168, 1862554801, 143404438, 831999255, 766706948, 1708690157, 2010484002, 1631167411, 81620336, ... \n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"MarriageAndGamingChallenge\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MarriageAndGamingChallenge\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"solve\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long solve(int N, int D, int state, int B, int P, int Q)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"N will be between 2 and 100,000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"D will be between 1 and N, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"state will be between 0 and 2^31 - 1, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"B will be between 1 and N, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"P will be between 0 and 100, inclusive.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Q will be between 1 and 200,000, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e47474747\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003eReturns: 23\u003c/p\u003e\\n\u003cp\u003eThis is the same tree but now every edge has weight 2.\\nThe individual answers are 4, 3, 1, 1, 6, 1, 2, 4, 1.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003eReturns: 13264051\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5000\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e5000\u003c/p\u003e\\n\u003cp\u003eReturns: 6462069\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e3000\u003c/p\u003e\\n\u003cp\u003eReturns: 800879\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003eReturns: 142083211\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003eReturns: 1039136720\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003eReturns: 5173889603\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e97882\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003e1948501517\u003c/p\u003e\\n\u003cp\u003e32\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e197895\u003c/p\u003e\\n\u003cp\u003eReturns: 270902177\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99923\u003c/p\u003e\\n\u003cp\u003e17540\u003c/p\u003e\\n\u003cp\u003e539016619\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e199985\u003c/p\u003e\\n\u003cp\u003eReturns: 4055913661\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99234\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e907804592\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e195341\u003c/p\u003e\\n\u003cp\u003eReturns: 2316868768\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e96150\u003c/p\u003e\\n\u003cp\u003e2029\u003c/p\u003e\\n\u003cp\u003e863925910\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e66\u003c/p\u003e\\n\u003cp\u003e195725\u003c/p\u003e\\n\u003cp\u003eReturns: 363108901\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e97479\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e1027003835\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e199442\u003c/p\u003e\\n\u003cp\u003eReturns: 206822182\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98954\u003c/p\u003e\\n\u003cp\u003e62\u003c/p\u003e\\n\u003cp\u003e1554617535\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e51\u003c/p\u003e\\n\u003cp\u003e196014\u003c/p\u003e\\n\u003cp\u003eReturns: 92230007\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e96390\u003c/p\u003e\\n\u003cp\u003e25005\u003c/p\u003e\\n\u003cp\u003e1344280466\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e48\u003c/p\u003e\\n\u003cp\u003e198976\u003c/p\u003e\\n\u003cp\u003eReturns: 2491865556\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e95759\u003c/p\u003e\\n\u003cp\u003e2023\u003c/p\u003e\\n\u003cp\u003e1036425125\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e199825\u003c/p\u003e\\n\u003cp\u003eReturns: 866673747\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98225\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e581846500\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e60\u003c/p\u003e\\n\u003cp\u003e199774\u003c/p\u003e\\n\u003cp\u003eReturns: 10783072\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e96016\u003c/p\u003e\\n\u003cp\u003e53\u003c/p\u003e\\n\u003cp\u003e1877567921\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e195362\u003c/p\u003e\\n\u003cp\u003eReturns: 448587444\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e95051\u003c/p\u003e\\n\u003cp\u003e55356\u003c/p\u003e\\n\u003cp\u003e825599650\u003c/p\u003e\\n\u003cp\u003e3880\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e196562\u003c/p\u003e\\n\u003cp\u003eReturns: 2974038685\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98418\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1145921960\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e195935\u003c/p\u003e\\n\u003cp\u003eReturns: 5121343718\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99952\u003c/p\u003e\\n\u003cp\u003e46727\u003c/p\u003e\\n\u003cp\u003e1600605750\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e195895\u003c/p\u003e\\n\u003cp\u003eReturns: 5083003229\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e95168\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1646888126\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e198796\u003c/p\u003e\\n\u003cp\u003eReturns: 65255994\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/18601/pm/16908\",\"children\":[\"2021-\",\" \",\"SRM 803\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

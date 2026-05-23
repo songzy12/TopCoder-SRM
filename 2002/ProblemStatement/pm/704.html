@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->PolePosition<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+An auto race is occurring, and the drivers want to figure out what sort of
+starting advantage they need to win or tie the race.
+
+The racetrack is a rectangle.  It has lanes that split the track into
+concentric rectangles.  If the innermost lane is of length L and width W, then
+the lane immediately outside of that lane will have length L + 2 and width W +
+2.  Example:
+
+       width W + 2
+    ----------------
+   |     width W    |
+l  |    --------    | The area defined by X's is the area inside the track that
+is not used.
+e  |   | lane 0 | l | The small lane delimited by the area inside the track and
+the smallest dashed 
+n  | l |  XXXX  | a | rectangle containing the inside of the track (lane 0) is
+of length L and width W.
+g  | e |  XXXX  | n | The width of the lane is the distance horizontally at
+either the top or bottom
+t  | n |  XXXX  | e | between the two adjacent corners of the lane.  The length
+of the lane is the 
+h  | g |  XXXX  |   | distance vertically on either the left or right side
+between the two adjacent    
+| t |  XXXX  | 1 | corners of the lane. The measure is taken only between
+two corners that are 
+L  | h |  XXXX  |   | vertically or horizontally aligned. The next lane (lane
+1) is of length L + 2 and 
++  |   |  XXXX  |   | width W + 2.  If there were a third lane, it would be of
+length
+2  | L | lane 0 |   | (L + 2) + 2 = L + 4 and of width (W + 2) + 2 = W + 4.
+|   ---------    | The width of lane N is given by W + 2 * N, and the length
+by L + 2 * N.
+   |    lane 1      | The total distance required to complete the inner lap is 
+    ----------------  2 * (L - 2) + 2 * (W - 2) + 4.
+
+If the race is 10 laps, and L = 5, W = 6, then the driver in lane 0 only has to
+travel a distance of 180 units, while the driver in lane 1 has to travel 260
+units.  The driver in lane 2 has to travel 340 units, etc.
+
+If a driver is in lane N of the track, then there must be a driver in every
+lane from lane 0 to lane N-1, that is, empty lanes must be at the outside of
+the track.  Every driver races in every race and there are enough lanes on the
+track to accommodate all drivers.  Exactly one driver can be in a each lane.
+
+Given an int[] of speeds for each driver (units of time the driver needs to
+complete one unit of track), the number of laps to be raced, and the length and
+width of the inner lane, return an int[] that contains the number of the
+highest numbered lane (0 based) that the corresponding driver could start in
+and win or tie the race.  The driver does not have to win every time he is in
+this position, merely win or tie based on one possible driver line up.
+If the driver could never win or tie, put a -1 into the corresponding element
+of the (int[]) return value.
+
+For the purpose of this problem, a driver wins (or ties for first place) if
+that driver arrives at the finish line before every other driver or at the same
+time as one or more other drivers and before the remaining drivers.  The driver
+does not complete driving through a unit of distance on the track until all the
+time he needs to drive through it has passed.  For example, if a driver's speed
+is 4, and the driver has just completed 10 units of track, the driver will be
+considered to instantaneously complete driving through the next unit of track 4
+units of time later.
+
+DEFINITION:
+
+Class Name: PolePosition
+Method Name: worstStart
+Parameters: int[], int, int, int
+Returns: int[]
+
+Method signature: int[] worstStart(int[] driverSpeeds, int trackLength, int
+trackWidth, int lapsInRace)
+(be sure your method is public)
+
+TopCoder will ensure the validity of the inputs.  Inputs are considered valid
+if and only if all of the following criteria are met:
+ *driverSpeeds contains between 2 and 50 elements, inclusive.
+ *elements of driverSpeeds are between 1 and 100, inclusive.
+ *No two elements of driverSpeeds are equal.
+ *trackLength is between 2 and 100, inclusive.
+ *trackWidth is between 2 and 100, inclusive.
+ *lapsInRace is between 1 and 100, inclusive.
+
+WORKED EXAMPLES:
+
+1.
+driverSpeeds = { 3, 5 }, trackLength = 5, trackWidth = 5, lapsInRace = 2.
+If driver 0 is in lane 0, and driver 1 is in lane 1, driver 0 completes the
+race after (laps * lane length * speed) 2 * 16 * 3 = 96 units of time.  Driver
+1 completes the race after 2 * 24 * 5 = 240 units of time and driver 0 wins.
+If driver 0 is in lane 1 and driver 1 is in lane 0 then driver 1 will complete
+the race in 2 * 16 * 5 = 160 units of time and driver 0 will complete the race
+in 2 * 24 * 3 = 144 units of time.  Hence, driver 1 can never win or tie no
+matter what lane he starts in and driver 0 wins or ties no matter what lane he
+starts in.  Return { 1, -1 }.
+
+2.
+driverSpeeds = { 9, 10 }, trackLength = 2, trackWidth = 2, lapsInRace = 10.
+If driver 0 is in lane 0, and driver 1 is in lane 1, then we can see that
+driver 0 easily wins, since he is faster than driver 1 and has less distance to
+cover.  If driver 0 is in lane 1, and driver 1 is in lane 0, then driver 0
+crosses the finish line after 10 * 12 * 9 = 1080 units of time and driver 1
+crosses the finish line after 10 * 4 * 10 = 400 units of time.  Return { 0, 0
+}, since neither driver wins unless that driver is in the pole position.
+
+3.
+driverSpeeds = { 12, 20, 60 }
+
+trackLength = 4, trackWidth = 4, numLaps = 1.
+
+Lane 0 is of distance 12, lane 1 is of distance 20, and lane 2 is of distance 28.
+The following table shows the finish times of the three drivers.  
+The elements of the grid are in the format "driver number/time to finish":
+
+Driver in	Driver in	Driver in	winning
+Lane 0		Lane 1		Lane 2		driver(s)
+----------------------------------------------------------
+0/144  		1/400		2/1680		   0
+0/144		2/1200		1/560		   0
+1/240		0/240		2/1680		  0,1
+1/240		2/1200		0/336		   1
+2/720		0/240		1/560		   0
+2/720		1/400		0/336		   0
+
+Driver 0 can win or tie when in lanes 0, 1, or 2, driver 1 can win or tie when
+in lane 0, and driver 2 can never win.  Note specifically, that driver 0 only
+wins in lane 2 once (with driver 2 in lane 0) and loses the other time (with
+driver 1 in lane 0).  However, since he only needs to win in one combination of
+lanes, his worst starting position is still 2.
+Return { 2, 0, -1 }.
+
+TEST CASES:
+{ 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 }, 10, 10, 6 returns {9, 2, 0, -1, -1,
+-1, -1, -1, -1, -1}.
+{ 1, 2, 7, 9, 10, 45 }, 2, 2, 1 returns {5, 2, 0, 0, 0, -1}.
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>PolePosition</span></dd><dt>Method:</dt><dd><span>worstStart</span></dd><dt>Parameters:</dt><dd><span>int[], int, int, int</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] worstStart(int[] param0, int param1, int param2, int param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/67/pm/704">2002-<!-- --> <!-- -->TCCC &#x27;02 Semifinals 4<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/704/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"704\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"704\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"704\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"704\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"704\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1902,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nAn auto race is occurring, and the drivers want to figure out what sort of\nstarting advantage they need to win or tie the race.\n\nThe racetrack is a rectangle.  It has lanes that split the track into\nconcentric rectangles.  If the innermost lane is of length L and width W, then\nthe lane immediately outside of that lane will have length L + 2 and width W +\n2.  Example:\n\n       width W + 2\n    ----------------\n   |     width W    |\nl  |    --------    | The area defined by X's is the area inside the track that\nis not used.\ne  |   | lane 0 | l | The small lane delimited by the area inside the track and\nthe smallest dashed \nn  | l |  XXXX  | a | rectangle containing the inside of the track (lane 0) is\nof length L and width W.\ng  | e |  XXXX  | n | The width of the lane is the distance horizontally at\neither the top or bottom\nt  | n |  XXXX  | e | between the two adjacent corners of the lane.  The length\nof the lane is the \nh  | g |  XXXX  |   | distance vertically on either the left or right side\nbetween the two adjacent    \n| t |  XXXX  | 1 | corners of the lane. The measure is taken only between\ntwo corners that are \nL  | h |  XXXX  |   | vertically or horizontally aligned. The next lane (lane\n1) is of length L + 2 and \n+  |   |  XXXX  |   | width W + 2.  If there were a third lane, it would be of\nlength\n2  | L | lane 0 |   | (L + 2) + 2 = L + 4 and of width (W + 2) + 2 = W + 4.\n|   ---------    | The width of lane N is given by W + 2 * N, and the length\nby L + 2 * N.\n   |    lane 1      | The total distance required to complete the inner lap is \n    ----------------  2 * (L - 2) + 2 * (W - 2) + 4.\n\nIf the race is 10 laps, and L = 5, W = 6, then the driver in lane 0 only has to\ntravel a distance of 180 units, while the driver in lane 1 has to travel 260\nunits.  The driver in lane 2 has to travel 340 units, etc.\n\nIf a driver is in lane N of the track, then there must be a driver in every\nlane from lane 0 to lane N-1, that is, empty lanes must be at the outside of\nthe track.  Every driver races in every race and there are enough lanes on the\ntrack to accommodate all drivers.  Exactly one driver can be in a each lane.\n\nGiven an int[] of speeds for each driver (units of time the driver needs to\ncomplete one unit of track), the number of laps to be raced, and the length and\nwidth of the inner lane, return an int[] that contains the number of the\nhighest numbered lane (0 based) that the corresponding driver could start in\nand win or tie the race.  The driver does not have to win every time he is in\nthis position, merely win or tie based on one possible driver line up.\nIf the driver could never win or tie, put a -1 into the corresponding element\nof the (int[]) return value.\n\nFor the purpose of this problem, a driver wins (or ties for first place) if\nthat driver arrives at the finish line before every other driver or at the same\ntime as one or more other drivers and before the remaining drivers.  The driver\ndoes not complete driving through a unit of distance on the track until all the\ntime he needs to drive through it has passed.  For example, if a driver's speed\nis 4, and the driver has just completed 10 units of track, the driver will be\nconsidered to instantaneously complete driving through the next unit of track 4\nunits of time later.\n\nDEFINITION:\n\nClass Name: PolePosition\nMethod Name: worstStart\nParameters: int[], int, int, int\nReturns: int[]\n\nMethod signature: int[] worstStart(int[] driverSpeeds, int trackLength, int\ntrackWidth, int lapsInRace)\n(be sure your method is public)\n\nTopCoder will ensure the validity of the inputs.  Inputs are considered valid\nif and only if all of the following criteria are met:\n *driverSpeeds contains between 2 and 50 elements, inclusive.\n *elements of driverSpeeds are between 1 and 100, inclusive.\n *No two elements of driverSpeeds are equal.\n *trackLength is between 2 and 100, inclusive.\n *trackWidth is between 2 and 100, inclusive.\n *lapsInRace is between 1 and 100, inclusive.\n\nWORKED EXAMPLES:\n\n1.\ndriverSpeeds = { 3, 5 }, trackLength = 5, trackWidth = 5, lapsInRace = 2.\nIf driver 0 is in lane 0, and driver 1 is in lane 1, driver 0 completes the\nrace after (laps * lane length * speed) 2 * 16 * 3 = 96 units of time.  Driver\n1 completes the race after 2 * 24 * 5 = 240 units of time and driver 0 wins.\nIf driver 0 is in lane 1 and driver 1 is in lane 0 then driver 1 will complete\nthe race in 2 * 16 * 5 = 160 units of time and driver 0 will complete the race\nin 2 * 24 * 3 = 144 units of time.  Hence, driver 1 can never win or tie no\nmatter what lane he starts in and driver 0 wins or ties no matter what lane he\nstarts in.  Return { 1, -1 }.\n\n2.\ndriverSpeeds = { 9, 10 }, trackLength = 2, trackWidth = 2, lapsInRace = 10.\nIf driver 0 is in lane 0, and driver 1 is in lane 1, then we can see that\ndriver 0 easily wins, since he is faster than driver 1 and has less distance to\ncover.  If driver 0 is in lane 1, and driver 1 is in lane 0, then driver 0\ncrosses the finish line after 10 * 12 * 9 = 1080 units of time and driver 1\ncrosses the finish line after 10 * 4 * 10 = 400 units of time.  Return { 0, 0\n}, since neither driver wins unless that driver is in the pole position.\n\n3.\ndriverSpeeds = { 12, 20, 60 }\n\ntrackLength = 4, trackWidth = 4, numLaps = 1.\n\nLane 0 is of distance 12, lane 1 is of distance 20, and lane 2 is of distance 28.\nThe following table shows the finish times of the three drivers.  \nThe elements of the grid are in the format \"driver number/time to finish\":\n\nDriver in\tDriver in\tDriver in\twinning\nLane 0\t\tLane 1\t\tLane 2\t\tdriver(s)\n----------------------------------------------------------\n0/144  \t\t1/400\t\t2/1680\t\t   0\n0/144\t\t2/1200\t\t1/560\t\t   0\n1/240\t\t0/240\t\t2/1680\t\t  0,1\n1/240\t\t2/1200\t\t0/336\t\t   1\n2/720\t\t0/240\t\t1/560\t\t   0\n2/720\t\t1/400\t\t0/336\t\t   0\n\nDriver 0 can win or tie when in lanes 0, 1, or 2, driver 1 can win or tie when\nin lane 0, and driver 2 can never win.  Note specifically, that driver 0 only\nwins in lane 2 once (with driver 2 in lane 0) and loses the other time (with\ndriver 1 in lane 0).  However, since he only needs to win in one combination of\nlanes, his worst starting position is still 2.\nReturn { 2, 0, -1 }.\n\nTEST CASES:\n{ 5, 10, 15, 20, 25, 30, 35, 40, 45, 50 }, 10, 10, 6 returns {9, 2, 0, -1, -1,\n-1, -1, -1, -1, -1}.\n{ 1, 2, 7, 9, 10, 45 }, 2, 2, 1 returns {5, 2, 0, 0, 0, -1}.\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"PolePosition\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"PolePosition\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"worstStart\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] worstStart(int[] param0, int param1, int param2, int param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/67/pm/704\",\"children\":[\"2002-\",\" \",\"TCCC '02 Semifinals 4\",\" - Division \",\"I\",\", \",\"Level One\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,361 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->HardwareOptimize<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div>When you are compiling code to a target architecture there are hardware specific optimizations that can be made.  In this problem we will be taking a string of source text and compiling it to some variable architecture.  The source text will be given as a <type xmlns="http://topcoder.com">String</type> <b xmlns="http://topcoder.com">expression</b>.  <b xmlns="http://topcoder.com">expression</b> should be a well-parenthesized mathematical formula that conforms to the following grammar:
+<pre xmlns="http://topcoder.com">
+&lt;EXPR&gt; ::= '('&lt;EXPR&gt;&lt;OP&gt;&lt;EXPR&gt;')' | &lt;INT&gt;
+&lt;OP&gt; ::= '+' | '-' | '/' | '*'
+&lt;INT&gt; ::= a positive integer with no leading 0s between 1 and 100, inclusive 
+</pre>
+For example, 9, (1+(2+((3+2)-2))), and ((1*2)/2) conform to the grammar while (1+2+3), (0+2), and ((1+2)) do not.<br xmlns="http://topcoder.com"/>
+<br xmlns="http://topcoder.com"/>
+If <b xmlns="http://topcoder.com">expression</b> does not conform to the above grammar your method should return -2.  If it does conform, you will then have to determine which instructions should be used to implement the expression.  The machine capabilities will be given in a <type xmlns="http://topcoder.com">String[]</type> <b xmlns="http://topcoder.com">instructions</b>.  Each element will conform to the following grammar:<pre xmlns="http://topcoder.com">
+&lt;INST&gt; ::= &lt;COST&gt;':'&lt;VAREXPR&gt;
+&lt;VAREXPR&gt; ::= '('&lt;VAREXPR&gt;&lt;OP&gt;&lt;VAREXPR&gt;')' | 'X'
+&lt;OP&gt; ::= '+' | '-' | '/' | '*'
+&lt;COST&gt; ::= a positive integer with no leading 0s between 1 and 100, inclusive 
+</pre>
+An example element could be 10:(X+X) meaning that there is an instruction that will add 2 operands together at a cost of 10.  Another example could be 12:(X*(X-X)) meaning that it will cost 12 to multiply 1 operand by the difference of two others.  Each element of <b xmlns="http://topcoder.com">instruction</b> will thus represent the possible operations the underlying hardware can perform along with their cost.  Since instructions of the form "COST:X" are meaningless they will not be allowed as input.  If the given expression cannot be computed on the given hardware your method should return -1.  Otherwise it should return the minimum cost required to compute all of the operations in the expression.  For example:  <pre xmlns="http://topcoder.com">
+<b>expression</b> = "((1+2)*(3+(4-2)))"
+<b>instructions</b> = {"5:(X+X)",
+                "5:(X-X)",
+                "6:(X*X)",
+                "7:((X+X)*X)"}
+</pre>
+Using instruction 0 on the (1+2) portion of the expression and instruction 1 on the (4-2) portion of the expression will produce the intermediate expression (3*(3+2)).  Then applying expression 0 to the (3+2) portion we get the intermediate expression (3*5).  Finally applying instruction 2 we get an expression that no longer contains any operations and is thus complete.  The total cost of this method is 5+5+5+6 = 21.  Alternatively we could have used instruction 1, then 0, and finally 3 for a smaller cost of 17.  Your method should thus return 17, the minimum possible cost.  The cost of applying no operations is 0.  For example:<pre xmlns="http://topcoder.com">
+<b>expression</b> = "84"
+<b>instructions</b> = {"10:(X+X)"}
+</pre>
+Since the expression only consists of a number, there are no operations to be processed, so the cost is simply 0.<br xmlns="http://topcoder.com"/>
+<br xmlns="http://topcoder.com"/>
+Note that you are not allowed to apply any simplifications to the expression (i.e. no associativity, commutativity, distributivity, or identity laws).  This means (3+(4*5)) cannot be processed by an instruction like 4:((X*X)+X).</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>HardwareOptimize</span></dd><dt>Method:</dt><dd><span>bestCost</span></dd><dt>Parameters:</dt><dd><span>String, String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int bestCost(String expression, String[] instructions)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>expression will contain between 1 and 50 characters inclusive</span></li><li><span>expression will only contain characters from the string (quotes for clarity) "0123456789+*/-()"</span></li><li><span>instructions will contain between 0 and 50 elements inclusive</span></li><li><span>Each element of instructions will contain between 7 and 50 characters inclusive</span></li><li><span>Each element of instructions will only contain characters from the string (quotes for clarity)  "0123456789:()X+*/-"</span></li><li><span>Each element of instructions will adhere to the format stated above</span></li><li><span>There will be no elements of instructions of the form "COST:X"</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>"((1+2)*(3+(4-2)))"</p>
+<p>{"5:(X+X)",
+ "5:(X-X)",
+ "6:(X*X)",
+ "7:((X+X)*X)"}</p>
+<p>Returns: 17</p></div></li><li><div><p>"(1000+1)"</p>
+<p>{"5:(X+X)",
+ "5:(X-X)",
+ "6:(X*X)",
+ "7:((X+X)*X)"}</p>
+<p>Returns: -2</p></div></li><li><div><p>"(10/10)"</p>
+<p>{"5:(X+X)",
+ "5:(X-X)",
+ "6:(X*X)",
+ "7:((X+X)*X)"}</p>
+<p>Returns: -1</p></div></li><li><div><p>"1/0"</p>
+<p>{"1:(X/X)"}</p>
+<p>Returns: -2</p></div></li><li><div><p>"((1+1)*(2+2)"</p>
+<p>{"1:(X+X)"}</p>
+<p>Returns: -2</p></div></li><li><div><p>"(1+2+3)"</p>
+<p>{}</p>
+<p>Returns: -2</p></div></li><li><div><p>"(((1+2)+(3+4))*(((1+2)+3)+4))"</p>
+<p>{"100:(((X+X)+(X+X))*(((X+X)+X)+X))"}</p>
+<p>Returns: 100</p></div></li><li><div><p>"(((1+2)+(3+4))*(((1+2)+3)+4))"</p>
+<p>{"100:((X+X)*(((X+X)+X)+X))"}</p>
+<p>Returns: -1</p></div></li><li><div><p>"(((1+2)+(3+4))*(((1+2)+3)+4))"</p>
+<p>{"100:((X+X)*(((X+X)+X)+X))","10:(X+X)"}</p>
+<p>Returns: 120</p></div></li><li><div><p>"(1+2)+(3+4)"</p>
+<p>{}</p>
+<p>Returns: -2</p></div></li><li><div><p>"((1+2)+3)"</p>
+<p>{"1:(X+X)","1:((X+X)+X)"}</p>
+<p>Returns: 1</p></div></li><li><div><p>")12("</p>
+<p>{}</p>
+<p>Returns: -2</p></div></li><li><div><p>"9999999999999999999999999999999999999999999"</p>
+<p>{}</p>
+<p>Returns: -2</p></div></li><li><div><p>"))))))((((((("</p>
+<p>{}</p>
+<p>Returns: -2</p></div></li><li><div><p>"((1+2)*(3-4))"</p>
+<p>{"1:((X-X)*(X+X))","10:(X+X)","20:(X*X)","10:(X-X)"}</p>
+<p>Returns: 40</p></div></li><li><div><p>"((((1+1)+(1+1))+((1+1)+(1+1)))+(((1+1)+1)+(1+1)))"</p>
+<p>{"50:(X+X)",
+"49:(X+X)",
+"48:(X+X)",
+"47:(X+X)",
+"46:(X+X)",
+"45:(X+X)",
+"44:(X+X)",
+"43:(X+X)",
+"42:(X+X)",
+"41:(X+X)",
+"40:(X+X)",
+"39:(X+X)",
+"38:(X+X)",
+"37:(X+X)",
+"36:(X+X)",
+"35:(X+X)",
+"34:(X+X)",
+"33:(X+X)",
+"32:(X+X)",
+"31:(X+X)",
+"30:(X+X)",
+"29:(X+X)",
+"28:(X+X)",
+"27:(X+X)",
+"26:(X+X)",
+"25:(X+X)",
+"24:(X+X)",
+"23:(X+X)",
+"22:(X+X)",
+"21:(X+X)",
+"20:(X+X)",
+"19:(X+X)",
+"18:(X+X)",
+"17:(X+X)",
+"16:(X+X)",
+"15:(X+X)",
+"14:(X+X)",
+"13:(X+X)",
+"12:(X+X)",
+"11:(X+X)",
+"10:(X+X)",
+"9:(X+X)",
+"8:(X+X)",
+"7:(X+X)",
+"6:(X+X)",
+"5:(X+X)",
+"4:(X+X)",
+"3:(X+X)",
+"1:((X+X)+X)",
+"1:(X+X)"}</p>
+<p>Returns: 8</p></div></li><li><div><p>"((((1+1)+(1+1))+((1+1)+(1+1)))+(((1+1)+1)+(1+1)))"</p>
+<p>{"50:(X+X)",
+"49:(X+X)",
+"48:(X+X)",
+"47:(X+X)",
+"46:(X+X)",
+"45:(X+X)",
+"44:(X+X)",
+"43:(X+X)",
+"42:(X+X)",
+"41:(X+X)",
+"40:(X+X)",
+"39:(X+X)",
+"38:(X+X)",
+"37:(X+X)",
+"36:(X+X)",
+"35:(X+X)",
+"34:(X+X)",
+"33:(X+X)",
+"32:(X+X)",
+"31:(X+X)",
+"30:(X+X)",
+"29:(X+X)",
+"28:(X+X)",
+"27:(X+X)",
+"26:(X+X)",
+"25:(X+X)",
+"24:(X+X)",
+"23:(X+X)",
+"22:(X+X)",
+"21:(X+X)",
+"20:(X+X)",
+"19:(X+X)",
+"18:(X+X)",
+"17:(X+X)",
+"16:(X+X)",
+"15:(X+X)",
+"14:(X+X)",
+"13:(X+X)",
+"12:(X+X)",
+"11:(X+X)",
+"10:(X+X)",
+"9:(X+X)",
+"8:(X+X)",
+"7:(X+X)",
+"6:(X+X)",
+"5:(X+X)",
+"4:(X+X)",
+"3:(X+X)",
+"2:(X+X)",
+"1:(X+X)"}</p>
+<p>Returns: 12</p></div></li><li><div><p>"((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)"</p>
+<p>{"50:(X+X)",
+"49:(X+X)",
+"48:(X+X)",
+"47:(X+X)",
+"46:(X+X)",
+"45:(X+X)",
+"44:(X+X)",
+"43:(X+X)",
+"42:(X+X)",
+"41:(X+X)",
+"40:(X+X)",
+"39:(X+X)",
+"38:(X+X)",
+"37:(X+X)",
+"36:(X+X)",
+"35:(X+X)",
+"34:(X+X)",
+"33:(X+X)",
+"32:(X+X)",
+"31:(X+X)",
+"30:(X+X)",
+"29:(X+X)",
+"28:(X+X)",
+"27:(X+X)",
+"26:(X+X)",
+"25:(X+X)",
+"24:(X+X)",
+"23:(X+X)",
+"22:(X+X)",
+"21:(X+X)",
+"20:(X+X)",
+"19:(X+X)",
+"18:(X+X)",
+"17:(X+X)",
+"16:(X+X)",
+"15:(X+X)",
+"14:(X+X)",
+"13:(X+X)",
+"12:(X+X)",
+"11:(X+X)",
+"10:(X+X)",
+"9:(X+X)",
+"8:(X+X)",
+"7:(X+X)",
+"6:(X+X)",
+"5:(X+X)",
+"4:(X+X)",
+"3:(X+X)",
+"2:(X+X)",
+"1:(X+X)"}</p>
+<p>Returns: 10</p></div></li><li><div><p>"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+((1+1)+1)))"</p>
+<p>{"50:(X+X)",
+"49:(X+X)",
+"48:(X+X)",
+"47:(X+X)",
+"46:(X+X)",
+"45:(X+X)",
+"44:(X+X)",
+"43:(X+X)",
+"42:(X+X)",
+"41:(X+X)",
+"40:(X+X)",
+"39:(X+X)",
+"38:(X+X)",
+"37:(X+X)",
+"36:(X+X)",
+"35:(X+X)",
+"34:(X+X)",
+"33:(X+X)",
+"32:(X+X)",
+"31:(X+X)",
+"30:(X+X)",
+"29:(X+X)",
+"28:(X+X)",
+"27:(X+X)",
+"26:(X+X)",
+"25:(X+X)",
+"24:(X+X)",
+"23:(X+X)",
+"22:(X+X)",
+"21:(X+X)",
+"20:(X+X)",
+"19:(X+X)",
+"18:(X+X)",
+"17:(X+X)",
+"16:(X+X)",
+"15:(X+X)",
+"14:(X+X)",
+"13:(X+X)",
+"12:(X+X)",
+"11:(X+X)",
+"10:(X+X)",
+"9:(X+X)",
+"8:(X+X)",
+"7:(X+X)",
+"6:(X+X)",
+"5:(X+X)",
+"4:(X+X)",
+"3:(X+X)",
+"2:(X+X)",
+"1:(X+X)"}</p>
+<p>Returns: 12</p></div></li><li><div><p>"((((1+1)/(1*(1+1)))-(1+1))/((((1+1)*1)*1)/(1+1)))"</p>
+<p>{"10:(X+X)",
+ "100:(X/X)",
+ "5:(X-X)",
+ "9:(((X+X)/(X*(X+X)))-(X+X))",
+ "12:((((X+X)*X)*X)/(X+X))"
+}</p>
+<p>Returns: 121</p></div></li><li><div><p>"((1/(1*1))-(1/(1*1)))+((1/(1*1))-(1/(1*1)))"</p>
+<p>{"10:(X/(X*X))",
+ "1:(X*X)",
+ "1:(X-X)"}</p>
+<p>Returns: -2</p></div></li><li><div><p>"(((1/(1*1))-(1/(1*1)))+((1/(1*1))-(1/(1*1))))"</p>
+<p>{"10:(X/(X*X))",
+ "1:(X*X)",
+ "1:(X-X)",
+ "15:(X+X)",
+ "19:(X+(X-X))"}</p>
+<p>Returns: 57</p></div></li><li><div><p>"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+(1+1)))"</p>
+<p>{
+"1:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"2:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"3:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"4:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"5:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"6:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"7:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"8:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"9:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"10:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"11:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"12:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"13:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"14:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"15:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"16:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"17:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"18:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"19:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"20:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"21:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"22:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"23:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"24:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"25:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"26:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"27:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"28:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"29:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"30:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"31:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"32:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"33:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"34:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"35:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"36:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"37:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"38:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"39:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"40:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"41:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"42:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"43:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"44:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"45:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"46:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"47:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"48:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"49:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))",
+"50:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))"}</p>
+<p>Returns: 1</p></div></li><li><div><p>"((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)"</p>
+<p>{"1:(X+X)",
+"1:(X+(X+(X+X)))",
+"1:((X+X)+X)",
+"2:(((X+X)+X)+X)",
+"3:((((X+X)+X)+X)+X)",
+"4:(((((X+X)+X)+X)+X)+X)",
+"5:((((((X+X)+X)+X)+X)+X)+X)"
+}</p>
+<p>Returns: 5</p></div></li><li><div><p>"((0+0)*(0+0))"</p>
+<p>{"10:(X+X)"}</p>
+<p>Returns: -2</p></div></li><li><div><p>"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+((1+1)+1)))"</p>
+<p>{"10:(X+X)","19:(X+(X+X))"}</p>
+<p>Returns: 117</p></div></li><li><div><p>"23"</p>
+<p>{}</p>
+<p>Returns: 0</p></div></li><li><div><p>"(1+2)"</p>
+<p>{}</p>
+<p>Returns: -1</p></div></li><li><div><p>"(1/(1-1))"</p>
+<p>{"1:(X-X)","1:(X/X)"}</p>
+<p>Returns: 2</p></div></li><li><div><p>"((1*1)+1)"</p>
+<p>{"10:(X*X)", "10:(X+X)", "5:(X+(X*X))"}</p>
+<p>Returns: 20</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4491/pm/1640">2003-<!-- --> <!-- -->TCCC &#x27;03 Semifinals 1<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1640/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1640\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1640\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1640\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1640\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1640\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Te68,"])</script><script>self.__next_f.push([1,"When you are compiling code to a target architecture there are hardware specific optimizations that can be made.  In this problem we will be taking a string of source text and compiling it to some variable architecture.  The source text will be given as a \u003ctype xmlns=\"http://topcoder.com\"\u003eString\u003c/type\u003e \u003cb xmlns=\"http://topcoder.com\"\u003eexpression\u003c/b\u003e.  \u003cb xmlns=\"http://topcoder.com\"\u003eexpression\u003c/b\u003e should be a well-parenthesized mathematical formula that conforms to the following grammar:\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\u0026lt;EXPR\u0026gt; ::= '('\u0026lt;EXPR\u0026gt;\u0026lt;OP\u0026gt;\u0026lt;EXPR\u0026gt;')' | \u0026lt;INT\u0026gt;\n\u0026lt;OP\u0026gt; ::= '+' | '-' | '/' | '*'\n\u0026lt;INT\u0026gt; ::= a positive integer with no leading 0s between 1 and 100, inclusive \n\u003c/pre\u003e\nFor example, 9, (1+(2+((3+2)-2))), and ((1*2)/2) conform to the grammar while (1+2+3), (0+2), and ((1+2)) do not.\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nIf \u003cb xmlns=\"http://topcoder.com\"\u003eexpression\u003c/b\u003e does not conform to the above grammar your method should return -2.  If it does conform, you will then have to determine which instructions should be used to implement the expression.  The machine capabilities will be given in a \u003ctype xmlns=\"http://topcoder.com\"\u003eString[]\u003c/type\u003e \u003cb xmlns=\"http://topcoder.com\"\u003einstructions\u003c/b\u003e.  Each element will conform to the following grammar:\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\u0026lt;INST\u0026gt; ::= \u0026lt;COST\u0026gt;':'\u0026lt;VAREXPR\u0026gt;\n\u0026lt;VAREXPR\u0026gt; ::= '('\u0026lt;VAREXPR\u0026gt;\u0026lt;OP\u0026gt;\u0026lt;VAREXPR\u0026gt;')' | 'X'\n\u0026lt;OP\u0026gt; ::= '+' | '-' | '/' | '*'\n\u0026lt;COST\u0026gt; ::= a positive integer with no leading 0s between 1 and 100, inclusive \n\u003c/pre\u003e\nAn example element could be 10:(X+X) meaning that there is an instruction that will add 2 operands together at a cost of 10.  Another example could be 12:(X*(X-X)) meaning that it will cost 12 to multiply 1 operand by the difference of two others.  Each element of \u003cb xmlns=\"http://topcoder.com\"\u003einstruction\u003c/b\u003e will thus represent the possible operations the underlying hardware can perform along with their cost.  Since instructions of the form \"COST:X\" are meaningless they will not be allowed as input.  If the given expression cannot be computed on the given hardware your method should return -1.  Otherwise it should return the minimum cost required to compute all of the operations in the expression.  For example:  \u003cpre xmlns=\"http://topcoder.com\"\u003e\n\u003cb\u003eexpression\u003c/b\u003e = \"((1+2)*(3+(4-2)))\"\n\u003cb\u003einstructions\u003c/b\u003e = {\"5:(X+X)\",\n                \"5:(X-X)\",\n                \"6:(X*X)\",\n                \"7:((X+X)*X)\"}\n\u003c/pre\u003e\nUsing instruction 0 on the (1+2) portion of the expression and instruction 1 on the (4-2) portion of the expression will produce the intermediate expression (3*(3+2)).  Then applying expression 0 to the (3+2) portion we get the intermediate expression (3*5).  Finally applying instruction 2 we get an expression that no longer contains any operations and is thus complete.  The total cost of this method is 5+5+5+6 = 21.  Alternatively we could have used instruction 1, then 0, and finally 3 for a smaller cost of 17.  Your method should thus return 17, the minimum possible cost.  The cost of applying no operations is 0.  For example:\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\u003cb\u003eexpression\u003c/b\u003e = \"84\"\n\u003cb\u003einstructions\u003c/b\u003e = {\"10:(X+X)\"}\n\u003c/pre\u003e\nSince the expression only consists of a number, there are no operations to be processed, so the cost is simply 0.\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\nNote that you are not allowed to apply any simplifications to the expression (i.e. no associativity, commutativity, distributivity, or identity laws).  This means (3+(4*5)) cannot be processed by an instruction like 4:((X*X)+X)."])</script><script>self.__next_f.push([1,"10:Ta70,"])</script><script>self.__next_f.push([1,"\u003cp\u003e\"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+(1+1)))\"\u003c/p\u003e\n\u003cp\u003e{\n\"1:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"2:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"3:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"4:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"5:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"6:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"7:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"8:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"9:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"10:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"11:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"12:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"13:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"14:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"15:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"16:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"17:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"18:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"19:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"20:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"21:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"22:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"23:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"24:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"25:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"26:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"27:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"28:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"29:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"30:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"31:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"32:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"33:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"34:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"35:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"36:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"37:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"38:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"39:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"40:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"41:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"42:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"43:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"44:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"45:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"46:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"47:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"48:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"49:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\",\n\"50:(((X+X)+((X+X)+(X+X)))+(((X+X)+(X+X))+(X+X)))\"}\u003c/p\u003e\n\u003cp\u003eReturns: 1\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"HardwareOptimize\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"HardwareOptimize\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"bestCost\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int bestCost(String expression, String[] instructions)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"expression will contain between 1 and 50 characters inclusive\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"expression will only contain characters from the string (quotes for clarity) \\\"0123456789+*/-()\\\"\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"instructions will contain between 0 and 50 elements inclusive\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of instructions will contain between 7 and 50 characters inclusive\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of instructions will only contain characters from the string (quotes for clarity)  \\\"0123456789:()X+*/-\\\"\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of instructions will adhere to the format stated above\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"There will be no elements of instructions of the form \\\"COST:X\\\"\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1+2)*(3+(4-2)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"5:(X+X)\\\",\\n \\\"5:(X-X)\\\",\\n \\\"6:(X*X)\\\",\\n \\\"7:((X+X)*X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 17\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(1000+1)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"5:(X+X)\\\",\\n \\\"5:(X-X)\\\",\\n \\\"6:(X*X)\\\",\\n \\\"7:((X+X)*X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(10/10)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"5:(X+X)\\\",\\n \\\"5:(X-X)\\\",\\n \\\"6:(X*X)\\\",\\n \\\"7:((X+X)*X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"1/0\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:(X/X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1+1)*(2+2)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(1+2+3)\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1+2)+(3+4))*(((1+2)+3)+4))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"100:(((X+X)+(X+X))*(((X+X)+X)+X))\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 100\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1+2)+(3+4))*(((1+2)+3)+4))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"100:((X+X)*(((X+X)+X)+X))\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1+2)+(3+4))*(((1+2)+3)+4))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"100:((X+X)*(((X+X)+X)+X))\\\",\\\"10:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 120\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(1+2)+(3+4)\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1+2)+3)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:(X+X)\\\",\\\"1:((X+X)+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\")12(\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"9999999999999999999999999999999999999999999\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"))))))(((((((\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1+2)*(3-4))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:((X-X)*(X+X))\\\",\\\"10:(X+X)\\\",\\\"20:(X*X)\\\",\\\"10:(X-X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 40\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((((1+1)+(1+1))+((1+1)+(1+1)))+(((1+1)+1)+(1+1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"50:(X+X)\\\",\\n\\\"49:(X+X)\\\",\\n\\\"48:(X+X)\\\",\\n\\\"47:(X+X)\\\",\\n\\\"46:(X+X)\\\",\\n\\\"45:(X+X)\\\",\\n\\\"44:(X+X)\\\",\\n\\\"43:(X+X)\\\",\\n\\\"42:(X+X)\\\",\\n\\\"41:(X+X)\\\",\\n\\\"40:(X+X)\\\",\\n\\\"39:(X+X)\\\",\\n\\\"38:(X+X)\\\",\\n\\\"37:(X+X)\\\",\\n\\\"36:(X+X)\\\",\\n\\\"35:(X+X)\\\",\\n\\\"34:(X+X)\\\",\\n\\\"33:(X+X)\\\",\\n\\\"32:(X+X)\\\",\\n\\\"31:(X+X)\\\",\\n\\\"30:(X+X)\\\",\\n\\\"29:(X+X)\\\",\\n\\\"28:(X+X)\\\",\\n\\\"27:(X+X)\\\",\\n\\\"26:(X+X)\\\",\\n\\\"25:(X+X)\\\",\\n\\\"24:(X+X)\\\",\\n\\\"23:(X+X)\\\",\\n\\\"22:(X+X)\\\",\\n\\\"21:(X+X)\\\",\\n\\\"20:(X+X)\\\",\\n\\\"19:(X+X)\\\",\\n\\\"18:(X+X)\\\",\\n\\\"17:(X+X)\\\",\\n\\\"16:(X+X)\\\",\\n\\\"15:(X+X)\\\",\\n\\\"14:(X+X)\\\",\\n\\\"13:(X+X)\\\",\\n\\\"12:(X+X)\\\",\\n\\\"11:(X+X)\\\",\\n\\\"10:(X+X)\\\",\\n\\\"9:(X+X)\\\",\\n\\\"8:(X+X)\\\",\\n\\\"7:(X+X)\\\",\\n\\\"6:(X+X)\\\",\\n\\\"5:(X+X)\\\",\\n\\\"4:(X+X)\\\",\\n\\\"3:(X+X)\\\",\\n\\\"1:((X+X)+X)\\\",\\n\\\"1:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((((1+1)+(1+1))+((1+1)+(1+1)))+(((1+1)+1)+(1+1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"50:(X+X)\\\",\\n\\\"49:(X+X)\\\",\\n\\\"48:(X+X)\\\",\\n\\\"47:(X+X)\\\",\\n\\\"46:(X+X)\\\",\\n\\\"45:(X+X)\\\",\\n\\\"44:(X+X)\\\",\\n\\\"43:(X+X)\\\",\\n\\\"42:(X+X)\\\",\\n\\\"41:(X+X)\\\",\\n\\\"40:(X+X)\\\",\\n\\\"39:(X+X)\\\",\\n\\\"38:(X+X)\\\",\\n\\\"37:(X+X)\\\",\\n\\\"36:(X+X)\\\",\\n\\\"35:(X+X)\\\",\\n\\\"34:(X+X)\\\",\\n\\\"33:(X+X)\\\",\\n\\\"32:(X+X)\\\",\\n\\\"31:(X+X)\\\",\\n\\\"30:(X+X)\\\",\\n\\\"29:(X+X)\\\",\\n\\\"28:(X+X)\\\",\\n\\\"27:(X+X)\\\",\\n\\\"26:(X+X)\\\",\\n\\\"25:(X+X)\\\",\\n\\\"24:(X+X)\\\",\\n\\\"23:(X+X)\\\",\\n\\\"22:(X+X)\\\",\\n\\\"21:(X+X)\\\",\\n\\\"20:(X+X)\\\",\\n\\\"19:(X+X)\\\",\\n\\\"18:(X+X)\\\",\\n\\\"17:(X+X)\\\",\\n\\\"16:(X+X)\\\",\\n\\\"15:(X+X)\\\",\\n\\\"14:(X+X)\\\",\\n\\\"13:(X+X)\\\",\\n\\\"12:(X+X)\\\",\\n\\\"11:(X+X)\\\",\\n\\\"10:(X+X)\\\",\\n\\\"9:(X+X)\\\",\\n\\\"8:(X+X)\\\",\\n\\\"7:(X+X)\\\",\\n\\\"6:(X+X)\\\",\\n\\\"5:(X+X)\\\",\\n\\\"4:(X+X)\\\",\\n\\\"3:(X+X)\\\",\\n\\\"2:(X+X)\\\",\\n\\\"1:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"50:(X+X)\\\",\\n\\\"49:(X+X)\\\",\\n\\\"48:(X+X)\\\",\\n\\\"47:(X+X)\\\",\\n\\\"46:(X+X)\\\",\\n\\\"45:(X+X)\\\",\\n\\\"44:(X+X)\\\",\\n\\\"43:(X+X)\\\",\\n\\\"42:(X+X)\\\",\\n\\\"41:(X+X)\\\",\\n\\\"40:(X+X)\\\",\\n\\\"39:(X+X)\\\",\\n\\\"38:(X+X)\\\",\\n\\\"37:(X+X)\\\",\\n\\\"36:(X+X)\\\",\\n\\\"35:(X+X)\\\",\\n\\\"34:(X+X)\\\",\\n\\\"33:(X+X)\\\",\\n\\\"32:(X+X)\\\",\\n\\\"31:(X+X)\\\",\\n\\\"30:(X+X)\\\",\\n\\\"29:(X+X)\\\",\\n\\\"28:(X+X)\\\",\\n\\\"27:(X+X)\\\",\\n\\\"26:(X+X)\\\",\\n\\\"25:(X+X)\\\",\\n\\\"24:(X+X)\\\",\\n\\\"23:(X+X)\\\",\\n\\\"22:(X+X)\\\",\\n\\\"21:(X+X)\\\",\\n\\\"20:(X+X)\\\",\\n\\\"19:(X+X)\\\",\\n\\\"18:(X+X)\\\",\\n\\\"17:(X+X)\\\",\\n\\\"16:(X+X)\\\",\\n\\\"15:(X+X)\\\",\\n\\\"14:(X+X)\\\",\\n\\\"13:(X+X)\\\",\\n\\\"12:(X+X)\\\",\\n\\\"11:(X+X)\\\",\\n\\\"10:(X+X)\\\",\\n\\\"9:(X+X)\\\",\\n\\\"8:(X+X)\\\",\\n\\\"7:(X+X)\\\",\\n\\\"6:(X+X)\\\",\\n\\\"5:(X+X)\\\",\\n\\\"4:(X+X)\\\",\\n\\\"3:(X+X)\\\",\\n\\\"2:(X+X)\\\",\\n\\\"1:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+((1+1)+1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"50:(X+X)\\\",\\n\\\"49:(X+X)\\\",\\n\\\"48:(X+X)\\\",\\n\\\"47:(X+X)\\\",\\n\\\"46:(X+X)\\\",\\n\\\"45:(X+X)\\\",\\n\\\"44:(X+X)\\\",\\n\\\"43:(X+X)\\\",\\n\\\"42:(X+X)\\\",\\n\\\"41:(X+X)\\\",\\n\\\"40:(X+X)\\\",\\n\\\"39:(X+X)\\\",\\n\\\"38:(X+X)\\\",\\n\\\"37:(X+X)\\\",\\n\\\"36:(X+X)\\\",\\n\\\"35:(X+X)\\\",\\n\\\"34:(X+X)\\\",\\n\\\"33:(X+X)\\\",\\n\\\"32:(X+X)\\\",\\n\\\"31:(X+X)\\\",\\n\\\"30:(X+X)\\\",\\n\\\"29:(X+X)\\\",\\n\\\"28:(X+X)\\\",\\n\\\"27:(X+X)\\\",\\n\\\"26:(X+X)\\\",\\n\\\"25:(X+X)\\\",\\n\\\"24:(X+X)\\\",\\n\\\"23:(X+X)\\\",\\n\\\"22:(X+X)\\\",\\n\\\"21:(X+X)\\\",\\n\\\"20:(X+X)\\\",\\n\\\"19:(X+X)\\\",\\n\\\"18:(X+X)\\\",\\n\\\"17:(X+X)\\\",\\n\\\"16:(X+X)\\\",\\n\\\"15:(X+X)\\\",\\n\\\"14:(X+X)\\\",\\n\\\"13:(X+X)\\\",\\n\\\"12:(X+X)\\\",\\n\\\"11:(X+X)\\\",\\n\\\"10:(X+X)\\\",\\n\\\"9:(X+X)\\\",\\n\\\"8:(X+X)\\\",\\n\\\"7:(X+X)\\\",\\n\\\"6:(X+X)\\\",\\n\\\"5:(X+X)\\\",\\n\\\"4:(X+X)\\\",\\n\\\"3:(X+X)\\\",\\n\\\"2:(X+X)\\\",\\n\\\"1:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((((1+1)/(1*(1+1)))-(1+1))/((((1+1)*1)*1)/(1+1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X+X)\\\",\\n \\\"100:(X/X)\\\",\\n \\\"5:(X-X)\\\",\\n \\\"9:(((X+X)/(X*(X+X)))-(X+X))\\\",\\n \\\"12:((((X+X)*X)*X)/(X+X))\\\"\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: 121\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1/(1*1))-(1/(1*1)))+((1/(1*1))-(1/(1*1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X/(X*X))\\\",\\n \\\"1:(X*X)\\\",\\n \\\"1:(X-X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1/(1*1))-(1/(1*1)))+((1/(1*1))-(1/(1*1))))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X/(X*X))\\\",\\n \\\"1:(X*X)\\\",\\n \\\"1:(X-X)\\\",\\n \\\"15:(X+X)\\\",\\n \\\"19:(X+(X-X))\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 57\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((((((((((1+1)+1)+1)+1)+1)+1)+1)+1)+1)+1)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:(X+X)\\\",\\n\\\"1:(X+(X+(X+X)))\\\",\\n\\\"1:((X+X)+X)\\\",\\n\\\"2:(((X+X)+X)+X)\\\",\\n\\\"3:((((X+X)+X)+X)+X)\\\",\\n\\\"4:(((((X+X)+X)+X)+X)+X)\\\",\\n\\\"5:((((((X+X)+X)+X)+X)+X)+X)\\\"\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((0+0)*(0+0))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X+X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: -2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(((1+1)+((1+1)+(1+1)))+(((1+1)+(1+1))+((1+1)+1)))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X+X)\\\",\\\"19:(X+(X+X))\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 117\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"23\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(1+2)\\\"\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"(1/(1-1))\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"1:(X-X)\\\",\\\"1:(X/X)\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"((1*1)+1)\\\"\u003c/p\u003e\\n\u003cp\u003e{\\\"10:(X*X)\\\", \\\"10:(X+X)\\\", \\\"5:(X+(X*X))\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 20\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4491/pm/1640\",\"children\":[\"2003-\",\" \",\"TCCC '03 Semifinals 1\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

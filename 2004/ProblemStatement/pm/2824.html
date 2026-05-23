@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Soma<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+Soma is a three dimensional puzzle invented by Piet Hein. You have seven pieces which are formed by joining cubes at their faces. (They are all of the non-convex shapes that can be so formed with four or fewer cubes). Six of the pieces are formed from four cubes and one is formed by three cubes. There are 27 cubes total. The pieces can be described by the following arrays which show how high cubes are stacked in each grid cell, and are also shown in the picture below.
+</p>
+
+<pre xmlns="http://topcoder.com">
+1 1 1   1 1 1   0 1 1
+1 0 0   0 1 0   1 1 0
+
+1 1   0 2   2 0   1 2
+1 0   1 1   1 1   0 1
+</pre>
+<img src="http://www.topcoder.com/contest/problem/Soma/somapieces.gif" xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+The pieces can be translated and rotated into any orientation, to build larger shapes, but can not be reflected (as in a mirror) or disassembled. Pieces may touch, but not intersect. Each piece is used exactly once in a solution.
+</p>
+<p xmlns="http://topcoder.com">
+Given <b>pattern</b> (a shape composed of 27 cubes, not necessarily connected), try to arrange the seven soma pieces into the same shape as <b>pattern</b>.  In other words, you are constructing <b>pattern</b> using the seven pieces.
+Return the number of distinct solutions for <b>pattern</b>. 
+</p>
+<p xmlns="http://topcoder.com">
+What is meant by "distinct":<br/>
+In a valid solution each cube in <b>pattern</b> will be occupied by a cube from exactly one of the seven pieces. You could assign a number between 1 and 7 inclusive to each <b>pattern</b> cube to indicate which piece occupies that <b>pattern</b> cube. Two solutions are distinct if this assignment is different at one or more <b>pattern</b> cubes. Thus removing a piece which has rotational symmetry, rotating it, and putting it back "in the same place" does not produce a new distinct solution. But a rearrangement of some or all of the pieces which is equivalent to rotating or reflecting the entire <b>pattern</b> (assuming <b>pattern</b> has such symmetry) is considered distinct by this definition. For example the <b>pattern</b>, "21112", can be constructed in exactly two distinct ways using the pieces "211" and "12". The distinct ways are "211"-"12" and "21"-"112".
+</p>
+<p xmlns="http://topcoder.com">
+The <b>pattern</b> will be specified in a <type>String[]</type> similar to the arrays showing the individual pieces above. Each character indicates how many cubes are stacked at that location, starting from a common plane at a height of zero.
+</p>
+<p xmlns="http://topcoder.com">
+For example:
+</p>
+<pre xmlns="http://topcoder.com">
+{"333",
+ "333",
+ "333"}
+</pre>
+<p xmlns="http://topcoder.com">
+specifies a 3x3x3 cube which is possible to construct with the seven soma pieces in 11520 distinct (as defined above) ways, so return 11520. 
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Soma</span></dd><dt>Method:</dt><dd><span>letMeCountTheWays</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int letMeCountTheWays(String[] pattern)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>If no rotational symmetries are involved, there are 24 possible orthogonal orientations resulting from rotations in three dimensions. Visualize the 3x2 &quot;L&quot; shaped piece (which has no rotational symmetry). The top (long end) of the &quot;L&quot; can point in six directions x,y,z,-x,-y,-z. For each of those, the short leg of the &quot;L&quot; can point in one of four directions. 6 x 4 = 24 </li><li>Each of the other six pieces does have some rotational symmetry, and thus fewer possible distinct orientations.</li><li>The rotation of a point about a line passing through the origin can be calculated using a single, vector by matrix, multiplication: [x y z]*M=[rx ry rz] where M is a 3 by 3 matrix, [x y z] is the original point and [rx ry rz] is the rotated point.</li><li>Vector by matrix multiplication is defined as: for(i) { r[i]=0 ; for(j) { r[i]+=p[j]*M[j][i] } }  where p is the original point and r is the rotated point.</li><li>The matrix for 90 degree rotation about the x axis is: {{1,0,0},{0,0,1},{0,-1,0}}</li><li>The matrix for 90 degree rotation about the y axis is: {{0,0,-1},{0,1,0},{1,0,0}}</li><li>The matrix for 90 degree rotation about the z axis is: {{0,1,0},{-1,0,0},{0,0,1}}</li><li>The easiest way to generate all possible orthogonal orientations is to rotate about the x axis (0,90,180 or 270 degrees), then about the y axis (0,90,180 or 270  degrees) then about the z axis (0,90,180,270 degrees). That is 64 combinations of rotations (4x4x4). Try all 64 and throw away those that produce duplicate results.</li><li>Sequences of rotations in three dimensions are non-commutative. The order in which you apply the rotations matters.</li><li>There are 240 fundamental patterns to form the cube, proven by the great mathematician, Prof. John H. Conway. 240 x 24 rotations x 2 (for mirror reflection) = 11520. There are 96 ways to rotate individual pieces in each of the 11520 &quot;distinct&quot; ways. 11520 x 96 = 1105920 which is the &quot;over a million ways to build a cube&quot; number the manufacturer uses.</li></ul></div><div><h3>Constraints</h3><ul><li><span>pattern will contain between 2 and 27 elements, inclusive.</span></li><li><span>Each element of pattern will consist of between 2 and 27 characters, inclusive.</span></li><li><span>Each element of pattern will have the same number of characters.</span></li><li><span>Each character in each element of pattern will be a digit between '0' and '9' inclusive.</span></li><li><span>The sum of all the digits in pattern will be exactly equal to 27.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{"333",
+ "333",
+ "333"}</p>
+<p>Returns: 11520</p>
+<p>The cube.</p></div></li><li><div><p>{"345",
+ "234",
+ "123"}</p>
+<p>Returns: 2800</p>
+<p>The crystal.</p></div></li><li><div><p>{"225",
+ "225",
+ "225"}</p>
+<p>Returns: 260</p>
+<p>The chair.</p></div></li><li><div><p>{"3330000",
+ "0033300",
+ "0000333"}</p>
+<p>Returns: 28</p>
+<p>The wall.</p></div></li><li><div><p>{"33000",
+ "03300",
+ "00330",
+ "00033",
+ "00003"}</p>
+<p>Returns: 92</p>
+<p>The zig-zag.</p></div></li><li><div><p>{"21111111",
+ "21111111",
+ "21111111"}</p>
+<p>Returns: 0</p>
+<p>The chase lounge, impossible.</p></div></li><li><div><p>{"67",
+ "77"}</p>
+<p>Returns: 1520</p>
+<p>The tower.</p></div></li><li><div><p>{"22222",
+ "11111",
+ "12121",
+ "11111"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"22222",
+ "11111",
+ "11111",
+ "21112"}</p>
+<p>Returns: 42</p></div></li><li><div><p>{"010000000000000000000000000",
+ "110000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000022",
+ "000000000000000000000000022",
+ "000000000000000000000002222",
+ "000000000000000000000002222"}</p>
+<p>Returns: 76</p>
+<p>Replication.</p></div></li><li><div><p>{"11100110001",
+ "01001100111",
+ "00000000000",
+ "20002012011",
+ "11011001001"}</p>
+<p>Returns: 1</p>
+<p>Disjoint.</p></div></li><li><div><p>{"000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000000",
+ "000000000000000000000000333",
+ "000000000000000000000000333",
+ "000000000000000000000000333"}
+</p>
+<p>Returns: 11520</p></div></li><li><div><p>{"2111112",
+ "2111112",
+ "2111112"}</p>
+<p>Returns: 24</p>
+<p>The bed.</p></div></li><li><div><p>{"03330",
+ "03030",
+ "33033"}</p>
+<p>Returns: 52</p>
+<p>The arch.</p></div></li><li><div><p>{"3330333",
+ "0033300"}</p>
+<p>Returns: 28</p>
+<p>The tunnel.</p></div></li><li><div><p>{"121",
+ "222",
+ "121",
+ "121",
+ "333"}</p>
+<p>Returns: 78</p>
+<p>The monument.</p></div></li><li><div><p>{"020",
+ "010",
+ "010",
+ "020",
+ "343",
+ "353"}</p>
+<p>Returns: 42</p>
+<p>The gallows.</p></div></li><li><div><p>{"12321",
+ "12321",
+ "12321"}</p>
+<p>Returns: 328</p>
+<p>The stairs.</p></div></li><li><div><p>{"03330",
+ "12321",
+ "03330"}</p>
+<p>Returns: 1784</p>
+<p>The stair.</p></div></li><li><div><p>{"21112",
+ "11111",
+ "11111",
+ "11111",
+ "21110"}
+</p>
+<p>Returns: 6</p>
+<p>The plaza.</p></div></li><li><div><p>{"424",
+ "232",
+ "424"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"33300","33300","33201"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"99","09"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"89","28"}</p>
+<p>Returns: 28</p></div></li><li><div><p>{"01110",
+ "01110",
+ "00100",
+ "11111",
+ "10101",
+ "00100",
+ "01310",
+ "01010",
+ "01010",
+ "01010"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"79","38"}</p>
+<p>Returns: 64</p></div></li><li><div><p>{"01110",
+ "22121",
+ "11111",
+ "12221",
+ "01110"}</p>
+<p>Returns: 36</p></div></li><li><div><p>{"000111000",
+ "000111000",
+ "111111111",
+ "111000111",
+ "111000111"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"000111000",
+ "222222222",
+ "111000111"}</p>
+<p>Returns: 4</p></div></li><li><div><p>{"111111111111111111111111111",
+ "000000000000000000000000000"}</p>
+<p>Returns: 0</p></div></li><li><div><p>{"22222222",
+ "11122211"}</p>
+<p>Returns: 182</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/5073/pm/2824">2004-<!-- --> <!-- -->SRM 198<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/2824/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"2824\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"2824\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"2824\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"2824\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"2824\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Tb2b,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nSoma is a three dimensional puzzle invented by Piet Hein. You have seven pieces which are formed by joining cubes at their faces. (They are all of the non-convex shapes that can be so formed with four or fewer cubes). Six of the pieces are formed from four cubes and one is formed by three cubes. There are 27 cubes total. The pieces can be described by the following arrays which show how high cubes are stacked in each grid cell, and are also shown in the picture below.\n\u003c/p\u003e\n\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n1 1 1   1 1 1   0 1 1\n1 0 0   0 1 0   1 1 0\n\n1 1   0 2   2 0   1 2\n1 0   1 1   1 1   0 1\n\u003c/pre\u003e\n\u003cimg src=\"http://www.topcoder.com/contest/problem/Soma/somapieces.gif\" xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe pieces can be translated and rotated into any orientation, to build larger shapes, but can not be reflected (as in a mirror) or disassembled. Pieces may touch, but not intersect. Each piece is used exactly once in a solution.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nGiven \u003cb\u003epattern\u003c/b\u003e (a shape composed of 27 cubes, not necessarily connected), try to arrange the seven soma pieces into the same shape as \u003cb\u003epattern\u003c/b\u003e.  In other words, you are constructing \u003cb\u003epattern\u003c/b\u003e using the seven pieces.\nReturn the number of distinct solutions for \u003cb\u003epattern\u003c/b\u003e. \n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWhat is meant by \"distinct\":\u003cbr/\u003e\nIn a valid solution each cube in \u003cb\u003epattern\u003c/b\u003e will be occupied by a cube from exactly one of the seven pieces. You could assign a number between 1 and 7 inclusive to each \u003cb\u003epattern\u003c/b\u003e cube to indicate which piece occupies that \u003cb\u003epattern\u003c/b\u003e cube. Two solutions are distinct if this assignment is different at one or more \u003cb\u003epattern\u003c/b\u003e cubes. Thus removing a piece which has rotational symmetry, rotating it, and putting it back \"in the same place\" does not produce a new distinct solution. But a rearrangement of some or all of the pieces which is equivalent to rotating or reflecting the entire \u003cb\u003epattern\u003c/b\u003e (assuming \u003cb\u003epattern\u003c/b\u003e has such symmetry) is considered distinct by this definition. For example the \u003cb\u003epattern\u003c/b\u003e, \"21112\", can be constructed in exactly two distinct ways using the pieces \"211\" and \"12\". The distinct ways are \"211\"-\"12\" and \"21\"-\"112\".\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe \u003cb\u003epattern\u003c/b\u003e will be specified in a \u003ctype\u003eString[]\u003c/type\u003e similar to the arrays showing the individual pieces above. Each character indicates how many cubes are stacked at that location, starting from a common plane at a height of zero.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor example:\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n{\"333\",\n \"333\",\n \"333\"}\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nspecifies a 3x3x3 cube which is possible to construct with the seven soma pieces in 11520 distinct (as defined above) ways, so return 11520. \n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Soma\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Soma\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"letMeCountTheWays\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int letMeCountTheWays(String[] pattern)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"If no rotational symmetries are involved, there are 24 possible orthogonal orientations resulting from rotations in three dimensions. Visualize the 3x2 \\\"L\\\" shaped piece (which has no rotational symmetry). The top (long end) of the \\\"L\\\" can point in six directions x,y,z,-x,-y,-z. For each of those, the short leg of the \\\"L\\\" can point in one of four directions. 6 x 4 = 24 \"}],[\"$\",\"li\",\"1\",{\"children\":\"Each of the other six pieces does have some rotational symmetry, and thus fewer possible distinct orientations.\"}],[\"$\",\"li\",\"2\",{\"children\":\"The rotation of a point about a line passing through the origin can be calculated using a single, vector by matrix, multiplication: [x y z]*M=[rx ry rz] where M is a 3 by 3 matrix, [x y z] is the original point and [rx ry rz] is the rotated point.\"}],[\"$\",\"li\",\"3\",{\"children\":\"Vector by matrix multiplication is defined as: for(i) { r[i]=0 ; for(j) { r[i]+=p[j]*M[j][i] } }  where p is the original point and r is the rotated point.\"}],[\"$\",\"li\",\"4\",{\"children\":\"The matrix for 90 degree rotation about the x axis is: {{1,0,0},{0,0,1},{0,-1,0}}\"}],[\"$\",\"li\",\"5\",{\"children\":\"The matrix for 90 degree rotation about the y axis is: {{0,0,-1},{0,1,0},{1,0,0}}\"}],[\"$\",\"li\",\"6\",{\"children\":\"The matrix for 90 degree rotation about the z axis is: {{0,1,0},{-1,0,0},{0,0,1}}\"}],[\"$\",\"li\",\"7\",{\"children\":\"The easiest way to generate all possible orthogonal orientations is to rotate about the x axis (0,90,180 or 270 degrees), then about the y axis (0,90,180 or 270  degrees) then about the z axis (0,90,180,270 degrees). That is 64 combinations of rotations (4x4x4). Try all 64 and throw away those that produce duplicate results.\"}],[\"$\",\"li\",\"8\",{\"children\":\"Sequences of rotations in three dimensions are non-commutative. The order in which you apply the rotations matters.\"}],[\"$\",\"li\",\"9\",{\"children\":\"There are 240 fundamental patterns to form the cube, proven by the great mathematician, Prof. John H. Conway. 240 x 24 rotations x 2 (for mirror reflection) = 11520. There are 96 ways to rotate individual pieces in each of the 11520 \\\"distinct\\\" ways. 11520 x 96 = 1105920 which is the \\\"over a million ways to build a cube\\\" number the manufacturer uses.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"pattern will contain between 2 and 27 elements, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of pattern will consist of between 2 and 27 characters, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of pattern will have the same number of characters.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in each element of pattern will be a digit between '0' and '9' inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"The sum of all the digits in pattern will be exactly equal to 27.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"333\\\",\\n \\\"333\\\",\\n \\\"333\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 11520\u003c/p\u003e\\n\u003cp\u003eThe cube.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"345\\\",\\n \\\"234\\\",\\n \\\"123\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 2800\u003c/p\u003e\\n\u003cp\u003eThe crystal.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"225\\\",\\n \\\"225\\\",\\n \\\"225\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 260\u003c/p\u003e\\n\u003cp\u003eThe chair.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"3330000\\\",\\n \\\"0033300\\\",\\n \\\"0000333\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 28\u003c/p\u003e\\n\u003cp\u003eThe wall.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"33000\\\",\\n \\\"03300\\\",\\n \\\"00330\\\",\\n \\\"00033\\\",\\n \\\"00003\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 92\u003c/p\u003e\\n\u003cp\u003eThe zig-zag.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"21111111\\\",\\n \\\"21111111\\\",\\n \\\"21111111\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003eThe chase lounge, impossible.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"67\\\",\\n \\\"77\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 1520\u003c/p\u003e\\n\u003cp\u003eThe tower.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"22222\\\",\\n \\\"11111\\\",\\n \\\"12121\\\",\\n \\\"11111\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"22222\\\",\\n \\\"11111\\\",\\n \\\"11111\\\",\\n \\\"21112\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 42\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"010000000000000000000000000\\\",\\n \\\"110000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000022\\\",\\n \\\"000000000000000000000000022\\\",\\n \\\"000000000000000000000002222\\\",\\n \\\"000000000000000000000002222\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 76\u003c/p\u003e\\n\u003cp\u003eReplication.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"11100110001\\\",\\n \\\"01001100111\\\",\\n \\\"00000000000\\\",\\n \\\"20002012011\\\",\\n \\\"11011001001\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003eDisjoint.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000000\\\",\\n \\\"000000000000000000000000333\\\",\\n \\\"000000000000000000000000333\\\",\\n \\\"000000000000000000000000333\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: 11520\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"2111112\\\",\\n \\\"2111112\\\",\\n \\\"2111112\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\\n\u003cp\u003eThe bed.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"03330\\\",\\n \\\"03030\\\",\\n \\\"33033\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 52\u003c/p\u003e\\n\u003cp\u003eThe arch.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"3330333\\\",\\n \\\"0033300\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 28\u003c/p\u003e\\n\u003cp\u003eThe tunnel.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"121\\\",\\n \\\"222\\\",\\n \\\"121\\\",\\n \\\"121\\\",\\n \\\"333\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 78\u003c/p\u003e\\n\u003cp\u003eThe monument.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"020\\\",\\n \\\"010\\\",\\n \\\"010\\\",\\n \\\"020\\\",\\n \\\"343\\\",\\n \\\"353\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 42\u003c/p\u003e\\n\u003cp\u003eThe gallows.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"12321\\\",\\n \\\"12321\\\",\\n \\\"12321\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 328\u003c/p\u003e\\n\u003cp\u003eThe stairs.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"03330\\\",\\n \\\"12321\\\",\\n \\\"03330\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 1784\u003c/p\u003e\\n\u003cp\u003eThe stair.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"21112\\\",\\n \\\"11111\\\",\\n \\\"11111\\\",\\n \\\"11111\\\",\\n \\\"21110\\\"}\\n\u003c/p\u003e\\n\u003cp\u003eReturns: 6\u003c/p\u003e\\n\u003cp\u003eThe plaza.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"424\\\",\\n \\\"232\\\",\\n \\\"424\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"33300\\\",\\\"33300\\\",\\\"33201\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"99\\\",\\\"09\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"89\\\",\\\"28\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 28\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01110\\\",\\n \\\"01110\\\",\\n \\\"00100\\\",\\n \\\"11111\\\",\\n \\\"10101\\\",\\n \\\"00100\\\",\\n \\\"01310\\\",\\n \\\"01010\\\",\\n \\\"01010\\\",\\n \\\"01010\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"79\\\",\\\"38\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 64\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"01110\\\",\\n \\\"22121\\\",\\n \\\"11111\\\",\\n \\\"12221\\\",\\n \\\"01110\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 36\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"000111000\\\",\\n \\\"000111000\\\",\\n \\\"111111111\\\",\\n \\\"111000111\\\",\\n \\\"111000111\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"000111000\\\",\\n \\\"222222222\\\",\\n \\\"111000111\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"111111111111111111111111111\\\",\\n \\\"000000000000000000000000000\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"22222222\\\",\\n \\\"11122211\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 182\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/5073/pm/2824\",\"children\":[\"2004-\",\" \",\"SRM 198\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

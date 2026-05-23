@@ -1,0 +1,285 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Jumper<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+In a certain video game, a jumping player must jump across an area which has floating hoverpads in it.  The hoverpads are organized on the screen into evenly spaced rows that move left or right across the screen with a constant speed and direction.  The jumper can only cross the area by jumping onto the pads.  If the jumper lands on a space that is not a pad, he loses the game.  If the jumper is standing on a pad that goes off the side of the screen, he loses the game.  The jumper starts out on the bottom of the screen in a non-moving row of solid ground.  He must use the pads to jump all the way to the top of the screen, where there is another non-moving row of solid ground.  The score of the game depends on how fast the player jumps to the other side.
+</p>
+
+<p xmlns="http://topcoder.com">
+The screen is made up of 1x1 blocks and is 20 blocks wide.  Each pad is comprised of 1 or more 1x1 blocks in a horizontal line.  The jumper can only jump a distance of 1 block at a time, and can only jump from one row to another, or to another part of the pad he is currently on that is 1 block away.  At the beginning of each second, the jumper either jumps or does not move, and then the pads move a certain distance for the remainder of the second.  Jumping takes no time at all, but the jumper must wait for the next second to move again.
+</p>
+
+<p xmlns="http://topcoder.com">
+You will be given three arguments.  <b>patterns</b> will be a <type>String[]</type>, with each element having a 5-character pattern in it.  In each pattern, a '#' represents hoverpad, and a '.' represents empty space.  <b>speeds</b> will be a <type>int[]</type> which represents the speeds of each of the <b>patterns</b> in blocks per second.  Positive speeds are to the right, negative speeds are to the left.  <b>rows</b> is a <type>String</type> where each character specifies what pattern and speed each row has (Note that this does not include the non-moving solid ground on the bottom and top of the screen).  Characters that appear earlier in <b>rows</b> represent rows that are closer to the player's starting row.  For example, if <b>rows</b> starts with "01", it would mean that the first row (the row closest to the starting row) is using element 0 of <b>patterns</b> and <b>speeds</b> to define its hoverpads, and the next row is using element 1.
+</p>
+
+<p xmlns="http://topcoder.com">
+Each row starts out filled with repeated values of its given pattern.  For example, the pattern <tt>"#..##"</tt> would start out as:<br/>
+<tt>"#..###..###..###..##"</tt><br/>
+The speed determines how fast and in what direction the pads move.  As the pads move off the screen, more pads move in on the opposite side of the screen to fill in the space.  The pads which move in take on exactly the same pattern as the pads that moved out.  For example, if the above pattern had a speed of 3, then <tt>".##"</tt> would move off of the right side of the screen and <tt>".##"</tt> would move in on the left side, to get:<br/>
+<tt>".###..###..###..###."</tt><br/>
+Note that if the player were standing on either of the blocks which moved off the screen, he would lose the game.
+</p>
+
+<p xmlns="http://topcoder.com">
+The character starts on the bottom of the screen in the leftmost column on solid ground (which has no holes and does not move).  He can wait any amount of time before jumping onto the first row of hoverpads, and may jump left or right on the solid ground.  The player may also jump back to solid ground after jumping to a hoverpad.  The player wins if he jumps off of the last row of pads to the solid ground at the top of the screen.
+</p>
+
+<p xmlns="http://topcoder.com">
+Your method should return the minimum time it takes to get from the bottom to the top of the screen, or -1 if it is not possible.
+</p>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Jumper</span></dd><dt>Method:</dt><dd><span>minTime</span></dd><dt>Parameters:</dt><dd><span>String[], int[], String</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int minTime(String[] patterns, int[] speeds, String rows)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>Since it takes no time to jump, the pads do not move while the actual jump is occurring.  They move after the jumper lands.</li><li>A pad with the player on it also moves the player.</li></ul></div><div><h3>Constraints</h3><ul><li><span>patterns will have between 1 and 4 elements, inclusive</span></li><li><span>Each element of patterns will consist of exactly 5 characters, and will only contain the characters '#' and '.'.</span></li><li><span>speeds will have the same number of elements as patterns.</span></li><li><span>Each element of speeds will be between -10 and 10, inclusive except 0.</span></li><li><span>rows will have between 2 and 20 characters, inclusive.</span></li><li><span>Each character in rows will be a digit between 0 and the number of elements in patterns - 1, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{"###..", "..###"}</p>
+<p>{1,1}</p>
+<p>"01"</p>
+<p>Returns: 5</p>
+<p>The screen looks like this at the beginning:
+
+
+..###..###..###..###
+###..###..###..###..
+P###################
+
+
+The player can jump up once, and then both rows of pads move to the right 1 space.  The screen is now:
+
+
+#..###..###..###..##
+.P##..###..###..###.
+####################
+
+
+The player can now jump twice to the right.  By this time, the pads have moved over twice:
+
+
+###..###..###..###..
+#..##P..###..###..##
+####################
+
+
+Now, the player jumps up to the second row of pads:
+
+
+.###..P##..###..###.
+##..###..###..###..#
+####################
+
+
+And finally, jumps up one more time to victory.</p></div></li><li><div><p>{"###..", "..###"}</p>
+<p>{5,5}</p>
+<p>"01"</p>
+<p>Returns: 5</p>
+<p>The player cannot follow the same pattern as above, because he would lose when the pads go off the right side of the screen.  Instead, he can jump to the right twice, and then he has a straight path up.  In the following sequence, remember that the pads move to the right 5 spaces, even though they do not appear to move from frame to frame:
+
+
+..###..###..###..###
+###..###..###..###..  Start
+P###################
+
+..###..###..###..###
+###..###..###..###..  Right
+#P##################
+
+..###..###..###..###
+###..###..###..###..  Right
+##P#################
+
+..###..###..###..###
+###..##P..###..###..  Up (pad carries player right 5 spaces)
+####################
+
+..###..###..P##..###
+###..###..###..###..  Up (pad carries player right 5 spaces)
+####################
+
+Final jump up.
+</p></div></li><li><div><p>{"....#", "....#"}</p>
+<p>{4,5}</p>
+<p>"0111"</p>
+<p>Returns: 9</p>
+<p>In this example, the only way to make it up to the top is to wait for the first row of pads to line up with the left-most column.  Then the player barely has time to jump up through all three other rows of pads before jumping to the very top.  It takes 4 seconds for the pads to line up with the player, so he waits for 4 seconds, then he jumps up 5 times to get to the top.</p></div></li><li><div><p>{"#....", "#...."}</p>
+<p>{-4,-5}</p>
+<p>"0111"</p>
+<p>Returns: 24</p>
+<p>This is the same as the last example, except everything is reversed.  Since the only safe place to jump off the bottom is the right-most square, the player must first jump right 19 spaces before jumping up 5 times.</p></div></li><li><div><p>{"##.#.","####.", "##...", "#.#.#"}</p>
+<p>{1,-1,2,-2}</p>
+<p>"0123012301230123"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"#####","#####"}</p>
+<p>{10,10}</p>
+<p>"01"</p>
+<p>Returns: -1</p>
+<p>Although a straight path exists, the player cannot jump up twice without hitting the wall on the right.</p></div></li><li><div><p>{"#####","#####","....."}</p>
+<p>{1,-1,1}</p>
+<p>"01010101010101010102"</p>
+<p>Returns: -1</p>
+<p>Be careful of timeouts.</p></div></li><li><div><p>{"#####",
+ "####."}</p>
+<p>{1,-1}</p>
+<p>"01"</p>
+<p>Returns: 3</p></div></li><li><div><p>{"#....", "#....", "#...."}</p>
+<p>{5,-5,6}</p>
+<p>"2012"</p>
+<p>Returns: 12</p>
+<p>
+Here, in order to use 12 jumps, the player must jump back at least once.  One possible ordering of jumps is:
+
+
+Right, Right, Right, Right, Up, Up, Up, Stand, Down, Up, Up, Up.</p></div></li><li><div><p>{"#....","#....","#....","#####"}</p>
+<p>{5,-5,6,-1}</p>
+<p>"2012320123201232012"</p>
+<p>Returns: 57</p></div></li><li><div><p>{"#.#.#", "#.#.."}</p>
+<p>{6, -3}</p>
+<p>"000110101001110011"</p>
+<p>Returns: 35</p></div></li><li><div><p>{".###.", ".#.##", ".##.."}</p>
+<p>{-6, -2, 4}</p>
+<p>"2220221120210"</p>
+<p>Returns: 17</p></div></li><li><div><p>{"#...#", "#..#."}</p>
+<p>{4, -2}</p>
+<p>"001011100011111011"</p>
+<p>Returns: 28</p></div></li><li><div><p>{".###.", "##...", "#.###"}</p>
+<p>{2, -3, 4}</p>
+<p>"0100110202"</p>
+<p>Returns: 15</p></div></li><li><div><p>{".#.##", "#...#", "..#.#"}</p>
+<p>{-1, 3, -6}</p>
+<p>"0121000101201000"</p>
+<p>Returns: 30</p></div></li><li><div><p>{"####.", "..###", "....#"}</p>
+<p>{-4, 8, -3}</p>
+<p>"20101120101011221"</p>
+<p>Returns: 37</p></div></li><li><div><p>{".#..."}</p>
+<p>{-1}</p>
+<p>"000000000000000"</p>
+<p>Returns: 32</p></div></li><li><div><p>{".###.", ".#.##", "...##", "..###"}</p>
+<p>{5, 1, -4, -8}</p>
+<p>"22220303301321130020"</p>
+<p>Returns: 46</p></div></li><li><div><p>{"..##.", "###.#", "#...#"}</p>
+<p>{4, 6, -4}</p>
+<p>"2212002100021220020"</p>
+<p>Returns: 36</p></div></li><li><div><p>{"##.#.", "###.#"}</p>
+<p>{6, -6}</p>
+<p>"10110110001000110"</p>
+<p>Returns: 32</p></div></li><li><div><p>{"..##.", ".###."}</p>
+<p>{-1, 1}</p>
+<p>"11100010011010100"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"##.#.", "#.#.."}</p>
+<p>{6, -2}</p>
+<p>"000110110111011100"</p>
+<p>Returns: 31</p></div></li><li><div><p>{"#...#", "#.#.."}</p>
+<p>{6, -4}</p>
+<p>"0110111001000101111"</p>
+<p>Returns: 26</p></div></li><li><div><p>{".####"}</p>
+<p>{-1}</p>
+<p>"000000000000000000"</p>
+<p>Returns: 37</p></div></li><li><div><p>{"...##", ".#.##"}</p>
+<p>{3, -1}</p>
+<p>"0011101001011"</p>
+<p>Returns: 19</p></div></li><li><div><p>{"#.###", "#..#.", "##.##", ".####"}</p>
+<p>{1, 1, -5, 8}</p>
+<p>"302303012001322"</p>
+<p>Returns: 24</p></div></li><li><div><p>{".###."}</p>
+<p>{1}</p>
+<p>"000000000000000000"</p>
+<p>Returns: 21</p></div></li><li><div><p>{"...#.", "#..##"}</p>
+<p>{-3, 7}</p>
+<p>"1100001011000011"</p>
+<p>Returns: 19</p></div></li><li><div><p>{".####", "..###"}</p>
+<p>{2, -5}</p>
+<p>"0001110101"</p>
+<p>Returns: 19</p></div></li><li><div><p>{"##.#.", "###.#"}</p>
+<p>{-6, 3}</p>
+<p>"01111100111"</p>
+<p>Returns: 20</p></div></li><li><div><p>{".#..."}</p>
+<p>{-1}</p>
+<p>"00000000000"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"..##.", "#...#", "#..#."}</p>
+<p>{-5, 3, 1}</p>
+<p>"22221201212"</p>
+<p>Returns: 17</p></div></li><li><div><p>{"..##.", "#...#"}</p>
+<p>{-7, 5}</p>
+<p>"011011001101"</p>
+<p>Returns: 26</p></div></li><li><div><p>{"..#.#"}</p>
+<p>{-1}</p>
+<p>"00000000000000000"</p>
+<p>Returns: 35</p></div></li><li><div><p>{".#.##", "##...", ".##.#"}</p>
+<p>{4, 3, -1}</p>
+<p>"10201022122"</p>
+<p>Returns: 17</p></div></li><li><div><p>{"####.", ".#...", "##.##", "...##"}</p>
+<p>{7, -3, 8, -2}</p>
+<p>"203031003111101"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"###..", "..#..", "##.#."}</p>
+<p>{7, -8, 4}</p>
+<p>"0012211022"</p>
+<p>Returns: 19</p></div></li><li><div><p>{"####.", ".##..", ".#.##"}</p>
+<p>{-4, -1, 5}</p>
+<p>"12021020021"</p>
+<p>Returns: 20</p></div></li><li><div><p>{"###.#", "..###"}</p>
+<p>{-1, -1}</p>
+<p>"11010011110001101"</p>
+<p>Returns: 35</p></div></li><li><div><p>{".####"}</p>
+<p>{-1}</p>
+<p>"000000000000"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"##.##", "#.#.#"}</p>
+<p>{9, -4}</p>
+<p>"10011110011"</p>
+<p>Returns: 31</p></div></li><li><div><p>{"#.#.#", "###.#"}</p>
+<p>{-1, 1}</p>
+<p>"10101100101110100011"</p>
+<p>Returns: 24</p></div></li><li><div><p>{"...#.", "#.###"}</p>
+<p>{-3, 4}</p>
+<p>"0011000010"</p>
+<p>Returns: 24</p></div></li><li><div><p>{".#.#."}</p>
+<p>{1}</p>
+<p>"000000000000000"</p>
+<p>Returns: 18</p></div></li><li><div><p>{"##..#", ".##.."}</p>
+<p>{3, -6}</p>
+<p>"111010001011000"</p>
+<p>Returns: 39</p></div></li><li><div><p>{".##.."}</p>
+<p>{-1}</p>
+<p>"0000000000000000"</p>
+<p>Returns: 33</p></div></li><li><div><p>{"#...#", "..###", "...#."}</p>
+<p>{-2, 3, 2}</p>
+<p>"011001001010"</p>
+<p>Returns: 16</p></div></li><li><div><p>{"...##"}</p>
+<p>{-1}</p>
+<p>"000000000000"</p>
+<p>Returns: 25</p></div></li><li><div><p>{"..###"}</p>
+<p>{1}</p>
+<p>"000000000000000000"</p>
+<p>Returns: 20</p></div></li><li><div><p>{"..##.", "##.##", "##.##", "....#"}</p>
+<p>{1, -5, 1, 4}</p>
+<p>"1121121022111"</p>
+<p>Returns: 43</p></div></li><li><div><p>{"#....","..#.."}</p>
+<p>{-3,1}</p>
+<p>"10101010101010101010"</p>
+<p>Returns: 194</p></div></li><li><div><p>{".#..#"}</p>
+<p>{3}</p>
+<p>"0000000000"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"...#.", "##..."}</p>
+<p>{-8, -1}</p>
+<p>"1011110011111010"</p>
+<p>Returns: -1</p></div></li><li><div><p>{".#.##", "##.##"}</p>
+<p>{-1, -7}</p>
+<p>"0000111010001"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"##.##", "....#", "####.", "##..."}</p>
+<p>{6, -3, 5, -3}</p>
+<p>"3211301012212113"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"...#.", "##.#.", "..###", ".##.#"}</p>
+<p>{-6, -6, 7, -9}</p>
+<p>"031021013100300"</p>
+<p>Returns: -1</p></div></li><li><div><p>{".####", "##.##", "####."}</p>
+<p>{7, 8, -5}</p>
+<p>"1120220112200021"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"#...#"}</p>
+<p>{-10}</p>
+<p>"0000000000000000"</p>
+<p>Returns: -1</p></div></li><li><div><p>{".###.", "....#", "##..#", "..###"}</p>
+<p>{4, -6, -10, 6}</p>
+<p>"2331302311033212"</p>
+<p>Returns: -1</p></div></li><li><div><p>{".#..#"}</p>
+<p>{4}</p>
+<p>"0000000000000000"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"##.#."}</p>
+<p>{3}</p>
+<p>"00000000000000"</p>
+<p>Returns: -1</p></div></li><li><div><p>{"#..#.","...#."}</p>
+<p>{10,-5}</p>
+<p>"0111"</p>
+<p>Returns: 9</p></div></li><li><div><p>{ "#....",  "#...." }</p>
+<p>{ 1,  -1 }</p>
+<p>"10"</p>
+<p>Returns: 7</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4598/pm/1157">2003-<!-- --> <!-- -->SRM 158<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1157/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1157\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1157\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1157\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1157\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1157\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Tef5,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn a certain video game, a jumping player must jump across an area which has floating hoverpads in it.  The hoverpads are organized on the screen into evenly spaced rows that move left or right across the screen with a constant speed and direction.  The jumper can only cross the area by jumping onto the pads.  If the jumper lands on a space that is not a pad, he loses the game.  If the jumper is standing on a pad that goes off the side of the screen, he loses the game.  The jumper starts out on the bottom of the screen in a non-moving row of solid ground.  He must use the pads to jump all the way to the top of the screen, where there is another non-moving row of solid ground.  The score of the game depends on how fast the player jumps to the other side.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe screen is made up of 1x1 blocks and is 20 blocks wide.  Each pad is comprised of 1 or more 1x1 blocks in a horizontal line.  The jumper can only jump a distance of 1 block at a time, and can only jump from one row to another, or to another part of the pad he is currently on that is 1 block away.  At the beginning of each second, the jumper either jumps or does not move, and then the pads move a certain distance for the remainder of the second.  Jumping takes no time at all, but the jumper must wait for the next second to move again.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou will be given three arguments.  \u003cb\u003epatterns\u003c/b\u003e will be a \u003ctype\u003eString[]\u003c/type\u003e, with each element having a 5-character pattern in it.  In each pattern, a '#' represents hoverpad, and a '.' represents empty space.  \u003cb\u003espeeds\u003c/b\u003e will be a \u003ctype\u003eint[]\u003c/type\u003e which represents the speeds of each of the \u003cb\u003epatterns\u003c/b\u003e in blocks per second.  Positive speeds are to the right, negative speeds are to the left.  \u003cb\u003erows\u003c/b\u003e is a \u003ctype\u003eString\u003c/type\u003e where each character specifies what pattern and speed each row has (Note that this does not include the non-moving solid ground on the bottom and top of the screen).  Characters that appear earlier in \u003cb\u003erows\u003c/b\u003e represent rows that are closer to the player's starting row.  For example, if \u003cb\u003erows\u003c/b\u003e starts with \"01\", it would mean that the first row (the row closest to the starting row) is using element 0 of \u003cb\u003epatterns\u003c/b\u003e and \u003cb\u003espeeds\u003c/b\u003e to define its hoverpads, and the next row is using element 1.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nEach row starts out filled with repeated values of its given pattern.  For example, the pattern \u003ctt\u003e\"#..##\"\u003c/tt\u003e would start out as:\u003cbr/\u003e\n\u003ctt\u003e\"#..###..###..###..##\"\u003c/tt\u003e\u003cbr/\u003e\nThe speed determines how fast and in what direction the pads move.  As the pads move off the screen, more pads move in on the opposite side of the screen to fill in the space.  The pads which move in take on exactly the same pattern as the pads that moved out.  For example, if the above pattern had a speed of 3, then \u003ctt\u003e\".##\"\u003c/tt\u003e would move off of the right side of the screen and \u003ctt\u003e\".##\"\u003c/tt\u003e would move in on the left side, to get:\u003cbr/\u003e\n\u003ctt\u003e\".###..###..###..###.\"\u003c/tt\u003e\u003cbr/\u003e\nNote that if the player were standing on either of the blocks which moved off the screen, he would lose the game.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe character starts on the bottom of the screen in the leftmost column on solid ground (which has no holes and does not move).  He can wait any amount of time before jumping onto the first row of hoverpads, and may jump left or right on the solid ground.  The player may also jump back to solid ground after jumping to a hoverpad.  The player wins if he jumps off of the last row of pads to the solid ground at the top of the screen.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYour method should return the minimum time it takes to get from the bottom to the top of the screen, or -1 if it is not possible.\n\u003c/p\u003e\n"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Jumper\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Jumper\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"minTime\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int[], String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int minTime(String[] patterns, int[] speeds, String rows)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"Since it takes no time to jump, the pads do not move while the actual jump is occurring.  They move after the jumper lands.\"}],[\"$\",\"li\",\"1\",{\"children\":\"A pad with the player on it also moves the player.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"patterns will have between 1 and 4 elements, inclusive\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of patterns will consist of exactly 5 characters, and will only contain the characters '#' and '.'.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"speeds will have the same number of elements as patterns.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of speeds will be between -10 and 10, inclusive except 0.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"rows will have between 2 and 20 characters, inclusive.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each character in rows will be a digit between 0 and the number of elements in patterns - 1, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"###..\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{1,1}\u003c/p\u003e\\n\u003cp\u003e\\\"01\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\\n\u003cp\u003eThe screen looks like this at the beginning:\\n\\n\\n..###..###..###..###\\n###..###..###..###..\\nP###################\\n\\n\\nThe player can jump up once, and then both rows of pads move to the right 1 space.  The screen is now:\\n\\n\\n#..###..###..###..##\\n.P##..###..###..###.\\n####################\\n\\n\\nThe player can now jump twice to the right.  By this time, the pads have moved over twice:\\n\\n\\n###..###..###..###..\\n#..##P..###..###..##\\n####################\\n\\n\\nNow, the player jumps up to the second row of pads:\\n\\n\\n.###..P##..###..###.\\n##..###..###..###..#\\n####################\\n\\n\\nAnd finally, jumps up one more time to victory.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"###..\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{5,5}\u003c/p\u003e\\n\u003cp\u003e\\\"01\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\\n\u003cp\u003eThe player cannot follow the same pattern as above, because he would lose when the pads go off the right side of the screen.  Instead, he can jump to the right twice, and then he has a straight path up.  In the following sequence, remember that the pads move to the right 5 spaces, even though they do not appear to move from frame to frame:\\n\\n\\n..###..###..###..###\\n###..###..###..###..  Start\\nP###################\\n\\n..###..###..###..###\\n###..###..###..###..  Right\\n#P##################\\n\\n..###..###..###..###\\n###..###..###..###..  Right\\n##P#################\\n\\n..###..###..###..###\\n###..##P..###..###..  Up (pad carries player right 5 spaces)\\n####################\\n\\n..###..###..P##..###\\n###..###..###..###..  Up (pad carries player right 5 spaces)\\n####################\\n\\nFinal jump up.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"....#\\\", \\\"....#\\\"}\u003c/p\u003e\\n\u003cp\u003e{4,5}\u003c/p\u003e\\n\u003cp\u003e\\\"0111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\\n\u003cp\u003eIn this example, the only way to make it up to the top is to wait for the first row of pads to line up with the left-most column.  Then the player barely has time to jump up through all three other rows of pads before jumping to the very top.  It takes 4 seconds for the pads to line up with the player, so he waits for 4 seconds, then he jumps up 5 times to get to the top.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#....\\\", \\\"#....\\\"}\u003c/p\u003e\\n\u003cp\u003e{-4,-5}\u003c/p\u003e\\n\u003cp\u003e\\\"0111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\\n\u003cp\u003eThis is the same as the last example, except everything is reversed.  Since the only safe place to jump off the bottom is the right-most square, the player must first jump right 19 spaces before jumping up 5 times.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.#.\\\",\\\"####.\\\", \\\"##...\\\", \\\"#.#.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{1,-1,2,-2}\u003c/p\u003e\\n\u003cp\u003e\\\"0123012301230123\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#####\\\",\\\"#####\\\"}\u003c/p\u003e\\n\u003cp\u003e{10,10}\u003c/p\u003e\\n\u003cp\u003e\\\"01\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\\n\u003cp\u003eAlthough a straight path exists, the player cannot jump up twice without hitting the wall on the right.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#####\\\",\\\"#####\\\",\\\".....\\\"}\u003c/p\u003e\\n\u003cp\u003e{1,-1,1}\u003c/p\u003e\\n\u003cp\u003e\\\"01010101010101010102\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\\n\u003cp\u003eBe careful of timeouts.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#####\\\",\\n \\\"####.\\\"}\u003c/p\u003e\\n\u003cp\u003e{1,-1}\u003c/p\u003e\\n\u003cp\u003e\\\"01\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#....\\\", \\\"#....\\\", \\\"#....\\\"}\u003c/p\u003e\\n\u003cp\u003e{5,-5,6}\u003c/p\u003e\\n\u003cp\u003e\\\"2012\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\\nHere, in order to use 12 jumps, the player must jump back at least once.  One possible ordering of jumps is:\\n\\n\\nRight, Right, Right, Right, Up, Up, Up, Stand, Down, Up, Up, Up.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#....\\\",\\\"#....\\\",\\\"#....\\\",\\\"#####\\\"}\u003c/p\u003e\\n\u003cp\u003e{5,-5,6,-1}\u003c/p\u003e\\n\u003cp\u003e\\\"2012320123201232012\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 57\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#.#.#\\\", \\\"#.#..\\\"}\u003c/p\u003e\\n\u003cp\u003e{6, -3}\u003c/p\u003e\\n\u003cp\u003e\\\"000110101001110011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 35\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".###.\\\", \\\".#.##\\\", \\\".##..\\\"}\u003c/p\u003e\\n\u003cp\u003e{-6, -2, 4}\u003c/p\u003e\\n\u003cp\u003e\\\"2220221120210\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 17\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#...#\\\", \\\"#..#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{4, -2}\u003c/p\u003e\\n\u003cp\u003e\\\"001011100011111011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 28\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".###.\\\", \\\"##...\\\", \\\"#.###\\\"}\u003c/p\u003e\\n\u003cp\u003e{2, -3, 4}\u003c/p\u003e\\n\u003cp\u003e\\\"0100110202\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 15\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#.##\\\", \\\"#...#\\\", \\\"..#.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1, 3, -6}\u003c/p\u003e\\n\u003cp\u003e\\\"0121000101201000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 30\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"####.\\\", \\\"..###\\\", \\\"....#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-4, 8, -3}\u003c/p\u003e\\n\u003cp\u003e\\\"20101120101011221\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 37\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#...\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 32\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".###.\\\", \\\".#.##\\\", \\\"...##\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{5, 1, -4, -8}\u003c/p\u003e\\n\u003cp\u003e\\\"22220303301321130020\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 46\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..##.\\\", \\\"###.#\\\", \\\"#...#\\\"}\u003c/p\u003e\\n\u003cp\u003e{4, 6, -4}\u003c/p\u003e\\n\u003cp\u003e\\\"2212002100021220020\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 36\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.#.\\\", \\\"###.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{6, -6}\u003c/p\u003e\\n\u003cp\u003e\\\"10110110001000110\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 32\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..##.\\\", \\\".###.\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1, 1}\u003c/p\u003e\\n\u003cp\u003e\\\"11100010011010100\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.#.\\\", \\\"#.#..\\\"}\u003c/p\u003e\\n\u003cp\u003e{6, -2}\u003c/p\u003e\\n\u003cp\u003e\\\"000110110111011100\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 31\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#...#\\\", \\\"#.#..\\\"}\u003c/p\u003e\\n\u003cp\u003e{6, -4}\u003c/p\u003e\\n\u003cp\u003e\\\"0110111001000101111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 26\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".####\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 37\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...##\\\", \\\".#.##\\\"}\u003c/p\u003e\\n\u003cp\u003e{3, -1}\u003c/p\u003e\\n\u003cp\u003e\\\"0011101001011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 19\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#.###\\\", \\\"#..#.\\\", \\\"##.##\\\", \\\".####\\\"}\u003c/p\u003e\\n\u003cp\u003e{1, 1, -5, 8}\u003c/p\u003e\\n\u003cp\u003e\\\"302303012001322\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".###.\\\"}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 21\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...#.\\\", \\\"#..##\\\"}\u003c/p\u003e\\n\u003cp\u003e{-3, 7}\u003c/p\u003e\\n\u003cp\u003e\\\"1100001011000011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 19\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".####\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{2, -5}\u003c/p\u003e\\n\u003cp\u003e\\\"0001110101\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 19\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.#.\\\", \\\"###.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-6, 3}\u003c/p\u003e\\n\u003cp\u003e\\\"01111100111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 20\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#...\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"00000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..##.\\\", \\\"#...#\\\", \\\"#..#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{-5, 3, 1}\u003c/p\u003e\\n\u003cp\u003e\\\"22221201212\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 17\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..##.\\\", \\\"#...#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-7, 5}\u003c/p\u003e\\n\u003cp\u003e\\\"011011001101\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 26\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..#.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"00000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 35\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#.##\\\", \\\"##...\\\", \\\".##.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{4, 3, -1}\u003c/p\u003e\\n\u003cp\u003e\\\"10201022122\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 17\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"####.\\\", \\\".#...\\\", \\\"##.##\\\", \\\"...##\\\"}\u003c/p\u003e\\n\u003cp\u003e{7, -3, 8, -2}\u003c/p\u003e\\n\u003cp\u003e\\\"203031003111101\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"###..\\\", \\\"..#..\\\", \\\"##.#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{7, -8, 4}\u003c/p\u003e\\n\u003cp\u003e\\\"0012211022\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 19\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"####.\\\", \\\".##..\\\", \\\".#.##\\\"}\u003c/p\u003e\\n\u003cp\u003e{-4, -1, 5}\u003c/p\u003e\\n\u003cp\u003e\\\"12021020021\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 20\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"###.#\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1, -1}\u003c/p\u003e\\n\u003cp\u003e\\\"11010011110001101\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 35\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".####\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.##\\\", \\\"#.#.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{9, -4}\u003c/p\u003e\\n\u003cp\u003e\\\"10011110011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 31\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#.#.#\\\", \\\"###.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1, 1}\u003c/p\u003e\\n\u003cp\u003e\\\"10101100101110100011\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...#.\\\", \\\"#.###\\\"}\u003c/p\u003e\\n\u003cp\u003e{-3, 4}\u003c/p\u003e\\n\u003cp\u003e\\\"0011000010\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#.#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 18\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##..#\\\", \\\".##..\\\"}\u003c/p\u003e\\n\u003cp\u003e{3, -6}\u003c/p\u003e\\n\u003cp\u003e\\\"111010001011000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 39\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".##..\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"0000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 33\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#...#\\\", \\\"..###\\\", \\\"...#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{-2, 3, 2}\u003c/p\u003e\\n\u003cp\u003e\\\"011001001010\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 16\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...##\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 25\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{1}\u003c/p\u003e\\n\u003cp\u003e\\\"000000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 20\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"..##.\\\", \\\"##.##\\\", \\\"##.##\\\", \\\"....#\\\"}\u003c/p\u003e\\n\u003cp\u003e{1, -5, 1, 4}\u003c/p\u003e\\n\u003cp\u003e\\\"1121121022111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 43\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#....\\\",\\\"..#..\\\"}\u003c/p\u003e\\n\u003cp\u003e{-3,1}\u003c/p\u003e\\n\u003cp\u003e\\\"10101010101010101010\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 194\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#..#\\\"}\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e\\\"0000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...#.\\\", \\\"##...\\\"}\u003c/p\u003e\\n\u003cp\u003e{-8, -1}\u003c/p\u003e\\n\u003cp\u003e\\\"1011110011111010\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#.##\\\", \\\"##.##\\\"}\u003c/p\u003e\\n\u003cp\u003e{-1, -7}\u003c/p\u003e\\n\u003cp\u003e\\\"0000111010001\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.##\\\", \\\"....#\\\", \\\"####.\\\", \\\"##...\\\"}\u003c/p\u003e\\n\u003cp\u003e{6, -3, 5, -3}\u003c/p\u003e\\n\u003cp\u003e\\\"3211301012212113\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"...#.\\\", \\\"##.#.\\\", \\\"..###\\\", \\\".##.#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-6, -6, 7, -9}\u003c/p\u003e\\n\u003cp\u003e\\\"031021013100300\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".####\\\", \\\"##.##\\\", \\\"####.\\\"}\u003c/p\u003e\\n\u003cp\u003e{7, 8, -5}\u003c/p\u003e\\n\u003cp\u003e\\\"1120220112200021\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#...#\\\"}\u003c/p\u003e\\n\u003cp\u003e{-10}\u003c/p\u003e\\n\u003cp\u003e\\\"0000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".###.\\\", \\\"....#\\\", \\\"##..#\\\", \\\"..###\\\"}\u003c/p\u003e\\n\u003cp\u003e{4, -6, -10, 6}\u003c/p\u003e\\n\u003cp\u003e\\\"2331302311033212\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\".#..#\\\"}\u003c/p\u003e\\n\u003cp\u003e{4}\u003c/p\u003e\\n\u003cp\u003e\\\"0000000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"##.#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{3}\u003c/p\u003e\\n\u003cp\u003e\\\"00000000000000\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"#..#.\\\",\\\"...#.\\\"}\u003c/p\u003e\\n\u003cp\u003e{10,-5}\u003c/p\u003e\\n\u003cp\u003e\\\"0111\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"#....\\\",  \\\"#....\\\" }\u003c/p\u003e\\n\u003cp\u003e{ 1,  -1 }\u003c/p\u003e\\n\u003cp\u003e\\\"10\\\"\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4598/pm/1157\",\"children\":[\"2003-\",\" \",\"SRM 158\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

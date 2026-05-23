@@ -1,0 +1,606 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->MergeToSort<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+Given is a sequence A consisting of <b>N</b> positive integers.
+You would like to transform it into a sequence that is sorted in non-decreasing order.
+</p>
+<p xmlns="http://topcoder.com">
+The only allowed transformation step is taking two consecutive elements and replacing them by their sum.
+</p>
+<p xmlns="http://topcoder.com">
+Find and return the minimum number of steps needed.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+In order to keep the input size small, the sequence is constructed pseudorandomly using the pseudocode given below.
+In the pseudocode, x^y denotes x to the power of y.
+</p>
+<pre xmlns="http://topcoder.com">
+
+L = length(Aprefix)
+for i = 0 to L-1:
+    A[i] = Aprefix[i]
+
+state = seed
+for i = L to N-1:
+    state = (state * 1103515245 + 12345) modulo 2^31
+    b = blo + ((state / 1000) modulo (bhi-blo+1))
+
+    state = (state * 1103515245 + 12345) modulo 2^31
+    x = 2^(b-1)
+    A[i] = x + ((state / 10) modulo x)
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>MergeToSort</span></dd><dt>Method:</dt><dd><span>minSteps</span></dd><dt>Parameters:</dt><dd><span>int, int[], int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int minSteps(int N, int[] Aprefix, int seed, int blo, int bhi)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>It can easily be shown that a solution always exists.</li><li>The reference solution does not depend on the input being (pseudo)random.</li><li>The constraints imply that all elements of A will satisfy 1 &amp;lt;= A[i] &amp;lt; 2^25.</li></ul></div><div><h3>Constraints</h3><ul><li><span>N will be between 1 and 100,000, inclusive.</span></li><li><span>Aprefix will have between 0 and 100 elements, inclusive.</span></li><li><span>Aprefix will have at most N elements.</span></li><li><span>Each element of Aprefix will be between 1 and 2^25 - 1, inclusive.</span></li><li><span>seed will be between 0 and 2^31 - 1, inclusive.</span></li><li><span>blo and bhi will satisfy 1 &lt;= blo &lt;= bhi &lt;= 25.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>4</p>
+<p>{20, 10, 35, 38}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p>
+<p>The optimal solution is to merge the first two elements, producing the sorted sequence {30, 35, 38}.</p></div></li><li><div><p>5</p>
+<p>{10, 10, 10, 10}</p>
+<p>47</p>
+<p>15</p>
+<p>25</p>
+<p>Returns: 0</p>
+<p>The sequence {10, 10, 10, 10, 26361440} is already in non-decreasing order, no changes are needed.</p></div></li><li><div><p>15</p>
+<p>{420, 470}</p>
+<p>420047</p>
+<p>9</p>
+<p>10</p>
+<p>Returns: 7</p>
+<p>A = {420, 470, 547, 689, 892, 890, 822, 931, 488, 607, 354, 943, 315, 914, 321}</p></div></li><li><div><p>100000</p>
+<p>{}</p>
+<p>436734</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99717</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>{}</p>
+<p>252</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{348, 297, 357, 240, 196, 327, 262, 265, 380, 85, 279, 402}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>1</p>
+<p>{105}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>9</p>
+<p>{981, 989, 983, 966, 976, 984, 979, 973, 973}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>17</p>
+<p>{481, 429, 376, 511, 463, 458, 521, 455, 510, 515, 418, 429, 377, 400, 453, 393, 460}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>19</p>
+<p>{457, 417, 451, 478, 448, 513, 421, 499, 483, 466, 454, 459, 484, 403, 516, 472, 494, 459, 449}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{329, 505, 614, 376, 269, 571, 132, 291, 201, 193, 389, 640, 604, 563, 491, 150, 388, 600, 439, 139}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 12</p>
+<p></p></div></li><li><div><p>19</p>
+<p>{239, 244, 228, 228, 247, 229, 225, 223, 225, 239, 242, 223, 234, 245, 217, 224, 243, 221, 240}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 12</p>
+<p></p></div></li><li><div><p>1</p>
+<p>{78}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>6</p>
+<p>{737, 649, 575, 724, 721, 731}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 3</p>
+<p></p></div></li><li><div><p>16</p>
+<p>{537, 537, 466, 474, 487, 484, 534, 508, 470, 495, 472, 513, 480, 467, 476, 503}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 9</p>
+<p></p></div></li><li><div><p>2</p>
+<p>{719, 684}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{888, 790, 892, 900, 821, 910, 898, 772, 896, 877, 839, 894, 765, 781, 857, 858, 842, 829, 896, 877}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 13</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{131, 80, 125, 124, 68, 121, 138, 132, 74, 102, 128, 130, 80, 97, 111, 108, 87, 125, 68, 141}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 13</p>
+<p></p></div></li><li><div><p>4</p>
+<p>{588, 541, 634, 610}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>1</p>
+<p>{670}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{311, 597, 536, 434, 112, 781, 153, 575, 768, 646}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 5</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{536, 539, 512, 526, 508, 515, 538, 532, 546, 546, 502, 535, 529, 494, 551, 549, 495, 521, 540, 508}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 13</p>
+<p></p></div></li><li><div><p>13</p>
+<p>{892, 709, 452, 436, 777, 710, 392, 699, 937, 398, 742, 615, 601}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{274, 253, 271, 271, 255, 222, 234}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>19</p>
+<p>{15, 217, 444, 235, 267, 225, 315, 418, 441, 132, 151, 53, 156, 64, 478, 87, 217, 173, 255}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 12</p>
+<p></p></div></li><li><div><p>14</p>
+<p>{756, 824, 766, 510, 561, 809, 264, 864, 930, 629, 849, 844, 954, 850}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{788, 758, 564, 822, 832, 666, 890, 494, 565, 786, 565, 792, 512, 721, 683, 503, 587, 709, 563, 779}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 14</p>
+<p></p></div></li><li><div><p>13</p>
+<p>{147, 79, 578, 403, 5, 398, 516, 471, 387, 130, 528, 415, 109}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>3</p>
+<p>{641, 712, 484}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{861, 690, 667, 629, 790, 275, 584, 717, 697, 515, 622, 381, 503, 586, 256, 315, 909, 679, 521, 845}</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 13</p>
+<p></p></div></li><li><div><p>17</p>
+<p>{461, 282, 350, 266}</p>
+<p>963098471</p>
+<p>3</p>
+<p>20</p>
+<p>Returns: 10</p>
+<p></p></div></li><li><div><p>30</p>
+<p>{475, 347, 581, 655, 607, 372, 472, 526, 274, 503, 247, 362, 584, 306, 465, 572, 339}</p>
+<p>30401546</p>
+<p>16</p>
+<p>20</p>
+<p>Returns: 19</p>
+<p></p></div></li><li><div><p>36</p>
+<p>{721, 530, 730, 693, 601, 820, 813, 464, 582, 442, 490, 712, 464, 532, 842, 853, 503, 450, 482}</p>
+<p>710429624</p>
+<p>6</p>
+<p>24</p>
+<p>Returns: 27</p>
+<p></p></div></li><li><div><p>17</p>
+<p>{120, 117, 102}</p>
+<p>942936922</p>
+<p>10</p>
+<p>18</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>29</p>
+<p>{749, 414, 197, 129, 299, 665, 231, 431, 186, 419, 772, 532}</p>
+<p>1512485082</p>
+<p>18</p>
+<p>19</p>
+<p>Returns: 20</p>
+<p></p></div></li><li><div><p>21</p>
+<p>{517, 492, 491, 522, 488, 529, 498, 438, 460, 477, 442, 512, 490, 448, 492, 510, 451}</p>
+<p>253456038</p>
+<p>11</p>
+<p>14</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>18</p>
+<p>{854, 978, 911, 927, 996, 939, 928, 984, 939, 837, 865}</p>
+<p>2119888712</p>
+<p>1</p>
+<p>21</p>
+<p>Returns: 12</p>
+<p></p></div></li><li><div><p>31</p>
+<p>{837, 313, 938, 442, 220, 194, 910, 765, 451, 191, 803}</p>
+<p>1100292491</p>
+<p>1</p>
+<p>22</p>
+<p>Returns: 24</p>
+<p></p></div></li><li><div><p>22</p>
+<p>{765, 417, 575, 576, 333, 404, 655, 827, 232, 505, 814, 882}</p>
+<p>1815175106</p>
+<p>4</p>
+<p>14</p>
+<p>Returns: 15</p>
+<p></p></div></li><li><div><p>21</p>
+<p>{610, 487, 379, 726, 645, 725, 708, 607, 473, 494, 563, 385, 368, 557}</p>
+<p>1575552978</p>
+<p>14</p>
+<p>25</p>
+<p>Returns: 13</p>
+<p></p></div></li><li><div><p>26</p>
+<p>{264, 316, 125, 124, 333, 227, 123, 174, 195, 207, 307, 332, 192, 242, 94, 149, 97}</p>
+<p>1600605750</p>
+<p>7</p>
+<p>18</p>
+<p>Returns: 17</p>
+<p></p></div></li><li><div><p>36</p>
+<p>{952, 960, 964, 941, 982, 980, 976, 965, 959, 973, 961, 939, 945, 940, 958, 942}</p>
+<p>14434277</p>
+<p>7</p>
+<p>17</p>
+<p>Returns: 26</p>
+<p></p></div></li><li><div><p>15</p>
+<p>{869, 593}</p>
+<p>820206654</p>
+<p>15</p>
+<p>25</p>
+<p>Returns: 10</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{975, 935, 688}</p>
+<p>280319007</p>
+<p>2</p>
+<p>12</p>
+<p>Returns: 16</p>
+<p></p></div></li><li><div><p>13</p>
+<p>{655, 622, 694, 672, 675, 668, 709, 708, 658, 708}</p>
+<p>1604168383</p>
+<p>9</p>
+<p>14</p>
+<p>Returns: 7</p>
+<p></p></div></li><li><div><p>5</p>
+<p>{580, 477, 538, 402}</p>
+<p>822004006</p>
+<p>19</p>
+<p>22</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>19</p>
+<p>{273, 232, 445, 447, 442}</p>
+<p>547953963</p>
+<p>19</p>
+<p>24</p>
+<p>Returns: 12</p>
+<p></p></div></li><li><div><p>20</p>
+<p>{786, 786, 763, 773, 780}</p>
+<p>633779308</p>
+<p>9</p>
+<p>21</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>4</p>
+<p>{288, 172, 113}</p>
+<p>546676137</p>
+<p>4</p>
+<p>5</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>36</p>
+<p>{912, 947, 952, 928, 945, 937, 953, 949, 878, 896, 951, 944, 949, 893, 904, 890, 894, 911, 953, 936}</p>
+<p>1328065760</p>
+<p>15</p>
+<p>20</p>
+<p>Returns: 23</p>
+<p></p></div></li><li><div><p>27</p>
+<p>{887, 927, 818, 775, 881, 896, 897, 876, 859, 867, 914, 849, 850, 872}</p>
+<p>1154162604</p>
+<p>2</p>
+<p>20</p>
+<p>Returns: 18</p>
+<p></p></div></li><li><div><p>16</p>
+<p>{414, 415, 477, 406, 449}</p>
+<p>633475780</p>
+<p>22</p>
+<p>22</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>21</p>
+<p>{287}</p>
+<p>2065566509</p>
+<p>2</p>
+<p>14</p>
+<p>Returns: 15</p>
+<p></p></div></li><li><div><p>31</p>
+<p>{272, 184, 194, 204, 236, 166, 178, 267, 237, 271, 174}</p>
+<p>1055259076</p>
+<p>8</p>
+<p>10</p>
+<p>Returns: 21</p>
+<p></p></div></li><li><div><p>23</p>
+<p>{780, 756, 732, 780, 759, 727, 731, 735, 785, 742, 782, 780, 754, 782, 739}</p>
+<p>1633727531</p>
+<p>2</p>
+<p>12</p>
+<p>Returns: 16</p>
+<p></p></div></li><li><div><p>92817</p>
+<p>{}</p>
+<p>731368979</p>
+<p>16</p>
+<p>20</p>
+<p>Returns: 92233</p>
+<p></p></div></li><li><div><p>93167</p>
+<p>{}</p>
+<p>230505136</p>
+<p>13</p>
+<p>24</p>
+<p>Returns: 92774</p>
+<p></p></div></li><li><div><p>97682</p>
+<p>{}</p>
+<p>320615195</p>
+<p>11</p>
+<p>18</p>
+<p>Returns: 97178</p>
+<p></p></div></li><li><div><p>94241</p>
+<p>{}</p>
+<p>894454129</p>
+<p>4</p>
+<p>5</p>
+<p>Returns: 93561</p>
+<p></p></div></li><li><div><p>94484</p>
+<p>{}</p>
+<p>476696165</p>
+<p>13</p>
+<p>20</p>
+<p>Returns: 94007</p>
+<p></p></div></li><li><div><p>94187</p>
+<p>{}</p>
+<p>513778974</p>
+<p>12</p>
+<p>18</p>
+<p>Returns: 93681</p>
+<p></p></div></li><li><div><p>96157</p>
+<p>{}</p>
+<p>966306144</p>
+<p>12</p>
+<p>21</p>
+<p>Returns: 95728</p>
+<p></p></div></li><li><div><p>94766</p>
+<p>{}</p>
+<p>1377899115</p>
+<p>9</p>
+<p>20</p>
+<p>Returns: 94365</p>
+<p></p></div></li><li><div><p>99333</p>
+<p>{}</p>
+<p>891024322</p>
+<p>2</p>
+<p>25</p>
+<p>Returns: 99044</p>
+<p></p></div></li><li><div><p>94853</p>
+<p>{}</p>
+<p>1396738263</p>
+<p>15</p>
+<p>25</p>
+<p>Returns: 94428</p>
+<p></p></div></li><li><div><p>91871</p>
+<p>{}</p>
+<p>786294352</p>
+<p>5</p>
+<p>19</p>
+<p>Returns: 91526</p>
+<p></p></div></li><li><div><p>94266</p>
+<p>{}</p>
+<p>406616854</p>
+<p>9</p>
+<p>11</p>
+<p>Returns: 93635</p>
+<p></p></div></li><li><div><p>94826</p>
+<p>{}</p>
+<p>1162002437</p>
+<p>2</p>
+<p>7</p>
+<p>Returns: 94276</p>
+<p></p></div></li><li><div><p>93556</p>
+<p>{}</p>
+<p>2114618606</p>
+<p>7</p>
+<p>22</p>
+<p>Returns: 93221</p>
+<p></p></div></li><li><div><p>98113</p>
+<p>{}</p>
+<p>99993258</p>
+<p>3</p>
+<p>13</p>
+<p>Returns: 97687</p>
+<p></p></div></li><li><div><p>99712</p>
+<p>{}</p>
+<p>1800951242</p>
+<p>4</p>
+<p>5</p>
+<p>Returns: 99000</p>
+<p></p></div></li><li><div><p>94931</p>
+<p>{}</p>
+<p>815144405</p>
+<p>8</p>
+<p>14</p>
+<p>Returns: 94414</p>
+<p></p></div></li><li><div><p>91411</p>
+<p>{}</p>
+<p>959964665</p>
+<p>7</p>
+<p>21</p>
+<p>Returns: 91065</p>
+<p></p></div></li><li><div><p>98979</p>
+<p>{}</p>
+<p>1800803545</p>
+<p>3</p>
+<p>18</p>
+<p>Returns: 98614</p>
+<p></p></div></li><li><div><p>95063</p>
+<p>{}</p>
+<p>510006733</p>
+<p>11</p>
+<p>12</p>
+<p>Returns: 94401</p>
+<p></p></div></li><li><div><p>91492</p>
+<p>{}</p>
+<p>1952515208</p>
+<p>11</p>
+<p>23</p>
+<p>Returns: 91127</p>
+<p></p></div></li><li><div><p>93471</p>
+<p>{}</p>
+<p>372122540</p>
+<p>4</p>
+<p>25</p>
+<p>Returns: 93176</p>
+<p></p></div></li><li><div><p>98778</p>
+<p>{}</p>
+<p>2079845253</p>
+<p>11</p>
+<p>22</p>
+<p>Returns: 98381</p>
+<p></p></div></li><li><div><p>93586</p>
+<p>{}</p>
+<p>1324603655</p>
+<p>2</p>
+<p>11</p>
+<p>Returns: 93156</p>
+<p></p></div></li><li><div><p>96209</p>
+<p>{}</p>
+<p>254970774</p>
+<p>9</p>
+<p>25</p>
+<p>Returns: 95865</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>{}</p>
+<p>47</p>
+<p>25</p>
+<p>25</p>
+<p>Returns: 99315</p>
+<p></p></div></li><li><div><p>100000</p>
+<p>{20, 10, 35, 38 }</p>
+<p>0</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99707</p></div></li><li><div><p>100000</p>
+<p>{420, 470 }</p>
+<p>420047</p>
+<p>9</p>
+<p>10</p>
+<p>Returns: 99316</p></div></li><li><div><p>10000</p>
+<p>{ }</p>
+<p>254235</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 9913</p></div></li><li><div><p>100000</p>
+<p>{ }</p>
+<p>4312421</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99713</p></div></li><li><div><p>100000</p>
+<p>{ }</p>
+<p>254235</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99716</p></div></li><li><div><p>100000</p>
+<p>{1, 2, 3, 1332 }</p>
+<p>6455645</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99721</p></div></li><li><div><p>90</p>
+<p>{420, 470 }</p>
+<p>420047</p>
+<p>9</p>
+<p>10</p>
+<p>Returns: 72</p></div></li><li><div><p>100000</p>
+<p>{2, 3 }</p>
+<p>214123</p>
+<p>5</p>
+<p>20</p>
+<p>Returns: 99652</p></div></li><li><div><p>100000</p>
+<p>{1, 2, 3324 }</p>
+<p>5465123</p>
+<p>1</p>
+<p>25</p>
+<p>Returns: 99717</p></div></li><li><div><p>4</p>
+<p>{5, 1, 6, 6 }</p>
+<p>1</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p></div></li><li><div><p>100000</p>
+<p>{ }</p>
+<p>843828734</p>
+<p>5</p>
+<p>25</p>
+<p>Returns: 99698</p></div></li><li><div><p>1000</p>
+<p>{2724, 7431, 6185, 7177, 7792, 5835, 5835, 3350, 9579, 7655, 5437, 9492, 1656, 3607, 3261, 1147, 8687, 1931, 8458, 8254, 8123, 8176, 2065, 3240, 4614, 6039, 4096, 8952, 948, 7605, 8177, 4502, 4466, 4730, 1556, 4912, 7918, 4956, 5720, 4848, 5333, 3951, 6897, 7144, 8940, 2339, 9861, 458, 1085, 3949, 5089, 9071, 3047, 8399, 6975, 5296, 7786, 2134, 8838, 7290, 4966, 634, 6872, 2737, 1593, 4724, 7137, 3137, 121, 3699, 2348, 8955, 9071, 142, 2342, 9948, 4522, 369, 8716, 3998, 5486, 5087, 728, 2652, 1721, 7957, 759, 132, 3665, 2160, 7859, 2627, 5014, 4947, 4385, 1287, 2730, 9659, 8880, 7039 }</p>
+<p>0</p>
+<p>1</p>
+<p>7</p>
+<p>Returns: 982</p></div></li><li><div><p>5</p>
+<p>{9, 1, 5, 3, 10 }</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 2</p></div></li><li><div><p>100000</p>
+<p>{ }</p>
+<p>12345</p>
+<p>25</p>
+<p>25</p>
+<p>Returns: 99305</p></div></li><li><div><p>100000</p>
+<p>{2, 3 }</p>
+<p>52324</p>
+<p>5</p>
+<p>20</p>
+<p>Returns: 99645</p></div></li><li><div><p>5</p>
+<p>{1, 2, 1, 4, 4 }</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p></div></li><li><div><p>100000</p>
+<p>{2295830, 27071558, 14064113, 8750495, 20756095, 32438782, 22067899, 32545635, 15655341, 6482674, 17142795, 23224801, 15631154, 18574796, 30984789, 27779730, 31712444, 9712045, 6526509, 15751644, 19006158, 19721927, 22998855, 12722524, 19150210, 14395198, 30881746, 14267351, 30596513, 10157982, 3522365, 12078185, 19269905, 11653207, 12108977, 21298177, 7050570, 10884451, 16893462, 12237338, 6723871, 28572429, 19347261, 12433517, 13112866, 2171725, 4143510, 32903092, 28259691, 20315942, 6783585, 15790487, 10057737, 24720012, 12665798, 7437821, 11132554, 14887783, 1235471, 28963631, 1801453, 8327363, 29697545, 24939383, 9144470, 33376399, 25778087, 26770536, 14898687, 3526596, 17812311, 1138788, 10391651, 27523763, 29754092, 16001376, 18824331, 31282034, 13761191, 24239368, 29655551, 8515340, 2672436, 22365756, 14566580, 23252945, 18162345, 15088288, 1092027, 24596916, 30898172, 25496591, 10081066, 1434233, 20712042, 10114751, 19445622, 29890630, 30849941, 31068747 }</p>
+<p>846504639</p>
+<p>24</p>
+<p>25</p>
+<p>Returns: 99310</p></div></li><li><div><p>5</p>
+<p>{2, 3, 8, 1, 10 }</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 1</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/18774/pm/17125">2021-<!-- --> <!-- -->2021 Regional 2<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/17125/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"17125\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"17125\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"17125\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"17125\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"17125\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T423,"])</script><script>self.__next_f.push([1,"\u003cp\u003e100000\u003c/p\u003e\n\u003cp\u003e{2295830, 27071558, 14064113, 8750495, 20756095, 32438782, 22067899, 32545635, 15655341, 6482674, 17142795, 23224801, 15631154, 18574796, 30984789, 27779730, 31712444, 9712045, 6526509, 15751644, 19006158, 19721927, 22998855, 12722524, 19150210, 14395198, 30881746, 14267351, 30596513, 10157982, 3522365, 12078185, 19269905, 11653207, 12108977, 21298177, 7050570, 10884451, 16893462, 12237338, 6723871, 28572429, 19347261, 12433517, 13112866, 2171725, 4143510, 32903092, 28259691, 20315942, 6783585, 15790487, 10057737, 24720012, 12665798, 7437821, 11132554, 14887783, 1235471, 28963631, 1801453, 8327363, 29697545, 24939383, 9144470, 33376399, 25778087, 26770536, 14898687, 3526596, 17812311, 1138788, 10391651, 27523763, 29754092, 16001376, 18824331, 31282034, 13761191, 24239368, 29655551, 8515340, 2672436, 22365756, 14566580, 23252945, 18162345, 15088288, 1092027, 24596916, 30898172, 25496591, 10081066, 1434233, 20712042, 10114751, 19445622, 29890630, 30849941, 31068747 }\u003c/p\u003e\n\u003cp\u003e846504639\u003c/p\u003e\n\u003cp\u003e24\u003c/p\u003e\n\u003cp\u003e25\u003c/p\u003e\n\u003cp\u003eReturns: 99310\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"MergeToSort\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp xmlns=\\\"http://topcoder.com\\\"\u003e\\nGiven is a sequence A consisting of \u003cb\u003eN\u003c/b\u003e positive integers.\\nYou would like to transform it into a sequence that is sorted in non-decreasing order.\\n\u003c/p\u003e\\n\u003cp xmlns=\\\"http://topcoder.com\\\"\u003e\\nThe only allowed transformation step is taking two consecutive elements and replacing them by their sum.\\n\u003c/p\u003e\\n\u003cp xmlns=\\\"http://topcoder.com\\\"\u003e\\nFind and return the minimum number of steps needed.\\n\u003c/p\u003e\\n\u003cbr xmlns=\\\"http://topcoder.com\\\"/\u003e\\n\u003cp xmlns=\\\"http://topcoder.com\\\"\u003e\\nIn order to keep the input size small, the sequence is constructed pseudorandomly using the pseudocode given below.\\nIn the pseudocode, x^y denotes x to the power of y.\\n\u003c/p\u003e\\n\u003cpre xmlns=\\\"http://topcoder.com\\\"\u003e\\n\\nL = length(Aprefix)\\nfor i = 0 to L-1:\\n    A[i] = Aprefix[i]\\n\\nstate = seed\\nfor i = L to N-1:\\n    state = (state * 1103515245 + 12345) modulo 2^31\\n    b = blo + ((state / 1000) modulo (bhi-blo+1))\\n\\n    state = (state * 1103515245 + 12345) modulo 2^31\\n    x = 2^(b-1)\\n    A[i] = x + ((state / 10) modulo x)\\n\u003c/pre\u003e\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MergeToSort\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"minSteps\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int[], int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int minSteps(int N, int[] Aprefix, int seed, int blo, int bhi)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"It can easily be shown that a solution always exists.\"}],[\"$\",\"li\",\"1\",{\"children\":\"The reference solution does not depend on the input being (pseudo)random.\"}],[\"$\",\"li\",\"2\",{\"children\":\"The constraints imply that all elements of A will satisfy 1 \u0026lt;= A[i] \u0026lt; 2^25.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"N will be between 1 and 100,000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Aprefix will have between 0 and 100 elements, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Aprefix will have at most N elements.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of Aprefix will be between 1 and 2^25 - 1, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"seed will be between 0 and 2^31 - 1, inclusive.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"blo and bhi will satisfy 1 \u0026lt;= blo \u0026lt;= bhi \u0026lt;= 25.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{20, 10, 35, 38}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003eThe optimal solution is to merge the first two elements, producing the sorted sequence {30, 35, 38}.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{10, 10, 10, 10}\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003eThe sequence {10, 10, 10, 10, 26361440} is already in non-decreasing order, no changes are needed.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e{420, 470}\u003c/p\u003e\\n\u003cp\u003e420047\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\\n\u003cp\u003eA = {420, 470, 547, 689, 892, 890, 822, 931, 488, 607, 354, 943, 315, 914, 321}\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e436734\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99717\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e252\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{348, 297, 357, 240, 196, 327, 262, 265, 380, 85, 279, 402}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e{105}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e{981, 989, 983, 966, 976, 984, 979, 973, 973}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e{481, 429, 376, 511, 463, 458, 521, 455, 510, 515, 418, 429, 377, 400, 453, 393, 460}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e{457, 417, 451, 478, 448, 513, 421, 499, 483, 466, 454, 459, 484, 403, 516, 472, 494, 459, 449}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{329, 505, 614, 376, 269, 571, 132, 291, 201, 193, 389, 640, 604, 563, 491, 150, 388, 600, 439, 139}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e{239, 244, 228, 228, 247, 229, 225, 223, 225, 239, 242, 223, 234, 245, 217, 224, 243, 221, 240}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e{78}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e{737, 649, 575, 724, 721, 731}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e{537, 537, 466, 474, 487, 484, 534, 508, 470, 495, 472, 513, 480, 467, 476, 503}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{719, 684}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{888, 790, 892, 900, 821, 910, 898, 772, 896, 877, 839, 894, 765, 781, 857, 858, 842, 829, 896, 877}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 13\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{131, 80, 125, 124, 68, 121, 138, 132, 74, 102, 128, 130, 80, 97, 111, 108, 87, 125, 68, 141}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 13\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{588, 541, 634, 610}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e{670}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{311, 597, 536, 434, 112, 781, 153, 575, 768, 646}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{536, 539, 512, 526, 508, 515, 538, 532, 546, 546, 502, 535, 529, 494, 551, 549, 495, 521, 540, 508}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 13\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e{892, 709, 452, 436, 777, 710, 392, 699, 937, 398, 742, 615, 601}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{274, 253, 271, 271, 255, 222, 234}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e{15, 217, 444, 235, 267, 225, 315, 418, 441, 132, 151, 53, 156, 64, 478, 87, 217, 173, 255}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003e{756, 824, 766, 510, 561, 809, 264, 864, 930, 629, 849, 844, 954, 850}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{788, 758, 564, 822, 832, 666, 890, 494, 565, 786, 565, 792, 512, 721, 683, 503, 587, 709, 563, 779}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 14\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e{147, 79, 578, 403, 5, 398, 516, 471, 387, 130, 528, 415, 109}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{641, 712, 484}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{861, 690, 667, 629, 790, 275, 584, 717, 697, 515, 622, 381, 503, 586, 256, 315, 909, 679, 521, 845}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 13\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e{461, 282, 350, 266}\u003c/p\u003e\\n\u003cp\u003e963098471\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e30\u003c/p\u003e\\n\u003cp\u003e{475, 347, 581, 655, 607, 372, 472, 526, 274, 503, 247, 362, 584, 306, 465, 572, 339}\u003c/p\u003e\\n\u003cp\u003e30401546\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 19\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e{721, 530, 730, 693, 601, 820, 813, 464, 582, 442, 490, 712, 464, 532, 842, 853, 503, 450, 482}\u003c/p\u003e\\n\u003cp\u003e710429624\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e24\u003c/p\u003e\\n\u003cp\u003eReturns: 27\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e{120, 117, 102}\u003c/p\u003e\\n\u003cp\u003e942936922\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e29\u003c/p\u003e\\n\u003cp\u003e{749, 414, 197, 129, 299, 665, 231, 431, 186, 419, 772, 532}\u003c/p\u003e\\n\u003cp\u003e1512485082\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003eReturns: 20\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003e{517, 492, 491, 522, 488, 529, 498, 438, 460, 477, 442, 512, 490, 448, 492, 510, 451}\u003c/p\u003e\\n\u003cp\u003e253456038\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003e{854, 978, 911, 927, 996, 939, 928, 984, 939, 837, 865}\u003c/p\u003e\\n\u003cp\u003e2119888712\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e31\u003c/p\u003e\\n\u003cp\u003e{837, 313, 938, 442, 220, 194, 910, 765, 451, 191, 803}\u003c/p\u003e\\n\u003cp\u003e1100292491\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e{765, 417, 575, 576, 333, 404, 655, 827, 232, 505, 814, 882}\u003c/p\u003e\\n\u003cp\u003e1815175106\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003eReturns: 15\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003e{610, 487, 379, 726, 645, 725, 708, 607, 473, 494, 563, 385, 368, 557}\u003c/p\u003e\\n\u003cp\u003e1575552978\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 13\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e26\u003c/p\u003e\\n\u003cp\u003e{264, 316, 125, 124, 333, 227, 123, 174, 195, 207, 307, 332, 192, 242, 94, 149, 97}\u003c/p\u003e\\n\u003cp\u003e1600605750\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 17\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e{952, 960, 964, 941, 982, 980, 976, 965, 959, 973, 961, 939, 945, 940, 958, 942}\u003c/p\u003e\\n\u003cp\u003e14434277\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003eReturns: 26\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e{869, 593}\u003c/p\u003e\\n\u003cp\u003e820206654\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{975, 935, 688}\u003c/p\u003e\\n\u003cp\u003e280319007\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003eReturns: 16\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e{655, 622, 694, 672, 675, 668, 709, 708, 658, 708}\u003c/p\u003e\\n\u003cp\u003e1604168383\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003eReturns: 7\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{580, 477, 538, 402}\u003c/p\u003e\\n\u003cp\u003e822004006\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e{273, 232, 445, 447, 442}\u003c/p\u003e\\n\u003cp\u003e547953963\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e24\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e{786, 786, 763, 773, 780}\u003c/p\u003e\\n\u003cp\u003e633779308\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{288, 172, 113}\u003c/p\u003e\\n\u003cp\u003e546676137\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e{912, 947, 952, 928, 945, 937, 953, 949, 878, 896, 951, 944, 949, 893, 904, 890, 894, 911, 953, 936}\u003c/p\u003e\\n\u003cp\u003e1328065760\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 23\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e27\u003c/p\u003e\\n\u003cp\u003e{887, 927, 818, 775, 881, 896, 897, 876, 859, 867, 914, 849, 850, 872}\u003c/p\u003e\\n\u003cp\u003e1154162604\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 18\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e{414, 415, 477, 406, 449}\u003c/p\u003e\\n\u003cp\u003e633475780\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003e{287}\u003c/p\u003e\\n\u003cp\u003e2065566509\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003eReturns: 15\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e31\u003c/p\u003e\\n\u003cp\u003e{272, 184, 194, 204, 236, 166, 178, 267, 237, 271, 174}\u003c/p\u003e\\n\u003cp\u003e1055259076\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 21\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e23\u003c/p\u003e\\n\u003cp\u003e{780, 756, 732, 780, 759, 727, 731, 735, 785, 742, 782, 780, 754, 782, 739}\u003c/p\u003e\\n\u003cp\u003e1633727531\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003eReturns: 16\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e92817\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e731368979\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 92233\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e93167\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e230505136\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e24\u003c/p\u003e\\n\u003cp\u003eReturns: 92774\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e97682\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e320615195\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 97178\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94241\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e894454129\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 93561\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94484\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e476696165\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 94007\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94187\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e513778974\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 93681\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e96157\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e966306144\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003eReturns: 95728\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94766\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1377899115\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 94365\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99333\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e891024322\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99044\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94853\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1396738263\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 94428\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e91871\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e786294352\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003eReturns: 91526\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94266\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e406616854\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 93635\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94826\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1162002437\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003eReturns: 94276\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e93556\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e2114618606\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 93221\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98113\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e99993258\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003eReturns: 97687\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99712\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1800951242\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 99000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e94931\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e815144405\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003eReturns: 94414\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e91411\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e959964665\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003eReturns: 91065\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98979\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1800803545\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003eReturns: 98614\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e95063\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e510006733\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003eReturns: 94401\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"75\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e91492\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1952515208\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e23\u003c/p\u003e\\n\u003cp\u003eReturns: 91127\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"76\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e93471\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e372122540\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 93176\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"77\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e98778\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e2079845253\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 98381\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"78\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e93586\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e1324603655\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 93156\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"79\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e96209\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e254970774\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 95865\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"80\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99315\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"81\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{20, 10, 35, 38 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99707\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"82\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{420, 470 }\u003c/p\u003e\\n\u003cp\u003e420047\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 99316\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"83\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e254235\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 9913\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"84\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e4312421\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99713\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"85\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e254235\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99716\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"86\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3, 1332 }\u003c/p\u003e\\n\u003cp\u003e6455645\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99721\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"87\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e90\u003c/p\u003e\\n\u003cp\u003e{420, 470 }\u003c/p\u003e\\n\u003cp\u003e420047\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 72\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"88\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{2, 3 }\u003c/p\u003e\\n\u003cp\u003e214123\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 99652\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"89\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3324 }\u003c/p\u003e\\n\u003cp\u003e5465123\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99717\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"90\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{5, 1, 6, 6 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"91\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e843828734\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99698\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"92\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e{2724, 7431, 6185, 7177, 7792, 5835, 5835, 3350, 9579, 7655, 5437, 9492, 1656, 3607, 3261, 1147, 8687, 1931, 8458, 8254, 8123, 8176, 2065, 3240, 4614, 6039, 4096, 8952, 948, 7605, 8177, 4502, 4466, 4730, 1556, 4912, 7918, 4956, 5720, 4848, 5333, 3951, 6897, 7144, 8940, 2339, 9861, 458, 1085, 3949, 5089, 9071, 3047, 8399, 6975, 5296, 7786, 2134, 8838, 7290, 4966, 634, 6872, 2737, 1593, 4724, 7137, 3137, 121, 3699, 2348, 8955, 9071, 142, 2342, 9948, 4522, 369, 8716, 3998, 5486, 5087, 728, 2652, 1721, 7957, 759, 132, 3665, 2160, 7859, 2627, 5014, 4947, 4385, 1287, 2730, 9659, 8880, 7039 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003eReturns: 982\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"93\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{9, 1, 5, 3, 10 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"94\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e12345\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: 99305\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"95\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{2, 3 }\u003c/p\u003e\\n\u003cp\u003e52324\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: 99645\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"96\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{1, 2, 1, 4, 4 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"97\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]}],[\"$\",\"li\",\"98\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{2, 3, 8, 1, 10 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/18774/pm/17125\",\"children\":[\"2021-\",\" \",\"2021 Regional 2\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

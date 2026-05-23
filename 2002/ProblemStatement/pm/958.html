@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->OneWayRoad<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+The mayor of your city has asked you to calculate the cost of his new project.
+Currently all of the roads in your city are two-way (they allow traffic in both
+directions).  He wants to change all of the roads to one-way (so that they only
+allow traffic in one direction).  The problem is, he can't disconnect any parts
+of the town that were previously connected.  In other words, given any two
+locations in the town A and B, if A and B were connected before the project,
+they must still be connected after the project.  Two locations A and B are
+connected if you can get from A to B taking any number of roads necessary, and
+you can get from B to A taking any number of roads necessary.  He is letting
+you decide which way each of the new one-way roads will be directed.  For
+example:
+One            Two           Three                Four
+A------B      A-------B     A-------B         A---B   E--G
+|             |       |      \     /          |   |   | /
+|             |       |       \   /           D---C   |/
+|             |       |        \ /                    F
+C             D-------C         C------D
+
+In picture One above all of the locations are connected before the project but
+there is no way you can change all the roads to one-way and maintain
+connectivity.   In picture Two all of the locations are connected before the
+project, and will remain connected if we make all of the one way roads point
+around the square to form a cycle (for example, A-&gt;B-&gt;C-&gt;D-&gt;A).  In picture
+Three all of the locations are connected before the project but will not remain
+connected after the project regardless of which way we make the roads one-way.
+In picture Four A,B,C, and D are connected and E,F, and G are connected. If
+both connected sets are made to form cycles then all will still be connected
+(for example, A-&gt;B-&gt;C-&gt;D-&gt;A and E-&gt;G-&gt;F-&gt;E). See examples for further
+clarification.
+
+If the given project cannot be done because connectivity cannot be maintained
+your method will return -1.  If the project is doable your method will return
+the total cost of the entire project which can be calculated as follows:
+TotalCost = costPerRoad * Total#ofRoads.  This is a straightforward calculation
+since all of the two-way roads are being changed to one-way roads if the
+project goes through.  The project goes through if and only if connectivity can
+be maintained once all two-way roads are converted to one-way roads.
+
+The map you are given will be specified in two arrays (locationA and locationB):
+- Two-way road K is between locationA[K] and locationB[K]
+- All locations are connected to at least one other location
+- Every location is uniquely defined by its name 
+
+So picture One from before could be given as:
+locationA = {"A","A"}
+locationB = {"B","C"}
+Signifying a two-way road between A and B, and a two-way road between A and C.
+Since no roads can be repeated in the input, if you are given a two-way road
+between A and B, you will not also be given another two-way road between A and
+B, or a two-way road between B and A.  This means that there cannot be more
+than one two-way road DIRECTLY connecting two locations.  There may be multiple
+indirect paths connecting two locations (passing through intermediate locations).
+
+Create a class OneWayRoad that contains the method totalCost, which takes a
+String[] locationA, a String[] locationB, and an int costPerRoad, and returns
+an int representing the totalCost of the project or -1 if the project is
+impossible.
+
+DEFINITION
+Class: OneWayRoad
+Method: totalCost
+Parameters: String[], String[], int
+Returns: int
+Method signature (be sure your method is public):  int totalCost(String[]
+locationA, String[] locationB, int costPerRoad);
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+- costPerRoad will be between 1 and 1000 inclusive
+- locationA will contain between 1 and 50 elements inclusive
+- locationA and locationB will contain exactly the same number of elements
+- There will be no repeated roads (If there is a road between A and B then
+there will be no other roads between A and B or B and A in the inputs)
+- A location will never connect to itself (locationA[K] != locationB[K])
+- Each element in locationA will contain only capital letters ('A'-'Z')
+- Each element in locationB will contain only capital letters ('A'-'Z')
+- Each element in locationA will have length between 1 and 50 inclusive
+- Each element in locationB will have length between 1 and 50 inclusive
+
+EXAMPLES
+'-','|' are used to describe roads
+'&lt;','&gt;','^','v' are used to describe the orientation of one-way roads
+
+1) locationA = {"A","A"}
+   locationB = {"B","C"}
+   costPerRoad = 1000
+This road map would look like:
+C------A-------B
+One possible one-way configuration:
+C-----&gt;A&lt;------B
+Using two-way roads, all of the locations are connected.  In the possible
+one-way configuration drawn directly above, C and B are both connected to A,
+but A is not connected to either one.  C and B are not connected to each other
+either.  No other possibilities do not maintain connectivity either.
+Method returns -1.
+
+2) locationA = {"A","B","C","D"} 
+   locationB = {"B","C","D","A"}
+   costPerRoad = 555
+This road map could be drawn as:    
+--------B            
+|       |
+|       |
+A       C
+|       |
+|       |
+--------D   
+One possible one-way connected configuration:
+-------&gt;B            
+|       |
+|       v
+A       C
+^       |
+|       v
+--------D   
+Using two-way roads, all of the locations are connected.  The picture directly
+above shows a possible configuration that allows all of the locations to remain
+connected as one-way roads.  Each road costs 555 so 4*555 = 2220.
+Method returns 2220.
+
+3) locationA = {"A","B","C","D","A"} 
+   locationB = {"B","C","D","A","C"}
+   costPerRoad = 555
+This road map could be drawn as:    
+--------B            
+|       |
+|       |
+A-------C
+|       |
+|       |
+--------D    
+One possible one-way connected configuration:
+-------&gt;B            
+|       |
+|       v
+A------&gt;C
+^       |
+|       v
+--------D   
+This is just like example 1 except an extra road has been added.  Using two-way
+roads, all of the locations are connected.  The picture directly above shows a
+possible configuration that allows all of the locations to remain connected as
+one-way roads. Each road costs 555 so 5*555 = 2775.
+Method returns 2775.
+
+4) locationA = {"A","B","C","D","E","F"}
+   locationB = {"B","C","A","E","F","D"}
+   costPerRoad = 20
+This road map could be drawn as:
+A-----|    D-----|
+|     |    |     |
+|     B    |     E
+|     |    |     |
+C_____|    F-----|
+One possible one-way connected configuration:
+A-----|    D-----|
+^     v    ^     v
+|     B    |     E
+|     |    |     |
+C&lt;----|    F&lt;----|
+Using two way roads, there were two separate sets of connected locations
+(namely {A,B,C} and {D,E,F}).  The picture directly above shows a possible
+configuration that allows all of the locations to remain connected as one-way
+roads.  Each road costs 20 so 6*20 = 120.
+Method returns 120.
+
+5) locationA = {"ALICE","BRETT","CHRIS","DAVID"}
+   locationB = {"BRETT","CHRIS","DAVID","ALICE"}
+   costPerRoad = 555
+This is the same as example 2 except the names are not single capital letters.
+Method returns 2220.
+
+6) locationA = {"A","B","C","C","D","E","F"}
+   locationB = {"B","C","A","D","E","F","D"}
+   costPerRoad = 1000
+Method returns -1.
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>OneWayRoad</span></dd><dt>Method:</dt><dd><span>totalCost</span></dd><dt>Parameters:</dt><dd><span>String[], String[], int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int totalCost(String[] param0, String[] param1, int param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4220/pm/958">2002-<!-- --> <!-- -->SRM 100<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/958/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"958\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"958\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"958\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"958\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"958\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1d3c,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nThe mayor of your city has asked you to calculate the cost of his new project.\nCurrently all of the roads in your city are two-way (they allow traffic in both\ndirections).  He wants to change all of the roads to one-way (so that they only\nallow traffic in one direction).  The problem is, he can't disconnect any parts\nof the town that were previously connected.  In other words, given any two\nlocations in the town A and B, if A and B were connected before the project,\nthey must still be connected after the project.  Two locations A and B are\nconnected if you can get from A to B taking any number of roads necessary, and\nyou can get from B to A taking any number of roads necessary.  He is letting\nyou decide which way each of the new one-way roads will be directed.  For\nexample:\nOne            Two           Three                Four\nA------B      A-------B     A-------B         A---B   E--G\n|             |       |      \\     /          |   |   | /\n|             |       |       \\   /           D---C   |/\n|             |       |        \\ /                    F\nC             D-------C         C------D\n\nIn picture One above all of the locations are connected before the project but\nthere is no way you can change all the roads to one-way and maintain\nconnectivity.   In picture Two all of the locations are connected before the\nproject, and will remain connected if we make all of the one way roads point\naround the square to form a cycle (for example, A-\u0026gt;B-\u0026gt;C-\u0026gt;D-\u0026gt;A).  In picture\nThree all of the locations are connected before the project but will not remain\nconnected after the project regardless of which way we make the roads one-way.\nIn picture Four A,B,C, and D are connected and E,F, and G are connected. If\nboth connected sets are made to form cycles then all will still be connected\n(for example, A-\u0026gt;B-\u0026gt;C-\u0026gt;D-\u0026gt;A and E-\u0026gt;G-\u0026gt;F-\u0026gt;E). See examples for further\nclarification.\n\nIf the given project cannot be done because connectivity cannot be maintained\nyour method will return -1.  If the project is doable your method will return\nthe total cost of the entire project which can be calculated as follows:\nTotalCost = costPerRoad * Total#ofRoads.  This is a straightforward calculation\nsince all of the two-way roads are being changed to one-way roads if the\nproject goes through.  The project goes through if and only if connectivity can\nbe maintained once all two-way roads are converted to one-way roads.\n\nThe map you are given will be specified in two arrays (locationA and locationB):\n- Two-way road K is between locationA[K] and locationB[K]\n- All locations are connected to at least one other location\n- Every location is uniquely defined by its name \n\nSo picture One from before could be given as:\nlocationA = {\"A\",\"A\"}\nlocationB = {\"B\",\"C\"}\nSignifying a two-way road between A and B, and a two-way road between A and C.\nSince no roads can be repeated in the input, if you are given a two-way road\nbetween A and B, you will not also be given another two-way road between A and\nB, or a two-way road between B and A.  This means that there cannot be more\nthan one two-way road DIRECTLY connecting two locations.  There may be multiple\nindirect paths connecting two locations (passing through intermediate locations).\n\nCreate a class OneWayRoad that contains the method totalCost, which takes a\nString[] locationA, a String[] locationB, and an int costPerRoad, and returns\nan int representing the totalCost of the project or -1 if the project is\nimpossible.\n\nDEFINITION\nClass: OneWayRoad\nMethod: totalCost\nParameters: String[], String[], int\nReturns: int\nMethod signature (be sure your method is public):  int totalCost(String[]\nlocationA, String[] locationB, int costPerRoad);\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n- costPerRoad will be between 1 and 1000 inclusive\n- locationA will contain between 1 and 50 elements inclusive\n- locationA and locationB will contain exactly the same number of elements\n- There will be no repeated roads (If there is a road between A and B then\nthere will be no other roads between A and B or B and A in the inputs)\n- A location will never connect to itself (locationA[K] != locationB[K])\n- Each element in locationA will contain only capital letters ('A'-'Z')\n- Each element in locationB will contain only capital letters ('A'-'Z')\n- Each element in locationA will have length between 1 and 50 inclusive\n- Each element in locationB will have length between 1 and 50 inclusive\n\nEXAMPLES\n'-','|' are used to describe roads\n'\u0026lt;','\u0026gt;','^','v' are used to describe the orientation of one-way roads\n\n1) locationA = {\"A\",\"A\"}\n   locationB = {\"B\",\"C\"}\n   costPerRoad = 1000\nThis road map would look like:\nC------A-------B\nOne possible one-way configuration:\nC-----\u0026gt;A\u0026lt;------B\nUsing two-way roads, all of the locations are connected.  In the possible\none-way configuration drawn directly above, C and B are both connected to A,\nbut A is not connected to either one.  C and B are not connected to each other\neither.  No other possibilities do not maintain connectivity either.\nMethod returns -1.\n\n2) locationA = {\"A\",\"B\",\"C\",\"D\"} \n   locationB = {\"B\",\"C\",\"D\",\"A\"}\n   costPerRoad = 555\nThis road map could be drawn as:    \n--------B            \n|       |\n|       |\nA       C\n|       |\n|       |\n--------D   \nOne possible one-way connected configuration:\n-------\u0026gt;B            \n|       |\n|       v\nA       C\n^       |\n|       v\n--------D   \nUsing two-way roads, all of the locations are connected.  The picture directly\nabove shows a possible configuration that allows all of the locations to remain\nconnected as one-way roads.  Each road costs 555 so 4*555 = 2220.\nMethod returns 2220.\n\n3) locationA = {\"A\",\"B\",\"C\",\"D\",\"A\"} \n   locationB = {\"B\",\"C\",\"D\",\"A\",\"C\"}\n   costPerRoad = 555\nThis road map could be drawn as:    \n--------B            \n|       |\n|       |\nA-------C\n|       |\n|       |\n--------D    \nOne possible one-way connected configuration:\n-------\u0026gt;B            \n|       |\n|       v\nA------\u0026gt;C\n^       |\n|       v\n--------D   \nThis is just like example 1 except an extra road has been added.  Using two-way\nroads, all of the locations are connected.  The picture directly above shows a\npossible configuration that allows all of the locations to remain connected as\none-way roads. Each road costs 555 so 5*555 = 2775.\nMethod returns 2775.\n\n4) locationA = {\"A\",\"B\",\"C\",\"D\",\"E\",\"F\"}\n   locationB = {\"B\",\"C\",\"A\",\"E\",\"F\",\"D\"}\n   costPerRoad = 20\nThis road map could be drawn as:\nA-----|    D-----|\n|     |    |     |\n|     B    |     E\n|     |    |     |\nC_____|    F-----|\nOne possible one-way connected configuration:\nA-----|    D-----|\n^     v    ^     v\n|     B    |     E\n|     |    |     |\nC\u0026lt;----|    F\u0026lt;----|\nUsing two way roads, there were two separate sets of connected locations\n(namely {A,B,C} and {D,E,F}).  The picture directly above shows a possible\nconfiguration that allows all of the locations to remain connected as one-way\nroads.  Each road costs 20 so 6*20 = 120.\nMethod returns 120.\n\n5) locationA = {\"ALICE\",\"BRETT\",\"CHRIS\",\"DAVID\"}\n   locationB = {\"BRETT\",\"CHRIS\",\"DAVID\",\"ALICE\"}\n   costPerRoad = 555\nThis is the same as example 2 except the names are not single capital letters.\nMethod returns 2220.\n\n6) locationA = {\"A\",\"B\",\"C\",\"C\",\"D\",\"E\",\"F\"}\n   locationB = {\"B\",\"C\",\"A\",\"D\",\"E\",\"F\",\"D\"}\n   costPerRoad = 1000\nMethod returns -1.\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"OneWayRoad\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"OneWayRoad\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"totalCost\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int totalCost(String[] param0, String[] param1, int param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4220/pm/958\",\"children\":[\"2002-\",\" \",\"SRM 100\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

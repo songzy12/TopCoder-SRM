@@ -1,0 +1,133 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->GasRacing<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+You have been given a new vehicle to test drive.  It is extremely fast and uses
+up gas even faster.  Given trip specifications you are to determine the least
+amount of gas needed to complete the trip.
+
+You will be given a list of landmarks.  Your trip will start at the westmost
+landmark, visit all the other landmarks on the map, and then will return to the
+westmost landmark.  The problem is, your car is so fast it doesn't turn very
+well.  Due to this, your trip must be divided into exactly two parts: the
+eastward trip, and the westward trip.  On the eastward trip you are only
+allowed to go to landmarks that take your further east.  On the westward trip
+you are only allowed to go to landmarks that take your further west.  This
+means the last landmark visited on the eastward trip must be the eastmost
+landmark.
+
+The distance from one landmark to another is their distance in Cartesian
+coordinates: 
+D = sqrt((x2-x1)^2 + (y2-y1)^2) where D is the distance from point (x1,y1) to
+(x2,y2).
+A car's fuel-to-distance ratio will give how much fuel is used per unit of
+distance traveled.  To find the amount of fuel consumed in the direct trip from
+(x1,y1) to (x2,y2) you calculate: F = D*R where D is the distance as calculated
+above and R is the given fuel-to-distance ratio.  Note, fuel need not be
+consumed in integral amounts.
+
+We want to find the least amount of gas needed, so you must take the shortest
+possible trip given the previously stated constraints.  The returned gas value
+is an integral amount so round results up to the nearest integer.  Note,
+rounding occurs after you calculate the amount of gas.  To prevent rounding
+errors, TopCoder will ensure that the solution (before rounding) will not be
+within .001 of the nearest integer.
+  
+Create a class GasRacing that contains the method numTrips, which takes an
+int[] xs, int[] ys, and an int ratio and returns an int giving the least amount
+of gas needed to make the trip.
+
+DEFINITION
+Class: GasRacing
+Method: leastGas
+Parameters: int[], int[], int
+Returns: int
+Method signature (be sure your method is public):  int leastGas(int[] xs, int[]
+ys, int ratio);
+
+NOTES
+- Landmark K has x-coordinates xs[K] and y-coordinate ys[K]
+- There are 50 potential landmarks so make sure your algorithm is efficient
+- Traveling westward means your x-coordinate is decreasing whereas traveling
+eastward means your x-coordinate is increasing
+- Fractional answers must be rounded up to the nearest integer
+- The trip begins at the westmost landmark
+
+HINTS
+- Two way to solve this problem
+   1) Dynamic programming (previously stored results will help)
+   2) Divide and conquer (something like how merge sort works)
+- The fact that the trip must be completely divided into 2 parts (eastward and
+westward) is very helpful in finding the solution
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+
+- xs and ys will contain the same number of elements
+- xs and ys will contain between 2 and 50 elements inclusive
+- xs will contain no repeated values
+- Each element of xs will be between -1000 and 1000 inclusive
+- Each element of ys will be between -1000 and 1000 inclusive
+- ratio will be between 1 and 100 inclusive
+- The solution (prior to rounding up to the nearest integer) will not be within
+.001 of the nearest integer (solution &lt; int - .001 or solution &gt; int + .001)
+
+
+EXAMPLES
+'X's are used to denote the coordinate axes
+'.'s are used to denote the landmarks
+'/'s,'\'s, and '-'s are used to denote the path taken.
+
+1) xs = {0,2,3,4,6}
+   ys = {0,2,0,2,0}
+   ratio = 2
+The best trip looks like:
+    X
+    X .-. 
+    X/   \
+XXXX.--.--.
+    X
+    X
+    X
+The diagram above doesn't have arrows on it but they could be added.  We could
+start at the origin and take the upper path east, followed by taking the lower
+path west.  We could also start at the origin and take the lower path east,
+after which taking the upper path west.  Both paths produce the same result.
+The distance of this trip is about 13.657 so the gas required is 2*13.657 =
+27.314.
+We round up to the nearest integer so the method returns 28.
+
+2) xs = {0,4,2,9}
+   ys = {0,4,-2,-2}
+   ratio = 1
+The best trip looks like:
+    X   .
+    X  / \
+    X /   \
+    X/     \
+XXXX.XXXXXXX\X
+    X\       \
+    X .------.
+    X
+The diagram above doesn't have arrows on it but they could be added.  We could
+start at the origin and take the upper path east, followed by taking the lower
+path west.  We could also start at the origin and take the lower path east,
+after which taking the upper path west.  Both paths produce the same result.
+The distance of this trip is about 23.296 so the gas required is 1*23.296 =
+23.296.
+We round up to the nearest integer so the method returns 24.
+
+3) xs = {0,4,2,9}
+   ys = {0,4,-2,-2}
+   ratio = 100
+Same trip but a different ratio. 100*23.296 = 2329.6.
+We round up to the nearest integer so the method returns 2330.
+
+4) xs = {-1000,1000}
+   ys = {-1000,1000}
+   ratio = 99
+Method returns 560029.
+
+5) xs = {145,238,-123,42,54,235,-173,934,-934,234}
+   ys = {234,532,593,994,-992,123,324,234,100,1000}
+   ratio = 99
+Method returns 640569.
+
+   </pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>GasRacing</span></dd><dt>Method:</dt><dd><span>leastGas</span></dd><dt>Parameters:</dt><dd><span>int[], int[], int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int leastGas(int[] param0, int[] param1, int param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4205/pm/743">2002-<!-- --> <!-- -->SRM 97<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/743/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"743\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"743\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"743\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"743\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"743\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T145f,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nYou have been given a new vehicle to test drive.  It is extremely fast and uses\nup gas even faster.  Given trip specifications you are to determine the least\namount of gas needed to complete the trip.\n\nYou will be given a list of landmarks.  Your trip will start at the westmost\nlandmark, visit all the other landmarks on the map, and then will return to the\nwestmost landmark.  The problem is, your car is so fast it doesn't turn very\nwell.  Due to this, your trip must be divided into exactly two parts: the\neastward trip, and the westward trip.  On the eastward trip you are only\nallowed to go to landmarks that take your further east.  On the westward trip\nyou are only allowed to go to landmarks that take your further west.  This\nmeans the last landmark visited on the eastward trip must be the eastmost\nlandmark.\n\nThe distance from one landmark to another is their distance in Cartesian\ncoordinates: \nD = sqrt((x2-x1)^2 + (y2-y1)^2) where D is the distance from point (x1,y1) to\n(x2,y2).\nA car's fuel-to-distance ratio will give how much fuel is used per unit of\ndistance traveled.  To find the amount of fuel consumed in the direct trip from\n(x1,y1) to (x2,y2) you calculate: F = D*R where D is the distance as calculated\nabove and R is the given fuel-to-distance ratio.  Note, fuel need not be\nconsumed in integral amounts.\n\nWe want to find the least amount of gas needed, so you must take the shortest\npossible trip given the previously stated constraints.  The returned gas value\nis an integral amount so round results up to the nearest integer.  Note,\nrounding occurs after you calculate the amount of gas.  To prevent rounding\nerrors, TopCoder will ensure that the solution (before rounding) will not be\nwithin .001 of the nearest integer.\n  \nCreate a class GasRacing that contains the method numTrips, which takes an\nint[] xs, int[] ys, and an int ratio and returns an int giving the least amount\nof gas needed to make the trip.\n\nDEFINITION\nClass: GasRacing\nMethod: leastGas\nParameters: int[], int[], int\nReturns: int\nMethod signature (be sure your method is public):  int leastGas(int[] xs, int[]\nys, int ratio);\n\nNOTES\n- Landmark K has x-coordinates xs[K] and y-coordinate ys[K]\n- There are 50 potential landmarks so make sure your algorithm is efficient\n- Traveling westward means your x-coordinate is decreasing whereas traveling\neastward means your x-coordinate is increasing\n- Fractional answers must be rounded up to the nearest integer\n- The trip begins at the westmost landmark\n\nHINTS\n- Two way to solve this problem\n   1) Dynamic programming (previously stored results will help)\n   2) Divide and conquer (something like how merge sort works)\n- The fact that the trip must be completely divided into 2 parts (eastward and\nwestward) is very helpful in finding the solution\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n\n- xs and ys will contain the same number of elements\n- xs and ys will contain between 2 and 50 elements inclusive\n- xs will contain no repeated values\n- Each element of xs will be between -1000 and 1000 inclusive\n- Each element of ys will be between -1000 and 1000 inclusive\n- ratio will be between 1 and 100 inclusive\n- The solution (prior to rounding up to the nearest integer) will not be within\n.001 of the nearest integer (solution \u0026lt; int - .001 or solution \u0026gt; int + .001)\n\n\nEXAMPLES\n'X's are used to denote the coordinate axes\n'.'s are used to denote the landmarks\n'/'s,'\\'s, and '-'s are used to denote the path taken.\n\n1) xs = {0,2,3,4,6}\n   ys = {0,2,0,2,0}\n   ratio = 2\nThe best trip looks like:\n    X\n    X .-. \n    X/   \\\nXXXX.--.--.\n    X\n    X\n    X\nThe diagram above doesn't have arrows on it but they could be added.  We could\nstart at the origin and take the upper path east, followed by taking the lower\npath west.  We could also start at the origin and take the lower path east,\nafter which taking the upper path west.  Both paths produce the same result.\nThe distance of this trip is about 13.657 so the gas required is 2*13.657 =\n27.314.\nWe round up to the nearest integer so the method returns 28.\n\n2) xs = {0,4,2,9}\n   ys = {0,4,-2,-2}\n   ratio = 1\nThe best trip looks like:\n    X   .\n    X  / \\\n    X /   \\\n    X/     \\\nXXXX.XXXXXXX\\X\n    X\\       \\\n    X .------.\n    X\nThe diagram above doesn't have arrows on it but they could be added.  We could\nstart at the origin and take the upper path east, followed by taking the lower\npath west.  We could also start at the origin and take the lower path east,\nafter which taking the upper path west.  Both paths produce the same result.\nThe distance of this trip is about 23.296 so the gas required is 1*23.296 =\n23.296.\nWe round up to the nearest integer so the method returns 24.\n\n3) xs = {0,4,2,9}\n   ys = {0,4,-2,-2}\n   ratio = 100\nSame trip but a different ratio. 100*23.296 = 2329.6.\nWe round up to the nearest integer so the method returns 2330.\n\n4) xs = {-1000,1000}\n   ys = {-1000,1000}\n   ratio = 99\nMethod returns 560029.\n\n5) xs = {145,238,-123,42,54,235,-173,934,-934,234}\n   ys = {234,532,593,994,-992,123,324,234,100,1000}\n   ratio = 99\nMethod returns 640569.\n\n   \u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"GasRacing\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"GasRacing\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"leastGas\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int leastGas(int[] param0, int[] param1, int param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4205/pm/743\",\"children\":[\"2002-\",\" \",\"SRM 97\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Betting<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+In the game of poker, players have a chance to bet.  N players numbered 0
+through N-1 sit in a circle.  Betting starts with player 0 and proceeds in the
+circle.  That is, player 0 is followed by player 1, then 2, ... and player N-1
+is followed by player 0.  Initially, the current bet is 0 and each player has
+put in 0 chips. When it is a players turn, the player can "call" the bet,
+"raise" the bet by X chips, or "fold":
+
+*If the player calls, then he or she puts in as many chips as necessary to
+match the current bet.  So for example, if 15 is the current bet and the player
+has already put in a total of 5 previously during the round, the player must
+put in 10 more to call.  If the current bet is 0, then the player does not have
+to put in chips to call.
+
+*If the player folds, then he or she is out of the game and does not put in
+more chips.  A player cannot fold when the current bet is 0.  After folding,
+the player's turn is skipped for the remainder of the betting, and the player
+does not get chips back.
+
+*If the player raises the bet by X chips, then he or she first puts in the
+amount of chips necessary to call, and then X extra chips.  This increases the
+current bet by X, and thus increases the amount that other players need to put
+in to call.  The total number of chips put in by the player is the new current
+bet.
+
+A round of betting is over when:
+1) everyone but one player has folded, or
+2) everyone has had a chance to bet and everyone that has not folded has put in
+a total number of chips equal to the current bet, or
+3) A special case of 2) is if each player has had a chance to bet and everyone
+chose to call.  This would be represented as a String composed of only 'C's.
+
+To demonstrate, take the following 3 player betting round:
+Player Move      Chips added to pot       Current bet
+1      call      0                        0
+2      call      0                        0
+3      raise 4   4                        4
+1      call      4                        4
+2      raise 5   9                        9
+3      call      5                        9
+1      fold      0                        9
+At this point player 2 and 3 are both in, and since both of them have put in a
+total of 9 chips (the current bet), the round is over.  There are a total of 22
+chips in the pot (the "pot" is the term for the total number of chips put in by
+all players combined).
+
+Given a String representing a betting pattern, return the number of chips in
+the pot (defined above).  The pot starts at 0, and the current bet starts at 0.
+The String will represent a complete round of betting and will end with the
+round ending, as defined above.
+
+The String will contain the numbers [1-9] inclusive, and the following
+uppercase characters:
+C  - call
+R# - raise # of chips (single digit raise, from 1 to 9 chips)
+F  - fold
+
+The above example would be represented by the String (quotes for clarity):
+"CCR4CR5CF"
+
+You do not know how many players are in the game, but are guaranteed that the
+String will work for one (and only one) finite number of players greater than
+1.  That is, the String will represent a complete round of betting and will
+contain no extra characters beyond those needed to complete the round.
+
+DEFINITION
+Class name: Betting
+Method name: potSize
+Parameters: String
+Returns: int
+The method signature is:
+int potSize(String sequence)
+Be sure your method is public.
+
+TopCoder will ensure the following:
+*sequence will contain between 2 and 50 characters, inclusive.
+*sequence will only contain the numbers [1-9], inclusive, and the capital
+characters 'C', 'R', and 'F'.
+*only the character 'R' may (and always will) be followed by a number, and even
+then only by a single digit number.
+*sequence will represent a valid and complete betting pattern (so that the
+betting round ends, as defined above) for a unique finite number of players
+greater than 1.
+*a player will not fold if no bets have been placed (i.e. the current bet is 0).
+
+Notes:
+-The order of the players is maintained.  That is, player i follows player i-1,
+unless he has folded.
+-If a player has folded, then no more characters in the String refer to that
+player (see last example).
+-The players are sitting in a circle, so player 1 follows the last player,
+unless he has folded.
+-If a player has folded, the bet keeps passing to the next player until it
+reaches a player who has not yet folded.  There will never be a situation where
+every player has folded.  The last example illustrates this point.
+
+EXAMPLES
+(quotes added for clarity)
+
+1)
+"CCR4CR5CF"
+There are 3 players (there is no other option).
+Player Move      Chips added to pot      Current bet
+1      call      0                       0
+2      call      0                       0
+3      raise 4   4                       4
+1      call      4                       4
+2      raise 5   9                       9
+3      call      5                       9
+1      fold      0                       9
+return = 22
+
+2)
+"CC"
+return = 0
+
+3)
+"R5R5R5C"
+There are 2 players.
+Player Move      Chips added to pot      Current bet
+1      raise 5   5                       5
+2      raise 5   10                      10 
+1      raise 5   10                      15
+2      call      5                       15
+Note that you could assume 4 players.  If you had, then it would have been:
+Player Move      Chips added to pot      Current bet
+1      raise 5   5                       5
+2      raise 5   10                      10
+3      raise 5   15                      15
+4      call      15                      15
+But this is not a complete betting round, since players 1 and 2 never called
+player 3's raise, and thus have not yet matched the current bet.
+return = 30
+
+4)
+"R5R5R5F"
+There are 2 players.
+return = 25
+
+5)
+"CCR5CFC"
+There are 4 players.
+return = 15
+
+6)
+"R2FFR2CCCCCCR9FFFFR1CCR9CCCFFR2FFFFCR2CR8FF"
+There are 15 players.
+return = 180
+
+7)
+"CCR2CR2R4FCCR2CCFR2CCR8FCC"
+There must be 6 players:
+Player Move      Chips added to pot      Current bet
+1      call      0                       0
+2      call      0                       0
+3      raise 2   2                       2
+4      call      2                       2
+5      raise 2   4                       4
+6      raise 4   8                       8
+1      fold      0                       8
+2      call      8                       8
+3      call      6                       8
+4      raise 2   8                       10
+5      call      6                       10
+6      call      2                       10
+Since player 1 folded, the play then passes to player 2.
+2      fold      0                       10
+3      raise 2   4                       12
+4      call      2                       12
+5      call      2                       12
+6      raise 8   10                      20
+Since player 1 and player 2 both folded, the play then passes to player 3.
+3      fold      0                       20
+4      call      8                       20
+5      call      8                       20
+
+At this point, the remaining players (4, 5, and 6) have all matched the current
+bet of 20, and the round of betting is over.
+return = 80
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Betting</span></dd><dt>Method:</dt><dd><span>potSize</span></dd><dt>Parameters:</dt><dd><span>String</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int potSize(String param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/64/pm/495">2002-<!-- --> <!-- -->TCCC &#x27;02 Semifinals 1<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/495/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"495\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"495\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"495\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"495\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"495\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1c14,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nIn the game of poker, players have a chance to bet.  N players numbered 0\nthrough N-1 sit in a circle.  Betting starts with player 0 and proceeds in the\ncircle.  That is, player 0 is followed by player 1, then 2, ... and player N-1\nis followed by player 0.  Initially, the current bet is 0 and each player has\nput in 0 chips. When it is a players turn, the player can \"call\" the bet,\n\"raise\" the bet by X chips, or \"fold\":\n\n*If the player calls, then he or she puts in as many chips as necessary to\nmatch the current bet.  So for example, if 15 is the current bet and the player\nhas already put in a total of 5 previously during the round, the player must\nput in 10 more to call.  If the current bet is 0, then the player does not have\nto put in chips to call.\n\n*If the player folds, then he or she is out of the game and does not put in\nmore chips.  A player cannot fold when the current bet is 0.  After folding,\nthe player's turn is skipped for the remainder of the betting, and the player\ndoes not get chips back.\n\n*If the player raises the bet by X chips, then he or she first puts in the\namount of chips necessary to call, and then X extra chips.  This increases the\ncurrent bet by X, and thus increases the amount that other players need to put\nin to call.  The total number of chips put in by the player is the new current\nbet.\n\nA round of betting is over when:\n1) everyone but one player has folded, or\n2) everyone has had a chance to bet and everyone that has not folded has put in\na total number of chips equal to the current bet, or\n3) A special case of 2) is if each player has had a chance to bet and everyone\nchose to call.  This would be represented as a String composed of only 'C's.\n\nTo demonstrate, take the following 3 player betting round:\nPlayer Move      Chips added to pot       Current bet\n1      call      0                        0\n2      call      0                        0\n3      raise 4   4                        4\n1      call      4                        4\n2      raise 5   9                        9\n3      call      5                        9\n1      fold      0                        9\nAt this point player 2 and 3 are both in, and since both of them have put in a\ntotal of 9 chips (the current bet), the round is over.  There are a total of 22\nchips in the pot (the \"pot\" is the term for the total number of chips put in by\nall players combined).\n\nGiven a String representing a betting pattern, return the number of chips in\nthe pot (defined above).  The pot starts at 0, and the current bet starts at 0.\nThe String will represent a complete round of betting and will end with the\nround ending, as defined above.\n\nThe String will contain the numbers [1-9] inclusive, and the following\nuppercase characters:\nC  - call\nR# - raise # of chips (single digit raise, from 1 to 9 chips)\nF  - fold\n\nThe above example would be represented by the String (quotes for clarity):\n\"CCR4CR5CF\"\n\nYou do not know how many players are in the game, but are guaranteed that the\nString will work for one (and only one) finite number of players greater than\n1.  That is, the String will represent a complete round of betting and will\ncontain no extra characters beyond those needed to complete the round.\n\nDEFINITION\nClass name: Betting\nMethod name: potSize\nParameters: String\nReturns: int\nThe method signature is:\nint potSize(String sequence)\nBe sure your method is public.\n\nTopCoder will ensure the following:\n*sequence will contain between 2 and 50 characters, inclusive.\n*sequence will only contain the numbers [1-9], inclusive, and the capital\ncharacters 'C', 'R', and 'F'.\n*only the character 'R' may (and always will) be followed by a number, and even\nthen only by a single digit number.\n*sequence will represent a valid and complete betting pattern (so that the\nbetting round ends, as defined above) for a unique finite number of players\ngreater than 1.\n*a player will not fold if no bets have been placed (i.e. the current bet is 0).\n\nNotes:\n-The order of the players is maintained.  That is, player i follows player i-1,\nunless he has folded.\n-If a player has folded, then no more characters in the String refer to that\nplayer (see last example).\n-The players are sitting in a circle, so player 1 follows the last player,\nunless he has folded.\n-If a player has folded, the bet keeps passing to the next player until it\nreaches a player who has not yet folded.  There will never be a situation where\nevery player has folded.  The last example illustrates this point.\n\nEXAMPLES\n(quotes added for clarity)\n\n1)\n\"CCR4CR5CF\"\nThere are 3 players (there is no other option).\nPlayer Move      Chips added to pot      Current bet\n1      call      0                       0\n2      call      0                       0\n3      raise 4   4                       4\n1      call      4                       4\n2      raise 5   9                       9\n3      call      5                       9\n1      fold      0                       9\nreturn = 22\n\n2)\n\"CC\"\nreturn = 0\n\n3)\n\"R5R5R5C\"\nThere are 2 players.\nPlayer Move      Chips added to pot      Current bet\n1      raise 5   5                       5\n2      raise 5   10                      10 \n1      raise 5   10                      15\n2      call      5                       15\nNote that you could assume 4 players.  If you had, then it would have been:\nPlayer Move      Chips added to pot      Current bet\n1      raise 5   5                       5\n2      raise 5   10                      10\n3      raise 5   15                      15\n4      call      15                      15\nBut this is not a complete betting round, since players 1 and 2 never called\nplayer 3's raise, and thus have not yet matched the current bet.\nreturn = 30\n\n4)\n\"R5R5R5F\"\nThere are 2 players.\nreturn = 25\n\n5)\n\"CCR5CFC\"\nThere are 4 players.\nreturn = 15\n\n6)\n\"R2FFR2CCCCCCR9FFFFR1CCR9CCCFFR2FFFFCR2CR8FF\"\nThere are 15 players.\nreturn = 180\n\n7)\n\"CCR2CR2R4FCCR2CCFR2CCR8FCC\"\nThere must be 6 players:\nPlayer Move      Chips added to pot      Current bet\n1      call      0                       0\n2      call      0                       0\n3      raise 2   2                       2\n4      call      2                       2\n5      raise 2   4                       4\n6      raise 4   8                       8\n1      fold      0                       8\n2      call      8                       8\n3      call      6                       8\n4      raise 2   8                       10\n5      call      6                       10\n6      call      2                       10\nSince player 1 folded, the play then passes to player 2.\n2      fold      0                       10\n3      raise 2   4                       12\n4      call      2                       12\n5      call      2                       12\n6      raise 8   10                      20\nSince player 1 and player 2 both folded, the play then passes to player 3.\n3      fold      0                       20\n4      call      8                       20\n5      call      8                       20\n\nAt this point, the remaining players (4, 5, and 6) have all matched the current\nbet of 20, and the round of betting is over.\nreturn = 80\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Betting\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Betting\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"potSize\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int potSize(String param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/64/pm/495\",\"children\":[\"2002-\",\" \",\"TCCC '02 Semifinals 1\",\" - Division \",\"I\",\", \",\"Level One\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

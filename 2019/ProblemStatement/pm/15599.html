@@ -1,0 +1,423 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->StrawberryHard<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com"><i>This problem has an unusual time limit of 5 seconds.</i></p> 
+
+<p xmlns="http://topcoder.com">
+Teja and Raja are experienced players in CSGo (Catch the Strawberry and go). CSGo is a two-player game consisting of <b>n</b> rounds. Teja and Raja play alternate rounds, Teja goes first. (Thus, Teja plays rounds 1, 3, 5, ..., while Raja plays rounds 2, 4, 6, ...)
+</p>
+<p xmlns="http://topcoder.com">
+At the beginning of the entire game Teja and Raja each have zero strawberries. In each round of CSGo, the active player can gain between 0 and 2*<b>k</b> strawberries. The actual number of strawberries gained is a random event (more details below) and all these random events are mutually independent.
+</p>
+<p xmlns="http://topcoder.com">
+You are given the values <b>n</b>, <b>k</b>, <b>Arange</b>, <b>Brange</b>, and <b>seed</b>. 
+Use the following pseudocode to generate arrays A and B, each of length 2*<b>k</b>+1:
+</p>
+<pre xmlns="http://topcoder.com">
+state = seed
+for i = 0 .. 2*k:
+    state = (1103515245 * state + 12345)
+    state = state modulo 2^31
+    A[i] = state modulo Arange
+    state = (1103515245 * state + 12345)
+    state = state modulo 2^31
+    B[i] = state modulo Brange
+</pre>
+<p xmlns="http://topcoder.com">
+For each valid index i, let pA(i) = A[i] / sum(A) and let pB(i) = B[i] / sum(B). 
+The value pA(i) is the probability that Teja gains exactly i strawberries in any one round in which he is the active player. 
+The value pB(i) is the same for Raja.
+</p>
+<p xmlns="http://topcoder.com">
+For spectators a game of CSGo is competitive if the absolute difference between the number of Teja's and the number of Raja's strawberries never exceeds <b>k</b>. (I.e., after each round the difference must be <b>k</b> or less.)
+</p>
+<p xmlns="http://topcoder.com">
+What is the probability with which the game between Teja and Raja will be competitive? It can be shown that the answer is always rational. Let X/Y be the answer in reduced form. Let Z = Y^(-1) be the inverse element to Y when computing modulo 10^9 + 7. Compute and return the value (X*Z) modulo 10^9 + 7.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>StrawberryHard</span></dd><dt>Method:</dt><dd><span>competitive</span></dd><dt>Parameters:</dt><dd><span>int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int competitive(int n, int k, int Arange, int Brange, int seed)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>The inverse element to Y when computing modulo 10^9 + 7 is the only Z in the range [0, 10^9 + 6] such that Y*Z = 1 (modulo 10^9 + 7).</li><li>The constraints ensure that the answer is always well-defined: the probability is always a fraction X/Y such that Y has a unique inverse element.</li></ul></div><div><h3>Constraints</h3><ul><li><span>n will be between 1 and 17 inclusive.</span></li><li><span>k will be between 1 and 7000 inclusive.</span></li><li><span>Arange and Brange will be between 1 and 10^9+7 inclusive.</span></li><li><span>seed will be between 0 and 10^9+6 inclusive.</span></li><li><span>Sum of elements of A will not be a multiple of 10^9+7.</span></li><li><span>Sum of elements of B will not be a multiple of 10^9+7.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>15</p>
+<p>1596</p>
+<p>750210936</p>
+<p>595502725</p>
+<p>350348366</p>
+<p>Returns: 282765234</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1673</p>
+<p>864461633</p>
+<p>165070685</p>
+<p>666663580</p>
+<p>Returns: 561063812</p>
+<p></p></div></li><li><div><p>15</p>
+<p>1183</p>
+<p>557777258</p>
+<p>738042995</p>
+<p>693722696</p>
+<p>Returns: 764916223</p>
+<p></p></div></li><li><div><p>15</p>
+<p>1862</p>
+<p>401673940</p>
+<p>74036498</p>
+<p>438933226</p>
+<p>Returns: 905150019</p>
+<p></p></div></li><li><div><p>16</p>
+<p>1033</p>
+<p>523882665</p>
+<p>929880015</p>
+<p>242088165</p>
+<p>Returns: 777221174</p>
+<p></p></div></li><li><div><p>15</p>
+<p>1962</p>
+<p>466520881</p>
+<p>558223176</p>
+<p>783862666</p>
+<p>Returns: 343544208</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1384</p>
+<p>465146766</p>
+<p>405115508</p>
+<p>938856082</p>
+<p>Returns: 672311359</p>
+<p></p></div></li><li><div><p>17</p>
+<p>1149</p>
+<p>819233702</p>
+<p>901747811</p>
+<p>546641884</p>
+<p>Returns: 122050798</p>
+<p></p></div></li><li><div><p>16</p>
+<p>1860</p>
+<p>590693447</p>
+<p>190747631</p>
+<p>384909075</p>
+<p>Returns: 407166778</p>
+<p></p></div></li><li><div><p>15</p>
+<p>1833</p>
+<p>104154976</p>
+<p>415569232</p>
+<p>779157255</p>
+<p>Returns: 761046694</p>
+<p></p></div></li><li><div><p>15</p>
+<p>6817</p>
+<p>801230931</p>
+<p>203833176</p>
+<p>778264399</p>
+<p>Returns: 231642140</p>
+<p></p></div></li><li><div><p>1</p>
+<p>6998</p>
+<p>823344263</p>
+<p>150395448</p>
+<p>609202958</p>
+<p>Returns: 287159806</p>
+<p></p></div></li><li><div><p>15</p>
+<p>6867</p>
+<p>49262863</p>
+<p>845687682</p>
+<p>635416410</p>
+<p>Returns: 310981531</p>
+<p></p></div></li><li><div><p>16</p>
+<p>6972</p>
+<p>644347827</p>
+<p>319809696</p>
+<p>327864704</p>
+<p>Returns: 293449593</p>
+<p></p></div></li><li><div><p>16</p>
+<p>6872</p>
+<p>255773761</p>
+<p>297356911</p>
+<p>622339044</p>
+<p>Returns: 879842786</p>
+<p></p></div></li><li><div><p>15</p>
+<p>6879</p>
+<p>915730077</p>
+<p>590967688</p>
+<p>878656139</p>
+<p>Returns: 891899014</p>
+<p></p></div></li><li><div><p>1</p>
+<p>6833</p>
+<p>133050746</p>
+<p>745149413</p>
+<p>637523041</p>
+<p>Returns: 422750640</p>
+<p></p></div></li><li><div><p>16</p>
+<p>6815</p>
+<p>378921912</p>
+<p>640622953</p>
+<p>729317556</p>
+<p>Returns: 503059759</p>
+<p></p></div></li><li><div><p>15</p>
+<p>6969</p>
+<p>378102176</p>
+<p>605874303</p>
+<p>12830618</p>
+<p>Returns: 535903595</p>
+<p></p></div></li><li><div><p>17</p>
+<p>6860</p>
+<p>597027298</p>
+<p>727759046</p>
+<p>715559461</p>
+<p>Returns: 780577509</p>
+<p></p></div></li><li><div><p>15</p>
+<p>6943</p>
+<p>55850007</p>
+<p>865638858</p>
+<p>31915635</p>
+<p>Returns: 11991512</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>60222102</p>
+<p>533242220</p>
+<p>424685931</p>
+<p>Returns: 905413783</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>864747368</p>
+<p>611132341</p>
+<p>364054687</p>
+<p>Returns: 894075822</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>672080193</p>
+<p>232427765</p>
+<p>335555868</p>
+<p>Returns: 477829983</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>581235569</p>
+<p>792058265</p>
+<p>857523149</p>
+<p>Returns: 717530351</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>247942479</p>
+<p>242830790</p>
+<p>234779452</p>
+<p>Returns: 604976857</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>93151840</p>
+<p>313704175</p>
+<p>975913057</p>
+<p>Returns: 615580144</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>631758052</p>
+<p>514899397</p>
+<p>24007390</p>
+<p>Returns: 321780741</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>983619973</p>
+<p>494690713</p>
+<p>73367748</p>
+<p>Returns: 247256682</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>126338602</p>
+<p>467625876</p>
+<p>938384394</p>
+<p>Returns: 424247138</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>379709908</p>
+<p>421529313</p>
+<p>297113494</p>
+<p>Returns: 10184130</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>330006809</p>
+<p>204025156</p>
+<p>713703073</p>
+<p>Returns: 459278004</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>953909302</p>
+<p>774177995</p>
+<p>484270763</p>
+<p>Returns: 579431423</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>120203446</p>
+<p>978056998</p>
+<p>803306522</p>
+<p>Returns: 580851084</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>968590349</p>
+<p>32452513</p>
+<p>87340317</p>
+<p>Returns: 955668072</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>539082636</p>
+<p>940119720</p>
+<p>238252598</p>
+<p>Returns: 193129869</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>543016878</p>
+<p>493053950</p>
+<p>679145356</p>
+<p>Returns: 917117539</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>132327305</p>
+<p>957195318</p>
+<p>43894525</p>
+<p>Returns: 883912299</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>347630187</p>
+<p>566961559</p>
+<p>100142229</p>
+<p>Returns: 389053023</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>711530950</p>
+<p>554234990</p>
+<p>356313026</p>
+<p>Returns: 234814204</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>28361752</p>
+<p>380994624</p>
+<p>21806218</p>
+<p>Returns: 510595143</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>757497488</p>
+<p>43391478</p>
+<p>54628733</p>
+<p>Returns: 34089248</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>53387256</p>
+<p>505972344</p>
+<p>757857602</p>
+<p>Returns: 275411837</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>83251177</p>
+<p>800675050</p>
+<p>860948549</p>
+<p>Returns: 572725115</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>637609668</p>
+<p>500633681</p>
+<p>320543280</p>
+<p>Returns: 43293015</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>184842143</p>
+<p>200873469</p>
+<p>403456425</p>
+<p>Returns: 391131509</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>481373891</p>
+<p>923139299</p>
+<p>139571540</p>
+<p>Returns: 286955985</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>658122436</p>
+<p>439460867</p>
+<p>37931818</p>
+<p>Returns: 57041398</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>510686640</p>
+<p>120957680</p>
+<p>629433731</p>
+<p>Returns: 760107109</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>1000000007</p>
+<p>1000000007</p>
+<p>1000000006</p>
+<p>Returns: 629612553</p>
+<p></p></div></li><li><div><p>1</p>
+<p>3</p>
+<p>2</p>
+<p>7</p>
+<p>0</p>
+<p>Returns: 571428576</p>
+<p>
+The pseudocode should give you the arrays A = {1,1,1,1,1,1,1} and B = {2,3,0,0,1,1,0}.
+
+
+This game consists of just one round in which Teja gains some strawberries. If Teja gains between 0 and 3 strawberries, the game will be competitive, if he gains more, it won't be.
+The probability that Teja gains between 0 and 3 strawberries is 4/7. Thus, we have X = 4 and Y = 7. We can compute that Z = 142,857,144 and therefore the answer you should return is (X*Z) modulo (10^9 + 7) = 571,428,576.
+</p></div></li><li><div><p>6</p>
+<p>3</p>
+<p>3</p>
+<p>3</p>
+<p>740562</p>
+<p>Returns: 1</p>
+<p>
+The arrays are A = {1, 2, 0, 0, 0, 0, 0} and B = {1, 1, 0, 0, 0, 0, 0}.
+
+
+This game has six rounds. In each round, the active player gains at most one strawberry. (Note that the probability of gaining more strawberries is zero.) Thus, the difference between the numbers of Teja's and Raja's strawberries never exceeds 3 and the game is guaranteed to be competitive.
+</p></div></li><li><div><p>7</p>
+<p>3</p>
+<p>3</p>
+<p>3</p>
+<p>740562</p>
+<p>Returns: 753086426</p>
+<p>If Teja always gains a strawberry and Raja never does, the game will not be competitive. Thus, the probability that this game won't be competitive is (2/3)^4 * (1/2)^3.</p></div></li><li><div><p>7</p>
+<p>5</p>
+<p>11</p>
+<p>13</p>
+<p>47</p>
+<p>Returns: 931930680</p>
+<p></p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>101</p>
+<p>103</p>
+<p>47</p>
+<p>Returns: 78840230</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>11</p>
+<p>13</p>
+<p>47</p>
+<p>Returns: 365138596</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>7000</p>
+<p>10000</p>
+<p>1</p>
+<p>Returns: 990546039</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>34</p>
+<p>432</p>
+<p>22</p>
+<p>Returns: 562849213</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>6999</p>
+<p>6997</p>
+<p>47</p>
+<p>Returns: 945117911</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>123456789</p>
+<p>21366544</p>
+<p>342</p>
+<p>Returns: 335263892</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>2</p>
+<p>7</p>
+<p>0</p>
+<p>Returns: 725214606</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>11451400</p>
+<p>11111111</p>
+<p>364364</p>
+<p>Returns: 953851821</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>3</p>
+<p>3</p>
+<p>740562</p>
+<p>Returns: 709004894</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>12324551</p>
+<p>43278155</p>
+<p>4123789</p>
+<p>Returns: 936870352</p></div></li><li><div><p>17</p>
+<p>7000</p>
+<p>100500</p>
+<p>435503</p>
+<p>5454</p>
+<p>Returns: 385560673</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/17608/pm/15599">2019-<!-- --> <!-- -->SRM 762<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/15599/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"15599\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"15599\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"15599\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"15599\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"15599\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T848,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\u003ci\u003eThis problem has an unusual time limit of 5 seconds.\u003c/i\u003e\u003c/p\u003e \n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nTeja and Raja are experienced players in CSGo (Catch the Strawberry and go). CSGo is a two-player game consisting of \u003cb\u003en\u003c/b\u003e rounds. Teja and Raja play alternate rounds, Teja goes first. (Thus, Teja plays rounds 1, 3, 5, ..., while Raja plays rounds 2, 4, 6, ...)\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nAt the beginning of the entire game Teja and Raja each have zero strawberries. In each round of CSGo, the active player can gain between 0 and 2*\u003cb\u003ek\u003c/b\u003e strawberries. The actual number of strawberries gained is a random event (more details below) and all these random events are mutually independent.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are given the values \u003cb\u003en\u003c/b\u003e, \u003cb\u003ek\u003c/b\u003e, \u003cb\u003eArange\u003c/b\u003e, \u003cb\u003eBrange\u003c/b\u003e, and \u003cb\u003eseed\u003c/b\u003e. \nUse the following pseudocode to generate arrays A and B, each of length 2*\u003cb\u003ek\u003c/b\u003e+1:\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\nstate = seed\nfor i = 0 .. 2*k:\n    state = (1103515245 * state + 12345)\n    state = state modulo 2^31\n    A[i] = state modulo Arange\n    state = (1103515245 * state + 12345)\n    state = state modulo 2^31\n    B[i] = state modulo Brange\n\u003c/pre\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor each valid index i, let pA(i) = A[i] / sum(A) and let pB(i) = B[i] / sum(B). \nThe value pA(i) is the probability that Teja gains exactly i strawberries in any one round in which he is the active player. \nThe value pB(i) is the same for Raja.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor spectators a game of CSGo is competitive if the absolute difference between the number of Teja's and the number of Raja's strawberries never exceeds \u003cb\u003ek\u003c/b\u003e. (I.e., after each round the difference must be \u003cb\u003ek\u003c/b\u003e or less.)\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nWhat is the probability with which the game between Teja and Raja will be competitive? It can be shown that the answer is always rational. Let X/Y be the answer in reduced form. Let Z = Y^(-1) be the inverse element to Y when computing modulo 10^9 + 7. Compute and return the value (X*Z) modulo 10^9 + 7.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"StrawberryHard\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"StrawberryHard\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"competitive\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int competitive(int n, int k, int Arange, int Brange, int seed)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"The inverse element to Y when computing modulo 10^9 + 7 is the only Z in the range [0, 10^9 + 6] such that Y*Z = 1 (modulo 10^9 + 7).\"}],[\"$\",\"li\",\"1\",{\"children\":\"The constraints ensure that the answer is always well-defined: the probability is always a fraction X/Y such that Y has a unique inverse element.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"n will be between 1 and 17 inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"k will be between 1 and 7000 inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Arange and Brange will be between 1 and 10^9+7 inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"seed will be between 0 and 10^9+6 inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Sum of elements of A will not be a multiple of 10^9+7.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Sum of elements of B will not be a multiple of 10^9+7.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1596\u003c/p\u003e\\n\u003cp\u003e750210936\u003c/p\u003e\\n\u003cp\u003e595502725\u003c/p\u003e\\n\u003cp\u003e350348366\u003c/p\u003e\\n\u003cp\u003eReturns: 282765234\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1673\u003c/p\u003e\\n\u003cp\u003e864461633\u003c/p\u003e\\n\u003cp\u003e165070685\u003c/p\u003e\\n\u003cp\u003e666663580\u003c/p\u003e\\n\u003cp\u003eReturns: 561063812\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1183\u003c/p\u003e\\n\u003cp\u003e557777258\u003c/p\u003e\\n\u003cp\u003e738042995\u003c/p\u003e\\n\u003cp\u003e693722696\u003c/p\u003e\\n\u003cp\u003eReturns: 764916223\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1862\u003c/p\u003e\\n\u003cp\u003e401673940\u003c/p\u003e\\n\u003cp\u003e74036498\u003c/p\u003e\\n\u003cp\u003e438933226\u003c/p\u003e\\n\u003cp\u003eReturns: 905150019\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e1033\u003c/p\u003e\\n\u003cp\u003e523882665\u003c/p\u003e\\n\u003cp\u003e929880015\u003c/p\u003e\\n\u003cp\u003e242088165\u003c/p\u003e\\n\u003cp\u003eReturns: 777221174\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1962\u003c/p\u003e\\n\u003cp\u003e466520881\u003c/p\u003e\\n\u003cp\u003e558223176\u003c/p\u003e\\n\u003cp\u003e783862666\u003c/p\u003e\\n\u003cp\u003eReturns: 343544208\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1384\u003c/p\u003e\\n\u003cp\u003e465146766\u003c/p\u003e\\n\u003cp\u003e405115508\u003c/p\u003e\\n\u003cp\u003e938856082\u003c/p\u003e\\n\u003cp\u003eReturns: 672311359\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e1149\u003c/p\u003e\\n\u003cp\u003e819233702\u003c/p\u003e\\n\u003cp\u003e901747811\u003c/p\u003e\\n\u003cp\u003e546641884\u003c/p\u003e\\n\u003cp\u003eReturns: 122050798\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e1860\u003c/p\u003e\\n\u003cp\u003e590693447\u003c/p\u003e\\n\u003cp\u003e190747631\u003c/p\u003e\\n\u003cp\u003e384909075\u003c/p\u003e\\n\u003cp\u003eReturns: 407166778\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e1833\u003c/p\u003e\\n\u003cp\u003e104154976\u003c/p\u003e\\n\u003cp\u003e415569232\u003c/p\u003e\\n\u003cp\u003e779157255\u003c/p\u003e\\n\u003cp\u003eReturns: 761046694\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e6817\u003c/p\u003e\\n\u003cp\u003e801230931\u003c/p\u003e\\n\u003cp\u003e203833176\u003c/p\u003e\\n\u003cp\u003e778264399\u003c/p\u003e\\n\u003cp\u003eReturns: 231642140\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e6998\u003c/p\u003e\\n\u003cp\u003e823344263\u003c/p\u003e\\n\u003cp\u003e150395448\u003c/p\u003e\\n\u003cp\u003e609202958\u003c/p\u003e\\n\u003cp\u003eReturns: 287159806\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e6867\u003c/p\u003e\\n\u003cp\u003e49262863\u003c/p\u003e\\n\u003cp\u003e845687682\u003c/p\u003e\\n\u003cp\u003e635416410\u003c/p\u003e\\n\u003cp\u003eReturns: 310981531\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e6972\u003c/p\u003e\\n\u003cp\u003e644347827\u003c/p\u003e\\n\u003cp\u003e319809696\u003c/p\u003e\\n\u003cp\u003e327864704\u003c/p\u003e\\n\u003cp\u003eReturns: 293449593\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e6872\u003c/p\u003e\\n\u003cp\u003e255773761\u003c/p\u003e\\n\u003cp\u003e297356911\u003c/p\u003e\\n\u003cp\u003e622339044\u003c/p\u003e\\n\u003cp\u003eReturns: 879842786\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e6879\u003c/p\u003e\\n\u003cp\u003e915730077\u003c/p\u003e\\n\u003cp\u003e590967688\u003c/p\u003e\\n\u003cp\u003e878656139\u003c/p\u003e\\n\u003cp\u003eReturns: 891899014\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e6833\u003c/p\u003e\\n\u003cp\u003e133050746\u003c/p\u003e\\n\u003cp\u003e745149413\u003c/p\u003e\\n\u003cp\u003e637523041\u003c/p\u003e\\n\u003cp\u003eReturns: 422750640\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e6815\u003c/p\u003e\\n\u003cp\u003e378921912\u003c/p\u003e\\n\u003cp\u003e640622953\u003c/p\u003e\\n\u003cp\u003e729317556\u003c/p\u003e\\n\u003cp\u003eReturns: 503059759\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e6969\u003c/p\u003e\\n\u003cp\u003e378102176\u003c/p\u003e\\n\u003cp\u003e605874303\u003c/p\u003e\\n\u003cp\u003e12830618\u003c/p\u003e\\n\u003cp\u003eReturns: 535903595\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e6860\u003c/p\u003e\\n\u003cp\u003e597027298\u003c/p\u003e\\n\u003cp\u003e727759046\u003c/p\u003e\\n\u003cp\u003e715559461\u003c/p\u003e\\n\u003cp\u003eReturns: 780577509\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e6943\u003c/p\u003e\\n\u003cp\u003e55850007\u003c/p\u003e\\n\u003cp\u003e865638858\u003c/p\u003e\\n\u003cp\u003e31915635\u003c/p\u003e\\n\u003cp\u003eReturns: 11991512\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e60222102\u003c/p\u003e\\n\u003cp\u003e533242220\u003c/p\u003e\\n\u003cp\u003e424685931\u003c/p\u003e\\n\u003cp\u003eReturns: 905413783\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e864747368\u003c/p\u003e\\n\u003cp\u003e611132341\u003c/p\u003e\\n\u003cp\u003e364054687\u003c/p\u003e\\n\u003cp\u003eReturns: 894075822\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e672080193\u003c/p\u003e\\n\u003cp\u003e232427765\u003c/p\u003e\\n\u003cp\u003e335555868\u003c/p\u003e\\n\u003cp\u003eReturns: 477829983\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e581235569\u003c/p\u003e\\n\u003cp\u003e792058265\u003c/p\u003e\\n\u003cp\u003e857523149\u003c/p\u003e\\n\u003cp\u003eReturns: 717530351\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e247942479\u003c/p\u003e\\n\u003cp\u003e242830790\u003c/p\u003e\\n\u003cp\u003e234779452\u003c/p\u003e\\n\u003cp\u003eReturns: 604976857\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e93151840\u003c/p\u003e\\n\u003cp\u003e313704175\u003c/p\u003e\\n\u003cp\u003e975913057\u003c/p\u003e\\n\u003cp\u003eReturns: 615580144\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e631758052\u003c/p\u003e\\n\u003cp\u003e514899397\u003c/p\u003e\\n\u003cp\u003e24007390\u003c/p\u003e\\n\u003cp\u003eReturns: 321780741\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e983619973\u003c/p\u003e\\n\u003cp\u003e494690713\u003c/p\u003e\\n\u003cp\u003e73367748\u003c/p\u003e\\n\u003cp\u003eReturns: 247256682\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e126338602\u003c/p\u003e\\n\u003cp\u003e467625876\u003c/p\u003e\\n\u003cp\u003e938384394\u003c/p\u003e\\n\u003cp\u003eReturns: 424247138\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e379709908\u003c/p\u003e\\n\u003cp\u003e421529313\u003c/p\u003e\\n\u003cp\u003e297113494\u003c/p\u003e\\n\u003cp\u003eReturns: 10184130\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e330006809\u003c/p\u003e\\n\u003cp\u003e204025156\u003c/p\u003e\\n\u003cp\u003e713703073\u003c/p\u003e\\n\u003cp\u003eReturns: 459278004\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e953909302\u003c/p\u003e\\n\u003cp\u003e774177995\u003c/p\u003e\\n\u003cp\u003e484270763\u003c/p\u003e\\n\u003cp\u003eReturns: 579431423\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e120203446\u003c/p\u003e\\n\u003cp\u003e978056998\u003c/p\u003e\\n\u003cp\u003e803306522\u003c/p\u003e\\n\u003cp\u003eReturns: 580851084\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e968590349\u003c/p\u003e\\n\u003cp\u003e32452513\u003c/p\u003e\\n\u003cp\u003e87340317\u003c/p\u003e\\n\u003cp\u003eReturns: 955668072\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e539082636\u003c/p\u003e\\n\u003cp\u003e940119720\u003c/p\u003e\\n\u003cp\u003e238252598\u003c/p\u003e\\n\u003cp\u003eReturns: 193129869\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e543016878\u003c/p\u003e\\n\u003cp\u003e493053950\u003c/p\u003e\\n\u003cp\u003e679145356\u003c/p\u003e\\n\u003cp\u003eReturns: 917117539\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e132327305\u003c/p\u003e\\n\u003cp\u003e957195318\u003c/p\u003e\\n\u003cp\u003e43894525\u003c/p\u003e\\n\u003cp\u003eReturns: 883912299\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e347630187\u003c/p\u003e\\n\u003cp\u003e566961559\u003c/p\u003e\\n\u003cp\u003e100142229\u003c/p\u003e\\n\u003cp\u003eReturns: 389053023\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e711530950\u003c/p\u003e\\n\u003cp\u003e554234990\u003c/p\u003e\\n\u003cp\u003e356313026\u003c/p\u003e\\n\u003cp\u003eReturns: 234814204\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e28361752\u003c/p\u003e\\n\u003cp\u003e380994624\u003c/p\u003e\\n\u003cp\u003e21806218\u003c/p\u003e\\n\u003cp\u003eReturns: 510595143\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e757497488\u003c/p\u003e\\n\u003cp\u003e43391478\u003c/p\u003e\\n\u003cp\u003e54628733\u003c/p\u003e\\n\u003cp\u003eReturns: 34089248\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e53387256\u003c/p\u003e\\n\u003cp\u003e505972344\u003c/p\u003e\\n\u003cp\u003e757857602\u003c/p\u003e\\n\u003cp\u003eReturns: 275411837\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e83251177\u003c/p\u003e\\n\u003cp\u003e800675050\u003c/p\u003e\\n\u003cp\u003e860948549\u003c/p\u003e\\n\u003cp\u003eReturns: 572725115\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e637609668\u003c/p\u003e\\n\u003cp\u003e500633681\u003c/p\u003e\\n\u003cp\u003e320543280\u003c/p\u003e\\n\u003cp\u003eReturns: 43293015\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e184842143\u003c/p\u003e\\n\u003cp\u003e200873469\u003c/p\u003e\\n\u003cp\u003e403456425\u003c/p\u003e\\n\u003cp\u003eReturns: 391131509\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e481373891\u003c/p\u003e\\n\u003cp\u003e923139299\u003c/p\u003e\\n\u003cp\u003e139571540\u003c/p\u003e\\n\u003cp\u003eReturns: 286955985\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e658122436\u003c/p\u003e\\n\u003cp\u003e439460867\u003c/p\u003e\\n\u003cp\u003e37931818\u003c/p\u003e\\n\u003cp\u003eReturns: 57041398\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e510686640\u003c/p\u003e\\n\u003cp\u003e120957680\u003c/p\u003e\\n\u003cp\u003e629433731\u003c/p\u003e\\n\u003cp\u003eReturns: 760107109\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e1000000007\u003c/p\u003e\\n\u003cp\u003e1000000007\u003c/p\u003e\\n\u003cp\u003e1000000006\u003c/p\u003e\\n\u003cp\u003eReturns: 629612553\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 571428576\u003c/p\u003e\\n\u003cp\u003e\\nThe pseudocode should give you the arrays A = {1,1,1,1,1,1,1} and B = {2,3,0,0,1,1,0}.\\n\\n\\nThis game consists of just one round in which Teja gains some strawberries. If Teja gains between 0 and 3 strawberries, the game will be competitive, if he gains more, it won't be.\\nThe probability that Teja gains between 0 and 3 strawberries is 4/7. Thus, we have X = 4 and Y = 7. We can compute that Z = 142,857,144 and therefore the answer you should return is (X*Z) modulo (10^9 + 7) = 571,428,576.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e740562\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\\nThe arrays are A = {1, 2, 0, 0, 0, 0, 0} and B = {1, 1, 0, 0, 0, 0, 0}.\\n\\n\\nThis game has six rounds. In each round, the active player gains at most one strawberry. (Note that the probability of gaining more strawberries is zero.) Thus, the difference between the numbers of Teja's and Raja's strawberries never exceeds 3 and the game is guaranteed to be competitive.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e740562\u003c/p\u003e\\n\u003cp\u003eReturns: 753086426\u003c/p\u003e\\n\u003cp\u003eIf Teja always gains a strawberry and Raja never does, the game will not be competitive. Thus, the probability that this game won't be competitive is (2/3)^4 * (1/2)^3.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 931930680\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e101\u003c/p\u003e\\n\u003cp\u003e103\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 78840230\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 365138596\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e10000\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 990546039\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e34\u003c/p\u003e\\n\u003cp\u003e432\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003eReturns: 562849213\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e6999\u003c/p\u003e\\n\u003cp\u003e6997\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 945117911\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e123456789\u003c/p\u003e\\n\u003cp\u003e21366544\u003c/p\u003e\\n\u003cp\u003e342\u003c/p\u003e\\n\u003cp\u003eReturns: 335263892\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 725214606\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e11451400\u003c/p\u003e\\n\u003cp\u003e11111111\u003c/p\u003e\\n\u003cp\u003e364364\u003c/p\u003e\\n\u003cp\u003eReturns: 953851821\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e740562\u003c/p\u003e\\n\u003cp\u003eReturns: 709004894\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e12324551\u003c/p\u003e\\n\u003cp\u003e43278155\u003c/p\u003e\\n\u003cp\u003e4123789\u003c/p\u003e\\n\u003cp\u003eReturns: 936870352\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e7000\u003c/p\u003e\\n\u003cp\u003e100500\u003c/p\u003e\\n\u003cp\u003e435503\u003c/p\u003e\\n\u003cp\u003e5454\u003c/p\u003e\\n\u003cp\u003eReturns: 385560673\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/17608/pm/15599\",\"children\":[\"2019-\",\" \",\"SRM 762\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

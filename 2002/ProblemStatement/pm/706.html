@@ -1,0 +1,229 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->GradedOrder<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+A monomial is a product of non-negative powers of variables, with an implied
+coefficient of <i>1</i>.  For example, <i>x, xy, x<sup>2</sup>y, xyz</i>, and <i>1</i> are all monomials.
+</p>
+
+<p xmlns="http://topcoder.com">
+A monomial formed from a set of <i>n</i> variables (specified in some particular
+order) can be represented as a vector of non-negative integers of length <i>n</i>.
+The <i>i</i>th element of this vector represents the power of the <i>i</i>th variable in our
+set of variables.
+</p>
+
+<p xmlns="http://topcoder.com">
+For example, let our set of variables be {<i> x, y, z </i>}.  Then we have the following
+vectors for the following monomial expressions:
+</p>
+
+<ul xmlns="http://topcoder.com">
+    <li><i>x</i> = [ <i>1, 0, 0</i> ]</li>
+    <li><i>xy</i> = [ <i>1, 1, 0</i> ]</li>
+    <li><i>x<sup>2</sup>y</i> = [ <i>2, 1, 0</i> ]</li>
+    <li><i>xyz</i> = [ <i>1, 1, 1</i> ]</li>
+    <li><i>1</i> = [ <i>0, 0, 0</i> ]</li>
+</ul>
+
+<p xmlns="http://topcoder.com">
+The degree of a monomial is then the sum of the elements of its vector
+representation.  For instance, <i>x</i> has degree <i>1</i> and <i>x<sup>2</sup>y</i> has degree <i>3</i>.
+</p>
+
+<p xmlns="http://topcoder.com">
+Now we can define an ordering on monomials, based on their vector
+representations.  First we will define what is known as reverse lexicographic
+order.  This ordering states that a monomial <i>v</i> comes before a monomial <i>w</i> if the
+left-most non-zero element of <i>v - w</i> is positive.  For example, <i>xyz</i> comes before
+<i>xy</i> under a reverse lexicographic ordering.  In this case, <i>v - w</i> is given by
+</p>
+
+<p xmlns="http://topcoder.com">
+  [ <i>1, 1, 1</i> ] - [ <i>1, 1, 0</i> ] = [ <i>0, 0, 1</i> ]
+</p>
+
+<p xmlns="http://topcoder.com">
+The first non-zero element of <i>v - w</i> is <i>1</i>, which is positive, so <i>xyz</i> comes
+before <i>xy</i>.
+</p>
+
+<p xmlns="http://topcoder.com">
+Now we will extend this ordering to define a more complex one, which is known as <i>graded
+reverse lexicographic order</i> (or simply <i>graded order</i>).  Under the graded order,
+a monomial <i>v</i> comes before a monomial <i>w</i> if the degree of <i>v</i> is greater than the
+degree of <i>w</i>, or if both have the same degree and <i>v</i> comes before <i>w</i> under the
+reverse lexicographic order.  For instance, the five monomials in the example
+above, sorted by graded ordering, are:
+</p>
+
+<p xmlns="http://topcoder.com">
+  <i>x<sup>2</sup>y, xyz, xy, x, 1</i>
+</p>
+
+<p xmlns="http://topcoder.com">
+The monomials <i>x<sup>2</sup>y</i> and <i>xyz</i> have the same degree, but <i>x<sup>2</sup>y</i> comes before <i>xyz</i>
+under the reverse lexicographic ordering.  All of the other monomials have
+different degree, and are shown in descending order of degree.
+</p>
+
+<p xmlns="http://topcoder.com">
+A polynomial of degree <i>n</i> can be formed from a list of variables by combining
+all of the monomials of degree less than or equal to <i>n</i> that can be formed from
+these variables.  We will ignore constant coefficients in this problem, except
+for the monomial of degree <i>0</i>, which we will denote as <i>1</i>.  We will call such a
+polynomial a "full polynomial."  For example, if <i>n = 3</i> and the list of
+variables is [ <i>x, y</i> ], then the full polynomial, with its terms listed in graded
+order, is:
+</p>
+
+<p xmlns="http://topcoder.com">
+    <i>x<sup>3</sup> + x<sup>2</sup>y + xy<sup>2</sup> + y<sup>3</sup> +
+       x<sup>2</sup> + xy + y<sup>2</sup> + x + y + 1</i>
+</p>
+
+<p xmlns="http://topcoder.com">
+In this full polynomial, <i>x<sup>3</sup></i> is the <i>0</i>th term, <i>x<sup>2</sup>y</i> is the <i>1</i>st term, and <i>1</i> is
+the <i>9</i>th term.  Note that the number of terms in a full polynomial of degree <i>n</i>
+formed from <i>m</i> variables is given by:
+</p>
+
+<p xmlns="http://topcoder.com">
+    <i>C(n + m, m) = (n + m)! / (n! m!)</i>
+</p>
+
+<p xmlns="http://topcoder.com">
+For <i>n = 3</i> and <i>m = 2</i>, we have <i>C(5, 2) = 5! / (3! 2!) = 10</i>.
+</p>
+
+<p xmlns="http://topcoder.com">
+Given a list of variables, an integer <b>n</b>, and an index <b>k</b>, you are to return the
+<type>String</type> representation of the <i>k</i>th term in the full polynomial formed by these
+parameters, with its monomial terms sorted in graded order.  The terms must be sorted by
+graded order before their positions are determined.  The list of variables will be given as
+the <type>String</type> <b>vars</b>, where the <i>i</i>th character specifies the <i>i</i>th
+variable.  The <type>String</type> representation of the monomial that should be returned
+is as follows.
+</p> 
+
+<ol xmlns="http://topcoder.com">
+<li>If the degree of the monomial is <i>0</i>, its representation is <tt>"1"</tt></li>
+<li>Otherwise, its representation is of the form <tt>"&lt;var&gt;&lt;var&gt;...&lt;var&gt;"</tt>, where
+&lt;var&gt; is the String representation of a variable and its power in the monomial.
+The vars must appear in the order that they appear in the vars parameter to
+getTerm, and are of the following form:
+<ol>
+<li>If the power of the variable in the monomial is <i>0</i>, it should be
+represented by the empty string (that is, not appear at all)</li>
+<li>If the power of the variable in the monomial is <i>1</i>, it should be
+represented by only its name (e.g., <tt>"x"</tt>)</li>
+<li>Otherwise, the variable should be represented as its name, followed by
+the <tt>'^'</tt> character, followed by its power, represented as a decimal integer with
+no leading zeros.  For example, <tt>"x^2"</tt>, <tt>"y^3"</tt>, etc.
+</li>
+</ol>
+</li>
+</ol>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>GradedOrder</span></dd><dt>Method:</dt><dd><span>getTerm</span></dd><dt>Parameters:</dt><dd><span>String, int, int</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String getTerm(String vars, int n, int k)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>vars is a String specifying the names and order of the variables (each variable is a single character)</li><li>n is the degree of the full polynomial to be formed</li><li>k is the position of the term (in graded order) to be returned (counting from 0)</li></ul></div><div><h3>Constraints</h3><ul><li><span>vars will have length between 1 and 26 inclusive</span></li><li><span>vars will consist only of lowercase letters ('a'-'z'), and no letter will appear more than once</span></li><li><span>n will be between 0 and 10 inclusive</span></li><li><span>k will be between 0 and (n + m)!/(n! m!) - 1 inclusive, where x! denotes x * (x-1) * (x-2) * ... * 2 * 1 and m is the length of vars</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>"xy"</p>
+<p>3</p>
+<p>2</p>
+<p>Returns: "xy^2"</p>
+<p>  
+  This example corresponds to the full polynomial shown above:
+  
+
+  
+    x3 + x2y + xy2 + y3 + x2 + xy + y2 + x + y + 1
+  
+
+  
+    The monomial in position 2 is xy2, so the method should return "xy^2"
+  
+</p></div></li><li><div><p>"xy"</p>
+<p>3</p>
+<p>0</p>
+<p>Returns: "x^3"</p></div></li><li><div><p>"xy"</p>
+<p>3</p>
+<p>9</p>
+<p>Returns: "1"</p></div></li><li><div><p>"x"</p>
+<p>6</p>
+<p>4</p>
+<p>Returns: "x^2"</p>
+<p>
+The number of terms in the full polynomial is C(7, 1) = 7! / (6! 1!) = 7.                                                             Generating all the possible monomials and sorting them yields:
+
+
+
+    x6 + x5 + x4 + x3 + x2 + x + 1
+
+
+
+The term in position 4 is x2, so the method should return "x^2"
+
+</p></div></li><li><div><p>"abcdefghijklmn"</p>
+<p>10</p>
+<p>1</p>
+<p>Returns: "a^9b"</p></div></li><li><div><p>"abcdefghijklmn"</p>
+<p>10</p>
+<p>1000000</p>
+<p>Returns: "d^2gk^2n^5"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>10</p>
+<p>0</p>
+<p>Returns: "a^10"</p></div></li><li><div><p>"x"</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: "1"</p></div></li><li><div><p>"abcdefghijklmn"</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: "1"</p></div></li><li><div><p>"x"</p>
+<p>10</p>
+<p>0</p>
+<p>Returns: "x^10"</p></div></li><li><div><p>"x"</p>
+<p>10</p>
+<p>6</p>
+<p>Returns: "x^4"</p></div></li><li><div><p>"x"</p>
+<p>10</p>
+<p>10</p>
+<p>Returns: "1"</p></div></li><li><div><p>"abcdefghijklmn"</p>
+<p>10</p>
+<p>965769</p>
+<p>Returns: "d^4g^2himn"</p></div></li><li><div><p>"abcdefghijklmn"</p>
+<p>10</p>
+<p>450000</p>
+<p>Returns: "ae^4fl^2n^2"</p></div></li><li><div><p>"xyz"</p>
+<p>3</p>
+<p>0</p>
+<p>Returns: "x^3"</p></div></li><li><div><p>"xyz"</p>
+<p>3</p>
+<p>10</p>
+<p>Returns: "x^2"</p></div></li><li><div><p>"wxyz"</p>
+<p>7</p>
+<p>37</p>
+<p>Returns: "w^2x^4z"</p></div></li><li><div><p>"nopqrstuvwxyz"</p>
+<p>10</p>
+<p>1000000</p>
+<p>Returns: "o^2qtuwxy"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>10</p>
+<p>10000000</p>
+<p>Returns: "a^2efhjn^2ov"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwx"</p>
+<p>10</p>
+<p>12167769</p>
+<p>Returns: "abent^2u^2x^2"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>10</p>
+<p>12062468</p>
+<p>Returns: "a^2ginq^2svw"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>10</p>
+<p>254000000</p>
+<p>Returns: "n^2t^2uw"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>8</p>
+<p>0</p>
+<p>Returns: "a^8"</p></div></li><li><div><p>"abcdefghijklmnopqrstuvwxyz"</p>
+<p>10</p>
+<p>48574329</p>
+<p>Returns: "ahip^2t^4u"</p></div></li><li><div><p>"a"</p>
+<p>0</p>
+<p>0</p>
+<p>Returns: "1"</p></div></li><li><div><p>"abcdefghij"</p>
+<p>10</p>
+<p>33098</p>
+<p>Returns: "abcdefghij"</p></div></li><li><div><p>"abcdefghij"</p>
+<p>10</p>
+<p>48620</p>
+<p>Returns: "b^10"</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4365/pm/706">2002-<!-- --> <!-- -->SRM 120<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/706/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"706\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"706\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"706\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"706\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"706\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T15ed,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nA monomial is a product of non-negative powers of variables, with an implied\ncoefficient of \u003ci\u003e1\u003c/i\u003e.  For example, \u003ci\u003ex, xy, x\u003csup\u003e2\u003c/sup\u003ey, xyz\u003c/i\u003e, and \u003ci\u003e1\u003c/i\u003e are all monomials.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nA monomial formed from a set of \u003ci\u003en\u003c/i\u003e variables (specified in some particular\norder) can be represented as a vector of non-negative integers of length \u003ci\u003en\u003c/i\u003e.\nThe \u003ci\u003ei\u003c/i\u003eth element of this vector represents the power of the \u003ci\u003ei\u003c/i\u003eth variable in our\nset of variables.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor example, let our set of variables be {\u003ci\u003e x, y, z \u003c/i\u003e}.  Then we have the following\nvectors for the following monomial expressions:\n\u003c/p\u003e\n\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n    \u003cli\u003e\u003ci\u003ex\u003c/i\u003e = [ \u003ci\u003e1, 0, 0\u003c/i\u003e ]\u003c/li\u003e\n    \u003cli\u003e\u003ci\u003exy\u003c/i\u003e = [ \u003ci\u003e1, 1, 0\u003c/i\u003e ]\u003c/li\u003e\n    \u003cli\u003e\u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey\u003c/i\u003e = [ \u003ci\u003e2, 1, 0\u003c/i\u003e ]\u003c/li\u003e\n    \u003cli\u003e\u003ci\u003exyz\u003c/i\u003e = [ \u003ci\u003e1, 1, 1\u003c/i\u003e ]\u003c/li\u003e\n    \u003cli\u003e\u003ci\u003e1\u003c/i\u003e = [ \u003ci\u003e0, 0, 0\u003c/i\u003e ]\u003c/li\u003e\n\u003c/ul\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe degree of a monomial is then the sum of the elements of its vector\nrepresentation.  For instance, \u003ci\u003ex\u003c/i\u003e has degree \u003ci\u003e1\u003c/i\u003e and \u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey\u003c/i\u003e has degree \u003ci\u003e3\u003c/i\u003e.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nNow we can define an ordering on monomials, based on their vector\nrepresentations.  First we will define what is known as reverse lexicographic\norder.  This ordering states that a monomial \u003ci\u003ev\u003c/i\u003e comes before a monomial \u003ci\u003ew\u003c/i\u003e if the\nleft-most non-zero element of \u003ci\u003ev - w\u003c/i\u003e is positive.  For example, \u003ci\u003exyz\u003c/i\u003e comes before\n\u003ci\u003exy\u003c/i\u003e under a reverse lexicographic ordering.  In this case, \u003ci\u003ev - w\u003c/i\u003e is given by\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n  [ \u003ci\u003e1, 1, 1\u003c/i\u003e ] - [ \u003ci\u003e1, 1, 0\u003c/i\u003e ] = [ \u003ci\u003e0, 0, 1\u003c/i\u003e ]\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe first non-zero element of \u003ci\u003ev - w\u003c/i\u003e is \u003ci\u003e1\u003c/i\u003e, which is positive, so \u003ci\u003exyz\u003c/i\u003e comes\nbefore \u003ci\u003exy\u003c/i\u003e.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nNow we will extend this ordering to define a more complex one, which is known as \u003ci\u003egraded\nreverse lexicographic order\u003c/i\u003e (or simply \u003ci\u003egraded order\u003c/i\u003e).  Under the graded order,\na monomial \u003ci\u003ev\u003c/i\u003e comes before a monomial \u003ci\u003ew\u003c/i\u003e if the degree of \u003ci\u003ev\u003c/i\u003e is greater than the\ndegree of \u003ci\u003ew\u003c/i\u003e, or if both have the same degree and \u003ci\u003ev\u003c/i\u003e comes before \u003ci\u003ew\u003c/i\u003e under the\nreverse lexicographic order.  For instance, the five monomials in the example\nabove, sorted by graded ordering, are:\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n  \u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey, xyz, xy, x, 1\u003c/i\u003e\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe monomials \u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey\u003c/i\u003e and \u003ci\u003exyz\u003c/i\u003e have the same degree, but \u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey\u003c/i\u003e comes before \u003ci\u003exyz\u003c/i\u003e\nunder the reverse lexicographic ordering.  All of the other monomials have\ndifferent degree, and are shown in descending order of degree.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nA polynomial of degree \u003ci\u003en\u003c/i\u003e can be formed from a list of variables by combining\nall of the monomials of degree less than or equal to \u003ci\u003en\u003c/i\u003e that can be formed from\nthese variables.  We will ignore constant coefficients in this problem, except\nfor the monomial of degree \u003ci\u003e0\u003c/i\u003e, which we will denote as \u003ci\u003e1\u003c/i\u003e.  We will call such a\npolynomial a \"full polynomial.\"  For example, if \u003ci\u003en = 3\u003c/i\u003e and the list of\nvariables is [ \u003ci\u003ex, y\u003c/i\u003e ], then the full polynomial, with its terms listed in graded\norder, is:\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n    \u003ci\u003ex\u003csup\u003e3\u003c/sup\u003e + x\u003csup\u003e2\u003c/sup\u003ey + xy\u003csup\u003e2\u003c/sup\u003e + y\u003csup\u003e3\u003c/sup\u003e +\n       x\u003csup\u003e2\u003c/sup\u003e + xy + y\u003csup\u003e2\u003c/sup\u003e + x + y + 1\u003c/i\u003e\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn this full polynomial, \u003ci\u003ex\u003csup\u003e3\u003c/sup\u003e\u003c/i\u003e is the \u003ci\u003e0\u003c/i\u003eth term, \u003ci\u003ex\u003csup\u003e2\u003c/sup\u003ey\u003c/i\u003e is the \u003ci\u003e1\u003c/i\u003est term, and \u003ci\u003e1\u003c/i\u003e is\nthe \u003ci\u003e9\u003c/i\u003eth term.  Note that the number of terms in a full polynomial of degree \u003ci\u003en\u003c/i\u003e\nformed from \u003ci\u003em\u003c/i\u003e variables is given by:\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n    \u003ci\u003eC(n + m, m) = (n + m)! / (n! m!)\u003c/i\u003e\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor \u003ci\u003en = 3\u003c/i\u003e and \u003ci\u003em = 2\u003c/i\u003e, we have \u003ci\u003eC(5, 2) = 5! / (3! 2!) = 10\u003c/i\u003e.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nGiven a list of variables, an integer \u003cb\u003en\u003c/b\u003e, and an index \u003cb\u003ek\u003c/b\u003e, you are to return the\n\u003ctype\u003eString\u003c/type\u003e representation of the \u003ci\u003ek\u003c/i\u003eth term in the full polynomial formed by these\nparameters, with its monomial terms sorted in graded order.  The terms must be sorted by\ngraded order before their positions are determined.  The list of variables will be given as\nthe \u003ctype\u003eString\u003c/type\u003e \u003cb\u003evars\u003c/b\u003e, where the \u003ci\u003ei\u003c/i\u003eth character specifies the \u003ci\u003ei\u003c/i\u003eth\nvariable.  The \u003ctype\u003eString\u003c/type\u003e representation of the monomial that should be returned\nis as follows.\n\u003c/p\u003e \n\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eIf the degree of the monomial is \u003ci\u003e0\u003c/i\u003e, its representation is \u003ctt\u003e\"1\"\u003c/tt\u003e\u003c/li\u003e\n\u003cli\u003eOtherwise, its representation is of the form \u003ctt\u003e\"\u0026lt;var\u0026gt;\u0026lt;var\u0026gt;...\u0026lt;var\u0026gt;\"\u003c/tt\u003e, where\n\u0026lt;var\u0026gt; is the String representation of a variable and its power in the monomial.\nThe vars must appear in the order that they appear in the vars parameter to\ngetTerm, and are of the following form:\n\u003col\u003e\n\u003cli\u003eIf the power of the variable in the monomial is \u003ci\u003e0\u003c/i\u003e, it should be\nrepresented by the empty string (that is, not appear at all)\u003c/li\u003e\n\u003cli\u003eIf the power of the variable in the monomial is \u003ci\u003e1\u003c/i\u003e, it should be\nrepresented by only its name (e.g., \u003ctt\u003e\"x\"\u003c/tt\u003e)\u003c/li\u003e\n\u003cli\u003eOtherwise, the variable should be represented as its name, followed by\nthe \u003ctt\u003e'^'\u003c/tt\u003e character, followed by its power, represented as a decimal integer with\nno leading zeros.  For example, \u003ctt\u003e\"x^2\"\u003c/tt\u003e, \u003ctt\u003e\"y^3\"\u003c/tt\u003e, etc.\n\u003c/li\u003e\n\u003c/ol\u003e\n\u003c/li\u003e\n\u003c/ol\u003e\n"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"GradedOrder\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"GradedOrder\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getTerm\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String getTerm(String vars, int n, int k)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"vars is a String specifying the names and order of the variables (each variable is a single character)\"}],[\"$\",\"li\",\"1\",{\"children\":\"n is the degree of the full polynomial to be formed\"}],[\"$\",\"li\",\"2\",{\"children\":\"k is the position of the term (in graded order) to be returned (counting from 0)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"vars will have length between 1 and 26 inclusive\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"vars will consist only of lowercase letters ('a'-'z'), and no letter will appear more than once\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"n will be between 0 and 10 inclusive\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"k will be between 0 and (n + m)!/(n! m!) - 1 inclusive, where x! denotes x * (x-1) * (x-2) * ... * 2 * 1 and m is the length of vars\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"xy\\\"\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"xy^2\\\"\u003c/p\u003e\\n\u003cp\u003e  \\n  This example corresponds to the full polynomial shown above:\\n  \\n\\n  \\n    x3 + x2y + xy2 + y3 + x2 + xy + y2 + x + y + 1\\n  \\n\\n  \\n    The monomial in position 2 is xy2, so the method should return \\\"xy^2\\\"\\n  \\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"xy\\\"\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^3\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"xy\\\"\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e9\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"1\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"x\\\"\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^2\\\"\u003c/p\u003e\\n\u003cp\u003e\\nThe number of terms in the full polynomial is C(7, 1) = 7! / (6! 1!) = 7.                                                             Generating all the possible monomials and sorting them yields:\\n\\n\\n\\n    x6 + x5 + x4 + x3 + x2 + x + 1\\n\\n\\n\\nThe term in position 4 is x2, so the method should return \\\"x^2\\\"\\n\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmn\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"a^9b\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmn\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"d^2gk^2n^5\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"a^10\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"x\\\"\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"1\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmn\\\"\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"1\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"x\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^10\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"x\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^4\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"x\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"1\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmn\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e965769\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"d^4g^2himn\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmn\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e450000\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ae^4fl^2n^2\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"xyz\\\"\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^3\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"xyz\\\"\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"x^2\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"wxyz\\\"\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"w^2x^4z\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"nopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"o^2qtuwxy\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10000000\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"a^2efhjn^2ov\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwx\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e12167769\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"abent^2u^2x^2\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e12062468\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"a^2ginq^2svw\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e254000000\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"n^2t^2uw\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"a^8\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghijklmnopqrstuvwxyz\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e48574329\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"ahip^2t^4u\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"a\\\"\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"1\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghij\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e33098\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"abcdefghij\\\"\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e\\\"abcdefghij\\\"\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e48620\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"b^10\\\"\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4365/pm/706\",\"children\":[\"2002-\",\" \",\"SRM 120\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

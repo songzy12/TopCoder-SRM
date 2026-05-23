@@ -1,0 +1,163 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->FillRate<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+The speed of a video card is largely dependent on its fill rate, or the number
+of pixels drawn per second.  In order to calculate the fill rate, you need to
+know how many pixels were actually drawn by the video card, including ones that
+might have been overdrawn.
+
+Given a screenshot of a scene (image) made up exclusively of overlapping
+rectangles, return the minimum number of pixels that were drawn (including
+overlap). 
+
+There will be up to 26 rectangles, A-Z, with no two rectangles being
+represented by the same letter. "." will represent a black background where
+nothing is drawn.
+
+For illustrative purposes, the examples will refer to pixels and rectangles in
+the image specifically.
+(a,b) refers to a pixel 'a' to the right and 'b' down, with (0,0) as the upper
+left corner.
+axb   refers to a rectangle 'a' pixels wide and 'b' pixels high.
+
+If the image can't be created using only one rectangle per letter, return -1,
+as in:
+
+..XXX
+..XXX
+XX...
+
+The rectangles must be ordered to represent a valid image, but can appear in
+ANY order (not just alphabetical).  It is valid if "A" is drawn before "B", or
+if "B" is drawn before "A", but not if both are true.  If the rectangles have
+no valid ordering, return -1.  
+
+As an example, see the following image:
+
+.DD.BB.
+ADDAAAA
+ADDAAAA
+.DD.BB.
+CCCCBBC
+CCCCBBC
+.DD.BB.
+
+D was drawn before C, C was drawn before B, B was drawn before A, and A was
+drawn before D - your method would return -1.
+
+Lets say we have:
+
+YY.  and  ...
+YY.  and  .XX
+...  and  .XX
+ 
+If the first one was drawn, followed by the second one, you would see:
+
+YY.
+YXX
+.XX
+
+Given this picture, you could determine the minimum shape of the two
+rectangles.  Since 4 were required for X, and 4 for Y, the return value would
+be 8.
+
+Suppose the input was:
+
+AAY
+AAY
+YYA  
+
+Since there are either two A rectangles (2x2 and 1x1) on a Y rectangle (3x3) or
+two Ys (1x2 and 2x1) on an A (3x3).  Because there is a limit of one rectangle
+for each letter, the image is invalid and your method would return -1.
+
+DEFINITION
+Class: FillRate
+Method: numPixels
+Parameters: String[]
+Returns: int
+Method signature (be sure your method is public): int numPixels(String[] pixels);
+
+NOTES
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met
+- pixels will have between 1 and 20 elements, inclusive
+- each element of pixels will be a String of length 1 to 20, inclusive
+- each element of pixels will have the same length
+- each String in pixels will be made up of only the uppercase letters A-Z and "."
+
+
+EXAMPLES
+For illustrative purposes, the examples will refer to points in the image.
+(a,b) refers to a pixel 'a' to the right and 'b' down, with (0,0) as the upper
+left corner.
+axb   refers to a rectangle 'a' pixels wide and 'b' pixels high.
+
+----------------------------------------------------------------
+Example 1:
+Input:
+XX..
+XX..
+...Y
+..YY
+
+Because "." represents black and an undrawn spot at (2,2) where the Y rectangle
+should be drawn, this is an invalid image. 
+The method would return -1.
+
+----------------------------------------------------------------
+Example 2:
+Input: 
+
+ABCD
+EFGH
+IJAK
+LMNO
+
+Because "A" appears at (0,0) and at (2,2), it has to be a minimum of 3x3, and
+the others must be a minimum of 1x1.
+A has size 9, B through O have size 1, for a total size of 23. 
+
+The method would return 23.
+
+----------------------------------------------------------------
+Example 3:
+Input:
+XXXX..   
+XXXXBB
+XXXXBB
+XXXXAB
+CCCAA.
+
+Notes:
+X has to be a minimum of 4x4 = 16
+B has to be a minimum of 2x3 = 6
+A has to be a minimum of 2x2 = 4
+C has to be a minimum of 3x1 = 3
+
+16 + 6 + 4 + 3 = 29
+The method would return: 29
+----------------------------------------------------------------
+MORE EXAMPLES
+
+Input:
+.D..B.
+AAAABA
+.D..B.
+CCCCCC
+.D..B.
+
+The method would return: 22
+
+Input:
+.D..B.
+AAAABA
+.D..B.
+CDCCCC
+.D..B.
+
+The method would return: -1  (A was drawn before B was drawn before C was drawn
+before D was drawn before A - this is illegal)
+
+
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>FillRate</span></dd><dt>Method:</dt><dd><span>numPixels</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int numPixels(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4140/pm/618">2002-<!-- --> <!-- -->SRM 84<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/618/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"618\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"618\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"618\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"618\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"618\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Tfdd,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nThe speed of a video card is largely dependent on its fill rate, or the number\nof pixels drawn per second.  In order to calculate the fill rate, you need to\nknow how many pixels were actually drawn by the video card, including ones that\nmight have been overdrawn.\n\nGiven a screenshot of a scene (image) made up exclusively of overlapping\nrectangles, return the minimum number of pixels that were drawn (including\noverlap). \n\nThere will be up to 26 rectangles, A-Z, with no two rectangles being\nrepresented by the same letter. \".\" will represent a black background where\nnothing is drawn.\n\nFor illustrative purposes, the examples will refer to pixels and rectangles in\nthe image specifically.\n(a,b) refers to a pixel 'a' to the right and 'b' down, with (0,0) as the upper\nleft corner.\naxb   refers to a rectangle 'a' pixels wide and 'b' pixels high.\n\nIf the image can't be created using only one rectangle per letter, return -1,\nas in:\n\n..XXX\n..XXX\nXX...\n\nThe rectangles must be ordered to represent a valid image, but can appear in\nANY order (not just alphabetical).  It is valid if \"A\" is drawn before \"B\", or\nif \"B\" is drawn before \"A\", but not if both are true.  If the rectangles have\nno valid ordering, return -1.  \n\nAs an example, see the following image:\n\n.DD.BB.\nADDAAAA\nADDAAAA\n.DD.BB.\nCCCCBBC\nCCCCBBC\n.DD.BB.\n\nD was drawn before C, C was drawn before B, B was drawn before A, and A was\ndrawn before D - your method would return -1.\n\nLets say we have:\n\nYY.  and  ...\nYY.  and  .XX\n...  and  .XX\n \nIf the first one was drawn, followed by the second one, you would see:\n\nYY.\nYXX\n.XX\n\nGiven this picture, you could determine the minimum shape of the two\nrectangles.  Since 4 were required for X, and 4 for Y, the return value would\nbe 8.\n\nSuppose the input was:\n\nAAY\nAAY\nYYA  \n\nSince there are either two A rectangles (2x2 and 1x1) on a Y rectangle (3x3) or\ntwo Ys (1x2 and 2x1) on an A (3x3).  Because there is a limit of one rectangle\nfor each letter, the image is invalid and your method would return -1.\n\nDEFINITION\nClass: FillRate\nMethod: numPixels\nParameters: String[]\nReturns: int\nMethod signature (be sure your method is public): int numPixels(String[] pixels);\n\nNOTES\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met\n- pixels will have between 1 and 20 elements, inclusive\n- each element of pixels will be a String of length 1 to 20, inclusive\n- each element of pixels will have the same length\n- each String in pixels will be made up of only the uppercase letters A-Z and \".\"\n\n\nEXAMPLES\nFor illustrative purposes, the examples will refer to points in the image.\n(a,b) refers to a pixel 'a' to the right and 'b' down, with (0,0) as the upper\nleft corner.\naxb   refers to a rectangle 'a' pixels wide and 'b' pixels high.\n\n----------------------------------------------------------------\nExample 1:\nInput:\nXX..\nXX..\n...Y\n..YY\n\nBecause \".\" represents black and an undrawn spot at (2,2) where the Y rectangle\nshould be drawn, this is an invalid image. \nThe method would return -1.\n\n----------------------------------------------------------------\nExample 2:\nInput: \n\nABCD\nEFGH\nIJAK\nLMNO\n\nBecause \"A\" appears at (0,0) and at (2,2), it has to be a minimum of 3x3, and\nthe others must be a minimum of 1x1.\nA has size 9, B through O have size 1, for a total size of 23. \n\nThe method would return 23.\n\n----------------------------------------------------------------\nExample 3:\nInput:\nXXXX..   \nXXXXBB\nXXXXBB\nXXXXAB\nCCCAA.\n\nNotes:\nX has to be a minimum of 4x4 = 16\nB has to be a minimum of 2x3 = 6\nA has to be a minimum of 2x2 = 4\nC has to be a minimum of 3x1 = 3\n\n16 + 6 + 4 + 3 = 29\nThe method would return: 29\n----------------------------------------------------------------\nMORE EXAMPLES\n\nInput:\n.D..B.\nAAAABA\n.D..B.\nCCCCCC\n.D..B.\n\nThe method would return: 22\n\nInput:\n.D..B.\nAAAABA\n.D..B.\nCDCCCC\n.D..B.\n\nThe method would return: -1  (A was drawn before B was drawn before C was drawn\nbefore D was drawn before A - this is illegal)\n\n\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"FillRate\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"FillRate\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"numPixels\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int numPixels(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4140/pm/618\",\"children\":[\"2002-\",\" \",\"SRM 84\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

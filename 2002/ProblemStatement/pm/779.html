@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Mastermind<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+In the board game "Super Mastermind", there is a player and a coder.  5 colored
+pegs are placed in a specific order by the coder and hidden from the player.
+The player has to guess what color each of the pegs is.  After each guess, the
+coder tells the player how many of the pegs in this guess are "correct and in
+the right place" and how many others are "correct but in the wrong place".  The
+player continues guessing until the guess is exactly the same as the hidden
+solution (and the player wins), or the player is out of guesses (and the coder
+wins).
+
+The response given by the coder is determined by specific rules.  First, all
+pegs in the guess that are the same color as the peg in the equivalent position
+of the solution count as a "correct and in the right place" peg.  Each
+remaining peg in the guess (discounting those that were counted as "correct and
+in the right place") is then compared to each remaining peg in the solution
+(also discounting those that were counted as "correct and in the right place").
+Each match that is found counts as a "correct but in the wrong place" peg -
+and that pair of pegs (one in the solutions, one in the guess) is removed from
+remaining pegs to compare.  No peg in the solution or guess will EVER be
+counted as a member of more than one match of either type.
+
+Each peg will be one of 8 possible colors - which will be represented by a
+single letter in the guesses and solution.  The colors (and their one-letter
+representations) are Red ('R'), Green ('G'), Orange ('O'), Yellow ('Y'), Blue
+('E'), Brown ('N'), White ('W'), or Black('K').  Colors can be repeated in the
+solution.
+
+Create a class Mastermind that contains a method solution that, when given a
+String[] that represents guesses in the game Mastermind, returns either the
+solution if it can be determined, "unknown" (quotes for clarity only) if the
+solution can not be determined with the information at hand, or "invalid"
+(quotes for clarity only) if the information present could not possibly
+represent a valid solution.  If it does return the solution, it should be
+returned as a string 5 characters in length with each peg's one-letter color in
+its correct place (the first letter representing the first peg, the second
+representing the second, etc...).
+
+
+DEFINITION
+Class: Mastermind
+Method: solution
+Parameters: String[]
+Returns: String
+Method signature (be sure your method is public):  String solution(String[]
+guesses);
+
+Each element in guesses will be in the form of "CCCCC R W" (quotes for clarity
+only) - where each C is the letter representing the color of the peg in that
+position (the first letter representing the first peg, the second representing
+the second, etc...), and R and W are each single digits representing the number
+of "correct and in the right place" guesses and "correct and in the wrong
+place" guesses, respectively.  
+
+
+NOTES
+- For those who know the Mastermind games: this is actually "Super Mastermind"
+with the "Repeat Colors" optional rule, without the "Blanks" optional rule, and
+(potentially) up to 50 guesses.  Read the statement carefully, do not assume
+standard Mastermind rules.
+- Unlike normal Mastermind games, guesses may include more guesses after a
+fully correct guess (that is, a guess that results in a response of 5 "correct
+and in the right place"), or even multiple fully-correct guesses.  If there are
+no contradictions between all the guesses, these still may represent valid
+games as far as this problem is concerned.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+- String[] guesses will have at least 1 element, and at most 50 elements.
+- Each element in String[] guesses will be exactly 9 characters in length.
+- The first 5 characters will each be one of: 'R', 'G', 'O', 'Y', 'E', 'N',
+'W', or 'K'.
+- The 6th and 8th characters will be spaces.
+- The 7th and 9th characters will each be numbers between '0' and '5', inclusive.
+
+
+EXAMPLES
+
+In each of these examples, quotes ('"'), commas (','), and curly braces ('{'
+and '}') are included for clarity only.  They are never part of the input or
+output.
+
+Example #1:
+guesses = {"RYWKG 5 0"}
+returns: "RYWKG"
+Since the response from this one guess says that all 5 pegs are the correct
+color and in the correct place, the guess was correct.
+
+Example #2:
+guesses = {"RRRRR 1 0", "NRRRR 0 1", "GYWKG 4 0"}
+returns: "RYWKG"
+Since the second guess tells you that none of its 4 red pegs are in the right
+place, but the first tells you that one of its 5 is, you can deduce that the
+first peg is red.  Knowing this, you know the first peg in the third guess was
+wrong - and since the 4 others are correct, you know all 5 pegs.
+Double-checking, you can determine that "RYWKG" fits the responses to all three
+guesses.
+
+Example #3:
+guesses = {"RRRRR 0 0", "WWWWW 0 0", "GGGGG 0 0", "NNNNN 0 0", "OOOOO 0 0",
+"EEEEE 0 0", "YYYYY 0 0"}
+returns: "KKKKK"
+Since these 7 guesses tell you that there are no red, white, green, brown,
+orange, blue, or yellow pegs (respectively), you know the answer must be all
+black pegs ("KKKKK").
+
+Example #4:
+guess = {"RWYRW 4 0"}
+returns: "unknown"
+Since you can't tell which of the 4 pegs are in the correct places, you don't
+know which one is wrong, and can not determine the exact solution.
+
+Example #5:
+guesses = {"RRRRR 5 0", "WWWWW 1 0"}
+returns: "invalid"
+Since this says there are 5 red pegs (from the first guess) AND 1 white peg
+(from the second guess) - you know this can't be true, since there are only 5
+pegs.  The coder must be cheating and the game is invalid.
+
+Example #6:
+guesses = {"RRRRR 0 1"}
+returns: "invalid"
+Since this claims one of these red pegs is correct, but in the wrong place -
+meaning one of the solution's pegs is red.  However, it also claims none of
+these 5 red pegs are in the right place - which is impossible, since if there
+is a red peg in the solutions, one of the red pegs in the guess must be right.
+This game is "invalid".
+
+Example #7:
+guesses = {"RYOKG 4 2"}
+returns: "invalid"
+Since this response describes 4 pegs that are correct and in the right place
+and 2 others that are correct and in the wrong place, and there are only 5
+pegs, this is obviously an invalid response.
+
+Example #8:
+guesses = {"YKWYE 2 0", "EKNOK 1 1", "YKGEE 1 2", "KRYKN 1 1", "KKRRG 0 1",
+"YRNEG 1 2", "WWERO 0 3", "GOKYY 1 1", "RGERN 0 2", "WYRYG 1 1"}
+returns: "EROYE"</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Mastermind</span></dd><dt>Method:</dt><dd><span>solution</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String solution(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4155/pm/779">2002-<!-- --> <!-- -->SRM 87<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/779/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"779\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"779\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"779\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"779\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"779\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T192c,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nIn the board game \"Super Mastermind\", there is a player and a coder.  5 colored\npegs are placed in a specific order by the coder and hidden from the player.\nThe player has to guess what color each of the pegs is.  After each guess, the\ncoder tells the player how many of the pegs in this guess are \"correct and in\nthe right place\" and how many others are \"correct but in the wrong place\".  The\nplayer continues guessing until the guess is exactly the same as the hidden\nsolution (and the player wins), or the player is out of guesses (and the coder\nwins).\n\nThe response given by the coder is determined by specific rules.  First, all\npegs in the guess that are the same color as the peg in the equivalent position\nof the solution count as a \"correct and in the right place\" peg.  Each\nremaining peg in the guess (discounting those that were counted as \"correct and\nin the right place\") is then compared to each remaining peg in the solution\n(also discounting those that were counted as \"correct and in the right place\").\nEach match that is found counts as a \"correct but in the wrong place\" peg -\nand that pair of pegs (one in the solutions, one in the guess) is removed from\nremaining pegs to compare.  No peg in the solution or guess will EVER be\ncounted as a member of more than one match of either type.\n\nEach peg will be one of 8 possible colors - which will be represented by a\nsingle letter in the guesses and solution.  The colors (and their one-letter\nrepresentations) are Red ('R'), Green ('G'), Orange ('O'), Yellow ('Y'), Blue\n('E'), Brown ('N'), White ('W'), or Black('K').  Colors can be repeated in the\nsolution.\n\nCreate a class Mastermind that contains a method solution that, when given a\nString[] that represents guesses in the game Mastermind, returns either the\nsolution if it can be determined, \"unknown\" (quotes for clarity only) if the\nsolution can not be determined with the information at hand, or \"invalid\"\n(quotes for clarity only) if the information present could not possibly\nrepresent a valid solution.  If it does return the solution, it should be\nreturned as a string 5 characters in length with each peg's one-letter color in\nits correct place (the first letter representing the first peg, the second\nrepresenting the second, etc...).\n\n\nDEFINITION\nClass: Mastermind\nMethod: solution\nParameters: String[]\nReturns: String\nMethod signature (be sure your method is public):  String solution(String[]\nguesses);\n\nEach element in guesses will be in the form of \"CCCCC R W\" (quotes for clarity\nonly) - where each C is the letter representing the color of the peg in that\nposition (the first letter representing the first peg, the second representing\nthe second, etc...), and R and W are each single digits representing the number\nof \"correct and in the right place\" guesses and \"correct and in the wrong\nplace\" guesses, respectively.  \n\n\nNOTES\n- For those who know the Mastermind games: this is actually \"Super Mastermind\"\nwith the \"Repeat Colors\" optional rule, without the \"Blanks\" optional rule, and\n(potentially) up to 50 guesses.  Read the statement carefully, do not assume\nstandard Mastermind rules.\n- Unlike normal Mastermind games, guesses may include more guesses after a\nfully correct guess (that is, a guess that results in a response of 5 \"correct\nand in the right place\"), or even multiple fully-correct guesses.  If there are\nno contradictions between all the guesses, these still may represent valid\ngames as far as this problem is concerned.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n- String[] guesses will have at least 1 element, and at most 50 elements.\n- Each element in String[] guesses will be exactly 9 characters in length.\n- The first 5 characters will each be one of: 'R', 'G', 'O', 'Y', 'E', 'N',\n'W', or 'K'.\n- The 6th and 8th characters will be spaces.\n- The 7th and 9th characters will each be numbers between '0' and '5', inclusive.\n\n\nEXAMPLES\n\nIn each of these examples, quotes ('\"'), commas (','), and curly braces ('{'\nand '}') are included for clarity only.  They are never part of the input or\noutput.\n\nExample #1:\nguesses = {\"RYWKG 5 0\"}\nreturns: \"RYWKG\"\nSince the response from this one guess says that all 5 pegs are the correct\ncolor and in the correct place, the guess was correct.\n\nExample #2:\nguesses = {\"RRRRR 1 0\", \"NRRRR 0 1\", \"GYWKG 4 0\"}\nreturns: \"RYWKG\"\nSince the second guess tells you that none of its 4 red pegs are in the right\nplace, but the first tells you that one of its 5 is, you can deduce that the\nfirst peg is red.  Knowing this, you know the first peg in the third guess was\nwrong - and since the 4 others are correct, you know all 5 pegs.\nDouble-checking, you can determine that \"RYWKG\" fits the responses to all three\nguesses.\n\nExample #3:\nguesses = {\"RRRRR 0 0\", \"WWWWW 0 0\", \"GGGGG 0 0\", \"NNNNN 0 0\", \"OOOOO 0 0\",\n\"EEEEE 0 0\", \"YYYYY 0 0\"}\nreturns: \"KKKKK\"\nSince these 7 guesses tell you that there are no red, white, green, brown,\norange, blue, or yellow pegs (respectively), you know the answer must be all\nblack pegs (\"KKKKK\").\n\nExample #4:\nguess = {\"RWYRW 4 0\"}\nreturns: \"unknown\"\nSince you can't tell which of the 4 pegs are in the correct places, you don't\nknow which one is wrong, and can not determine the exact solution.\n\nExample #5:\nguesses = {\"RRRRR 5 0\", \"WWWWW 1 0\"}\nreturns: \"invalid\"\nSince this says there are 5 red pegs (from the first guess) AND 1 white peg\n(from the second guess) - you know this can't be true, since there are only 5\npegs.  The coder must be cheating and the game is invalid.\n\nExample #6:\nguesses = {\"RRRRR 0 1\"}\nreturns: \"invalid\"\nSince this claims one of these red pegs is correct, but in the wrong place -\nmeaning one of the solution's pegs is red.  However, it also claims none of\nthese 5 red pegs are in the right place - which is impossible, since if there\nis a red peg in the solutions, one of the red pegs in the guess must be right.\nThis game is \"invalid\".\n\nExample #7:\nguesses = {\"RYOKG 4 2\"}\nreturns: \"invalid\"\nSince this response describes 4 pegs that are correct and in the right place\nand 2 others that are correct and in the wrong place, and there are only 5\npegs, this is obviously an invalid response.\n\nExample #8:\nguesses = {\"YKWYE 2 0\", \"EKNOK 1 1\", \"YKGEE 1 2\", \"KRYKN 1 1\", \"KKRRG 0 1\",\n\"YRNEG 1 2\", \"WWERO 0 3\", \"GOKYY 1 1\", \"RGERN 0 2\", \"WYRYG 1 1\"}\nreturns: \"EROYE\"\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Mastermind\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Mastermind\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"solution\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String solution(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4155/pm/779\",\"children\":[\"2002-\",\" \",\"SRM 87\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

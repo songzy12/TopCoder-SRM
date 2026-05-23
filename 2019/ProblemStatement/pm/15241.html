@@ -1,0 +1,178 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->MojiDeletes<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com"><i>
+This problem has a time limit of 3 seconds and memory limit of 512 MB.
+</i></p>
+<p xmlns="http://topcoder.com">
+Arpa has an array A with <b>N</b> elements (indexed 0 through <b>N</b>-1) and <b>Q</b> questions about elements of the array. 
+Each question asks about some non-empty contiguous segment of the array.
+Arpa initially just wanted to know the bitwise xor of those elements, but that's not what we are doing in this problem.
+</p>
+<p xmlns="http://topcoder.com">
+Mojtaba is Arpa's kind teacher.
+He wants to give Arpa large answers.
+Therefore, he decided that whenever Arpa asks a question, he will ignore <i>exactly</i> one of the elements in the specified range.
+He will always choose the element that maximizes the bitwise xor of the remaining elements in the range.
+(Note that by definition the bitwise xor of no elements is zero.)
+</p>
+<p xmlns="http://topcoder.com">
+Today, Mojtaba is occupied by preparing a holiday celebration, so you will have to do his job.
+Compute the answers to all of Arpa's queries, and return their sum.
+</p>
+<p xmlns="http://topcoder.com">
+Both the contents of the array and the queries are generated pseudorandomly.
+The array A is constructed as follows:
+</p>
+<ul xmlns="http://topcoder.com">
+<li>A[0] = <b>Add</b>.</li>
+<li>For each i from 1 to <b>N</b>-1: A[i] = (A[i-1] * <b>Base</b> + <b>Add</b>) modulo (10^9 + 7).</li>
+</ul>
+<p xmlns="http://topcoder.com">
+Parameters L and R for the queries are generated as follows:
+</p>
+<ul xmlns="http://topcoder.com">
+<li>L[0] = <b>QAdd</b> modulo <b>N</b>, and R[0] = (L[0] * <b>QBase</b> + <b>QAdd</b>) modulo <b>N</b>.</li>
+<li>For each i from 1 to <b>Q</b>-1: L[i] = (R[i-1] * <b>QBase</b> + <b>QAdd</b>) modulo <b>N</b>, and R[i] = (L[i] * <b>QBase</b> + <b>QAdd</b>) modulo <b>N</b>.</li>
+</ul>
+<p xmlns="http://topcoder.com">
+For query number i, consider all elements of the array A at indices between min(L[i],R[i]) and max(L[i],R[i]), inclusive.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>MojiDeletes</span></dd><dt>Method:</dt><dd><span>maximumXor</span></dd><dt>Parameters:</dt><dd><span>int, int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>long</span></dd><dt>Method signature:</dt><dd><span>long maximumXor(int N, int Q, int Base, int Add, int QBase, int QAdd)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>N will be between 1 and 500,000, inclusive.</span></li><li><span>Q will be between 1 and 500,000, inclusive.</span></li><li><span>Base, Add, QBase and QAdd will each be between 1 and 10^9 + 6, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>50000</p>
+<p>50000</p>
+<p>10003</p>
+<p>1000003</p>
+<p>10003</p>
+<p>1000003</p>
+<p>Returns: 53447291985080</p>
+<p></p></div></li><li><div><p>5</p>
+<p>3</p>
+<p>10</p>
+<p>3</p>
+<p>2</p>
+<p>2</p>
+<p>Returns: 37292</p>
+<p>
+The array A is { 3, 33, 333, 3333, 33333 }.
+
+
+The same numbers in base 2 (with some leading zeros added for readability) look as follows:
+
+
+0000000000000011
+0000000000100001
+0000000101001101
+0000110100000101
+1000001000110101
+
+Query 0 is about elements A[1] and A[2]. Mojtaba will ignore A[1] and answer A[2] = 333.
+Query 1 is about the entire array. Mojtaba will ignore A[2] and answer (A[0] xor A[1] xor A[3] xor A[4]) = 36,626.
+Query 2 is the same as query 0.
+Thus, the correct return value is 333 + 36,626 + 333 = 37,292.
+</p></div></li><li><div><p>47</p>
+<p>42</p>
+<p>7654321</p>
+<p>1234567</p>
+<p>23</p>
+<p>10</p>
+<p>Returns: 41156782009</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>1003</p>
+<p>1000003</p>
+<p>1003</p>
+<p>1000003</p>
+<p>Returns: 534747796685940</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>2</p>
+<p>1</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 534618713588573</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>220373064</p>
+<p>708017183</p>
+<p>925153796</p>
+<p>555638517</p>
+<p>Returns: 534776054705465</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>849195462</p>
+<p>174530381</p>
+<p>918879387</p>
+<p>911912779</p>
+<p>Returns: 534725827034200</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>743630977</p>
+<p>699033140</p>
+<p>834354869</p>
+<p>740600103</p>
+<p>Returns: 534662413848230</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>226015266</p>
+<p>692929830</p>
+<p>443095625</p>
+<p>812777654</p>
+<p>Returns: 532672003595283</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>108058582</p>
+<p>466862768</p>
+<p>961645056</p>
+<p>823120705</p>
+<p>Returns: 534576983459520</p>
+<p></p></div></li><li><div><p>499993</p>
+<p>500000</p>
+<p>809382521</p>
+<p>784443218</p>
+<p>801953417</p>
+<p>264492295</p>
+<p>Returns: 534739872781085</p>
+<p></p></div></li><li><div><p>499994</p>
+<p>500000</p>
+<p>50665378</p>
+<p>904547622</p>
+<p>368627318</p>
+<p>902194004</p>
+<p>Returns: 534660516431403</p>
+<p></p></div></li><li><div><p>499990</p>
+<p>500000</p>
+<p>182837299</p>
+<p>405591419</p>
+<p>631163983</p>
+<p>871011017</p>
+<p>Returns: 534632910677328</p>
+<p></p></div></li><li><div><p>499990</p>
+<p>500000</p>
+<p>827823889</p>
+<p>758616188</p>
+<p>248513425</p>
+<p>853603504</p>
+<p>Returns: 534726601601367</p>
+<p></p></div></li><li><div><p>499993</p>
+<p>500000</p>
+<p>559783360</p>
+<p>587243334</p>
+<p>874107638</p>
+<p>191082356</p>
+<p>Returns: 534699249117356</p>
+<p></p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>1000000006</p>
+<p>1</p>
+<p>1</p>
+<p>232532424</p>
+<p>Returns: 500000</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>2</p>
+<p>1</p>
+<p>2</p>
+<p>123456789</p>
+<p>Returns: 0</p></div></li><li><div><p>500000</p>
+<p>500000</p>
+<p>100</p>
+<p>99</p>
+<p>97</p>
+<p>103</p>
+<p>Returns: 534735155797080</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/17422/pm/15241">2019-<!-- --> <!-- -->TCO19 SRM 753<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/15241/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"15241\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"15241\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"15241\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"15241\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"15241\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T7b9,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\u003ci\u003e\nThis problem has a time limit of 3 seconds and memory limit of 512 MB.\n\u003c/i\u003e\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nArpa has an array A with \u003cb\u003eN\u003c/b\u003e elements (indexed 0 through \u003cb\u003eN\u003c/b\u003e-1) and \u003cb\u003eQ\u003c/b\u003e questions about elements of the array. \nEach question asks about some non-empty contiguous segment of the array.\nArpa initially just wanted to know the bitwise xor of those elements, but that's not what we are doing in this problem.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nMojtaba is Arpa's kind teacher.\nHe wants to give Arpa large answers.\nTherefore, he decided that whenever Arpa asks a question, he will ignore \u003ci\u003eexactly\u003c/i\u003e one of the elements in the specified range.\nHe will always choose the element that maximizes the bitwise xor of the remaining elements in the range.\n(Note that by definition the bitwise xor of no elements is zero.)\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nToday, Mojtaba is occupied by preparing a holiday celebration, so you will have to do his job.\nCompute the answers to all of Arpa's queries, and return their sum.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nBoth the contents of the array and the queries are generated pseudorandomly.\nThe array A is constructed as follows:\n\u003c/p\u003e\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eA[0] = \u003cb\u003eAdd\u003c/b\u003e.\u003c/li\u003e\n\u003cli\u003eFor each i from 1 to \u003cb\u003eN\u003c/b\u003e-1: A[i] = (A[i-1] * \u003cb\u003eBase\u003c/b\u003e + \u003cb\u003eAdd\u003c/b\u003e) modulo (10^9 + 7).\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nParameters L and R for the queries are generated as follows:\n\u003c/p\u003e\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eL[0] = \u003cb\u003eQAdd\u003c/b\u003e modulo \u003cb\u003eN\u003c/b\u003e, and R[0] = (L[0] * \u003cb\u003eQBase\u003c/b\u003e + \u003cb\u003eQAdd\u003c/b\u003e) modulo \u003cb\u003eN\u003c/b\u003e.\u003c/li\u003e\n\u003cli\u003eFor each i from 1 to \u003cb\u003eQ\u003c/b\u003e-1: L[i] = (R[i-1] * \u003cb\u003eQBase\u003c/b\u003e + \u003cb\u003eQAdd\u003c/b\u003e) modulo \u003cb\u003eN\u003c/b\u003e, and R[i] = (L[i] * \u003cb\u003eQBase\u003c/b\u003e + \u003cb\u003eQAdd\u003c/b\u003e) modulo \u003cb\u003eN\u003c/b\u003e.\u003c/li\u003e\n\u003c/ul\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor query number i, consider all elements of the array A at indices between min(L[i],R[i]) and max(L[i],R[i]), inclusive.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"MojiDeletes\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MojiDeletes\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"maximumXor\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long maximumXor(int N, int Q, int Base, int Add, int QBase, int QAdd)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"N will be between 1 and 500,000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Q will be between 1 and 500,000, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Base, Add, QBase and QAdd will each be between 1 and 10^9 + 6, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e50000\u003c/p\u003e\\n\u003cp\u003e50000\u003c/p\u003e\\n\u003cp\u003e10003\u003c/p\u003e\\n\u003cp\u003e1000003\u003c/p\u003e\\n\u003cp\u003e10003\u003c/p\u003e\\n\u003cp\u003e1000003\u003c/p\u003e\\n\u003cp\u003eReturns: 53447291985080\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 37292\u003c/p\u003e\\n\u003cp\u003e\\nThe array A is { 3, 33, 333, 3333, 33333 }.\\n\\n\\nThe same numbers in base 2 (with some leading zeros added for readability) look as follows:\\n\\n\\n0000000000000011\\n0000000000100001\\n0000000101001101\\n0000110100000101\\n1000001000110101\\n\\nQuery 0 is about elements A[1] and A[2]. Mojtaba will ignore A[1] and answer A[2] = 333.\\nQuery 1 is about the entire array. Mojtaba will ignore A[2] and answer (A[0] xor A[1] xor A[3] xor A[4]) = 36,626.\\nQuery 2 is the same as query 0.\\nThus, the correct return value is 333 + 36,626 + 333 = 37,292.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e42\u003c/p\u003e\\n\u003cp\u003e7654321\u003c/p\u003e\\n\u003cp\u003e1234567\u003c/p\u003e\\n\u003cp\u003e23\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: 41156782009\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e1003\u003c/p\u003e\\n\u003cp\u003e1000003\u003c/p\u003e\\n\u003cp\u003e1003\u003c/p\u003e\\n\u003cp\u003e1000003\u003c/p\u003e\\n\u003cp\u003eReturns: 534747796685940\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 534618713588573\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e220373064\u003c/p\u003e\\n\u003cp\u003e708017183\u003c/p\u003e\\n\u003cp\u003e925153796\u003c/p\u003e\\n\u003cp\u003e555638517\u003c/p\u003e\\n\u003cp\u003eReturns: 534776054705465\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e849195462\u003c/p\u003e\\n\u003cp\u003e174530381\u003c/p\u003e\\n\u003cp\u003e918879387\u003c/p\u003e\\n\u003cp\u003e911912779\u003c/p\u003e\\n\u003cp\u003eReturns: 534725827034200\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e743630977\u003c/p\u003e\\n\u003cp\u003e699033140\u003c/p\u003e\\n\u003cp\u003e834354869\u003c/p\u003e\\n\u003cp\u003e740600103\u003c/p\u003e\\n\u003cp\u003eReturns: 534662413848230\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e226015266\u003c/p\u003e\\n\u003cp\u003e692929830\u003c/p\u003e\\n\u003cp\u003e443095625\u003c/p\u003e\\n\u003cp\u003e812777654\u003c/p\u003e\\n\u003cp\u003eReturns: 532672003595283\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e108058582\u003c/p\u003e\\n\u003cp\u003e466862768\u003c/p\u003e\\n\u003cp\u003e961645056\u003c/p\u003e\\n\u003cp\u003e823120705\u003c/p\u003e\\n\u003cp\u003eReturns: 534576983459520\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e499993\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e809382521\u003c/p\u003e\\n\u003cp\u003e784443218\u003c/p\u003e\\n\u003cp\u003e801953417\u003c/p\u003e\\n\u003cp\u003e264492295\u003c/p\u003e\\n\u003cp\u003eReturns: 534739872781085\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e499994\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e50665378\u003c/p\u003e\\n\u003cp\u003e904547622\u003c/p\u003e\\n\u003cp\u003e368627318\u003c/p\u003e\\n\u003cp\u003e902194004\u003c/p\u003e\\n\u003cp\u003eReturns: 534660516431403\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e499990\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e182837299\u003c/p\u003e\\n\u003cp\u003e405591419\u003c/p\u003e\\n\u003cp\u003e631163983\u003c/p\u003e\\n\u003cp\u003e871011017\u003c/p\u003e\\n\u003cp\u003eReturns: 534632910677328\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e499990\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e827823889\u003c/p\u003e\\n\u003cp\u003e758616188\u003c/p\u003e\\n\u003cp\u003e248513425\u003c/p\u003e\\n\u003cp\u003e853603504\u003c/p\u003e\\n\u003cp\u003eReturns: 534726601601367\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e499993\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e559783360\u003c/p\u003e\\n\u003cp\u003e587243334\u003c/p\u003e\\n\u003cp\u003e874107638\u003c/p\u003e\\n\u003cp\u003e191082356\u003c/p\u003e\\n\u003cp\u003eReturns: 534699249117356\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e1000000006\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e232532424\u003c/p\u003e\\n\u003cp\u003eReturns: 500000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e123456789\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e500000\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e99\u003c/p\u003e\\n\u003cp\u003e97\u003c/p\u003e\\n\u003cp\u003e103\u003c/p\u003e\\n\u003cp\u003eReturns: 534735155797080\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/17422/pm/15241\",\"children\":[\"2019-\",\" \",\"TCO19 SRM 753\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

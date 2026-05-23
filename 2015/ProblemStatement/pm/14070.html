@@ -1,0 +1,357 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->BearDestroysDiv2<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">Limak is a big grizzly bear.
+He is now going to destroy an entire forest.</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">Limak's forest is a rectangular grid that consists of <b>W</b> columns by <b>H</b> rows of cells.
+At the beginning a single tree grows in each cell.
+The forest is aligned with the major compass directions: row numbers increase towards the South and column numbers increase towards the East.</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">Limak will destroy the forest by pushing some of the trees.
+Whenever Limak pushes a tree, the tree will fall down and remain lying both in the current cell and in the next cell in the direction in which it was pushed.
+For example, if Limak pushes the tree that grows in the cell (r,c) southwards, he will obtain a toppled tree that lies in the cells (r,c) and (r+1,c).</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">When pushing the trees, Limak always follows a few rules:
+<ul>
+<li>He only pushes trees in two directions: either southwards or eastwards.</li>
+<li>He will never push a tree in a way that would cause it to fall out of the forest. For example, he will never push a tree in the last column eastwards.</li>
+<li>He will never push a tree in a way that would produce two fallen trees lying on the same cell.</li>
+</ul></p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">There is a single letter written on each of the trees.
+Each of these letters is either S or E (representing South and East, respectively).
+When pushing a tree, Limak will prefer the direction that is written on the tree.
+For example, if a tree has the letter S, Limak will push it southwards if possible.</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">Limak is going to visit each cell in the forest exactly once, in row major order.
+I.e., first he will visit all the cells in the first row from left to right, then the cells in the second row from left to right, and so on.
+In each cell he will act according to the following algorithm:</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com"><ol>
+<li>Is there a fallen tree in the current cell? If yes, there is no room here to do anything, so I'll just move to the next cell.</li>
+<li>Can I push the tree in the direction that is given by the letter written on the tree? If yes, I'll do so and move to the next cell.</li>
+<li>Can I push the tree in the other direction? If yes, I'll do so and move to the next cell.</li>
+<li>I'll move to the next cell without pushing the tree.</li>
+</ol></p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">See Example 0 for a sample execution of Limak's algorithm.</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">You are given the <type>int</type>s <b>W</b> and <b>H</b>.
+There are 2^(<b>W</b>*<b>H</b>) different forests with these dimensions.
+(Different forests have different assignments of letters S and E to the trees.)
+For each of these forests, compute the number of trees Limak would topple.
+Return the sum of those 2^(<b>W</b>*<b>H</b>) numbers, modulo <b>MOD</b>.</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>BearDestroysDiv2</span></dd><dt>Method:</dt><dd><span>sumUp</span></dd><dt>Parameters:</dt><dd><span>int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int sumUp(int W, int H, int MOD)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>W will be between 1 and 7, inclusive.</span></li><li><span>H will be between 1 and 40, inclusive.</span></li><li><span>MOD will be between 3 and 10^9, inclusive.</span></li><li><span>MOD will be prime.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>4</p>
+<p>3</p>
+<p>999999937</p>
+<p>Returns: 24064</p>
+<p>There are 2^(4*3) = 2^12 = 4096 different forests with W=4 columns and H=3 rows. One of those forests looks as follows:
+
+
+SEEE
+ESSS
+EESS
+
+ 
+When destroying this forest, Limak will push five trees. In the scheme below, the final locations of the toppled trees are shown using the numbers 1 through 5. The trees are numbered in the order in which Limak pushed them. The two cells that do not contain a fallen tree at the end are denoted by underscores.
+
+
+1223
+1453
+_45_
+
+
+It can be shown that for these dimensions there are exactly 512 forests in which Limak would topple exactly 5 trees.
+In each of the remaining (4096-512) forests Limak would topple 6 trees.
+Thus, the return value is 512 * 5 + (4096-512) * 6.</p></div></li><li><div><p>3</p>
+<p>4</p>
+<p>999999937</p>
+<p>Returns: 24576</p>
+<p>For these dimensions of the forest Limak will always topple exactly 6 trees. The return value is 6 * 2^12.</p></div></li><li><div><p>2</p>
+<p>20</p>
+<p>584794877</p>
+<p>Returns: 190795689</p>
+<p>For these dimensions of the forest Limak will always topple exactly 20 trees. The return value is (20 * 2^40) modulo MOD.</p></div></li><li><div><p>5</p>
+<p>10</p>
+<p>3</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>19</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>7</p>
+<p>40</p>
+<p>312880987</p>
+<p>Returns: 256117818</p>
+<p></p></div></li><li><div><p>1</p>
+<p>1</p>
+<p>71876209</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>1</p>
+<p>2</p>
+<p>483128897</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>1</p>
+<p>3</p>
+<p>442951021</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>1</p>
+<p>4</p>
+<p>366999047</p>
+<p>Returns: 32</p>
+<p></p></div></li><li><div><p>1</p>
+<p>5</p>
+<p>3</p>
+<p>Returns: 1</p>
+<p></p></div></li><li><div><p>2</p>
+<p>1</p>
+<p>643643149</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>2</p>
+<p>2</p>
+<p>291474539</p>
+<p>Returns: 32</p>
+<p></p></div></li><li><div><p>2</p>
+<p>3</p>
+<p>633529777</p>
+<p>Returns: 192</p>
+<p></p></div></li><li><div><p>2</p>
+<p>4</p>
+<p>7</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>2</p>
+<p>5</p>
+<p>108313867</p>
+<p>Returns: 5120</p>
+<p></p></div></li><li><div><p>3</p>
+<p>1</p>
+<p>975807823</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>232315729</p>
+<p>Returns: 192</p>
+<p></p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>11</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>3</p>
+<p>4</p>
+<p>253520207</p>
+<p>Returns: 24576</p>
+<p></p></div></li><li><div><p>3</p>
+<p>5</p>
+<p>781548307</p>
+<p>Returns: 229376</p>
+<p></p></div></li><li><div><p>4</p>
+<p>1</p>
+<p>73185317</p>
+<p>Returns: 32</p>
+<p></p></div></li><li><div><p>4</p>
+<p>2</p>
+<p>257580319</p>
+<p>Returns: 1024</p>
+<p></p></div></li><li><div><p>4</p>
+<p>3</p>
+<p>908346931</p>
+<p>Returns: 24064</p>
+<p></p></div></li><li><div><p>4</p>
+<p>4</p>
+<p>110648963</p>
+<p>Returns: 522240</p>
+<p></p></div></li><li><div><p>4</p>
+<p>5</p>
+<p>748527467</p>
+<p>Returns: 10354688</p>
+<p></p></div></li><li><div><p>5</p>
+<p>1</p>
+<p>496986739</p>
+<p>Returns: 64</p>
+<p></p></div></li><li><div><p>5</p>
+<p>2</p>
+<p>836042177</p>
+<p>Returns: 5120</p>
+<p></p></div></li><li><div><p>5</p>
+<p>3</p>
+<p>11</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>5</p>
+<p>4</p>
+<p>3</p>
+<p>Returns: 1</p>
+<p></p></div></li><li><div><p>5</p>
+<p>5</p>
+<p>13</p>
+<p>Returns: 11</p>
+<p></p></div></li><li><div><p>1</p>
+<p>40</p>
+<p>13</p>
+<p>Returns: 8</p>
+<p></p></div></li><li><div><p>7</p>
+<p>1</p>
+<p>246931759</p>
+<p>Returns: 384</p>
+<p></p></div></li><li><div><p>2</p>
+<p>40</p>
+<p>543491279</p>
+<p>Returns: 305520570</p>
+<p></p></div></li><li><div><p>7</p>
+<p>2</p>
+<p>431566237</p>
+<p>Returns: 114688</p>
+<p></p></div></li><li><div><p>3</p>
+<p>40</p>
+<p>422344259</p>
+<p>Returns: 100200332</p>
+<p></p></div></li><li><div><p>7</p>
+<p>3</p>
+<p>932041361</p>
+<p>Returns: 20938752</p>
+<p></p></div></li><li><div><p>4</p>
+<p>40</p>
+<p>653858027</p>
+<p>Returns: 486979880</p>
+<p></p></div></li><li><div><p>5</p>
+<p>40</p>
+<p>5</p>
+<p>Returns: 2</p>
+<p></p></div></li><li><div><p>3</p>
+<p>33</p>
+<p>338057281</p>
+<p>Returns: 229234113</p>
+<p></p></div></li><li><div><p>4</p>
+<p>10</p>
+<p>673227689</p>
+<p>Returns: 300090229</p>
+<p></p></div></li><li><div><p>1</p>
+<p>2</p>
+<p>519275041</p>
+<p>Returns: 4</p>
+<p></p></div></li><li><div><p>7</p>
+<p>20</p>
+<p>204635693</p>
+<p>Returns: 113263323</p>
+<p></p></div></li><li><div><p>7</p>
+<p>3</p>
+<p>291198361</p>
+<p>Returns: 20938752</p>
+<p></p></div></li><li><div><p>3</p>
+<p>27</p>
+<p>754290517</p>
+<p>Returns: 521712476</p>
+<p></p></div></li><li><div><p>6</p>
+<p>12</p>
+<p>153692323</p>
+<p>Returns: 134236843</p>
+<p></p></div></li><li><div><p>5</p>
+<p>15</p>
+<p>89654479</p>
+<p>Returns: 52084944</p>
+<p></p></div></li><li><div><p>7</p>
+<p>1</p>
+<p>759804347</p>
+<p>Returns: 384</p>
+<p></p></div></li><li><div><p>7</p>
+<p>24</p>
+<p>945707647</p>
+<p>Returns: 224739679</p>
+<p></p></div></li><li><div><p>7</p>
+<p>40</p>
+<p>476882267</p>
+<p>Returns: 197168764</p>
+<p></p></div></li><li><div><p>7</p>
+<p>39</p>
+<p>226092029</p>
+<p>Returns: 218121254</p>
+<p></p></div></li><li><div><p>7</p>
+<p>38</p>
+<p>521517259</p>
+<p>Returns: 358484312</p>
+<p></p></div></li><li><div><p>7</p>
+<p>37</p>
+<p>18861637</p>
+<p>Returns: 2388729</p>
+<p></p></div></li><li><div><p>7</p>
+<p>36</p>
+<p>5</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>7</p>
+<p>35</p>
+<p>62988109</p>
+<p>Returns: 36393817</p>
+<p></p></div></li><li><div><p>7</p>
+<p>34</p>
+<p>763736669</p>
+<p>Returns: 690035012</p>
+<p></p></div></li><li><div><p>6</p>
+<p>40</p>
+<p>615400307</p>
+<p>Returns: 467682622</p>
+<p></p></div></li><li><div><p>6</p>
+<p>39</p>
+<p>863998307</p>
+<p>Returns: 105866078</p>
+<p></p></div></li><li><div><p>6</p>
+<p>38</p>
+<p>11</p>
+<p>Returns: 9</p>
+<p></p></div></li><li><div><p>6</p>
+<p>37</p>
+<p>623550203</p>
+<p>Returns: 436670574</p>
+<p></p></div></li><li><div><p>6</p>
+<p>36</p>
+<p>130471169</p>
+<p>Returns: 39616000</p>
+<p></p></div></li><li><div><p>6</p>
+<p>35</p>
+<p>747432841</p>
+<p>Returns: 152857752</p>
+<p></p></div></li><li><div><p>6</p>
+<p>34</p>
+<p>668902831</p>
+<p>Returns: 428552389</p>
+<p></p></div></li><li><div><p>5</p>
+<p>40</p>
+<p>857873893</p>
+<p>Returns: 394867891</p>
+<p></p></div></li><li><div><p>5</p>
+<p>39</p>
+<p>10639481</p>
+<p>Returns: 10034404</p>
+<p></p></div></li><li><div><p>5</p>
+<p>38</p>
+<p>121972309</p>
+<p>Returns: 86849625</p>
+<p></p></div></li><li><div><p>5</p>
+<p>37</p>
+<p>219726329</p>
+<p>Returns: 169427842</p>
+<p></p></div></li><li><div><p>5</p>
+<p>36</p>
+<p>3</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>5</p>
+<p>35</p>
+<p>366586403</p>
+<p>Returns: 354218015</p>
+<p></p></div></li><li><div><p>5</p>
+<p>34</p>
+<p>226377817</p>
+<p>Returns: 11359520</p>
+<p></p></div></li><li><div><p>7</p>
+<p>40</p>
+<p>97837079</p>
+<p>Returns: 18106495</p>
+<p></p></div></li><li><div><p>7</p>
+<p>40</p>
+<p>684074123</p>
+<p>Returns: 522878364</p>
+<p></p></div></li><li><div><p>7</p>
+<p>40</p>
+<p>3</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>7</p>
+<p>36</p>
+<p>312880987</p>
+<p>Returns: 197986862</p></div></li><li><div><p>7</p>
+<p>39</p>
+<p>1000003</p>
+<p>Returns: 975462</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/16551/pm/14070">2015-<!-- --> <!-- -->SRM 671<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/14070/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"14070\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"14070\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"14070\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"14070\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"14070\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Tc79,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003eLimak is a big grizzly bear.\nHe is now going to destroy an entire forest.\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eLimak's forest is a rectangular grid that consists of \u003cb\u003eW\u003c/b\u003e columns by \u003cb\u003eH\u003c/b\u003e rows of cells.\nAt the beginning a single tree grows in each cell.\nThe forest is aligned with the major compass directions: row numbers increase towards the South and column numbers increase towards the East.\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eLimak will destroy the forest by pushing some of the trees.\nWhenever Limak pushes a tree, the tree will fall down and remain lying both in the current cell and in the next cell in the direction in which it was pushed.\nFor example, if Limak pushes the tree that grows in the cell (r,c) southwards, he will obtain a toppled tree that lies in the cells (r,c) and (r+1,c).\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eWhen pushing the trees, Limak always follows a few rules:\n\u003cul\u003e\n\u003cli\u003eHe only pushes trees in two directions: either southwards or eastwards.\u003c/li\u003e\n\u003cli\u003eHe will never push a tree in a way that would cause it to fall out of the forest. For example, he will never push a tree in the last column eastwards.\u003c/li\u003e\n\u003cli\u003eHe will never push a tree in a way that would produce two fallen trees lying on the same cell.\u003c/li\u003e\n\u003c/ul\u003e\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eThere is a single letter written on each of the trees.\nEach of these letters is either S or E (representing South and East, respectively).\nWhen pushing a tree, Limak will prefer the direction that is written on the tree.\nFor example, if a tree has the letter S, Limak will push it southwards if possible.\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eLimak is going to visit each cell in the forest exactly once, in row major order.\nI.e., first he will visit all the cells in the first row from left to right, then the cells in the second row from left to right, and so on.\nIn each cell he will act according to the following algorithm:\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\u003col\u003e\n\u003cli\u003eIs there a fallen tree in the current cell? If yes, there is no room here to do anything, so I'll just move to the next cell.\u003c/li\u003e\n\u003cli\u003eCan I push the tree in the direction that is given by the letter written on the tree? If yes, I'll do so and move to the next cell.\u003c/li\u003e\n\u003cli\u003eCan I push the tree in the other direction? If yes, I'll do so and move to the next cell.\u003c/li\u003e\n\u003cli\u003eI'll move to the next cell without pushing the tree.\u003c/li\u003e\n\u003c/ol\u003e\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eSee Example 0 for a sample execution of Limak's algorithm.\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003eYou are given the \u003ctype\u003eint\u003c/type\u003es \u003cb\u003eW\u003c/b\u003e and \u003cb\u003eH\u003c/b\u003e.\nThere are 2^(\u003cb\u003eW\u003c/b\u003e*\u003cb\u003eH\u003c/b\u003e) different forests with these dimensions.\n(Different forests have different assignments of letters S and E to the trees.)\nFor each of these forests, compute the number of trees Limak would topple.\nReturn the sum of those 2^(\u003cb\u003eW\u003c/b\u003e*\u003cb\u003eH\u003c/b\u003e) numbers, modulo \u003cb\u003eMOD\u003c/b\u003e.\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"BearDestroysDiv2\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"BearDestroysDiv2\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"sumUp\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int sumUp(int W, int H, int MOD)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"W will be between 1 and 7, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"H will be between 1 and 40, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MOD will be between 3 and 10^9, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MOD will be prime.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e999999937\u003c/p\u003e\\n\u003cp\u003eReturns: 24064\u003c/p\u003e\\n\u003cp\u003eThere are 2^(4*3) = 2^12 = 4096 different forests with W=4 columns and H=3 rows. One of those forests looks as follows:\\n\\n\\nSEEE\\nESSS\\nEESS\\n\\n \\nWhen destroying this forest, Limak will push five trees. In the scheme below, the final locations of the toppled trees are shown using the numbers 1 through 5. The trees are numbered in the order in which Limak pushed them. The two cells that do not contain a fallen tree at the end are denoted by underscores.\\n\\n\\n1223\\n1453\\n_45_\\n\\n\\nIt can be shown that for these dimensions there are exactly 512 forests in which Limak would topple exactly 5 trees.\\nIn each of the remaining (4096-512) forests Limak would topple 6 trees.\\nThus, the return value is 512 * 5 + (4096-512) * 6.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e999999937\u003c/p\u003e\\n\u003cp\u003eReturns: 24576\u003c/p\u003e\\n\u003cp\u003eFor these dimensions of the forest Limak will always topple exactly 6 trees. The return value is 6 * 2^12.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e584794877\u003c/p\u003e\\n\u003cp\u003eReturns: 190795689\u003c/p\u003e\\n\u003cp\u003eFor these dimensions of the forest Limak will always topple exactly 20 trees. The return value is (20 * 2^40) modulo MOD.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e312880987\u003c/p\u003e\\n\u003cp\u003eReturns: 256117818\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e71876209\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e483128897\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e442951021\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e366999047\u003c/p\u003e\\n\u003cp\u003eReturns: 32\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e643643149\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e291474539\u003c/p\u003e\\n\u003cp\u003eReturns: 32\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e633529777\u003c/p\u003e\\n\u003cp\u003eReturns: 192\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e108313867\u003c/p\u003e\\n\u003cp\u003eReturns: 5120\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e975807823\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e232315729\u003c/p\u003e\\n\u003cp\u003eReturns: 192\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e253520207\u003c/p\u003e\\n\u003cp\u003eReturns: 24576\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e781548307\u003c/p\u003e\\n\u003cp\u003eReturns: 229376\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e73185317\u003c/p\u003e\\n\u003cp\u003eReturns: 32\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e257580319\u003c/p\u003e\\n\u003cp\u003eReturns: 1024\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e908346931\u003c/p\u003e\\n\u003cp\u003eReturns: 24064\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e110648963\u003c/p\u003e\\n\u003cp\u003eReturns: 522240\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e748527467\u003c/p\u003e\\n\u003cp\u003eReturns: 10354688\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e496986739\u003c/p\u003e\\n\u003cp\u003eReturns: 64\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e836042177\u003c/p\u003e\\n\u003cp\u003eReturns: 5120\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e13\u003c/p\u003e\\n\u003cp\u003eReturns: 8\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e246931759\u003c/p\u003e\\n\u003cp\u003eReturns: 384\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e543491279\u003c/p\u003e\\n\u003cp\u003eReturns: 305520570\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e431566237\u003c/p\u003e\\n\u003cp\u003eReturns: 114688\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e422344259\u003c/p\u003e\\n\u003cp\u003eReturns: 100200332\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e932041361\u003c/p\u003e\\n\u003cp\u003eReturns: 20938752\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e653858027\u003c/p\u003e\\n\u003cp\u003eReturns: 486979880\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e33\u003c/p\u003e\\n\u003cp\u003e338057281\u003c/p\u003e\\n\u003cp\u003eReturns: 229234113\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e673227689\u003c/p\u003e\\n\u003cp\u003eReturns: 300090229\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e519275041\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003e204635693\u003c/p\u003e\\n\u003cp\u003eReturns: 113263323\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e291198361\u003c/p\u003e\\n\u003cp\u003eReturns: 20938752\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e27\u003c/p\u003e\\n\u003cp\u003e754290517\u003c/p\u003e\\n\u003cp\u003eReturns: 521712476\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e153692323\u003c/p\u003e\\n\u003cp\u003eReturns: 134236843\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e89654479\u003c/p\u003e\\n\u003cp\u003eReturns: 52084944\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e759804347\u003c/p\u003e\\n\u003cp\u003eReturns: 384\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e24\u003c/p\u003e\\n\u003cp\u003e945707647\u003c/p\u003e\\n\u003cp\u003eReturns: 224739679\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e476882267\u003c/p\u003e\\n\u003cp\u003eReturns: 197168764\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e39\u003c/p\u003e\\n\u003cp\u003e226092029\u003c/p\u003e\\n\u003cp\u003eReturns: 218121254\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e38\u003c/p\u003e\\n\u003cp\u003e521517259\u003c/p\u003e\\n\u003cp\u003eReturns: 358484312\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003e18861637\u003c/p\u003e\\n\u003cp\u003eReturns: 2388729\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e35\u003c/p\u003e\\n\u003cp\u003e62988109\u003c/p\u003e\\n\u003cp\u003eReturns: 36393817\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e34\u003c/p\u003e\\n\u003cp\u003e763736669\u003c/p\u003e\\n\u003cp\u003eReturns: 690035012\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e615400307\u003c/p\u003e\\n\u003cp\u003eReturns: 467682622\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e39\u003c/p\u003e\\n\u003cp\u003e863998307\u003c/p\u003e\\n\u003cp\u003eReturns: 105866078\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e38\u003c/p\u003e\\n\u003cp\u003e11\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003e623550203\u003c/p\u003e\\n\u003cp\u003eReturns: 436670574\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e130471169\u003c/p\u003e\\n\u003cp\u003eReturns: 39616000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e35\u003c/p\u003e\\n\u003cp\u003e747432841\u003c/p\u003e\\n\u003cp\u003eReturns: 152857752\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e34\u003c/p\u003e\\n\u003cp\u003e668902831\u003c/p\u003e\\n\u003cp\u003eReturns: 428552389\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e857873893\u003c/p\u003e\\n\u003cp\u003eReturns: 394867891\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e39\u003c/p\u003e\\n\u003cp\u003e10639481\u003c/p\u003e\\n\u003cp\u003eReturns: 10034404\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e38\u003c/p\u003e\\n\u003cp\u003e121972309\u003c/p\u003e\\n\u003cp\u003eReturns: 86849625\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e37\u003c/p\u003e\\n\u003cp\u003e219726329\u003c/p\u003e\\n\u003cp\u003eReturns: 169427842\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e35\u003c/p\u003e\\n\u003cp\u003e366586403\u003c/p\u003e\\n\u003cp\u003eReturns: 354218015\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e34\u003c/p\u003e\\n\u003cp\u003e226377817\u003c/p\u003e\\n\u003cp\u003eReturns: 11359520\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e97837079\u003c/p\u003e\\n\u003cp\u003eReturns: 18106495\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e684074123\u003c/p\u003e\\n\u003cp\u003eReturns: 522878364\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e36\u003c/p\u003e\\n\u003cp\u003e312880987\u003c/p\u003e\\n\u003cp\u003eReturns: 197986862\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e39\u003c/p\u003e\\n\u003cp\u003e1000003\u003c/p\u003e\\n\u003cp\u003eReturns: 975462\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/16551/pm/14070\",\"children\":[\"2015-\",\" \",\"SRM 671\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

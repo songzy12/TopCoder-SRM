@@ -1,0 +1,263 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->BlackJack<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+As a person with a severe gambling addiction, you are trying to find the
+strategy of play that maximizes your potential earnings.  To help with the
+discovery of the strategy you need a program to simulate the play of Black Jack.
+
+Assume Black Jack is played as follows:
+
+* There are N players, numbered 0 through N - 1, and a dealer.
+
+* At the beginning of each hand, each player puts a bet on the table.
+
+* A first card is dealt to player 0, then 1, ... then N-1, and finally the
+dealer.
+
+* A second card is dealt to everyone in the same order.
+
+* All players who get Black Jack (have exactly 21 after the first two cards) 
+  get 5:2 and are removed from the game.
+
+* Starting with player 0, if the player is still in the game, he "hits"
+(requests 
+  more cards from the dealer) until either he "stays" (has at least his hit-stay 
+  threshold points) or "busts" (has more than 21 points).  If the player busts, 
+  he loses his bet and is removed from the game.  The player is dealt as many
+  cards as he needs to reach his hit-stay threshold or bust before the next 
+  player goes.
+
+* The dealer then hits until he has at least 17 points.
+
+* Finally, earnings are determined for all players that are STILL IN the game:
+    1. If the dealer busts (has more than 21 points), all players get 2:1.  
+    2. If the dealer did not bust:
+       2.1. Players who end with more points than the dealer and did not 
+            bust get 2:1. 
+       2.2. Players who end with the same number of points as the dealer 
+            get 1:1.
+       2.3. Players who end with fewer points than the dealer lose their bet.
+
+The deck will contain the strings "2", "3", "4", ... "10", "J", "Q", "K", "A"
+where number values represent a card with that value, "J" is a Jack, "Q" is a
+Queen, "K" is a King, and "A" is an ace.
+
+Points are calculated as follows:
+  1. Cards 2 - 10, inclusive, are worth their face value points.
+  2. Jacks, Queens, Kings are worth 10 points.
+  3. Aces can be worth either 1 or 11 points.  A hand containing aces is worth
+     the largest possible value less than 22.  If there is no possible value
+     less than 22 the player busts.
+     For example, if a hand is A, 9: the hand is worth 11 + 9 = 20 points.
+                  if a hand is A, 9, 3: the hand is worth 1 + 9 + 3 = 13
+                    points because 11 + 9 + 3 &gt; 21.
+                  if a hand is A, A: the hand is worth 11 + 1 = 12 points.
+                  if a hand is 12 aces, the hand is worth 12 points.
+
+Implement a class BlackJack which contains a method simulatePlay().  The method
+takes as parameters:
+* String[] deck: representing the cards in the deck where element 0 of deck is
+the card on top.
+* int N: the number of players.
+* int[] hitStayThresholds: The values at which each player stops hitting.  
+                           If a player has less than their threshold, the 
+                           player hits.  
+* int[] bets: The amount each player bets on the game.
+
+The method should simulate one hand of the game and return an int[] which is
+the amount each player ends up getting on the hand.
+
+DEFINITION:
+Class: BlackJack
+Method: simulatePlay
+Parameters: String[], int, int[], int[]
+Returns: int[]
+Method Signature (be sure your method is public): int[] simulatePlay(String[]
+deck, int N, int[] hitStayThresholds, int[] bets);
+
+The deck will contain the strings "2", "3", "4", ... "10", "J", "Q", "K", "A"
+where number values represent a card with that value, "J" is a Jack, "Q" is a
+Queen, "K" is a King, and "A" is an ace.
+
+hitStayThresholds[i] is the hit-stay threshold for player i.
+bets[i] is the bet for player i.
+
+TOPCODER WILL ENSURE:
+* deck has between 1 and 50 cards, inclusive.
+* deck contains only Strings "2" through "10", inclusive, and the uppercase
+letters
+  "J", "Q", "K", "A".
+* N is between 1 and 6, inclusive.
+* hitStayThresholds and bets have N elements.
+* Values of hitStayThresholds are between 2 and 21, inclusive.
+* Values of bets are between 2 and 1000, inclusive, and are even.
+
+NOTE:
+* If there are not enough cards to simulate the simulation, return an empty
+int[] (An instantiated int[] with 0 elements).
+* Suites do not matter and are not included.
+* Unlike real life, cards may occur any number of times in the deck.
+* Getting X:1 means for every 1 the player bets, he gets X.
+* Losing the bet is equivalent to getting 0:1.
+* In determining if a player is at their hit-stay threshold, if there are aces
+in the player's hand, use the largest possible point value less than 22. (If
+there is no possible point value less than 22, the player busted).  See the
+examples under "Points are calculated as follows:" above and the last example
+below.
+* If there are enough cards to complete the simulation, the returned int[]
+should have N elements where the 0th element is how much the 0th player gets.
+All elements should be greater than or equal to 0, where a value of 0
+corresponds to losing the bet.
+* Even if all players bust or are dealt 21, the dealer must finish his hand.
+* Cards are always dealt from the top of the deck.  First deck[0] is dealt,
+then deck[1], etc...
+
+EXAMPLES:
+
+If deck = {5, 8, K, Q, 3, A, A, 3, 5, 2, 7, 4},
+   N = 2,
+   hitStayThresholds = {15, 17},
+   bets = {10, 20},
+
+   First, two cards are dealt to each player:
+
+   Player 0: 5 Q
+   Player 1: 8 3
+   Dealer:   K A
+
+   Then, Player 0 has the opportunity to hit or stay.  Q + 5 = 15, which
+     is the player's threshold, so he stays.
+
+   Then, Player 1 has the opportunity to hit or stay.  8 + 3 = 11, which is
+      less than the player's threshold, so he hits:
+        Player 1: 8 3 A
+      The Ace must be worth 1 point, since 11 would cause him to bust.  12 
+      points is still below his threshold so he hits again:
+        Player 1: 8 3 A 3
+      15 points is still below the threshold, so he hits again:
+        Player 1: 8 3 A 3 5
+      20 is above his threshold so he stays.
+
+   The Dealer is above his threshold (always 17), so he stays.
+
+   Now winnings are calculated.  Both Player 0 and 1 have less than the dealer's
+   21, so they get 0.
+
+   The method returns {0, 0}.
+
+If deck = {5, 8, 3, Q, 3, A, 2, 3, 9, 6, 7, 4, 10, 2, J, J},
+   N = 3,
+   hitStayThresholds = {17, 19, 5},
+   bets = {4, 300, 500}.
+
+   First two cards are dealt to each player:
+   Player 0: 5 3
+   Player 1: 8 A
+   Player 2: 3 2
+   Dealer:   Q 3
+
+   Player 0 has below 17, so he hits, bringing him to his threshold.
+     Player 0: 5 3 9 = 17.
+
+   Player 1 has 19 (Assume A is 11 because it keeps him under 22), so he
+     is at his threshold.
+     Player 1: 8 A = 19.
+
+   Player 2 has 5, so he is at his threshold and stays."
+     Player 2: 3 2 = 5
+
+   The dealer is below 17, so he hits bringing him to 19:
+     Dealer: Q 3 6 = 19.
+
+   Now winnings are calculated.
+   Player 0 lost.
+   Player 1 tied, so gets 1:1 = 300.
+   Player 2 lost.
+
+   The method returns {0, 300, 0}.
+
+If deck = {A, 7, 10, 10, Q, 8, 10, 5, 10, 8},
+   N = 3,
+   hitStayThresholds = {20, 17, 17},
+   bets = {4, 300, 500}
+
+   The first cards are dealt
+   Player 0: A Q
+   Player 1: 7 8
+   Player 2: 10 10
+   Dealer:   10 5
+
+   Player 0 has 21 immediately, so gets 5:2 = 10 and is removed from the game.
+   Player 1 hits, and busts, so gets 0 and is removed from the game.
+   Player 2 stays.
+   The dealer hits, and busts.
+
+   Player 2 gets 2:1 = 1000.  He is the only remaining player.
+ 
+   The method returns {10, 0, 1000}.
+
+If the deck in the last example was {A, 7, 10, 10, Q, 8, 10, 5, 10},
+There would not be enough cards to complete the simulation and the method would
+return {}.
+
+If deck = {10, 10, 10, 5, 10},
+   N = 1,
+   hitStayThresholds = {21},
+   bets = {100},
+The Player 0 busts, but there are not enough cards to complete the dealer's
+hand so the method returns {}.
+
+If hitStayThresholds = {20} instead, the method should return {200}.
+
+If deck = {A, 2, A, A, 3, 4, K, 9, A, 10, 5, 5, 10},
+  N = 2,
+  hitStayThresholds = {17, 17},
+  bets = {100, 200}.
+
+  After dealing:
+  Player 0: A A
+  Player 1: 2 3
+  Dealer:   A 4
+
+  Player 0 hits because he has 12 points.  (The first A can be 11 and 
+    the second can be 1, keeping him under 22 points.)
+      Player 0: A A K.
+    The first player hits again because now both A are 1.
+      Player 0: A A K 9.  
+    And 21.
+
+  Player 1 hits:
+      Player 1: 2 3 A
+    He hits again.
+      Player 1: 2 3 A 10
+    He hits again
+      Player 1: 2 3 A 10 5
+
+  Finally the dealer hits:
+      Dealer: A 4 5
+
+  Both players beat the dealer so the method returns {200, 400}.
+
+If deck = {2, 10, A, 9, A, 10, 6, 10, A},
+   N = 1,
+   hitStayThresholds = {17},
+   bets = {10}
+
+   After dealing:
+     Player 0: 2 A
+     Dealer:   10 9
+     
+   Player 0's is worth at most 13 points, which is less than his 
+   threshold so he hits.
+     Player 0: 2 A A
+   He is still below his threshold because the largest possible 
+   value of his hand less than 22 is 14, so he hits.
+     Player 0: 2 A A 10
+   He hits again because his hand is worth 2 + 1 + 1 + 10 = 14 
+   (note the changing ace value) 
+     Player 0: 2 A A 10 6
+   Now he stays, with a hand worth 20 points.
+
+   The dealer is above his threshold, so he stays.  
+   Player 0 wins, so the method returns {20}.
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>BlackJack</span></dd><dt>Method:</dt><dd><span>simulatePlay</span></dd><dt>Parameters:</dt><dd><span>String[], int, int[], int[]</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] simulatePlay(String[] param0, int param1, int[] param2, int[] param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/63/pm/490">2002-<!-- --> <!-- -->TCCC &#x27;02 Reg. Final<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/490/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"490\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"490\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"490\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"490\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"490\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T2417,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nAs a person with a severe gambling addiction, you are trying to find the\nstrategy of play that maximizes your potential earnings.  To help with the\ndiscovery of the strategy you need a program to simulate the play of Black Jack.\n\nAssume Black Jack is played as follows:\n\n* There are N players, numbered 0 through N - 1, and a dealer.\n\n* At the beginning of each hand, each player puts a bet on the table.\n\n* A first card is dealt to player 0, then 1, ... then N-1, and finally the\ndealer.\n\n* A second card is dealt to everyone in the same order.\n\n* All players who get Black Jack (have exactly 21 after the first two cards) \n  get 5:2 and are removed from the game.\n\n* Starting with player 0, if the player is still in the game, he \"hits\"\n(requests \n  more cards from the dealer) until either he \"stays\" (has at least his hit-stay \n  threshold points) or \"busts\" (has more than 21 points).  If the player busts, \n  he loses his bet and is removed from the game.  The player is dealt as many\n  cards as he needs to reach his hit-stay threshold or bust before the next \n  player goes.\n\n* The dealer then hits until he has at least 17 points.\n\n* Finally, earnings are determined for all players that are STILL IN the game:\n    1. If the dealer busts (has more than 21 points), all players get 2:1.  \n    2. If the dealer did not bust:\n       2.1. Players who end with more points than the dealer and did not \n            bust get 2:1. \n       2.2. Players who end with the same number of points as the dealer \n            get 1:1.\n       2.3. Players who end with fewer points than the dealer lose their bet.\n\nThe deck will contain the strings \"2\", \"3\", \"4\", ... \"10\", \"J\", \"Q\", \"K\", \"A\"\nwhere number values represent a card with that value, \"J\" is a Jack, \"Q\" is a\nQueen, \"K\" is a King, and \"A\" is an ace.\n\nPoints are calculated as follows:\n  1. Cards 2 - 10, inclusive, are worth their face value points.\n  2. Jacks, Queens, Kings are worth 10 points.\n  3. Aces can be worth either 1 or 11 points.  A hand containing aces is worth\n     the largest possible value less than 22.  If there is no possible value\n     less than 22 the player busts.\n     For example, if a hand is A, 9: the hand is worth 11 + 9 = 20 points.\n                  if a hand is A, 9, 3: the hand is worth 1 + 9 + 3 = 13\n                    points because 11 + 9 + 3 \u0026gt; 21.\n                  if a hand is A, A: the hand is worth 11 + 1 = 12 points.\n                  if a hand is 12 aces, the hand is worth 12 points.\n\nImplement a class BlackJack which contains a method simulatePlay().  The method\ntakes as parameters:\n* String[] deck: representing the cards in the deck where element 0 of deck is\nthe card on top.\n* int N: the number of players.\n* int[] hitStayThresholds: The values at which each player stops hitting.  \n                           If a player has less than their threshold, the \n                           player hits.  \n* int[] bets: The amount each player bets on the game.\n\nThe method should simulate one hand of the game and return an int[] which is\nthe amount each player ends up getting on the hand.\n\nDEFINITION:\nClass: BlackJack\nMethod: simulatePlay\nParameters: String[], int, int[], int[]\nReturns: int[]\nMethod Signature (be sure your method is public): int[] simulatePlay(String[]\ndeck, int N, int[] hitStayThresholds, int[] bets);\n\nThe deck will contain the strings \"2\", \"3\", \"4\", ... \"10\", \"J\", \"Q\", \"K\", \"A\"\nwhere number values represent a card with that value, \"J\" is a Jack, \"Q\" is a\nQueen, \"K\" is a King, and \"A\" is an ace.\n\nhitStayThresholds[i] is the hit-stay threshold for player i.\nbets[i] is the bet for player i.\n\nTOPCODER WILL ENSURE:\n* deck has between 1 and 50 cards, inclusive.\n* deck contains only Strings \"2\" through \"10\", inclusive, and the uppercase\nletters\n  \"J\", \"Q\", \"K\", \"A\".\n* N is between 1 and 6, inclusive.\n* hitStayThresholds and bets have N elements.\n* Values of hitStayThresholds are between 2 and 21, inclusive.\n* Values of bets are between 2 and 1000, inclusive, and are even.\n\nNOTE:\n* If there are not enough cards to simulate the simulation, return an empty\nint[] (An instantiated int[] with 0 elements).\n* Suites do not matter and are not included.\n* Unlike real life, cards may occur any number of times in the deck.\n* Getting X:1 means for every 1 the player bets, he gets X.\n* Losing the bet is equivalent to getting 0:1.\n* In determining if a player is at their hit-stay threshold, if there are aces\nin the player's hand, use the largest possible point value less than 22. (If\nthere is no possible point value less than 22, the player busted).  See the\nexamples under \"Points are calculated as follows:\" above and the last example\nbelow.\n* If there are enough cards to complete the simulation, the returned int[]\nshould have N elements where the 0th element is how much the 0th player gets.\nAll elements should be greater than or equal to 0, where a value of 0\ncorresponds to losing the bet.\n* Even if all players bust or are dealt 21, the dealer must finish his hand.\n* Cards are always dealt from the top of the deck.  First deck[0] is dealt,\nthen deck[1], etc...\n\nEXAMPLES:\n\nIf deck = {5, 8, K, Q, 3, A, A, 3, 5, 2, 7, 4},\n   N = 2,\n   hitStayThresholds = {15, 17},\n   bets = {10, 20},\n\n   First, two cards are dealt to each player:\n\n   Player 0: 5 Q\n   Player 1: 8 3\n   Dealer:   K A\n\n   Then, Player 0 has the opportunity to hit or stay.  Q + 5 = 15, which\n     is the player's threshold, so he stays.\n\n   Then, Player 1 has the opportunity to hit or stay.  8 + 3 = 11, which is\n      less than the player's threshold, so he hits:\n        Player 1: 8 3 A\n      The Ace must be worth 1 point, since 11 would cause him to bust.  12 \n      points is still below his threshold so he hits again:\n        Player 1: 8 3 A 3\n      15 points is still below the threshold, so he hits again:\n        Player 1: 8 3 A 3 5\n      20 is above his threshold so he stays.\n\n   The Dealer is above his threshold (always 17), so he stays.\n\n   Now winnings are calculated.  Both Player 0 and 1 have less than the dealer's\n   21, so they get 0.\n\n   The method returns {0, 0}.\n\nIf deck = {5, 8, 3, Q, 3, A, 2, 3, 9, 6, 7, 4, 10, 2, J, J},\n   N = 3,\n   hitStayThresholds = {17, 19, 5},\n   bets = {4, 300, 500}.\n\n   First two cards are dealt to each player:\n   Player 0: 5 3\n   Player 1: 8 A\n   Player 2: 3 2\n   Dealer:   Q 3\n\n   Player 0 has below 17, so he hits, bringing him to his threshold.\n     Player 0: 5 3 9 = 17.\n\n   Player 1 has 19 (Assume A is 11 because it keeps him under 22), so he\n     is at his threshold.\n     Player 1: 8 A = 19.\n\n   Player 2 has 5, so he is at his threshold and stays.\"\n     Player 2: 3 2 = 5\n\n   The dealer is below 17, so he hits bringing him to 19:\n     Dealer: Q 3 6 = 19.\n\n   Now winnings are calculated.\n   Player 0 lost.\n   Player 1 tied, so gets 1:1 = 300.\n   Player 2 lost.\n\n   The method returns {0, 300, 0}.\n\nIf deck = {A, 7, 10, 10, Q, 8, 10, 5, 10, 8},\n   N = 3,\n   hitStayThresholds = {20, 17, 17},\n   bets = {4, 300, 500}\n\n   The first cards are dealt\n   Player 0: A Q\n   Player 1: 7 8\n   Player 2: 10 10\n   Dealer:   10 5\n\n   Player 0 has 21 immediately, so gets 5:2 = 10 and is removed from the game.\n   Player 1 hits, and busts, so gets 0 and is removed from the game.\n   Player 2 stays.\n   The dealer hits, and busts.\n\n   Player 2 gets 2:1 = 1000.  He is the only remaining player.\n \n   The method returns {10, 0, 1000}.\n\nIf the deck in the last example was {A, 7, 10, 10, Q, 8, 10, 5, 10},\nThere would not be enough cards to complete the simulation and the method would\nreturn {}.\n\nIf deck = {10, 10, 10, 5, 10},\n   N = 1,\n   hitStayThresholds = {21},\n   bets = {100},\nThe Player 0 busts, but there are not enough cards to complete the dealer's\nhand so the method returns {}.\n\nIf hitStayThresholds = {20} instead, the method should return {200}.\n\nIf deck = {A, 2, A, A, 3, 4, K, 9, A, 10, 5, 5, 10},\n  N = 2,\n  hitStayThresholds = {17, 17},\n  bets = {100, 200}.\n\n  After dealing:\n  Player 0: A A\n  Player 1: 2 3\n  Dealer:   A 4\n\n  Player 0 hits because he has 12 points.  (The first A can be 11 and \n    the second can be 1, keeping him under 22 points.)\n      Player 0: A A K.\n    The first player hits again because now both A are 1.\n      Player 0: A A K 9.  \n    And 21.\n\n  Player 1 hits:\n      Player 1: 2 3 A\n    He hits again.\n      Player 1: 2 3 A 10\n    He hits again\n      Player 1: 2 3 A 10 5\n\n  Finally the dealer hits:\n      Dealer: A 4 5\n\n  Both players beat the dealer so the method returns {200, 400}.\n\nIf deck = {2, 10, A, 9, A, 10, 6, 10, A},\n   N = 1,\n   hitStayThresholds = {17},\n   bets = {10}\n\n   After dealing:\n     Player 0: 2 A\n     Dealer:   10 9\n     \n   Player 0's is worth at most 13 points, which is less than his \n   threshold so he hits.\n     Player 0: 2 A A\n   He is still below his threshold because the largest possible \n   value of his hand less than 22 is 14, so he hits.\n     Player 0: 2 A A 10\n   He hits again because his hand is worth 2 + 1 + 1 + 10 = 14 \n   (note the changing ace value) \n     Player 0: 2 A A 10 6\n   Now he stays, with a hand worth 20 points.\n\n   The dealer is above his threshold, so he stays.  \n   Player 0 wins, so the method returns {20}.\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"BlackJack\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"BlackJack\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"simulatePlay\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int, int[], int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] simulatePlay(String[] param0, int param1, int[] param2, int[] param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/63/pm/490\",\"children\":[\"2002-\",\" \",\"TCCC '02 Reg. Final\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

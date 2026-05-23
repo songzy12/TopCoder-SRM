@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Trilean<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+We are familiar with the concept of a truth-table for a traditional boolean
+logic expression. Consider now extending that concept into a trilean logic
+expression. Trilean logic, like boolean logic, has TRUE and FALSE values, but
+also has a third, called MAYBE. The logic gates are as follows: AND, OR, XOR,
+NOT, INC
+
+AND has two inputs and returns:
+TRUE if all inputs evaluate to TRUE
+FALSE if all inputs evaluate to FALSE
+MAYBE otherwise
+
+OR has two inputs and returns:
+TRUE if at least one input evaluates to TRUE
+FALSE if all inputs evaluates to FALSE
+MAYBE otherwise
+
+XOR has two inputs and returns (in order of precedence):
+TRUE if exactly one input evaluates to TRUE
+MAYBE if exactly one input evaluates to MAYBE
+FALSE otherwise
+
+NOT has one input and returns:
+TRUE if input evaluates to FALSE
+MAYBE if input evaluates to MAYBE
+FALSE if input evaluates to TRUE
+
+INC has one input and returns:
+TRUE if input evaluates to MAYBE
+MAYBE if input evaluates to FALSE
+FALSE if input evaluates to TRUE
+
+DEFINITION
+
+Class name: Trilean
+Method name: equivalent
+Parameters: String[]
+Returns: String[]
+
+The method signature is as follows (make sure it is declared public):
+String[] equivalent (String[] expressions);
+
+Each String in expressions will contain a pre-fix notation trilean expression,
+such as: "AND NOT X1 OR X2 X3", where the words "AND", "OR", "XOR", "NOT", and
+"INC" designate their respective logic gates, and "X&lt;int&gt;" designates an input
+to a logic gate.
+
+There may be multiple spaces between operators and operands in the expressions.
+You should deal with this.
+
+Two trilean expressions are equivalent if they have identical truth-tables.
+That is, for every possible combination of inputs (using all six possible
+inputs), both expressions produce identical output. Note that in order for two
+truth-tables do be identical, they are not required to have the same number of
+inputs. For instance, "AND X1 NOT X1" evaluates to MAYBE for any combination of
+inputs. Also, "AND AND X1 NOT X1 AND X2 NOT X2" always evaluates to MAYBE.
+Thus, these two expressions ARE equivalent. However, "INC X1" and "INC X2" are
+not equivalent, since for the input X1 = TRUE, X2 = MAYBE, "INC X1" evalutate
+to FALSE, and "INC X2" evaluates to TRUE.
+
+Given a String[] of prefix notation expressions, determine which of them are
+equivalent, grouping the equivalencies represented as "&lt;int&gt; &lt;int&gt; ... &lt;int&gt;"
+in Strings. Angle brackets, ellipses, and parentheses included for clarity only.
+
+For instance, if we are given 5 expressions (0, 1, 2, 3, and 4), expressions 0,
+2 and 3 are equivalent, and expressions 1 and 4 are equivalent, the correct
+return value is {"0 2 3", "1 4"}.
+
+Each String in the return String[] must have the integers in ascending order,
+and the Strings must be sorted in ascending order by the first integer in each
+String.
+
+Thus, {"0 3 2", "1"} is not correct because the integers in the first String
+are not in ascending order, and {"1 2 3", "0"} is not correct because the first
+integers of the Strings are not in ascending order.
+
+NOTES
+- Prefix notation is the idea of giving the operator first, followed by its
+operands, which in turn may be expressions themselves.  For instance, "AND AND
+AND X1 X2 AND X3 X4 AND X5 X6" in prefix notation is equivalent to "(((X1 AND
+X2) AND (X3 AND X4)) AND (X5 AND X6))" in infix notation.
+ - The only valid X&lt;int&gt; inputs are X1, X2, X3, X4, X5, and X6.
+
+TopCoder will enforce the following restrictions:
+* expressions will contain between 1 and 50 elements, inclusive
+* Each String in expressions will contain between 1 and 50 characters, inclusive
+* Each String in expressions will be contain a correctly formatted prefix
+notation logic expression. That is, every input requiring two inputs will have
+exactly two inputs, and every input requiring one input will have exactly one
+input. Also, there will be no extra data in each String beyond what is required
+to define the logic expression.
+* Each expression will have no more than the 6 distinct inputs X1, X2, X3, X4,
+X5, and X6.
+
+Prefix notation is defined 
+
+Examples:
+expressions = {"OR X1 X2","AND NOT X1 X2"}
+"OR X1 X2":
+X1	X2	Result
+FALSE	FALSE	FALSE
+FALSE	MAYBE	MAYBE
+FALSE	TRUE	TRUE
+MAYBE	FALSE	MAYBE
+MAYBE	MAYBE	MAYBE
+MAYBE	TRUE	TRUE
+TRUE	FALSE	TRUE
+TRUE	MAYBE	TRUE
+TRUE	TRUE	TRUE
+
+"AND NOT X1 X2":
+X1	X2	Result
+FALSE	FALSE	MAYBE
+FALSE	MAYBE	MAYBE
+FALSE	TRUE	TRUE
+MAYBE	FALSE	MAYBE
+MAYBE	MAYBE	MAYBE
+MAYBE	TRUE	MAYBE
+TRUE	FALSE	FALSE
+TRUE	MAYBE	MAYBE
+TRUE	TRUE	MAYBE
+These are not the same. Return value is {"0", "1"}.
+
+Examples:
+expressions = {"NOT X1", "NOT X2"}
+In order to justifiably compare these two truth tables, we must look at all
+possible inputs of X1 and X2
+"NOT X1"				"NOT X2"
+X1	X2	Result			X1	X2	Result
+FALSE	FALSE	TRUE			FALSE	FALSE	TRUE
+FALSE	MAYBE	TRUE			FALSE	MAYBE	MAYBE
+FALSE	TRUE	TRUE			FALSE	TRUE	FALSE
+MAYBE	FALSE	MAYBE			MAYBE	FALSE	TRUE
+MAYBE	MAYBE	MAYBE			MAYBE	MAYBE	MAYBE
+MAYBE	TRUE	MAYBE			MAYBE	TRUE	FALSE
+TRUE	FALSE	FALSE			TRUE	FALSE	TRUE
+TRUE	MAYBE	FALSE			TRUE	MAYBE	MAYBE
+TRUE	TRUE	FALSE			TRUE	TRUE	FALSE
+These clearly do not have the same result for every input. Return value is
+{"0","1"}.
+
+expressions = {"AND X1 X2", "OR X1 NOT X2", "AND X2 X1"}
+Expressions 0 and 2 have identical truth-tables and hence are equivalent, but
+expression 1 is different.
+Return value is {"0 2", "1"}.
+
+expressions = {"AND X1 NOT X1", "AND X2 NOT X2", "AND X3 NOT X3", "AND X1 X2",
+"NOT X3"}
+Expressions 0, 1, and 2 are equivalent, 3 and 4 are distinct.
+Return value is {"0 1 2", "3", "4"}.
+
+expressions = {"XOR INC X1 NOT INC X2","NOT NOT INC INC NOT INC X2","INC INC
+INC INC INC NOT INC X2"}
+Return value is {"0", "1 2"}.
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Trilean</span></dd><dt>Method:</dt><dd><span>equivalent</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] equivalent(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4085/pm/446">2002-<!-- --> <!-- -->SRM 71<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/446/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"446\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"446\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"446\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"446\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"446\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T166e,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nWe are familiar with the concept of a truth-table for a traditional boolean\nlogic expression. Consider now extending that concept into a trilean logic\nexpression. Trilean logic, like boolean logic, has TRUE and FALSE values, but\nalso has a third, called MAYBE. The logic gates are as follows: AND, OR, XOR,\nNOT, INC\n\nAND has two inputs and returns:\nTRUE if all inputs evaluate to TRUE\nFALSE if all inputs evaluate to FALSE\nMAYBE otherwise\n\nOR has two inputs and returns:\nTRUE if at least one input evaluates to TRUE\nFALSE if all inputs evaluates to FALSE\nMAYBE otherwise\n\nXOR has two inputs and returns (in order of precedence):\nTRUE if exactly one input evaluates to TRUE\nMAYBE if exactly one input evaluates to MAYBE\nFALSE otherwise\n\nNOT has one input and returns:\nTRUE if input evaluates to FALSE\nMAYBE if input evaluates to MAYBE\nFALSE if input evaluates to TRUE\n\nINC has one input and returns:\nTRUE if input evaluates to MAYBE\nMAYBE if input evaluates to FALSE\nFALSE if input evaluates to TRUE\n\nDEFINITION\n\nClass name: Trilean\nMethod name: equivalent\nParameters: String[]\nReturns: String[]\n\nThe method signature is as follows (make sure it is declared public):\nString[] equivalent (String[] expressions);\n\nEach String in expressions will contain a pre-fix notation trilean expression,\nsuch as: \"AND NOT X1 OR X2 X3\", where the words \"AND\", \"OR\", \"XOR\", \"NOT\", and\n\"INC\" designate their respective logic gates, and \"X\u0026lt;int\u0026gt;\" designates an input\nto a logic gate.\n\nThere may be multiple spaces between operators and operands in the expressions.\nYou should deal with this.\n\nTwo trilean expressions are equivalent if they have identical truth-tables.\nThat is, for every possible combination of inputs (using all six possible\ninputs), both expressions produce identical output. Note that in order for two\ntruth-tables do be identical, they are not required to have the same number of\ninputs. For instance, \"AND X1 NOT X1\" evaluates to MAYBE for any combination of\ninputs. Also, \"AND AND X1 NOT X1 AND X2 NOT X2\" always evaluates to MAYBE.\nThus, these two expressions ARE equivalent. However, \"INC X1\" and \"INC X2\" are\nnot equivalent, since for the input X1 = TRUE, X2 = MAYBE, \"INC X1\" evalutate\nto FALSE, and \"INC X2\" evaluates to TRUE.\n\nGiven a String[] of prefix notation expressions, determine which of them are\nequivalent, grouping the equivalencies represented as \"\u0026lt;int\u0026gt; \u0026lt;int\u0026gt; ... \u0026lt;int\u0026gt;\"\nin Strings. Angle brackets, ellipses, and parentheses included for clarity only.\n\nFor instance, if we are given 5 expressions (0, 1, 2, 3, and 4), expressions 0,\n2 and 3 are equivalent, and expressions 1 and 4 are equivalent, the correct\nreturn value is {\"0 2 3\", \"1 4\"}.\n\nEach String in the return String[] must have the integers in ascending order,\nand the Strings must be sorted in ascending order by the first integer in each\nString.\n\nThus, {\"0 3 2\", \"1\"} is not correct because the integers in the first String\nare not in ascending order, and {\"1 2 3\", \"0\"} is not correct because the first\nintegers of the Strings are not in ascending order.\n\nNOTES\n- Prefix notation is the idea of giving the operator first, followed by its\noperands, which in turn may be expressions themselves.  For instance, \"AND AND\nAND X1 X2 AND X3 X4 AND X5 X6\" in prefix notation is equivalent to \"(((X1 AND\nX2) AND (X3 AND X4)) AND (X5 AND X6))\" in infix notation.\n - The only valid X\u0026lt;int\u0026gt; inputs are X1, X2, X3, X4, X5, and X6.\n\nTopCoder will enforce the following restrictions:\n* expressions will contain between 1 and 50 elements, inclusive\n* Each String in expressions will contain between 1 and 50 characters, inclusive\n* Each String in expressions will be contain a correctly formatted prefix\nnotation logic expression. That is, every input requiring two inputs will have\nexactly two inputs, and every input requiring one input will have exactly one\ninput. Also, there will be no extra data in each String beyond what is required\nto define the logic expression.\n* Each expression will have no more than the 6 distinct inputs X1, X2, X3, X4,\nX5, and X6.\n\nPrefix notation is defined \n\nExamples:\nexpressions = {\"OR X1 X2\",\"AND NOT X1 X2\"}\n\"OR X1 X2\":\nX1\tX2\tResult\nFALSE\tFALSE\tFALSE\nFALSE\tMAYBE\tMAYBE\nFALSE\tTRUE\tTRUE\nMAYBE\tFALSE\tMAYBE\nMAYBE\tMAYBE\tMAYBE\nMAYBE\tTRUE\tTRUE\nTRUE\tFALSE\tTRUE\nTRUE\tMAYBE\tTRUE\nTRUE\tTRUE\tTRUE\n\n\"AND NOT X1 X2\":\nX1\tX2\tResult\nFALSE\tFALSE\tMAYBE\nFALSE\tMAYBE\tMAYBE\nFALSE\tTRUE\tTRUE\nMAYBE\tFALSE\tMAYBE\nMAYBE\tMAYBE\tMAYBE\nMAYBE\tTRUE\tMAYBE\nTRUE\tFALSE\tFALSE\nTRUE\tMAYBE\tMAYBE\nTRUE\tTRUE\tMAYBE\nThese are not the same. Return value is {\"0\", \"1\"}.\n\nExamples:\nexpressions = {\"NOT X1\", \"NOT X2\"}\nIn order to justifiably compare these two truth tables, we must look at all\npossible inputs of X1 and X2\n\"NOT X1\"\t\t\t\t\"NOT X2\"\nX1\tX2\tResult\t\t\tX1\tX2\tResult\nFALSE\tFALSE\tTRUE\t\t\tFALSE\tFALSE\tTRUE\nFALSE\tMAYBE\tTRUE\t\t\tFALSE\tMAYBE\tMAYBE\nFALSE\tTRUE\tTRUE\t\t\tFALSE\tTRUE\tFALSE\nMAYBE\tFALSE\tMAYBE\t\t\tMAYBE\tFALSE\tTRUE\nMAYBE\tMAYBE\tMAYBE\t\t\tMAYBE\tMAYBE\tMAYBE\nMAYBE\tTRUE\tMAYBE\t\t\tMAYBE\tTRUE\tFALSE\nTRUE\tFALSE\tFALSE\t\t\tTRUE\tFALSE\tTRUE\nTRUE\tMAYBE\tFALSE\t\t\tTRUE\tMAYBE\tMAYBE\nTRUE\tTRUE\tFALSE\t\t\tTRUE\tTRUE\tFALSE\nThese clearly do not have the same result for every input. Return value is\n{\"0\",\"1\"}.\n\nexpressions = {\"AND X1 X2\", \"OR X1 NOT X2\", \"AND X2 X1\"}\nExpressions 0 and 2 have identical truth-tables and hence are equivalent, but\nexpression 1 is different.\nReturn value is {\"0 2\", \"1\"}.\n\nexpressions = {\"AND X1 NOT X1\", \"AND X2 NOT X2\", \"AND X3 NOT X3\", \"AND X1 X2\",\n\"NOT X3\"}\nExpressions 0, 1, and 2 are equivalent, 3 and 4 are distinct.\nReturn value is {\"0 1 2\", \"3\", \"4\"}.\n\nexpressions = {\"XOR INC X1 NOT INC X2\",\"NOT NOT INC INC NOT INC X2\",\"INC INC\nINC INC INC NOT INC X2\"}\nReturn value is {\"0\", \"1 2\"}.\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Trilean\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Trilean\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"equivalent\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] equivalent(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4085/pm/446\",\"children\":[\"2002-\",\" \",\"SRM 71\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

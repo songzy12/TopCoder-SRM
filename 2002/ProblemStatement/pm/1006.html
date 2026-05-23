@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->CheatCodes<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+You are programming a cheat code detector for an old, poorly-designed video
+game system.  The system polls the controller port every second and receives an
+8-bit status reading describing any player input that occurred since the last
+polling. Below is a mapping between user buttons and the status bits, where 0
+is the low-order bit (rightmost).
+
+UP       0
+DOWN     1
+LEFT     2
+RIGHT    3
+B        4
+A        5
+SELECT   6
+START    7
+
+For example, if the status reading is  "00110001", then you know the player
+pushed both the "A" and "B" buttons as well as "UP" within the last second.
+
+Your game has a set of cheat codes that trigger whenever a sequence of the
+player's button presses match the code.  As soon as any matching code triggers,
+then you begin looking for the beginning of a new cheat code (in other words,
+you can never have two cheat codes which overlap in time).  If multiple cheat
+codes complete during the same second, cheat codes with lower indices in the
+input, names, take precedence. See examples 3, 4 and 5.
+
+Possible cheat movements are: "UP", "RIGHT", "DOWN", "LEFT", "UP-RIGHT",
+"DOWN-RIGHT", "DOWN-LEFT", "UP-LEFT", "A", "B", "SELECT", "START", where
+"UP-RIGHT" occurs when both the "UP" and the "RIGHT" status bit are 1 and,
+similarly, the other combinations occur when both of the appropriate status
+bits are 1.
+
+Cheat codes consist of a sequence of moves separated by single spaces (no
+leading or trailing):
+&lt;Move&gt; &lt;Move&gt; &lt;Move&gt; &lt;Move&gt; ...
+for example,
+"UP UP DOWN DOWN LEFT RIGHT LEFT RIGHT B A B A"
+
+The only correct matching sequence of presses would be:
+00000001   // UP
+00000001   // UP
+00000010   // DOWN
+00000010   // DOWN
+00000100   // LEFT
+00001000   // RIGHT
+00000100   // LEFT
+00001000   // RIGHT
+00010000   // B
+00100000   // A
+00010000   // B
+00100000   // A
+
+In order for a sequence to match a cheat code, button pushes in the cheat code
+must appear in the sequence without any intervening pollings or extra button
+presses (extra 1's in the status code).  Thus, the above sequence is the only
+possible sequence which matches the above cheat code.  Adding extra button
+pushes within the sequence would cause it not to match.
+
+You are given a String[] of button presses, a String[] of secret code names,
+and a String[] of secret code sequences (names[i] matches sequences[i]). Write
+a method that returns a String[], in chronological order, of all cheat codes
+triggered.  If no codes were triggered, then return an empty array.
+
+DEFINITION
+Class: CheatCodes
+Method: detect
+Parameters: String[], String[], String[]
+Returns: String[]
+The method signature is (make sure it is declared public): String[] detect
+(String[] presses, String[] names, String[] sequences);
+
+NOTES
+-The cheat codes may not overlap.  No cheat code may use a button press used in
+a previous sequence.
+-As soon as a valid cheat code is found, that cheat code is triggered, and the
+button pushes that it used may not be used by subsequent cheat codes.
+-If multiple cheat codes complete simultaneously, the one with the lowest index
+in names takes precedence.
+-Two cheat codes may have the same name.
+
+TopCoder will ensure:
+-Each element of presses will have a length of 8 consisting only of 1's and 0's.
+-Each element of sequences will be a valid move sequence as described above.
+-Each element of sequences and names will be between 1 and 50 characters,
+inclusive.
+-The length of names is equal to the length of sequences.
+-Each element of names will consist of the characters 'a' to 'z', 'A' to 'Z',
+spaces, and '-'.
+-presses, names, and sequences will contain between 0 and 50 elements inclusive.
+-All cheat sequences will contain at least 1 button push.
+-There will be no extra, leading, or trailing spaces in elements of sequences.
+
+EXAMPLES
+
+Example 1:
+presses = {"00000001", "00000001", "00000010", "00000010", "00000100",
+"00001000", "00000100", "00001000", "00010000", "00100000", "00010000",
+"00100000"}
+names = {"THIRTY-LIVES-TRICK"}
+sequences = {"UP UP DOWN DOWN LEFT RIGHT LEFT RIGHT B A B A"}
+returns {"THIRTY-LIVES-TRICK"}
+
+Example 2:
+presses = {}
+names = {}
+sequences = {}
+returns {}
+
+Example 3:
+presses = {"11111111", "00001111", "00001111", "00000001", "00000001"}
+names = {"FOO-BAR", "FOO"}
+sequences = {"UP UP", "UP"}
+
+Although the sequence "UP UP" can be found, the secret FOO-BAR will never
+trigger.  Instead, the first "UP" will trigger FOO, and since cheat codes can
+not overlap, "FOO-BAR" will never trigger.
+
+returns {"FOO", "FOO"}
+
+Example 4:
+presses = {"00000001", "00000010", "00010000", "00000010"}
+names = {"Kirby Smash", "Samus Bomb"}
+sequences = {"UP DOWN B", "DOWN B"}
+
+The "UP DOWN B" sequence found will match both secret moves, but only the
+earlier indexed move will trigger.
+
+returns {"Kirby Smash"}
+
+Example 5:
+presses = {"00000001", "00000010", "00010000", "00000010"}
+names = {"Samus Bomb", "Kirby Smash"}
+sequences = {"DOWN B", "UP DOWN B"}
+
+This time "Samus Bomb" triggers because it appears earlier in the array than
+"Kirby Smash"
+
+returns {"Samus Bomb"}
+
+Example 6:
+presses = {"00000001", "00000010", "00010000", "00000010", "00010000"}
+names = {"Kirby Smash", "Samus Bomb"}
+sequences = {"UP DOWN B", "DOWN B"}
+returns {"Kirby Smash", "Samus Bomb"}
+
+Example 7:
+presses = {"00000110","00000110","00000110","10000000"}
+names = {"A"}
+sequences = {"DOWN-LEFT DOWN-LEFT START"}
+returns {"A"}</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>CheatCodes</span></dd><dt>Method:</dt><dd><span>detect</span></dd><dt>Parameters:</dt><dd><span>String[], String[], String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] detect(String[] param0, String[] param1, String[] param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4240/pm/1006">2002-<!-- --> <!-- -->SRM 104<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li><li><a href="/ProblemDetail/rd/4240/pm/1006">2002-<!-- --> <!-- -->SRM 104<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1006/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1006\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1006\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1006\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1006\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1006\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1531,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nYou are programming a cheat code detector for an old, poorly-designed video\ngame system.  The system polls the controller port every second and receives an\n8-bit status reading describing any player input that occurred since the last\npolling. Below is a mapping between user buttons and the status bits, where 0\nis the low-order bit (rightmost).\n\nUP       0\nDOWN     1\nLEFT     2\nRIGHT    3\nB        4\nA        5\nSELECT   6\nSTART    7\n\nFor example, if the status reading is  \"00110001\", then you know the player\npushed both the \"A\" and \"B\" buttons as well as \"UP\" within the last second.\n\nYour game has a set of cheat codes that trigger whenever a sequence of the\nplayer's button presses match the code.  As soon as any matching code triggers,\nthen you begin looking for the beginning of a new cheat code (in other words,\nyou can never have two cheat codes which overlap in time).  If multiple cheat\ncodes complete during the same second, cheat codes with lower indices in the\ninput, names, take precedence. See examples 3, 4 and 5.\n\nPossible cheat movements are: \"UP\", \"RIGHT\", \"DOWN\", \"LEFT\", \"UP-RIGHT\",\n\"DOWN-RIGHT\", \"DOWN-LEFT\", \"UP-LEFT\", \"A\", \"B\", \"SELECT\", \"START\", where\n\"UP-RIGHT\" occurs when both the \"UP\" and the \"RIGHT\" status bit are 1 and,\nsimilarly, the other combinations occur when both of the appropriate status\nbits are 1.\n\nCheat codes consist of a sequence of moves separated by single spaces (no\nleading or trailing):\n\u0026lt;Move\u0026gt; \u0026lt;Move\u0026gt; \u0026lt;Move\u0026gt; \u0026lt;Move\u0026gt; ...\nfor example,\n\"UP UP DOWN DOWN LEFT RIGHT LEFT RIGHT B A B A\"\n\nThe only correct matching sequence of presses would be:\n00000001   // UP\n00000001   // UP\n00000010   // DOWN\n00000010   // DOWN\n00000100   // LEFT\n00001000   // RIGHT\n00000100   // LEFT\n00001000   // RIGHT\n00010000   // B\n00100000   // A\n00010000   // B\n00100000   // A\n\nIn order for a sequence to match a cheat code, button pushes in the cheat code\nmust appear in the sequence without any intervening pollings or extra button\npresses (extra 1's in the status code).  Thus, the above sequence is the only\npossible sequence which matches the above cheat code.  Adding extra button\npushes within the sequence would cause it not to match.\n\nYou are given a String[] of button presses, a String[] of secret code names,\nand a String[] of secret code sequences (names[i] matches sequences[i]). Write\na method that returns a String[], in chronological order, of all cheat codes\ntriggered.  If no codes were triggered, then return an empty array.\n\nDEFINITION\nClass: CheatCodes\nMethod: detect\nParameters: String[], String[], String[]\nReturns: String[]\nThe method signature is (make sure it is declared public): String[] detect\n(String[] presses, String[] names, String[] sequences);\n\nNOTES\n-The cheat codes may not overlap.  No cheat code may use a button press used in\na previous sequence.\n-As soon as a valid cheat code is found, that cheat code is triggered, and the\nbutton pushes that it used may not be used by subsequent cheat codes.\n-If multiple cheat codes complete simultaneously, the one with the lowest index\nin names takes precedence.\n-Two cheat codes may have the same name.\n\nTopCoder will ensure:\n-Each element of presses will have a length of 8 consisting only of 1's and 0's.\n-Each element of sequences will be a valid move sequence as described above.\n-Each element of sequences and names will be between 1 and 50 characters,\ninclusive.\n-The length of names is equal to the length of sequences.\n-Each element of names will consist of the characters 'a' to 'z', 'A' to 'Z',\nspaces, and '-'.\n-presses, names, and sequences will contain between 0 and 50 elements inclusive.\n-All cheat sequences will contain at least 1 button push.\n-There will be no extra, leading, or trailing spaces in elements of sequences.\n\nEXAMPLES\n\nExample 1:\npresses = {\"00000001\", \"00000001\", \"00000010\", \"00000010\", \"00000100\",\n\"00001000\", \"00000100\", \"00001000\", \"00010000\", \"00100000\", \"00010000\",\n\"00100000\"}\nnames = {\"THIRTY-LIVES-TRICK\"}\nsequences = {\"UP UP DOWN DOWN LEFT RIGHT LEFT RIGHT B A B A\"}\nreturns {\"THIRTY-LIVES-TRICK\"}\n\nExample 2:\npresses = {}\nnames = {}\nsequences = {}\nreturns {}\n\nExample 3:\npresses = {\"11111111\", \"00001111\", \"00001111\", \"00000001\", \"00000001\"}\nnames = {\"FOO-BAR\", \"FOO\"}\nsequences = {\"UP UP\", \"UP\"}\n\nAlthough the sequence \"UP UP\" can be found, the secret FOO-BAR will never\ntrigger.  Instead, the first \"UP\" will trigger FOO, and since cheat codes can\nnot overlap, \"FOO-BAR\" will never trigger.\n\nreturns {\"FOO\", \"FOO\"}\n\nExample 4:\npresses = {\"00000001\", \"00000010\", \"00010000\", \"00000010\"}\nnames = {\"Kirby Smash\", \"Samus Bomb\"}\nsequences = {\"UP DOWN B\", \"DOWN B\"}\n\nThe \"UP DOWN B\" sequence found will match both secret moves, but only the\nearlier indexed move will trigger.\n\nreturns {\"Kirby Smash\"}\n\nExample 5:\npresses = {\"00000001\", \"00000010\", \"00010000\", \"00000010\"}\nnames = {\"Samus Bomb\", \"Kirby Smash\"}\nsequences = {\"DOWN B\", \"UP DOWN B\"}\n\nThis time \"Samus Bomb\" triggers because it appears earlier in the array than\n\"Kirby Smash\"\n\nreturns {\"Samus Bomb\"}\n\nExample 6:\npresses = {\"00000001\", \"00000010\", \"00010000\", \"00000010\", \"00010000\"}\nnames = {\"Kirby Smash\", \"Samus Bomb\"}\nsequences = {\"UP DOWN B\", \"DOWN B\"}\nreturns {\"Kirby Smash\", \"Samus Bomb\"}\n\nExample 7:\npresses = {\"00000110\",\"00000110\",\"00000110\",\"10000000\"}\nnames = {\"A\"}\nsequences = {\"DOWN-LEFT DOWN-LEFT START\"}\nreturns {\"A\"}\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"CheatCodes\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"CheatCodes\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"detect\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] detect(String[] param0, String[] param1, String[] param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4240/pm/1006\",\"children\":[\"2002-\",\" \",\"SRM 104\",\" - Division \",\"I\",\", \",\"Level One\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4240/pm/1006\",\"children\":[\"2002-\",\" \",\"SRM 104\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

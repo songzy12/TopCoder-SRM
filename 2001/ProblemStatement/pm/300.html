@@ -1,0 +1,176 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->OneOnOne<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+A contest is held where players are pitted against each other in a series of
+1-on-1 matches.  The results of each match can be player1 won, player1 lost, or
+the players tied.  Given just the list of match results, it is necessary to
+rank the players based on THE RULES (see below) and return their names in
+sorted order with the first player at index 0.
+
+Match results are reported as "&lt;player1&gt; &lt;status&gt; &lt;player2&gt;".  
+&lt;player1&gt; and &lt;player2&gt; are the player's names.  
+&lt;status&gt; is one of the following "WON", "LOST", or "TIED" (without the double
+quotes).
+
+The process for sorting the players is as follows:
+Initially all players are in a single unsorted group. Groups may get divided
+into smaller groups. For any group that has two or more players in it, use the
+rules listed below to divide it into two smaller groups. Continue dividing
+groups until there is exactly 1 player in each group.
+
+When choosing which rule to use, you must use the first rule that does not
+apply to the entire group. Once a rule is found, the old group is replaced by
+two new groups. All the players in the old group that meet the condition are
+placed into the first new group, and the remaining players from the old group
+are placed into the second new group. The players in the first new group are
+now considered to be sorted before the players in the second new group. 
+
+THE RULES
+
+Players are sorted before the remainder of their group if, when compared to the
+other players in their group:
+  1) the players have the most wins.
+  2) the players have the most ties.
+3) the players have the most wins vs (just players that have already been
+sorted before this group).
+4) the players have the most ties vs (just players that have already been
+sorted before this group).
+  5) the players have the most wins vs (just the other players in this group).
+  6) the players have the most ties vs (just the other players in this group).
+7) the players appear at the lowest index* in the results (as either player1
+or player2).
+  8) the player is listed as player1 when both players appear at the same index.
+
+DEFINITION
+
+Class Name: OneOnOne
+Method Name: sort
+Parameters: String[]
+Returns: String[]
+Method signature (be sure your method is public): String[] sort(String[] results)
+
+Each results String is in the format "&lt;player1&gt; &lt;status&gt; &lt;player2&gt;".
+&lt;player1&gt; and &lt;player2&gt; consist solely of uppercase letters (A-Z) with at least
+1 and at most 10 letters.
+&lt;status&gt; is one of the following "WON", "LOST", or "TIED" (without the double
+quotes).
+The status indicates if &lt;player1&gt; won, lost, or tied the match.
+
+returns a sorted String[] of player names with the first player at index 0.
+
+TopCoder will ensure the validity of the inputs. Inputs are valid if all of the
+following criteria are met:
+* results has between 1 and 12 elements, inclusive.
+* Each results String has the format "&lt;player1&gt; &lt;status&gt; &lt;player2&gt;".
+* &lt;player1&gt; is 1 to 10 uppercase letters (A-Z).
+* &lt;status&gt; is either "WON", "LOST", or "TIED" (without the double quotes).
+* &lt;player2&gt; is 1 to 10 uppercase letters (A-Z).
+* players are identified by name.  Two different players may NOT have the same
+name.
+* &lt;player1&gt; and &lt;player2&gt; must be different players.
+
+
+Example 1:	
+results = {"A LOST B","A WON C","B LOST C"}
+Our initial group is {A B C}
+Checking rule 1, we find that A, B, and C all have 1 win, so we move on to the
+next rule.
+Checking rule 2, we find that A, B, and C all have 0 ties, so we move on to the
+next rule.
+Checking rule 3, we find that A, B, and C all have 0 wins vs (playes in groups
+sorted before this group), since there aren't any groups before this one.
+Checking rule 4, we find that A, B, and C all have 0 ties vs (playes in groups
+sorted before this group), since there aren't any groups before this one.
+Checking rule 5, we find that A, B, and C all have 1 win vs (the other players
+in this group).
+Checking rule 6, we find that A, B, and C all have 0 ties vs (the other players
+in this group).
+Checking rule 7, we find that A and B have a lowest index of 0, while C has a
+lowest index of 1.
+So we move A and B before C.  Our new groups are {A B} {C}.
+Starting over at rule 1 for group {A B}, we find A and B still have 1 win.
+Checking rule 2, A and B still have 0 ties.
+Checking rule 3, A and B have 0 wins vs just those players sorted before them
+(since there aren't any groups before them).
+Checking rule 4, A and B have 0 ties vs just those players sorted before them.
+Checking rule 5, A has 0 wins vs other players in this group (namely B), while
+B has 1 win.
+So we move B before A (and the both remain before C) and have a new group
+ordering of {B}{A}{C}.
+Since there aren't any groups with two or more players, we return {"B","A","C"}
+
+Example 2: 
+results = {
+"WOW WON ZAP",
+"ZAP WON BANG",
+"POW TIED BANG",
+"BANG LOST WOW",
+"WOW TIED POW",
+"POW LOST ZAP" }
+
+The initial group is {BANG POW WOW ZAP}
+Using rule 1 (wins), BANG has 0, POW has 0, WOW has 2, and ZAP has 2.
+So WOW and ZAP are put into the first group and BANG and POW in the second,
+giving {WOW ZAP}{BANG POW}.
+At this point either group may be examined.
+Looking at {WOW ZAP}, they both have 2 wins (rule 1), but for ties (rule 2) WOW
+has 1 and ZAP has 0.
+So the group is split with WOW in the first group and ZAP in the second, giving
+{WOW}{ZAP}{BANG POW}.
+Looking at {BANG POW}, both have 0 wins (rule 1), but for ties (rule 2) BANG
+has 1 and POW has 2.
+So the group is split with POW in the first group and BANG in the second,
+giving {WOW}{ZAP}{POW}{BANG}.
+All groups have only one player, so the return is {"WOW","ZAP","POW","BANG"}
+	
+Example 3:
+results = {
+"A WON B",
+"B WON C",
+"C WON D",
+"D WON E",
+"E WON A" }
+
+The initial group is {A B C D E}
+Rule 7 moves A and B before the rest - {A B}{C D E}
+For the {A B} group, rule 1 results in {A}{B}{C D E}
+For the {C D E} group, rule 3 applies to E and results in {A}{B}{E}{C D}
+For the {C D} group, rule 3 now applies to D, so the final order is
+{A}{B}{E}{D}{C}
+
+return {"A","B","E","D","C"}
+
+
+Example 4:
+results = {
+"A WON B",
+"A WON C",
+"A WON D",
+"B TIED C",
+"B WON D",
+"C WON D" }
+
+Start with {A B C D}
+Rule 1: {A}{B C D} because A has 3 wins (vs 1 for B and C and 0 for D).
+Rule 5: {A}{B C}{D} because B and C have 1 win vs (BCD) and D has 0.
+Rule 7: {A}{B}{C}{D} because B appears at index 0 and C at index 1.
+
+return {"A","B","C","D"}
+
+
+Example 5:
+results = {
+"A WON B",
+"A TIED C",
+"A LOST D",
+"B WON C",
+"B TIED D",
+"C WON D" }
+
+Start with {A B C D}
+Rule 7: {A B}{C D} because A and B are at index 0.
+Rule 3: {A B}{D}{C} because D has 1 win vs (AB) and C has 0.
+Rule 5: {A}{B}{D}{C} because A has 1 win vs (AB) and B has 0.
+
+return {"A","B","D","C"}
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>OneOnOne</span></dd><dt>Method:</dt><dd><span>sort</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] sort(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4022/pm/300">2001-<!-- --> <!-- -->SRM 51<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/4022/pm/300">2001-<!-- --> <!-- -->SRM 51<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/300/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"300\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"300\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"300\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"300\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"300\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1aae,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nA contest is held where players are pitted against each other in a series of\n1-on-1 matches.  The results of each match can be player1 won, player1 lost, or\nthe players tied.  Given just the list of match results, it is necessary to\nrank the players based on THE RULES (see below) and return their names in\nsorted order with the first player at index 0.\n\nMatch results are reported as \"\u0026lt;player1\u0026gt; \u0026lt;status\u0026gt; \u0026lt;player2\u0026gt;\".  \n\u0026lt;player1\u0026gt; and \u0026lt;player2\u0026gt; are the player's names.  \n\u0026lt;status\u0026gt; is one of the following \"WON\", \"LOST\", or \"TIED\" (without the double\nquotes).\n\nThe process for sorting the players is as follows:\nInitially all players are in a single unsorted group. Groups may get divided\ninto smaller groups. For any group that has two or more players in it, use the\nrules listed below to divide it into two smaller groups. Continue dividing\ngroups until there is exactly 1 player in each group.\n\nWhen choosing which rule to use, you must use the first rule that does not\napply to the entire group. Once a rule is found, the old group is replaced by\ntwo new groups. All the players in the old group that meet the condition are\nplaced into the first new group, and the remaining players from the old group\nare placed into the second new group. The players in the first new group are\nnow considered to be sorted before the players in the second new group. \n\nTHE RULES\n\nPlayers are sorted before the remainder of their group if, when compared to the\nother players in their group:\n  1) the players have the most wins.\n  2) the players have the most ties.\n3) the players have the most wins vs (just players that have already been\nsorted before this group).\n4) the players have the most ties vs (just players that have already been\nsorted before this group).\n  5) the players have the most wins vs (just the other players in this group).\n  6) the players have the most ties vs (just the other players in this group).\n7) the players appear at the lowest index* in the results (as either player1\nor player2).\n  8) the player is listed as player1 when both players appear at the same index.\n\nDEFINITION\n\nClass Name: OneOnOne\nMethod Name: sort\nParameters: String[]\nReturns: String[]\nMethod signature (be sure your method is public): String[] sort(String[] results)\n\nEach results String is in the format \"\u0026lt;player1\u0026gt; \u0026lt;status\u0026gt; \u0026lt;player2\u0026gt;\".\n\u0026lt;player1\u0026gt; and \u0026lt;player2\u0026gt; consist solely of uppercase letters (A-Z) with at least\n1 and at most 10 letters.\n\u0026lt;status\u0026gt; is one of the following \"WON\", \"LOST\", or \"TIED\" (without the double\nquotes).\nThe status indicates if \u0026lt;player1\u0026gt; won, lost, or tied the match.\n\nreturns a sorted String[] of player names with the first player at index 0.\n\nTopCoder will ensure the validity of the inputs. Inputs are valid if all of the\nfollowing criteria are met:\n* results has between 1 and 12 elements, inclusive.\n* Each results String has the format \"\u0026lt;player1\u0026gt; \u0026lt;status\u0026gt; \u0026lt;player2\u0026gt;\".\n* \u0026lt;player1\u0026gt; is 1 to 10 uppercase letters (A-Z).\n* \u0026lt;status\u0026gt; is either \"WON\", \"LOST\", or \"TIED\" (without the double quotes).\n* \u0026lt;player2\u0026gt; is 1 to 10 uppercase letters (A-Z).\n* players are identified by name.  Two different players may NOT have the same\nname.\n* \u0026lt;player1\u0026gt; and \u0026lt;player2\u0026gt; must be different players.\n\n\nExample 1:\t\nresults = {\"A LOST B\",\"A WON C\",\"B LOST C\"}\nOur initial group is {A B C}\nChecking rule 1, we find that A, B, and C all have 1 win, so we move on to the\nnext rule.\nChecking rule 2, we find that A, B, and C all have 0 ties, so we move on to the\nnext rule.\nChecking rule 3, we find that A, B, and C all have 0 wins vs (playes in groups\nsorted before this group), since there aren't any groups before this one.\nChecking rule 4, we find that A, B, and C all have 0 ties vs (playes in groups\nsorted before this group), since there aren't any groups before this one.\nChecking rule 5, we find that A, B, and C all have 1 win vs (the other players\nin this group).\nChecking rule 6, we find that A, B, and C all have 0 ties vs (the other players\nin this group).\nChecking rule 7, we find that A and B have a lowest index of 0, while C has a\nlowest index of 1.\nSo we move A and B before C.  Our new groups are {A B} {C}.\nStarting over at rule 1 for group {A B}, we find A and B still have 1 win.\nChecking rule 2, A and B still have 0 ties.\nChecking rule 3, A and B have 0 wins vs just those players sorted before them\n(since there aren't any groups before them).\nChecking rule 4, A and B have 0 ties vs just those players sorted before them.\nChecking rule 5, A has 0 wins vs other players in this group (namely B), while\nB has 1 win.\nSo we move B before A (and the both remain before C) and have a new group\nordering of {B}{A}{C}.\nSince there aren't any groups with two or more players, we return {\"B\",\"A\",\"C\"}\n\nExample 2: \nresults = {\n\"WOW WON ZAP\",\n\"ZAP WON BANG\",\n\"POW TIED BANG\",\n\"BANG LOST WOW\",\n\"WOW TIED POW\",\n\"POW LOST ZAP\" }\n\nThe initial group is {BANG POW WOW ZAP}\nUsing rule 1 (wins), BANG has 0, POW has 0, WOW has 2, and ZAP has 2.\nSo WOW and ZAP are put into the first group and BANG and POW in the second,\ngiving {WOW ZAP}{BANG POW}.\nAt this point either group may be examined.\nLooking at {WOW ZAP}, they both have 2 wins (rule 1), but for ties (rule 2) WOW\nhas 1 and ZAP has 0.\nSo the group is split with WOW in the first group and ZAP in the second, giving\n{WOW}{ZAP}{BANG POW}.\nLooking at {BANG POW}, both have 0 wins (rule 1), but for ties (rule 2) BANG\nhas 1 and POW has 2.\nSo the group is split with POW in the first group and BANG in the second,\ngiving {WOW}{ZAP}{POW}{BANG}.\nAll groups have only one player, so the return is {\"WOW\",\"ZAP\",\"POW\",\"BANG\"}\n\t\nExample 3:\nresults = {\n\"A WON B\",\n\"B WON C\",\n\"C WON D\",\n\"D WON E\",\n\"E WON A\" }\n\nThe initial group is {A B C D E}\nRule 7 moves A and B before the rest - {A B}{C D E}\nFor the {A B} group, rule 1 results in {A}{B}{C D E}\nFor the {C D E} group, rule 3 applies to E and results in {A}{B}{E}{C D}\nFor the {C D} group, rule 3 now applies to D, so the final order is\n{A}{B}{E}{D}{C}\n\nreturn {\"A\",\"B\",\"E\",\"D\",\"C\"}\n\n\nExample 4:\nresults = {\n\"A WON B\",\n\"A WON C\",\n\"A WON D\",\n\"B TIED C\",\n\"B WON D\",\n\"C WON D\" }\n\nStart with {A B C D}\nRule 1: {A}{B C D} because A has 3 wins (vs 1 for B and C and 0 for D).\nRule 5: {A}{B C}{D} because B and C have 1 win vs (BCD) and D has 0.\nRule 7: {A}{B}{C}{D} because B appears at index 0 and C at index 1.\n\nreturn {\"A\",\"B\",\"C\",\"D\"}\n\n\nExample 5:\nresults = {\n\"A WON B\",\n\"A TIED C\",\n\"A LOST D\",\n\"B WON C\",\n\"B TIED D\",\n\"C WON D\" }\n\nStart with {A B C D}\nRule 7: {A B}{C D} because A and B are at index 0.\nRule 3: {A B}{D}{C} because D has 1 win vs (AB) and C has 0.\nRule 5: {A}{B}{D}{C} because A has 1 win vs (AB) and B has 0.\n\nreturn {\"A\",\"B\",\"D\",\"C\"}\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"OneOnOne\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"OneOnOne\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"sort\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] sort(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4022/pm/300\",\"children\":[\"2001-\",\" \",\"SRM 51\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4022/pm/300\",\"children\":[\"2001-\",\" \",\"SRM 51\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

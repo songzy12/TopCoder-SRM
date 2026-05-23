@@ -1,0 +1,140 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Powerball<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+In the game of Powerball, one player (the "contestant") tries to place a
+colored ball into a basket, while the other player (the "gladiator") tries to
+prevent the contestant from doing so, usually by slamming his head into the
+ground.
+
+The String[] represents a map of the arena in which the game is played.  The
+String[] will consist of the following characters:
+'.' represents open space
+'X' represents a wall
+'*' represents the basket
+
+The String represents the initial coordinates of the contestant and gladiator.
+It will be of the form "&lt;contX&gt; &lt;contY&gt; &lt;gladX&gt; &lt;gladY&gt;", where &lt;contX&gt; and
+&lt;contY&gt; are the contestant's initial x and y coordinates, and &lt;gladX&gt; and
+&lt;gladY&gt; are the gladiator's initial x and y coordinates.  (0,0) is the
+upper-left corner of the arena, with x-coordinates increasing to the right and
+y-coordinates increasing downwards.
+
+Assume that the contestant and gladiator take turns moving, with the contestant
+moving first.  Each turn, the contestant/gladiator may move to an adjacent
+square (the players may move diagonally), or may decline to move.  Neither the
+contestant nor the gladiator may exit the arena or move on top of a wall.  The
+gladiator may not move on top of the basket, and the contestant may not move on
+top of the gladiator.
+
+The gladiator wins if the gladiator moves to the same square as the contestant
+before the contestant places the ball in the basket (what happens afterwards is
+up to your imagination).  The contestant scores if he moves to the same square
+as the basket before he is caught by the gladiator.
+
+Write a method that determines if either player can win.
+- If the contestant has a strategy that always allows him to score, no matter
+what moves the gladiator makes, return 1.
+- If the gladiator has a strategy that always allows him to catch the
+contestant, no matter what moves the contestant makes, return -1.
+- If the contestant can avoid the gladiator indefinitely but the gladiator can
+prevent the contestant from scoring, return 0.
+
+
+DEFINITION
+Class: Powerball
+Method Name: getWinner
+Parameters: String[] String
+Returns: int
+Method signature (be sure your method is public):  int getWinner(String[]
+arena, String coords);
+
+
+TopCoder will ensure validity of the inputs.  Inputs are valid if all of the
+following criteria are met:
+* The arena is rectangular; that is, all elements of the String[] have the same
+length
+* The height of the arena, or the number of elements in the String[], is
+between 1 and 10, inclusive
+* The width of the arena, or the length of each element of the String[], is
+between 1 and 10, inclusive
+* The only characters appearing in arena are '.', 'X', and '*'
+* There is exactly one basket; that is, the '*' character appears exactly once
+in arena
+* coords is of the form "&lt;contX&gt; &lt;contY&gt; &lt;gladX&gt; &lt;gladY&gt;", where &lt;contX&gt;,
+&lt;contY&gt;, &lt;gladX&gt;, and &lt;gladY&gt; are single digits ('0'-'9').  There is no leading
+or trailing whitespace, and a single space separates consecutive tokens
+* The initial contestant and gladiator coordinates are within the bounds of the
+arena, and they are on top of neither a wall, nor the basket, nor each other
+
+
+HINT: one approach is to use a graph with O(n^2) vertices, where n is the
+number of open spaces in the arena.
+
+
+EXAMPLES
+Suppose arena is
+{ "X*" ,
+  ".." }
+and coords = "0 1 1 1".  Then, if C represents the contestant and G represents
+the gladiator, the initial map of the arena is
+ X*
+ CG
+Since the contestant moves first, he can move diagonally and place the ball in
+the basket on his first turn.  Return 1.
+
+Next, suppose arena is
+{ "X*" ,
+  ".." ,
+  ".." }
+and coords = "1 2 0 1".  Then a map of the arena is
+ X*
+ G.
+ .C
+No matter what the contestant's first move is, the gladiator will be able to
+catch him.  Return -1.
+
+Finally, suppose arena is
+{ ".*." ,
+  "..." ,
+  ".X." ,
+  "..." }
+and coords = "1 3 1 1".
+Then a map of the arena is
+ .*.
+ .G.
+ .X.
+ .C.
+If the gladiator tries to go around the wall in the middle, the contestant can
+go around the other side and avoid him.  So the gladiator can't catch the
+contestant.  But the gladiator can keep the contestant from scoring, simply by
+sitting in his initial position.  Return 0.
+
+More test cases:
+Suppose arena is
+{ ".X......" ,
+  "XX......" ,
+  "........" ,
+  "...X...." ,
+  ".XX*X..." ,
+  ".X.X...." ,
+  ".XXX...." ,
+  "........" }
+Then:
+if coords = "0 7 2 5", return 1 (since the gladiator cannot move through the
+basket)
+if coords = "2 5 0 7", return 1
+if coords = "4 1 5 4", return 1
+if coords = "0 0 7 7", return 0
+if coords = "0 7 4 3", return 0
+if coords = "4 1 4 3", return -1
+
+if arena is
+{ ".X.X." ,
+  ".X.X." ,
+  "....." ,
+  ".XXX." ,
+  "..*.." ,
+  "..X.." ,
+  "..X.." ,
+  "..X.." ,
+  "....." }
+and coords = "2 0 2 8", return 1</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Powerball</span></dd><dt>Method:</dt><dd><span>getWinner</span></dd><dt>Parameters:</dt><dd><span>String[], String</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int getWinner(String[] param0, String param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4110/pm/531">2002-<!-- --> <!-- -->SRM 77<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/531/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"531\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"531\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"531\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"531\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"531\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1310,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nIn the game of Powerball, one player (the \"contestant\") tries to place a\ncolored ball into a basket, while the other player (the \"gladiator\") tries to\nprevent the contestant from doing so, usually by slamming his head into the\nground.\n\nThe String[] represents a map of the arena in which the game is played.  The\nString[] will consist of the following characters:\n'.' represents open space\n'X' represents a wall\n'*' represents the basket\n\nThe String represents the initial coordinates of the contestant and gladiator.\nIt will be of the form \"\u0026lt;contX\u0026gt; \u0026lt;contY\u0026gt; \u0026lt;gladX\u0026gt; \u0026lt;gladY\u0026gt;\", where \u0026lt;contX\u0026gt; and\n\u0026lt;contY\u0026gt; are the contestant's initial x and y coordinates, and \u0026lt;gladX\u0026gt; and\n\u0026lt;gladY\u0026gt; are the gladiator's initial x and y coordinates.  (0,0) is the\nupper-left corner of the arena, with x-coordinates increasing to the right and\ny-coordinates increasing downwards.\n\nAssume that the contestant and gladiator take turns moving, with the contestant\nmoving first.  Each turn, the contestant/gladiator may move to an adjacent\nsquare (the players may move diagonally), or may decline to move.  Neither the\ncontestant nor the gladiator may exit the arena or move on top of a wall.  The\ngladiator may not move on top of the basket, and the contestant may not move on\ntop of the gladiator.\n\nThe gladiator wins if the gladiator moves to the same square as the contestant\nbefore the contestant places the ball in the basket (what happens afterwards is\nup to your imagination).  The contestant scores if he moves to the same square\nas the basket before he is caught by the gladiator.\n\nWrite a method that determines if either player can win.\n- If the contestant has a strategy that always allows him to score, no matter\nwhat moves the gladiator makes, return 1.\n- If the gladiator has a strategy that always allows him to catch the\ncontestant, no matter what moves the contestant makes, return -1.\n- If the contestant can avoid the gladiator indefinitely but the gladiator can\nprevent the contestant from scoring, return 0.\n\n\nDEFINITION\nClass: Powerball\nMethod Name: getWinner\nParameters: String[] String\nReturns: int\nMethod signature (be sure your method is public):  int getWinner(String[]\narena, String coords);\n\n\nTopCoder will ensure validity of the inputs.  Inputs are valid if all of the\nfollowing criteria are met:\n* The arena is rectangular; that is, all elements of the String[] have the same\nlength\n* The height of the arena, or the number of elements in the String[], is\nbetween 1 and 10, inclusive\n* The width of the arena, or the length of each element of the String[], is\nbetween 1 and 10, inclusive\n* The only characters appearing in arena are '.', 'X', and '*'\n* There is exactly one basket; that is, the '*' character appears exactly once\nin arena\n* coords is of the form \"\u0026lt;contX\u0026gt; \u0026lt;contY\u0026gt; \u0026lt;gladX\u0026gt; \u0026lt;gladY\u0026gt;\", where \u0026lt;contX\u0026gt;,\n\u0026lt;contY\u0026gt;, \u0026lt;gladX\u0026gt;, and \u0026lt;gladY\u0026gt; are single digits ('0'-'9').  There is no leading\nor trailing whitespace, and a single space separates consecutive tokens\n* The initial contestant and gladiator coordinates are within the bounds of the\narena, and they are on top of neither a wall, nor the basket, nor each other\n\n\nHINT: one approach is to use a graph with O(n^2) vertices, where n is the\nnumber of open spaces in the arena.\n\n\nEXAMPLES\nSuppose arena is\n{ \"X*\" ,\n  \"..\" }\nand coords = \"0 1 1 1\".  Then, if C represents the contestant and G represents\nthe gladiator, the initial map of the arena is\n X*\n CG\nSince the contestant moves first, he can move diagonally and place the ball in\nthe basket on his first turn.  Return 1.\n\nNext, suppose arena is\n{ \"X*\" ,\n  \"..\" ,\n  \"..\" }\nand coords = \"1 2 0 1\".  Then a map of the arena is\n X*\n G.\n .C\nNo matter what the contestant's first move is, the gladiator will be able to\ncatch him.  Return -1.\n\nFinally, suppose arena is\n{ \".*.\" ,\n  \"...\" ,\n  \".X.\" ,\n  \"...\" }\nand coords = \"1 3 1 1\".\nThen a map of the arena is\n .*.\n .G.\n .X.\n .C.\nIf the gladiator tries to go around the wall in the middle, the contestant can\ngo around the other side and avoid him.  So the gladiator can't catch the\ncontestant.  But the gladiator can keep the contestant from scoring, simply by\nsitting in his initial position.  Return 0.\n\nMore test cases:\nSuppose arena is\n{ \".X......\" ,\n  \"XX......\" ,\n  \"........\" ,\n  \"...X....\" ,\n  \".XX*X...\" ,\n  \".X.X....\" ,\n  \".XXX....\" ,\n  \"........\" }\nThen:\nif coords = \"0 7 2 5\", return 1 (since the gladiator cannot move through the\nbasket)\nif coords = \"2 5 0 7\", return 1\nif coords = \"4 1 5 4\", return 1\nif coords = \"0 0 7 7\", return 0\nif coords = \"0 7 4 3\", return 0\nif coords = \"4 1 4 3\", return -1\n\nif arena is\n{ \".X.X.\" ,\n  \".X.X.\" ,\n  \".....\" ,\n  \".XXX.\" ,\n  \"..*..\" ,\n  \"..X..\" ,\n  \"..X..\" ,\n  \"..X..\" ,\n  \".....\" }\nand coords = \"2 0 2 8\", return 1\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Powerball\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Powerball\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getWinner\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int getWinner(String[] param0, String param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4110/pm/531\",\"children\":[\"2002-\",\" \",\"SRM 77\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

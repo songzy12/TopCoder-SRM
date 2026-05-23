@@ -1,0 +1,171 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Simulate<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+One important process in designing computer chips is simulation.  In this stage
+of development, a circuit is created virtually and it is run for some amount of
+time, and with various inputs.  Your task is to write a method that performs
+this given simulation over a given number of time steps.  
+
+Before you can simulate the circuit, you must first understand the components
+in the circuit.  For the sake of simplicity, we will only be considering four
+types of components: NOT gates, AND gates, OR gates, and D flip-flops.
+Remember, in a circuit all signals are binary: 1 or 0.
+
+A NOT gate has one input and one output.  If the input is 1, then the output is
+0.  If the input is 0, then the output is 1.
+An AND gate has two or more inputs.  If all of them are 1, then the output is
+1, otherwise the output is 0.
+An OR gate also has two or more inputs.  If all of them are 0, then the output
+is 0, otherwise the output is 1.
+A D flip-flop has one input and one output.  This component maintains the same
+output, called its state, throughout the duration of each time step, regardless
+of its input.  At the transition from one time step to the next, all flip-flops
+in the circuit simultaneously change their state to the value of their inputs.
+For example, if after the transition to time step 2, the flip-flop has an input
+of 1, then at time step 3, it will have a state, and thus an output, of 1.
+
+Each String in components will start with "NOT", "OR", "AND", or "DFF" and this
+will be followed by 1 or more numbers, indicating the indices of the
+component(s) whose outputs are this components input.
+For example, if components were {"NOT 1","DFF 0"}, that would mean that the
+input of component 0 came from component 1, and the input of component 1 came
+from component 0:
+
+      |-&lt;---------&lt;--
+      |              |
+      -&gt;-NOT-&gt;-DFF-&gt;-
+
+If the flip-flop in the above circuit was outputting a 1 at some time step,
+then at the next time step it would change from outputting a 1 to outputting
+its previous input, a 0.  If the flip-flop was outputting a 0 at some time
+step, then its input at that time step would be a 1, and thus at the next time
+step, its output would be a 1.  Thus, at every time step, the state of the
+above flip-flop would switch its state. 
+
+After running the simulation for t time steps, you are to concatenate the
+current state of all flip-flops into a String of '1's and '0's.  The String
+should contain one character for every flip-flop and they should be ordered the
+same as they are in the input String[] (see examples to see how this works).
+
+DEFINITION
+Class: Simulate
+Method name: go
+Parameters: String[], int
+Return type: String
+Method signature (be sure your method is public): String go(String[]
+components, int t);
+
+NOTES
+- assume that all flip-flops have an output of 0 at the beginning of the
+simulation.
+- do not include the state of non-flip-flop components in the output.
+- the eight second execution time limit may become an issue for people who
+submit solutions whose worst case run time is O(24^49) or 0(999999999)
+
+TopCoder will ensure that:
+- NOT and DFF gates have exactly 1 input and there will be exactly one space
+between terms.
+- AND and OR gates have at least 2 inputs and there will be exactly one space
+between terms.
+- All elements of components are between 5 and 50 characters in length,
+inclusive.
+- components contains between 1 and 50 elements inclusive.
+- The only loops in the circuit contain at least one flip-flop (i.e. {"NOT 0"}
+is not a valid input).
+- No elements of components have extra spaces or leading '0's
+- t will be in the range 0 to 999,999,999, inclusive.
+- There will be between 1 and 15 flip-flops, inclusive
+- All inputs indices will refer to valid components.  
+
+EXAMPLES
+1. components = {"DFF 0"} t = 2
+This is the simplest circuit we can make.  Because flip-flops are initialized
+to state 0, this flip-flop's input will be 0 and hence its state will always be
+0.  returns "0"
+
+2. components = {"NOT 3","DFF 0","NOT 1","DFF 2"}
+This corresponds to the following circuit, where the output a flip-flop is
+always at its right-hand side:
+
+  Component:      0     1     2     3
+             /---NOT---DFF---NOT---DFF---\
+             |                           |
+             \---------------------------/
+
+a) t = 0
+The initial state of all flip-flops at time 0 is 0.  Since there are two
+flip-flops, return "00".
+
+b) t = 1
+The initial state of all flip-flops at time 0 is 0.  The input of the flip-flop
+at component 1 comes from component 0.  At time 0, the output of component 0 is
+1 (because it is the opposite of the flip-flop at component 3, whose output at
+t = 0 is 0).  Similarly, the input of the flip-flop at component 3 comes from
+the output of component 2, which is 1 at time 0.  Thus, at time 0, the inputs
+of both flip-flops are 1.  Thus, at time 1, both flip-flops change their states
+to their inputs from the previous time step, and at time 1, the states of both
+flip-flops are 1.  Thus we return "11".
+
+c) t = 2
+At time 1, the states of both flip-flops are 1.  Thus, both inputs to the
+flip-flops are 0, and as a result, at time 2, both states go to 0.
+returns "00"
+
+d) t = 21
+returns "11"
+
+3. components = {"DFF 2","DFF 6","AND 3 4","NOT 5","OR 0 1","AND 0 1","NOT 1"}
+This corresponds to the following circuit, where the number above each
+component is its position in the input String[], a '+' indicates that two wires
+overlap, but DO NOT connect, and a '*' indicated that two wires overlap and DO
+connect:
+
+  --------------\
+ /          6   |
+ |       --NOT--/
+ |      /
+ \   1  |
+  --DFF-*----------\ 5     3
+        |           AND---NOT--\ 2
+        |     0    /            AND--\
+        |  /-DFF--*----\ 4     /      |
+        |  |            OR----/       |
+         \-+-----------/              |
+           |                          /
+            \-------------------------
+
+a) t = 1
+At time 0 the input to the flip-flop at component 0 is 0 (because the output of
+the OR at component 4 is 0).  However, the input to the flip-flop at component
+1 is 1 (because the output of the NOT at component 6 is 1).  Thus at time 1,
+the state of the flip-flop at component 0 is 0, and the state of the flip-flop
+at component 1 is 1.
+returns "01"
+b) t = 2, returns "10"
+c) t = 3, returns "11"
+d) t = 20
+This circuit is a two bit binary counter.  Thus at time 20, its output is 00.
+returns "00"
+
+4. components = {"OR 5 2 3 4 5","DFF 6","DFF 1","DFF 2","DFF 3","DFF 4","NOT 0"}
+a) t = 3, returns "01100"
+b) t = 99, returns "10000"
+
+5. components = {"AND 9 10","DFF 13","DFF 0","DFF 6","DFF 5","NOT 4","OR 15
+16","OR 3 4","AND 7 2","NOT 8","OR 7 2","AND 1 8","NOT 11","AND 12 14","OR 1
+8","AND 3 4","NOT 17","OR 3 4"}
+This circuit is a four bit counter that counts by threes.
+a) t = 1, returns "0011"
+b) t = 2, returns "0110"
+c) t = 3, returns "1001"
+d) t = 5, returns "1111"
+e) t = 11, returns "0001"
+f) t = 99999, returns "1101"
+
+6. components = {"OR 9 8 7 6 5 4 3 2 1","OR 9 8 7 6 5 4 3 2","OR 9 8 7 6 5 4
+3","OR 9 8 7 6 5 4","OR 9 8 7 6 5","OR 9 8 7 6","OR 9 8 7","OR 9 8","OR 9 9 9 9
+9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9","OR 10 10 10 10 10 10 10 10 10 10 10
+10 10 10 10 10","OR 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11","DFF 0"}
+t = 10
+returns "0"
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Simulate</span></dd><dt>Method:</dt><dd><span>go</span></dd><dt>Parameters:</dt><dd><span>String[], int</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String go(String[] param0, int param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4125/pm/679">2002-<!-- --> <!-- -->SRM 80<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/679/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"679\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"679\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"679\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"679\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"679\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1ca0,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nOne important process in designing computer chips is simulation.  In this stage\nof development, a circuit is created virtually and it is run for some amount of\ntime, and with various inputs.  Your task is to write a method that performs\nthis given simulation over a given number of time steps.  \n\nBefore you can simulate the circuit, you must first understand the components\nin the circuit.  For the sake of simplicity, we will only be considering four\ntypes of components: NOT gates, AND gates, OR gates, and D flip-flops.\nRemember, in a circuit all signals are binary: 1 or 0.\n\nA NOT gate has one input and one output.  If the input is 1, then the output is\n0.  If the input is 0, then the output is 1.\nAn AND gate has two or more inputs.  If all of them are 1, then the output is\n1, otherwise the output is 0.\nAn OR gate also has two or more inputs.  If all of them are 0, then the output\nis 0, otherwise the output is 1.\nA D flip-flop has one input and one output.  This component maintains the same\noutput, called its state, throughout the duration of each time step, regardless\nof its input.  At the transition from one time step to the next, all flip-flops\nin the circuit simultaneously change their state to the value of their inputs.\nFor example, if after the transition to time step 2, the flip-flop has an input\nof 1, then at time step 3, it will have a state, and thus an output, of 1.\n\nEach String in components will start with \"NOT\", \"OR\", \"AND\", or \"DFF\" and this\nwill be followed by 1 or more numbers, indicating the indices of the\ncomponent(s) whose outputs are this components input.\nFor example, if components were {\"NOT 1\",\"DFF 0\"}, that would mean that the\ninput of component 0 came from component 1, and the input of component 1 came\nfrom component 0:\n\n      |-\u0026lt;---------\u0026lt;--\n      |              |\n      -\u0026gt;-NOT-\u0026gt;-DFF-\u0026gt;-\n\nIf the flip-flop in the above circuit was outputting a 1 at some time step,\nthen at the next time step it would change from outputting a 1 to outputting\nits previous input, a 0.  If the flip-flop was outputting a 0 at some time\nstep, then its input at that time step would be a 1, and thus at the next time\nstep, its output would be a 1.  Thus, at every time step, the state of the\nabove flip-flop would switch its state. \n\nAfter running the simulation for t time steps, you are to concatenate the\ncurrent state of all flip-flops into a String of '1's and '0's.  The String\nshould contain one character for every flip-flop and they should be ordered the\nsame as they are in the input String[] (see examples to see how this works).\n\nDEFINITION\nClass: Simulate\nMethod name: go\nParameters: String[], int\nReturn type: String\nMethod signature (be sure your method is public): String go(String[]\ncomponents, int t);\n\nNOTES\n- assume that all flip-flops have an output of 0 at the beginning of the\nsimulation.\n- do not include the state of non-flip-flop components in the output.\n- the eight second execution time limit may become an issue for people who\nsubmit solutions whose worst case run time is O(24^49) or 0(999999999)\n\nTopCoder will ensure that:\n- NOT and DFF gates have exactly 1 input and there will be exactly one space\nbetween terms.\n- AND and OR gates have at least 2 inputs and there will be exactly one space\nbetween terms.\n- All elements of components are between 5 and 50 characters in length,\ninclusive.\n- components contains between 1 and 50 elements inclusive.\n- The only loops in the circuit contain at least one flip-flop (i.e. {\"NOT 0\"}\nis not a valid input).\n- No elements of components have extra spaces or leading '0's\n- t will be in the range 0 to 999,999,999, inclusive.\n- There will be between 1 and 15 flip-flops, inclusive\n- All inputs indices will refer to valid components.  \n\nEXAMPLES\n1. components = {\"DFF 0\"} t = 2\nThis is the simplest circuit we can make.  Because flip-flops are initialized\nto state 0, this flip-flop's input will be 0 and hence its state will always be\n0.  returns \"0\"\n\n2. components = {\"NOT 3\",\"DFF 0\",\"NOT 1\",\"DFF 2\"}\nThis corresponds to the following circuit, where the output a flip-flop is\nalways at its right-hand side:\n\n  Component:      0     1     2     3\n             /---NOT---DFF---NOT---DFF---\\\n             |                           |\n             \\---------------------------/\n\na) t = 0\nThe initial state of all flip-flops at time 0 is 0.  Since there are two\nflip-flops, return \"00\".\n\nb) t = 1\nThe initial state of all flip-flops at time 0 is 0.  The input of the flip-flop\nat component 1 comes from component 0.  At time 0, the output of component 0 is\n1 (because it is the opposite of the flip-flop at component 3, whose output at\nt = 0 is 0).  Similarly, the input of the flip-flop at component 3 comes from\nthe output of component 2, which is 1 at time 0.  Thus, at time 0, the inputs\nof both flip-flops are 1.  Thus, at time 1, both flip-flops change their states\nto their inputs from the previous time step, and at time 1, the states of both\nflip-flops are 1.  Thus we return \"11\".\n\nc) t = 2\nAt time 1, the states of both flip-flops are 1.  Thus, both inputs to the\nflip-flops are 0, and as a result, at time 2, both states go to 0.\nreturns \"00\"\n\nd) t = 21\nreturns \"11\"\n\n3. components = {\"DFF 2\",\"DFF 6\",\"AND 3 4\",\"NOT 5\",\"OR 0 1\",\"AND 0 1\",\"NOT 1\"}\nThis corresponds to the following circuit, where the number above each\ncomponent is its position in the input String[], a '+' indicates that two wires\noverlap, but DO NOT connect, and a '*' indicated that two wires overlap and DO\nconnect:\n\n  --------------\\\n /          6   |\n |       --NOT--/\n |      /\n \\   1  |\n  --DFF-*----------\\ 5     3\n        |           AND---NOT--\\ 2\n        |     0    /            AND--\\\n        |  /-DFF--*----\\ 4     /      |\n        |  |            OR----/       |\n         \\-+-----------/              |\n           |                          /\n            \\-------------------------\n\na) t = 1\nAt time 0 the input to the flip-flop at component 0 is 0 (because the output of\nthe OR at component 4 is 0).  However, the input to the flip-flop at component\n1 is 1 (because the output of the NOT at component 6 is 1).  Thus at time 1,\nthe state of the flip-flop at component 0 is 0, and the state of the flip-flop\nat component 1 is 1.\nreturns \"01\"\nb) t = 2, returns \"10\"\nc) t = 3, returns \"11\"\nd) t = 20\nThis circuit is a two bit binary counter.  Thus at time 20, its output is 00.\nreturns \"00\"\n\n4. components = {\"OR 5 2 3 4 5\",\"DFF 6\",\"DFF 1\",\"DFF 2\",\"DFF 3\",\"DFF 4\",\"NOT 0\"}\na) t = 3, returns \"01100\"\nb) t = 99, returns \"10000\"\n\n5. components = {\"AND 9 10\",\"DFF 13\",\"DFF 0\",\"DFF 6\",\"DFF 5\",\"NOT 4\",\"OR 15\n16\",\"OR 3 4\",\"AND 7 2\",\"NOT 8\",\"OR 7 2\",\"AND 1 8\",\"NOT 11\",\"AND 12 14\",\"OR 1\n8\",\"AND 3 4\",\"NOT 17\",\"OR 3 4\"}\nThis circuit is a four bit counter that counts by threes.\na) t = 1, returns \"0011\"\nb) t = 2, returns \"0110\"\nc) t = 3, returns \"1001\"\nd) t = 5, returns \"1111\"\ne) t = 11, returns \"0001\"\nf) t = 99999, returns \"1101\"\n\n6. components = {\"OR 9 8 7 6 5 4 3 2 1\",\"OR 9 8 7 6 5 4 3 2\",\"OR 9 8 7 6 5 4\n3\",\"OR 9 8 7 6 5 4\",\"OR 9 8 7 6 5\",\"OR 9 8 7 6\",\"OR 9 8 7\",\"OR 9 8\",\"OR 9 9 9 9\n9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9 9\",\"OR 10 10 10 10 10 10 10 10 10 10 10\n10 10 10 10 10\",\"OR 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11 11\",\"DFF 0\"}\nt = 10\nreturns \"0\"\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Simulate\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Simulate\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"go\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String go(String[] param0, int param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4125/pm/679\",\"children\":[\"2002-\",\" \",\"SRM 80\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

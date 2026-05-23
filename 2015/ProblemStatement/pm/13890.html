@@ -1,0 +1,187 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->FindingKids<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">In Amagi Brilliant Park there is a famous bumper car ride. The park administration emphasizes safety. When they observed other bumper car rides, they noticed that collisions of more than two cars are very dangerous. Therefore, they decided to design a unique ride where this cannot happen.</p>
+
+<p xmlns="http://topcoder.com">This ride consists of a single track that is very long but only one car wide. For the purpose of this problem we will visualize the ride as the real number line and cars as points on this line. The line goes from the left to the right and coordinates increase towards the right.</p>
+
+<p xmlns="http://topcoder.com">All cars are always in motion: at any moment, some cars are going to the left and all other cars are going to the right. All cars always move at the same constant speed of 1 unit per microsecond. Whenever two cars occupy the same point, they bump into each other and both of them immediately switch their direction (from left to right and vice versa).</p>
+
+<p xmlns="http://topcoder.com">A group of <b>n</b> kids from a certain elementary school just entered the park. Kids love bumper cars, so all <b>n</b> of them went on the ride at the same time. Each kid chose a different car. All <b>n</b> cars start in distinct locations. There are no other cars on the ride. The kids are numbered 0 through <b>n</b>-1 in no particular order. For each kid i, you will be given its initial position pos[i] and the initial direction dir[i] of its car. The exact format is specified below.</p>
+
+<p xmlns="http://topcoder.com">The teacher is worried about being too far away from the kids. She asked you <b>q</b> queries. The queries are numbered from 0 to <b>q</b>-1. Each query has two parameters: kid[i] and time[i]. Here, kid[i] is the number of one particular kid, and time[i] is the time in microseconds from the beginning of the ride.</p>
+
+<p xmlns="http://topcoder.com">The answer to each query should be the distance between position 0 and the position of kid[i] at time[i]. Return the sum of answers to all the queries.</p>
+
+<p xmlns="http://topcoder.com">You are given the <type>int</type>s <b>n</b> and <b>q</b> mentioned above.
+You are also given <type>int</type>s <b>A</b>, <b>B</b>, and <b>C</b>.
+These are the seeds of a pseudo-random generator that will output the values of pos, dir, kid, and time.
+The pseudocode of the generator follows.</p>
+
+<pre xmlns="http://topcoder.com">
+let M = 1,000,000,007
+
+for i from 0 to n-1, inclusive:
+    A := (A * B + C) modulo M
+    p := A modulo (M - n + i + 1)
+    if p is already in pos:
+        p := M - n + i
+    pos[i] := p
+    if p modulo 2 == 0:
+        dir[i] := "right"
+    else:
+        dir[i] := "left"
+
+for i from 0 to q-1, inclusive:
+    A := (A * B + C) modulo M
+    kid[i] := A modulo n
+    A := (A * B + C) modulo M
+    time[i] := A
+</pre>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>FindingKids</span></dd><dt>Method:</dt><dd><span>getSum</span></dd><dt>Parameters:</dt><dd><span>int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>long</span></dd><dt>Method signature:</dt><dd><span>long getSum(int n, int q, int A, int B, int C)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>Assume that the duration of the ride is greater than any of the values time[i].</li><li>Distance is always a nonnegative quantity. Specifically, the distance from position x to 0 is |x| (the absolute value of x).</li></ul></div><div><h3>Constraints</h3><ul><li><span>n will be an integer from 1 to 200,000 inclusive.</span></li><li><span>q will be an integer from 1 to 200,000 inclusive.</span></li><li><span>A will be an integer from 0 to 1,000,000,006 inclusive.</span></li><li><span>B will be an integer from 0 to 1,000,000,006 inclusive.</span></li><li><span>C will be an integer from 0 to 1,000,000,006 inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>5</p>
+<p>2</p>
+<p>0</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 15</p>
+<p>At time 0 the kids' positions are {1, 2, 3, 4, 5} and their directions are {left, right, left, right, left}.
+
+Query 0 is about kid 1 at time 7.
+
+At time 0.5, kid 1 bumps into kid 2 at position 2.5 and immediately starts going left.
+Kid 1 does not bump into anyone else. Thus, after another 6.5 microseconds she will end up at position -4.
+The answer to query 0 is |-4| = 4. (Distance is always nonnegative.)
+
+
+Query 1 is about kid 3 at time 9.
+
+At time 0.5, kid 3 bumps into kid 4 at position 4.5 and immediately starts going left.
+At the same time, kid 2 bumps into kid 1 at position 2.5 and immediately starts going right.
+At time 1.5, kid 3 bumps into kid 2 at position 3.5 and immediately starts going right again.
+Kid 3 does not bump into anyone else. In the remaining 7.5 microseconds kid 3 will travel from position 3.5 to position 11.
+The answer to query 1 is therefore 11.
+
+
+The correct return value is the sum of the answers, which is 4 + 11 = 15.
+</p></div></li><li><div><p>5</p>
+<p>4</p>
+<p>3</p>
+<p>2</p>
+<p>1</p>
+<p>Returns: 43376</p>
+<p>In order, the answers to the queries are {504, 1984, 8184, 32704}.</p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>12345</p>
+<p>67890</p>
+<p>111213141</p>
+<p>Returns: 133378408428237</p>
+<p></p></div></li><li><div><p>1</p>
+<p>200000</p>
+<p>299935478</p>
+<p>93657707</p>
+<p>751975948</p>
+<p>Returns: 55916462670542</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>459695835</p>
+<p>1</p>
+<p>0</p>
+<p>Returns: 108059168400000</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>405928708</p>
+<p>0</p>
+<p>1337</p>
+<p>Returns: 199960268800000</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>11158416</p>
+<p>1</p>
+<p>1</p>
+<p>Returns: 2311683500000</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>518432386</p>
+<p>854093692</p>
+<p>86569215</p>
+<p>Returns: 133028436645338</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>970299885</p>
+<p>328509249</p>
+<p>279508717</p>
+<p>Returns: 133028136604689</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>407384288</p>
+<p>21158936</p>
+<p>165339869</p>
+<p>Returns: 133321370354381</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>166944611</p>
+<p>752387871</p>
+<p>77404622</p>
+<p>Returns: 133563039624147</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>610380043</p>
+<p>482148257</p>
+<p>12222401</p>
+<p>Returns: 133456299414825</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>173965048</p>
+<p>283449012</p>
+<p>271669161</p>
+<p>Returns: 133596144863621</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>986748024</p>
+<p>799649815</p>
+<p>918466217</p>
+<p>Returns: 132957526469776</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>500779185</p>
+<p>866670622</p>
+<p>359419754</p>
+<p>Returns: 133134463410080</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>703675017</p>
+<p>142849459</p>
+<p>692112347</p>
+<p>Returns: 133208877242865</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>255029315</p>
+<p>449646332</p>
+<p>999058603</p>
+<p>Returns: 133863257860030</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>949293970</p>
+<p>577325836</p>
+<p>168050562</p>
+<p>Returns: 133253948435846</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>191557169</p>
+<p>337522684</p>
+<p>428963343</p>
+<p>Returns: 133403307063189</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>996358245</p>
+<p>13046793</p>
+<p>200268821</p>
+<p>Returns: 133546388204857</p>
+<p></p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>0</p>
+<p>0</p>
+<p>2</p>
+<p>Returns: 199960001800000</p></div></li><li><div><p>200000</p>
+<p>200000</p>
+<p>123456789</p>
+<p>987654321</p>
+<p>192837465</p>
+<p>Returns: 133430357128962</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/16624/pm/13890">2015-<!-- --> <!-- -->SRM 674<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/13890/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"13890\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"13890\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"13890\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"13890\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"13890\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Tb35,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003eIn Amagi Brilliant Park there is a famous bumper car ride. The park administration emphasizes safety. When they observed other bumper car rides, they noticed that collisions of more than two cars are very dangerous. Therefore, they decided to design a unique ride where this cannot happen.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eThis ride consists of a single track that is very long but only one car wide. For the purpose of this problem we will visualize the ride as the real number line and cars as points on this line. The line goes from the left to the right and coordinates increase towards the right.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eAll cars are always in motion: at any moment, some cars are going to the left and all other cars are going to the right. All cars always move at the same constant speed of 1 unit per microsecond. Whenever two cars occupy the same point, they bump into each other and both of them immediately switch their direction (from left to right and vice versa).\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eA group of \u003cb\u003en\u003c/b\u003e kids from a certain elementary school just entered the park. Kids love bumper cars, so all \u003cb\u003en\u003c/b\u003e of them went on the ride at the same time. Each kid chose a different car. All \u003cb\u003en\u003c/b\u003e cars start in distinct locations. There are no other cars on the ride. The kids are numbered 0 through \u003cb\u003en\u003c/b\u003e-1 in no particular order. For each kid i, you will be given its initial position pos[i] and the initial direction dir[i] of its car. The exact format is specified below.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eThe teacher is worried about being too far away from the kids. She asked you \u003cb\u003eq\u003c/b\u003e queries. The queries are numbered from 0 to \u003cb\u003eq\u003c/b\u003e-1. Each query has two parameters: kid[i] and time[i]. Here, kid[i] is the number of one particular kid, and time[i] is the time in microseconds from the beginning of the ride.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eThe answer to each query should be the distance between position 0 and the position of kid[i] at time[i]. Return the sum of answers to all the queries.\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003eYou are given the \u003ctype\u003eint\u003c/type\u003es \u003cb\u003en\u003c/b\u003e and \u003cb\u003eq\u003c/b\u003e mentioned above.\nYou are also given \u003ctype\u003eint\u003c/type\u003es \u003cb\u003eA\u003c/b\u003e, \u003cb\u003eB\u003c/b\u003e, and \u003cb\u003eC\u003c/b\u003e.\nThese are the seeds of a pseudo-random generator that will output the values of pos, dir, kid, and time.\nThe pseudocode of the generator follows.\u003c/p\u003e\n\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\nlet M = 1,000,000,007\n\nfor i from 0 to n-1, inclusive:\n    A := (A * B + C) modulo M\n    p := A modulo (M - n + i + 1)\n    if p is already in pos:\n        p := M - n + i\n    pos[i] := p\n    if p modulo 2 == 0:\n        dir[i] := \"right\"\n    else:\n        dir[i] := \"left\"\n\nfor i from 0 to q-1, inclusive:\n    A := (A * B + C) modulo M\n    kid[i] := A modulo n\n    A := (A * B + C) modulo M\n    time[i] := A\n\u003c/pre\u003e\n"])</script><script>self.__next_f.push([1,"10:T405,"])</script><script>self.__next_f.push([1,"\u003cp\u003e5\u003c/p\u003e\n\u003cp\u003e2\u003c/p\u003e\n\u003cp\u003e0\u003c/p\u003e\n\u003cp\u003e1\u003c/p\u003e\n\u003cp\u003e1\u003c/p\u003e\n\u003cp\u003eReturns: 15\u003c/p\u003e\n\u003cp\u003eAt time 0 the kids' positions are {1, 2, 3, 4, 5} and their directions are {left, right, left, right, left}.\n\nQuery 0 is about kid 1 at time 7.\n\nAt time 0.5, kid 1 bumps into kid 2 at position 2.5 and immediately starts going left.\nKid 1 does not bump into anyone else. Thus, after another 6.5 microseconds she will end up at position -4.\nThe answer to query 0 is |-4| = 4. (Distance is always nonnegative.)\n\n\nQuery 1 is about kid 3 at time 9.\n\nAt time 0.5, kid 3 bumps into kid 4 at position 4.5 and immediately starts going left.\nAt the same time, kid 2 bumps into kid 1 at position 2.5 and immediately starts going right.\nAt time 1.5, kid 3 bumps into kid 2 at position 3.5 and immediately starts going right again.\nKid 3 does not bump into anyone else. In the remaining 7.5 microseconds kid 3 will travel from position 3.5 to position 11.\nThe answer to query 1 is therefore 11.\n\n\nThe correct return value is the sum of the answers, which is 4 + 11 = 15.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"FindingKids\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"FindingKids\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getSum\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long getSum(int n, int q, int A, int B, int C)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"Assume that the duration of the ride is greater than any of the values time[i].\"}],[\"$\",\"li\",\"1\",{\"children\":\"Distance is always a nonnegative quantity. Specifically, the distance from position x to 0 is |x| (the absolute value of x).\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"n will be an integer from 1 to 200,000 inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"q will be an integer from 1 to 200,000 inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"A will be an integer from 0 to 1,000,000,006 inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"B will be an integer from 0 to 1,000,000,006 inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"C will be an integer from 0 to 1,000,000,006 inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 43376\u003c/p\u003e\\n\u003cp\u003eIn order, the answers to the queries are {504, 1984, 8184, 32704}.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e12345\u003c/p\u003e\\n\u003cp\u003e67890\u003c/p\u003e\\n\u003cp\u003e111213141\u003c/p\u003e\\n\u003cp\u003eReturns: 133378408428237\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e299935478\u003c/p\u003e\\n\u003cp\u003e93657707\u003c/p\u003e\\n\u003cp\u003e751975948\u003c/p\u003e\\n\u003cp\u003eReturns: 55916462670542\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e459695835\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 108059168400000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e405928708\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e1337\u003c/p\u003e\\n\u003cp\u003eReturns: 199960268800000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e11158416\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 2311683500000\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e518432386\u003c/p\u003e\\n\u003cp\u003e854093692\u003c/p\u003e\\n\u003cp\u003e86569215\u003c/p\u003e\\n\u003cp\u003eReturns: 133028436645338\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e970299885\u003c/p\u003e\\n\u003cp\u003e328509249\u003c/p\u003e\\n\u003cp\u003e279508717\u003c/p\u003e\\n\u003cp\u003eReturns: 133028136604689\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e407384288\u003c/p\u003e\\n\u003cp\u003e21158936\u003c/p\u003e\\n\u003cp\u003e165339869\u003c/p\u003e\\n\u003cp\u003eReturns: 133321370354381\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e166944611\u003c/p\u003e\\n\u003cp\u003e752387871\u003c/p\u003e\\n\u003cp\u003e77404622\u003c/p\u003e\\n\u003cp\u003eReturns: 133563039624147\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e610380043\u003c/p\u003e\\n\u003cp\u003e482148257\u003c/p\u003e\\n\u003cp\u003e12222401\u003c/p\u003e\\n\u003cp\u003eReturns: 133456299414825\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e173965048\u003c/p\u003e\\n\u003cp\u003e283449012\u003c/p\u003e\\n\u003cp\u003e271669161\u003c/p\u003e\\n\u003cp\u003eReturns: 133596144863621\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e986748024\u003c/p\u003e\\n\u003cp\u003e799649815\u003c/p\u003e\\n\u003cp\u003e918466217\u003c/p\u003e\\n\u003cp\u003eReturns: 132957526469776\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e500779185\u003c/p\u003e\\n\u003cp\u003e866670622\u003c/p\u003e\\n\u003cp\u003e359419754\u003c/p\u003e\\n\u003cp\u003eReturns: 133134463410080\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e703675017\u003c/p\u003e\\n\u003cp\u003e142849459\u003c/p\u003e\\n\u003cp\u003e692112347\u003c/p\u003e\\n\u003cp\u003eReturns: 133208877242865\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e255029315\u003c/p\u003e\\n\u003cp\u003e449646332\u003c/p\u003e\\n\u003cp\u003e999058603\u003c/p\u003e\\n\u003cp\u003eReturns: 133863257860030\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e949293970\u003c/p\u003e\\n\u003cp\u003e577325836\u003c/p\u003e\\n\u003cp\u003e168050562\u003c/p\u003e\\n\u003cp\u003eReturns: 133253948435846\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e191557169\u003c/p\u003e\\n\u003cp\u003e337522684\u003c/p\u003e\\n\u003cp\u003e428963343\u003c/p\u003e\\n\u003cp\u003eReturns: 133403307063189\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e996358245\u003c/p\u003e\\n\u003cp\u003e13046793\u003c/p\u003e\\n\u003cp\u003e200268821\u003c/p\u003e\\n\u003cp\u003eReturns: 133546388204857\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003eReturns: 199960001800000\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e200000\u003c/p\u003e\\n\u003cp\u003e123456789\u003c/p\u003e\\n\u003cp\u003e987654321\u003c/p\u003e\\n\u003cp\u003e192837465\u003c/p\u003e\\n\u003cp\u003eReturns: 133430357128962\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/16624/pm/13890\",\"children\":[\"2015-\",\" \",\"SRM 674\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

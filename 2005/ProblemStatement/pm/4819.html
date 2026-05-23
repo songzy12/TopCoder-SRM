@@ -1,0 +1,596 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->RandomChoice<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+We have to make a uniform random decision among <b>k</b>
+possible outcomes, but all we have available is an
+unfair coin.
+</p>
+<p xmlns="http://topcoder.com">
+The coin has a probability p<sub>H</sub> of
+giving Heads and p<sub>T</sub> = 1 - p<sub>H</sub> of giving
+Tails in the first throw. Subsequent throws are
+dependent on the previous throw, and there is a probability
+p<sub>HT</sub> of throwing Tails after a Heads throw and
+p<sub>TH</sub> of throwing Heads after a Tails throw. Note
+that either Heads or Tails always comes out, so the probability
+of throwing Tails after a Tails throw is
+p<sub>TT</sub> = 1 - p<sub>TH</sub> and the probability of throwing
+Heads after a Heads throw is p<sub>HH</sub> = 1 - p<sub>HT</sub>.
+</p>
+<p xmlns="http://topcoder.com">
+In order to make a fair decision, we throw the coin
+<b>n</b> times. If there are <b>k</b> coin result sequences
+that are equally probable (independent of p<sub>H</sub>, p<sub>HT</sub> and
+p<sub>TH</sub>), we can map each of these sequences to one
+of the <b>k</b> original decision outcomes. We repeat this
+with further coin result sequences, mapping as many of them
+as possible to the <b>k</b> original decision outcomes. At
+the end, some of the coin result sequences may remain unmapped.
+After we throw the coin <b>n</b> times, either one of the
+mapped sequences will come out, in which case we can
+directly make the fair decision by choosing the mapped
+outcome, or one of the unmapped sequences will come out,
+in which case we still cannot make a fair decision
+(we could then repeat making <b>n</b> further throws, until
+one of the mapped sequences comes out).
+</p>
+<p xmlns="http://topcoder.com">
+For example, let's say <b>k</b> = 3, and <b>n</b> = 6 (we
+have to choose among three outcomes, and throw the coin 6 times).
+In this case, the sequences "HTHHHH", "HHTHHH",
+"HHHTHH" and "HHHHTH" are equally probable
+(the given strings show the outcome of the 6 coin throws in order,
+with H representing Heads and T representing Tails; each of these
+sequences has a probability of p<sub>H</sub> * p<sub>HH</sub> * p<sub>HH</sub>
+* p<sub>HT</sub> * p<sub>TH</sub>). So we can map three of these sequences
+to the three outcomes, and one sequence will remain unmapped. Similarly,
+we can map the sequences "HTTHHH", "HHTTHH" and
+"HHHTTH" to the three outcomes. We get similarly six further mappings
+if we exchange "H" and "T" in these sequences.
+It turns out that these are the only mappings that we can find
+in this case, meaning that we have mapped 12 of the 2<sup>6</sup>=64
+possible sequences, with 52 sequences remaining unmapped.
+Note also that sequences that remain unmapped in
+one mapping step can still be used in further steps - i.e., if in the example above <b>k</b> was 2 instead of 3, and we mapped 2 of the first 4 mentioned sequences above to the 2 outcomes, the remaining 2 would also get mapped, since they still have the same probability. In general, if we have m equally probable outcomes,
+m % k of them will remain unmapped, while the other
+m - (m % k) outcomes will get mapped to some of the
+original decisions.
+</p>
+<p xmlns="http://topcoder.com">
+You will be given <b>k</b>, the number of outcomes in the decision
+you have to make, <b>n</b>, the number of coin throws you perform,
+and <b>pH</b>, <b>pHT</b> and <b>pTH</b>, the initial and
+subsequent conditional probabilities of the coin outcome (p<sub>H</sub>,
+p<sub>HT</sub> and p<sub>TH</sub> from the above description, respectively).
+You are to return the probability that the <b>n</b>
+throws will be sufficient to make a decision - i.e., the probability that
+we will get one of the outcomes that we have mapped to one of the original
+decision outcomes.
+</p>
+</div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>RandomChoice</span></dd><dt>Method:</dt><dd><span>decisionProbability</span></dd><dt>Parameters:</dt><dd><span>int, int, double, double, double</span></dd><dt>Returns:</dt><dd><span>double</span></dd><dt>Method signature:</dt><dd><span>double decisionProbability(int k, int n, double pH, double pHT, double pTH)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>When checking if two coin result sequences are equally probable, we don&#x27;t take the given probabilities into account - i.e. the person performing the described procedure does not have any information about the probabilities. The probabilities are given in the method input since they are needed to compute the return value - i.e., after having decided which sequences are still unmapped, to compute the probability of one of these sequences coming up.</li><li>Your return value must have an absolute or relative error less than 1e-9.</li></ul></div><div><h3>Constraints</h3><ul><li><span>k will be between 2 and 1000, inclusive.</span></li><li><span>n will be between 1 and 1000, inclusive.</span></li><li><span>pH will be between 0.01 and 0.99, inclusive.</span></li><li><span>pHT will be between 0.01 and 0.99, inclusive.</span></li><li><span>pTH will be between 0.01 and 0.99, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>2</p>
+<p>4</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.25</p>
+<p>
+With n=4 we can get the following outcomes, each with the given probability:
+
+
+HHHH  (pH * pHH * pHH * pHH)    THHH  (pT * pTH * pHH * pHH)
+HHHT  (pH * pHH * pHH * pHT)    THHT  (pT * pTH * pHH * pHT)
+HHTH  (pH * pHH * pHT * pTH)    THTH  (pT * pTH * pHT * pTH)
+HHTT  (pH * pHH * pHT * pTT)    THTT  (pT * pTH * pHT * pTT)
+HTHH  (pH * pHT * pTH * pHH)    TTHH  (pT * pTT * pTH * pHH)
+HTHT  (pH * pHT * pTH * pHT)    TTHT  (pT * pTT * pTH * pHT)
+HTTH  (pH * pHT * pTT * pTH)    TTTH  (pT * pTT * pTT * pTH)
+HTTT  (pH * pHT * pTT * pTT)    TTTT  (pT * pTT * pTT * pTT)
+
+
+The outcomes HHTH and HTHH are equally probable (independent of how the
+individual probabilities pH, pHT, pTH are chosen), so they can be mapped to
+the k=2 original outcomes. The same is true for the outcomes
+TTHT and THTT. The rest remains unmapped (there is no other pair with
+equal probabilities). To compute the return value, we now insert the
+given values for pH, pHT, pTH, and add the probabilities for the
+mapped outcomes (4 mapped outcomes, each with probability 0.54,
+which gives the result 0.25).
+</p></div></li><li><div><p>2</p>
+<p>4</p>
+<p>0.1</p>
+<p>0.8</p>
+<p>0.6</p>
+<p>Returns: 0.3648</p>
+<p>The same as the previous examples, but with different probabilities.
+The final result is now:
+2 * pH * pHH * pHT * pTH
++ 2 * pT * pTT * pTH * pHT
+= 2 * 0.1 * (1.0 - 0.8) * 0.8 * 0.6 + 2 * (1.0 - 0.1) * (1.0 - 0.6) * 0.6 * 0.8
+= 0.3648.
+</p></div></li><li><div><p>2</p>
+<p>6</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.625</p>
+<p>
+With n=6, we get the following equally probable outcome n-tuples:
+
+
+ 1: (HHHHTH, HHHTHH, HHTHHH, HTHHHH)
+ 2: (HHTHTT, HHTTHT, HTHHTT, HTTHHT)
+ 3: (TTTTHT, TTTHTT, TTHTTT, THTTTT)
+ 4: (TTHTHH, TTHHTH, THTTHH, THHTTH)
+ 5: (HHHTHT, HHTHHT, HTHHHT)
+ 6: (HHHTTH, HHTTHH, HTTHHH)
+ 7: (HHTHTH, HTHHTH, HTHTHH)
+ 8: (HTHTTT, HTTHTT, HTTTHT)
+ 9: (TTTHTH, TTHTTH, THTTTH)
+10: (TTTHHT, TTHHTT, THHTTT)
+11: (TTHTHT, THTTHT, THTHTT)
+12: (THTHHH, THHTHH, THHHTH)
+13: (HHTTTH, HTTTHH)
+14: (HTHTTH, HTTHTH)
+15: (TTHHHT, THHHTT)
+16: (THTHHT, THHTHT)
+
+
+Since here k=2, we can map all outcomes in all quadruples
+(1 - 4) and all pairs (13 - 16) and from each triple (5 - 12) we
+map a pair and leave one element unmapped. So in total we have mapped
+40 outcomes. Since we have pH=pHT=pTH=0.5, the
+probability of each outcome is 0.56, and the final result
+is 40 * 0.56 = 0.625.
+</p></div></li><li><div><p>3</p>
+<p>6</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.5625</p>
+<p>
+The same example as the last one, but now with k=3. Now
+we can map all triples (5 - 12 from the previous example) to
+the k=3 outcomes and 3 elements from each quadruple
+(1 - 4), for a total of 36 mapped outcomes, giving
+36 * 0.56 = 0.5625.
+</p></div></li><li><div><p>5</p>
+<p>1</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.0</p>
+<p>With just one throw we can never be sure to make a fair decision.</p></div></li><li><div><p>1000</p>
+<p>1000</p>
+<p>0.5</p>
+<p>0.01</p>
+<p>0.01</p>
+<p>Returns: 0.9972747235292863</p>
+<p>Be sure not to timeout.</p></div></li><li><div><p>2</p>
+<p>5</p>
+<p>0.99</p>
+<p>0.99</p>
+<p>0.5</p>
+<p>Returns: 0.5049000000000001</p></div></li><li><div><p>12</p>
+<p>8</p>
+<p>0.31</p>
+<p>0.4</p>
+<p>0.8</p>
+<p>Returns: 0.04777574399999995</p></div></li><li><div><p>200</p>
+<p>1000</p>
+<p>0.5</p>
+<p>0.02</p>
+<p>0.02</p>
+<p>Returns: 0.9999998907352533</p></div></li><li><div><p>2</p>
+<p>1000</p>
+<p>0.8</p>
+<p>0.2</p>
+<p>0.02</p>
+<p>Returns: 0.9999999980675841</p></div></li><li><div><p>1000</p>
+<p>16</p>
+<p>0.5</p>
+<p>0.1</p>
+<p>0.7</p>
+<p>Returns: 0.005207478821999456</p></div></li><li><div><p>1000</p>
+<p>40</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.9999994053941919</p></div></li><li><div><p>1000</p>
+<p>100</p>
+<p>0.3</p>
+<p>0.9</p>
+<p>0.9</p>
+<p>Returns: 0.9991989203224404</p></div></li><li><div><p>997</p>
+<p>1000</p>
+<p>0.1</p>
+<p>0.02</p>
+<p>0.1</p>
+<p>Returns: 0.9999999905967523</p></div></li><li><div><p>701</p>
+<p>15</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.0</p></div></li><li><div><p>700</p>
+<p>15</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>0.5</p>
+<p>Returns: 0.1708984375</p></div></li><li><div><p>30</p>
+<p>209</p>
+<p>0.8934291818868989</p>
+<p>0.8799462635767806</p>
+<p>0.46536867224523193</p>
+<p>Returns: 1.0</p></div></li><li><div><p>298</p>
+<p>73</p>
+<p>0.6095597760698733</p>
+<p>0.021261400001797215</p>
+<p>0.6576833822264391</p>
+<p>Returns: 0.426055198010142</p></div></li><li><div><p>111</p>
+<p>946</p>
+<p>0.2995367133191471</p>
+<p>0.4383715703668817</p>
+<p>0.026201077802417982</p>
+<p>Returns: 0.9999999999681852</p></div></li><li><div><p>811</p>
+<p>528</p>
+<p>0.1330895489820706</p>
+<p>0.018196068302740454</p>
+<p>0.6322256583917844</p>
+<p>Returns: 0.9995197906449049</p></div></li><li><div><p>57</p>
+<p>78</p>
+<p>0.10690733256094753</p>
+<p>0.013904316560596985</p>
+<p>0.3289626129462452</p>
+<p>Returns: 0.5829436269816803</p></div></li><li><div><p>648</p>
+<p>311</p>
+<p>0.18888035630727562</p>
+<p>0.9264408727994317</p>
+<p>0.012417043031080821</p>
+<p>Returns: 0.8942294085532045</p></div></li><li><div><p>770</p>
+<p>43</p>
+<p>0.590471232799397</p>
+<p>0.8302562222905953</p>
+<p>0.046335790162052914</p>
+<p>Returns: 0.40411516029744954</p></div></li><li><div><p>671</p>
+<p>21</p>
+<p>0.8515962128787526</p>
+<p>0.848357157607038</p>
+<p>0.8201038593857</p>
+<p>Returns: 0.31741518789425516</p></div></li><li><div><p>53</p>
+<p>31</p>
+<p>0.9590804554804091</p>
+<p>0.8416222421478784</p>
+<p>0.7727116370231436</p>
+<p>Returns: 0.9710038343292585</p></div></li><li><div><p>929</p>
+<p>16</p>
+<p>0.6743478069480922</p>
+<p>0.8146196890094326</p>
+<p>0.5840044772982261</p>
+<p>Returns: 0.09018012044124313</p></div></li><li><div><p>697</p>
+<p>7</p>
+<p>0.047718685548700845</p>
+<p>0.3116503845472538</p>
+<p>0.3603219949285743</p>
+<p>Returns: 0.0</p></div></li><li><div><p>472</p>
+<p>61</p>
+<p>0.7026687110643167</p>
+<p>0.08741270966848791</p>
+<p>0.05921037405512375</p>
+<p>Returns: 0.7217884521498865</p></div></li><li><div><p>473</p>
+<p>837</p>
+<p>0.25418262532310376</p>
+<p>0.696868368033392</p>
+<p>0.04973163823360882</p>
+<p>Returns: 1.0</p></div></li><li><div><p>538</p>
+<p>392</p>
+<p>0.6530630062868641</p>
+<p>0.20271780167556364</p>
+<p>0.011640526660319228</p>
+<p>Returns: 0.9662771598351095</p></div></li><li><div><p>801</p>
+<p>17</p>
+<p>0.9524261545938867</p>
+<p>0.5797055694395395</p>
+<p>0.7320671687260294</p>
+<p>Returns: 0.3989530413297536</p></div></li><li><div><p>735</p>
+<p>16</p>
+<p>0.43029199007896257</p>
+<p>0.828885065117082</p>
+<p>0.1913086861544837</p>
+<p>Returns: 0.041000652872283716</p></div></li><li><div><p>333</p>
+<p>28</p>
+<p>0.8379289460258295</p>
+<p>0.5741107732145737</p>
+<p>0.11515488029143839</p>
+<p>Returns: 0.65139827513114</p></div></li><li><div><p>535</p>
+<p>830</p>
+<p>0.43847633237230743</p>
+<p>0.02814281757653747</p>
+<p>0.5651124230190319</p>
+<p>Returns: 0.9999999996014727</p></div></li><li><div><p>67</p>
+<p>39</p>
+<p>0.6764558768295295</p>
+<p>0.0991900548959348</p>
+<p>0.11882075083829768</p>
+<p>Returns: 0.7599408256483642</p></div></li><li><div><p>333</p>
+<p>930</p>
+<p>0.9127092628019957</p>
+<p>0.9881681805122412</p>
+<p>0.01009151112810995</p>
+<p>Returns: 0.9996983564791349</p></div></li><li><div><p>795</p>
+<p>22</p>
+<p>0.3470259584452423</p>
+<p>0.8070475559399093</p>
+<p>0.23648651217363736</p>
+<p>Returns: 0.6684887789893823</p></div></li><li><div><p>106</p>
+<p>22</p>
+<p>0.34457535772414494</p>
+<p>0.42385425544447164</p>
+<p>0.8411031431880671</p>
+<p>Returns: 0.9834741107966017</p></div></li><li><div><p>298</p>
+<p>808</p>
+<p>0.6675201250326502</p>
+<p>0.4024331888628583</p>
+<p>0.013263084423902338</p>
+<p>Returns: 0.9999453294393064</p></div></li><li><div><p>65</p>
+<p>216</p>
+<p>0.09777973873805723</p>
+<p>0.39358536166409486</p>
+<p>0.06848635426730976</p>
+<p>Returns: 0.9999992962119717</p></div></li><li><div><p>689</p>
+<p>18</p>
+<p>0.2320376444807032</p>
+<p>0.22597130453100522</p>
+<p>0.7135864379209768</p>
+<p>Returns: 0.33307547500235446</p></div></li><li><div><p>540</p>
+<p>375</p>
+<p>0.6964771507139836</p>
+<p>0.0282264493679</p>
+<p>0.8509482305900228</p>
+<p>Returns: 0.9997297235744389</p></div></li><li><div><p>355</p>
+<p>106</p>
+<p>0.16265111364690454</p>
+<p>0.14966297907300774</p>
+<p>0.01838482145984799</p>
+<p>Returns: 0.561703215278857</p></div></li><li><div><p>399</p>
+<p>41</p>
+<p>0.5534000879492105</p>
+<p>0.8999733359747079</p>
+<p>0.022529831363618857</p>
+<p>Returns: 0.1479316969531117</p></div></li><li><div><p>162</p>
+<p>65</p>
+<p>0.49528067995055347</p>
+<p>0.014713743759392708</p>
+<p>0.03968331007957718</p>
+<p>Returns: 0.179776192116755</p></div></li><li><div><p>985</p>
+<p>139</p>
+<p>0.4313443996429023</p>
+<p>0.015550454724917118</p>
+<p>0.9557630305530712</p>
+<p>Returns: 0.6169151309565135</p></div></li><li><div><p>751</p>
+<p>41</p>
+<p>0.06294636786121566</p>
+<p>0.8408730095621242</p>
+<p>0.9439212055864341</p>
+<p>Returns: 0.7663388933923034</p></div></li><li><div><p>542</p>
+<p>346</p>
+<p>0.8881271586619132</p>
+<p>0.010778692316502635</p>
+<p>0.9239544358684008</p>
+<p>Returns: 0.885462084229174</p></div></li><li><div><p>353</p>
+<p>985</p>
+<p>0.4334407968626587</p>
+<p>0.20137372953418398</p>
+<p>0.02087984033390944</p>
+<p>Returns: 0.9999999949066445</p></div></li><li><div><p>902</p>
+<p>49</p>
+<p>0.7595587450597687</p>
+<p>0.012405400041697545</p>
+<p>0.049491832380878176</p>
+<p>Returns: 0.02433831133405029</p></div></li><li><div><p>873</p>
+<p>756</p>
+<p>0.6995593424533598</p>
+<p>0.028660094564255667</p>
+<p>0.8870990764025423</p>
+<p>Returns: 0.999999992923696</p></div></li><li><div><p>820</p>
+<p>47</p>
+<p>0.19972065383541748</p>
+<p>0.31212768257448564</p>
+<p>0.11364296167990029</p>
+<p>Returns: 0.9341910140610156</p></div></li><li><div><p>333</p>
+<p>983</p>
+<p>0.23142797868142773</p>
+<p>0.012610042418538248</p>
+<p>0.4542761312118807</p>
+<p>Returns: 0.999986975008032</p></div></li><li><div><p>932</p>
+<p>22</p>
+<p>0.528141089821999</p>
+<p>0.4371866541887016</p>
+<p>0.6398126807033945</p>
+<p>Returns: 0.9403041650753685</p></div></li><li><div><p>786</p>
+<p>56</p>
+<p>0.01482616105784862</p>
+<p>0.013297203117772494</p>
+<p>0.7282965977168906</p>
+<p>Returns: 0.11967976825267246</p></div></li><li><div><p>326</p>
+<p>14</p>
+<p>0.825287559312166</p>
+<p>0.6023383883886897</p>
+<p>0.686644231531367</p>
+<p>Returns: 0.17850184457734952</p></div></li><li><div><p>870</p>
+<p>749</p>
+<p>0.3895295695777058</p>
+<p>0.010319833753601837</p>
+<p>0.042555669725719</p>
+<p>Returns: 0.9976027393690443</p></div></li><li><div><p>698</p>
+<p>41</p>
+<p>0.3418019208726073</p>
+<p>0.16950795071360358</p>
+<p>0.02005470569149692</p>
+<p>Returns: 0.1002867919243654</p></div></li><li><div><p>629</p>
+<p>261</p>
+<p>0.8323436395234692</p>
+<p>0.012968964507386271</p>
+<p>0.016871013750779706</p>
+<p>Returns: 0.7124134133626399</p></div></li><li><div><p>103</p>
+<p>496</p>
+<p>0.9086543649648878</p>
+<p>0.6231390557026762</p>
+<p>0.04410870918721721</p>
+<p>Returns: 0.9999999992637816</p></div></li><li><div><p>440</p>
+<p>119</p>
+<p>0.8887088318033107</p>
+<p>0.020430033218106103</p>
+<p>0.9012302887664122</p>
+<p>Returns: 0.6816898776640585</p></div></li><li><div><p>550</p>
+<p>31</p>
+<p>0.04332515131614689</p>
+<p>0.5996957457411082</p>
+<p>0.09027358762127569</p>
+<p>Returns: 0.546424954472212</p></div></li><li><div><p>738</p>
+<p>22</p>
+<p>0.36558171456575284</p>
+<p>0.8494734263760019</p>
+<p>0.5038260805277306</p>
+<p>Returns: 0.8881339387519045</p></div></li><li><div><p>7</p>
+<p>93</p>
+<p>0.8655462513082055</p>
+<p>0.914493716826471</p>
+<p>0.024646711319751362</p>
+<p>Returns: 0.8811759916821003</p></div></li><li><div><p>598</p>
+<p>18</p>
+<p>0.08485292028934932</p>
+<p>0.7413056842254194</p>
+<p>0.9851103866050902</p>
+<p>Returns: 0.015961854728369862</p></div></li><li><div><p>808</p>
+<p>874</p>
+<p>0.43016048098849824</p>
+<p>0.409366920139818626</p>
+<p>0.012546538182326419</p>
+<p>Returns: 0.9999688348824689</p></div></li><li><div><p>294</p>
+<p>758</p>
+<p>0.38956090838709645</p>
+<p>0.32807732757343444</p>
+<p>0.01010616650686843254</p>
+<p>Returns: 0.9989424611890119</p></div></li><li><div><p>697</p>
+<p>19</p>
+<p>0.9508476283710557</p>
+<p>0.8177443153425099</p>
+<p>0.6467079889972004</p>
+<p>Returns: 0.5135613937628484</p></div></li><li><div><p>190</p>
+<p>17</p>
+<p>0.5303443990450795</p>
+<p>0.8878342165186565</p>
+<p>0.4780295131573151</p>
+<p>Returns: 0.6999059370773111</p></div></li><li><div><p>56</p>
+<p>14</p>
+<p>0.754613110822644</p>
+<p>0.3978212506504426</p>
+<p>0.45025315610418926</p>
+<p>Returns: 0.7089602660399856</p></div></li><li><div><p>836</p>
+<p>287</p>
+<p>0.769836470880496</p>
+<p>0.5734428513861176</p>
+<p>0.0102038324670382452</p>
+<p>Returns: 0.825013944083512</p></div></li><li><div><p>346</p>
+<p>358</p>
+<p>0.8973097535203967</p>
+<p>0.6952091019081079</p>
+<p>0.01015240098501134725</p>
+<p>Returns: 0.9704895108100651</p></div></li><li><div><p>552</p>
+<p>38</p>
+<p>0.46519984273070925</p>
+<p>0.06782486848412261</p>
+<p>0.6342578928828657</p>
+<p>Returns: 0.6239496210128026</p></div></li><li><div><p>220</p>
+<p>15</p>
+<p>0.09252357444729786</p>
+<p>0.8862720503479175</p>
+<p>0.5169804665040558</p>
+<p>Returns: 0.24999423551715716</p></div></li><li><div><p>989</p>
+<p>53</p>
+<p>0.15681177580590622</p>
+<p>0.09961587076293421</p>
+<p>0.027699910128780925</p>
+<p>Returns: 0.22008196997461082</p></div></li><li><div><p>860</p>
+<p>35</p>
+<p>0.5672443727252698</p>
+<p>0.14307640750559936</p>
+<p>0.9863108362132201</p>
+<p>Returns: 0.8106169122330931</p></div></li><li><div><p>804</p>
+<p>306</p>
+<p>0.8422291510570434</p>
+<p>0.010193638879750776</p>
+<p>0.48289662897493935</p>
+<p>Returns: 0.8212340852836485</p></div></li><li><div><p>914</p>
+<p>28</p>
+<p>0.17787927120114544</p>
+<p>0.7100764982342501</p>
+<p>0.8119229284198881</p>
+<p>Returns: 0.9253734614671669</p></div></li><li><div><p>858</p>
+<p>59</p>
+<p>0.9820631261362436</p>
+<p>0.03793070576976687</p>
+<p>0.6702666882846938</p>
+<p>Returns: 0.5505028441450843</p></div></li><li><div><p>556</p>
+<p>23</p>
+<p>0.11497802234179244</p>
+<p>0.1743543110363971</p>
+<p>0.944556427914677</p>
+<p>Returns: 0.529782357450213</p></div></li><li><div><p>373</p>
+<p>956</p>
+<p>0.5764297422412955</p>
+<p>0.01056254879115987</p>
+<p>0.014004288277085</p>
+<p>Returns: 0.9995796654746822</p></div></li><li><div><p>348</p>
+<p>169</p>
+<p>0.1358304403233247</p>
+<p>0.8624592137246775</p>
+<p>0.010266397247642</p>
+<p>Returns: 0.5067783718730645</p></div></li><li><div><p>888</p>
+<p>203</p>
+<p>0.1730864107221295</p>
+<p>0.0105430445881538737</p>
+<p>0.8248911270548906</p>
+<p>Returns: 0.6183902767794365</p></div></li><li><div><p>388</p>
+<p>186</p>
+<p>0.4508717873164426</p>
+<p>0.01038857150109214977</p>
+<p>0.5378032399358923</p>
+<p>Returns: 0.6107652127367942</p></div></li><li><div><p>164</p>
+<p>58</p>
+<p>0.37367887494184004</p>
+<p>0.0107330615160837661</p>
+<p>0.6637641202917299</p>
+<p>Returns: 0.1268422393159362</p></div></li><li><div><p>35</p>
+<p>10</p>
+<p>0.2</p>
+<p>0.01</p>
+<p>0.05</p>
+<p>Returns: 3.250685425282285E-7</p></div></li><li><div><p>1000</p>
+<p>16</p>
+<p>0.1</p>
+<p>0.95</p>
+<p>0.97</p>
+<p>Returns: 7.962395251359666E-6</p></div></li><li><div><p>1000</p>
+<p>1000</p>
+<p>0.4</p>
+<p>0.01</p>
+<p>0.99</p>
+<p>Returns: 0.9995050683352864</p></div></li><li><div><p>1000</p>
+<p>1000</p>
+<p>0.98</p>
+<p>0.98</p>
+<p>0.98</p>
+<p>Returns: 0.9999999621746558</p></div></li><li><div><p>2</p>
+<p>1000</p>
+<p>0.5</p>
+<p>0.99</p>
+<p>0.99</p>
+<p>Returns: 0.9999559477058064</p></div></li><li><div><p>5</p>
+<p>1000</p>
+<p>0.99</p>
+<p>0.01</p>
+<p>0.57</p>
+<p>Returns: 0.9999545218927101</p></div></li><li><div><p>10</p>
+<p>1000</p>
+<p>0.01</p>
+<p>0.01</p>
+<p>0.99</p>
+<p>Returns: 0.9999523776775924</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/8092/pm/4819">2005-<!-- --> <!-- -->TCO05 Semi 2<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/4819/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"4819\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"4819\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"4819\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"4819\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"4819\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Te8e,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nWe have to make a uniform random decision among \u003cb\u003ek\u003c/b\u003e\npossible outcomes, but all we have available is an\nunfair coin.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe coin has a probability p\u003csub\u003eH\u003c/sub\u003e of\ngiving Heads and p\u003csub\u003eT\u003c/sub\u003e = 1 - p\u003csub\u003eH\u003c/sub\u003e of giving\nTails in the first throw. Subsequent throws are\ndependent on the previous throw, and there is a probability\np\u003csub\u003eHT\u003c/sub\u003e of throwing Tails after a Heads throw and\np\u003csub\u003eTH\u003c/sub\u003e of throwing Heads after a Tails throw. Note\nthat either Heads or Tails always comes out, so the probability\nof throwing Tails after a Tails throw is\np\u003csub\u003eTT\u003c/sub\u003e = 1 - p\u003csub\u003eTH\u003c/sub\u003e and the probability of throwing\nHeads after a Heads throw is p\u003csub\u003eHH\u003c/sub\u003e = 1 - p\u003csub\u003eHT\u003c/sub\u003e.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn order to make a fair decision, we throw the coin\n\u003cb\u003en\u003c/b\u003e times. If there are \u003cb\u003ek\u003c/b\u003e coin result sequences\nthat are equally probable (independent of p\u003csub\u003eH\u003c/sub\u003e, p\u003csub\u003eHT\u003c/sub\u003e and\np\u003csub\u003eTH\u003c/sub\u003e), we can map each of these sequences to one\nof the \u003cb\u003ek\u003c/b\u003e original decision outcomes. We repeat this\nwith further coin result sequences, mapping as many of them\nas possible to the \u003cb\u003ek\u003c/b\u003e original decision outcomes. At\nthe end, some of the coin result sequences may remain unmapped.\nAfter we throw the coin \u003cb\u003en\u003c/b\u003e times, either one of the\nmapped sequences will come out, in which case we can\ndirectly make the fair decision by choosing the mapped\noutcome, or one of the unmapped sequences will come out,\nin which case we still cannot make a fair decision\n(we could then repeat making \u003cb\u003en\u003c/b\u003e further throws, until\none of the mapped sequences comes out).\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor example, let's say \u003cb\u003ek\u003c/b\u003e = 3, and \u003cb\u003en\u003c/b\u003e = 6 (we\nhave to choose among three outcomes, and throw the coin 6 times).\nIn this case, the sequences \"HTHHHH\", \"HHTHHH\",\n\"HHHTHH\" and \"HHHHTH\" are equally probable\n(the given strings show the outcome of the 6 coin throws in order,\nwith H representing Heads and T representing Tails; each of these\nsequences has a probability of p\u003csub\u003eH\u003c/sub\u003e * p\u003csub\u003eHH\u003c/sub\u003e * p\u003csub\u003eHH\u003c/sub\u003e\n* p\u003csub\u003eHT\u003c/sub\u003e * p\u003csub\u003eTH\u003c/sub\u003e). So we can map three of these sequences\nto the three outcomes, and one sequence will remain unmapped. Similarly,\nwe can map the sequences \"HTTHHH\", \"HHTTHH\" and\n\"HHHTTH\" to the three outcomes. We get similarly six further mappings\nif we exchange \"H\" and \"T\" in these sequences.\nIt turns out that these are the only mappings that we can find\nin this case, meaning that we have mapped 12 of the 2\u003csup\u003e6\u003c/sup\u003e=64\npossible sequences, with 52 sequences remaining unmapped.\nNote also that sequences that remain unmapped in\none mapping step can still be used in further steps - i.e., if in the example above \u003cb\u003ek\u003c/b\u003e was 2 instead of 3, and we mapped 2 of the first 4 mentioned sequences above to the 2 outcomes, the remaining 2 would also get mapped, since they still have the same probability. In general, if we have m equally probable outcomes,\nm % k of them will remain unmapped, while the other\nm - (m % k) outcomes will get mapped to some of the\noriginal decisions.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou will be given \u003cb\u003ek\u003c/b\u003e, the number of outcomes in the decision\nyou have to make, \u003cb\u003en\u003c/b\u003e, the number of coin throws you perform,\nand \u003cb\u003epH\u003c/b\u003e, \u003cb\u003epHT\u003c/b\u003e and \u003cb\u003epTH\u003c/b\u003e, the initial and\nsubsequent conditional probabilities of the coin outcome (p\u003csub\u003eH\u003c/sub\u003e,\np\u003csub\u003eHT\u003c/sub\u003e and p\u003csub\u003eTH\u003c/sub\u003e from the above description, respectively).\nYou are to return the probability that the \u003cb\u003en\u003c/b\u003e\nthrows will be sufficient to make a decision - i.e., the probability that\nwe will get one of the outcomes that we have mapped to one of the original\ndecision outcomes.\n\u003c/p\u003e\n"])</script><script>self.__next_f.push([1,"10:T484,"])</script><script>self.__next_f.push([1,"\u003cp\u003e2\u003c/p\u003e\n\u003cp\u003e4\u003c/p\u003e\n\u003cp\u003e0.5\u003c/p\u003e\n\u003cp\u003e0.5\u003c/p\u003e\n\u003cp\u003e0.5\u003c/p\u003e\n\u003cp\u003eReturns: 0.25\u003c/p\u003e\n\u003cp\u003e\nWith n=4 we can get the following outcomes, each with the given probability:\n\n\nHHHH  (pH * pHH * pHH * pHH)    THHH  (pT * pTH * pHH * pHH)\nHHHT  (pH * pHH * pHH * pHT)    THHT  (pT * pTH * pHH * pHT)\nHHTH  (pH * pHH * pHT * pTH)    THTH  (pT * pTH * pHT * pTH)\nHHTT  (pH * pHH * pHT * pTT)    THTT  (pT * pTH * pHT * pTT)\nHTHH  (pH * pHT * pTH * pHH)    TTHH  (pT * pTT * pTH * pHH)\nHTHT  (pH * pHT * pTH * pHT)    TTHT  (pT * pTT * pTH * pHT)\nHTTH  (pH * pHT * pTT * pTH)    TTTH  (pT * pTT * pTT * pTH)\nHTTT  (pH * pHT * pTT * pTT)    TTTT  (pT * pTT * pTT * pTT)\n\n\nThe outcomes HHTH and HTHH are equally probable (independent of how the\nindividual probabilities pH, pHT, pTH are chosen), so they can be mapped to\nthe k=2 original outcomes. The same is true for the outcomes\nTTHT and THTT. The rest remains unmapped (there is no other pair with\nequal probabilities). To compute the return value, we now insert the\ngiven values for pH, pHT, pTH, and add the probabilities for the\nmapped outcomes (4 mapped outcomes, each with probability 0.54,\nwhich gives the result 0.25).\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"RandomChoice\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"RandomChoice\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"decisionProbability\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, double, double, double\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"double decisionProbability(int k, int n, double pH, double pHT, double pTH)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"When checking if two coin result sequences are equally probable, we don't take the given probabilities into account - i.e. the person performing the described procedure does not have any information about the probabilities. The probabilities are given in the method input since they are needed to compute the return value - i.e., after having decided which sequences are still unmapped, to compute the probability of one of these sequences coming up.\"}],[\"$\",\"li\",\"1\",{\"children\":\"Your return value must have an absolute or relative error less than 1e-9.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"k will be between 2 and 1000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"n will be between 1 and 1000, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"pH will be between 0.01 and 0.99, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"pHT will be between 0.01 and 0.99, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"pTH will be between 0.01 and 0.99, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e0.1\u003c/p\u003e\\n\u003cp\u003e0.8\u003c/p\u003e\\n\u003cp\u003e0.6\u003c/p\u003e\\n\u003cp\u003eReturns: 0.3648\u003c/p\u003e\\n\u003cp\u003eThe same as the previous examples, but with different probabilities.\\nThe final result is now:\\n2 * pH * pHH * pHT * pTH\\n+ 2 * pT * pTT * pTH * pHT\\n= 2 * 0.1 * (1.0 - 0.8) * 0.8 * 0.6 + 2 * (1.0 - 0.1) * (1.0 - 0.6) * 0.6 * 0.8\\n= 0.3648.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.625\u003c/p\u003e\\n\u003cp\u003e\\nWith n=6, we get the following equally probable outcome n-tuples:\\n\\n\\n 1: (HHHHTH, HHHTHH, HHTHHH, HTHHHH)\\n 2: (HHTHTT, HHTTHT, HTHHTT, HTTHHT)\\n 3: (TTTTHT, TTTHTT, TTHTTT, THTTTT)\\n 4: (TTHTHH, TTHHTH, THTTHH, THHTTH)\\n 5: (HHHTHT, HHTHHT, HTHHHT)\\n 6: (HHHTTH, HHTTHH, HTTHHH)\\n 7: (HHTHTH, HTHHTH, HTHTHH)\\n 8: (HTHTTT, HTTHTT, HTTTHT)\\n 9: (TTTHTH, TTHTTH, THTTTH)\\n10: (TTTHHT, TTHHTT, THHTTT)\\n11: (TTHTHT, THTTHT, THTHTT)\\n12: (THTHHH, THHTHH, THHHTH)\\n13: (HHTTTH, HTTTHH)\\n14: (HTHTTH, HTTHTH)\\n15: (TTHHHT, THHHTT)\\n16: (THTHHT, THHTHT)\\n\\n\\nSince here k=2, we can map all outcomes in all quadruples\\n(1 - 4) and all pairs (13 - 16) and from each triple (5 - 12) we\\nmap a pair and leave one element unmapped. So in total we have mapped\\n40 outcomes. Since we have pH=pHT=pTH=0.5, the\\nprobability of each outcome is 0.56, and the final result\\nis 40 * 0.56 = 0.625.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e6\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5625\u003c/p\u003e\\n\u003cp\u003e\\nThe same example as the last one, but now with k=3. Now\\nwe can map all triples (5 - 12 from the previous example) to\\nthe k=3 outcomes and 3 elements from each quadruple\\n(1 - 4), for a total of 36 mapped outcomes, giving\\n36 * 0.56 = 0.5625.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0\u003c/p\u003e\\n\u003cp\u003eWith just one throw we can never be sure to make a fair decision.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9972747235292863\u003c/p\u003e\\n\u003cp\u003eBe sure not to timeout.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5049000000000001\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e0.31\u003c/p\u003e\\n\u003cp\u003e0.4\u003c/p\u003e\\n\u003cp\u003e0.8\u003c/p\u003e\\n\u003cp\u003eReturns: 0.04777574399999995\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e200\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.02\u003c/p\u003e\\n\u003cp\u003e0.02\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999998907352533\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.8\u003c/p\u003e\\n\u003cp\u003e0.2\u003c/p\u003e\\n\u003cp\u003e0.02\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999980675841\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.1\u003c/p\u003e\\n\u003cp\u003e0.7\u003c/p\u003e\\n\u003cp\u003eReturns: 0.005207478821999456\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e40\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999994053941919\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e0.3\u003c/p\u003e\\n\u003cp\u003e0.9\u003c/p\u003e\\n\u003cp\u003e0.9\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9991989203224404\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e997\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.1\u003c/p\u003e\\n\u003cp\u003e0.02\u003c/p\u003e\\n\u003cp\u003e0.1\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999905967523\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e701\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e700\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1708984375\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e30\u003c/p\u003e\\n\u003cp\u003e209\u003c/p\u003e\\n\u003cp\u003e0.8934291818868989\u003c/p\u003e\\n\u003cp\u003e0.8799462635767806\u003c/p\u003e\\n\u003cp\u003e0.46536867224523193\u003c/p\u003e\\n\u003cp\u003eReturns: 1.0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e298\u003c/p\u003e\\n\u003cp\u003e73\u003c/p\u003e\\n\u003cp\u003e0.6095597760698733\u003c/p\u003e\\n\u003cp\u003e0.021261400001797215\u003c/p\u003e\\n\u003cp\u003e0.6576833822264391\u003c/p\u003e\\n\u003cp\u003eReturns: 0.426055198010142\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e111\u003c/p\u003e\\n\u003cp\u003e946\u003c/p\u003e\\n\u003cp\u003e0.2995367133191471\u003c/p\u003e\\n\u003cp\u003e0.4383715703668817\u003c/p\u003e\\n\u003cp\u003e0.026201077802417982\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999999681852\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e811\u003c/p\u003e\\n\u003cp\u003e528\u003c/p\u003e\\n\u003cp\u003e0.1330895489820706\u003c/p\u003e\\n\u003cp\u003e0.018196068302740454\u003c/p\u003e\\n\u003cp\u003e0.6322256583917844\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9995197906449049\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e57\u003c/p\u003e\\n\u003cp\u003e78\u003c/p\u003e\\n\u003cp\u003e0.10690733256094753\u003c/p\u003e\\n\u003cp\u003e0.013904316560596985\u003c/p\u003e\\n\u003cp\u003e0.3289626129462452\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5829436269816803\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e648\u003c/p\u003e\\n\u003cp\u003e311\u003c/p\u003e\\n\u003cp\u003e0.18888035630727562\u003c/p\u003e\\n\u003cp\u003e0.9264408727994317\u003c/p\u003e\\n\u003cp\u003e0.012417043031080821\u003c/p\u003e\\n\u003cp\u003eReturns: 0.8942294085532045\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e770\u003c/p\u003e\\n\u003cp\u003e43\u003c/p\u003e\\n\u003cp\u003e0.590471232799397\u003c/p\u003e\\n\u003cp\u003e0.8302562222905953\u003c/p\u003e\\n\u003cp\u003e0.046335790162052914\u003c/p\u003e\\n\u003cp\u003eReturns: 0.40411516029744954\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e671\u003c/p\u003e\\n\u003cp\u003e21\u003c/p\u003e\\n\u003cp\u003e0.8515962128787526\u003c/p\u003e\\n\u003cp\u003e0.848357157607038\u003c/p\u003e\\n\u003cp\u003e0.8201038593857\u003c/p\u003e\\n\u003cp\u003eReturns: 0.31741518789425516\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e53\u003c/p\u003e\\n\u003cp\u003e31\u003c/p\u003e\\n\u003cp\u003e0.9590804554804091\u003c/p\u003e\\n\u003cp\u003e0.8416222421478784\u003c/p\u003e\\n\u003cp\u003e0.7727116370231436\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9710038343292585\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e929\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e0.6743478069480922\u003c/p\u003e\\n\u003cp\u003e0.8146196890094326\u003c/p\u003e\\n\u003cp\u003e0.5840044772982261\u003c/p\u003e\\n\u003cp\u003eReturns: 0.09018012044124313\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e697\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e0.047718685548700845\u003c/p\u003e\\n\u003cp\u003e0.3116503845472538\u003c/p\u003e\\n\u003cp\u003e0.3603219949285743\u003c/p\u003e\\n\u003cp\u003eReturns: 0.0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e472\u003c/p\u003e\\n\u003cp\u003e61\u003c/p\u003e\\n\u003cp\u003e0.7026687110643167\u003c/p\u003e\\n\u003cp\u003e0.08741270966848791\u003c/p\u003e\\n\u003cp\u003e0.05921037405512375\u003c/p\u003e\\n\u003cp\u003eReturns: 0.7217884521498865\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e473\u003c/p\u003e\\n\u003cp\u003e837\u003c/p\u003e\\n\u003cp\u003e0.25418262532310376\u003c/p\u003e\\n\u003cp\u003e0.696868368033392\u003c/p\u003e\\n\u003cp\u003e0.04973163823360882\u003c/p\u003e\\n\u003cp\u003eReturns: 1.0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e538\u003c/p\u003e\\n\u003cp\u003e392\u003c/p\u003e\\n\u003cp\u003e0.6530630062868641\u003c/p\u003e\\n\u003cp\u003e0.20271780167556364\u003c/p\u003e\\n\u003cp\u003e0.011640526660319228\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9662771598351095\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e801\u003c/p\u003e\\n\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e0.9524261545938867\u003c/p\u003e\\n\u003cp\u003e0.5797055694395395\u003c/p\u003e\\n\u003cp\u003e0.7320671687260294\u003c/p\u003e\\n\u003cp\u003eReturns: 0.3989530413297536\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e735\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e0.43029199007896257\u003c/p\u003e\\n\u003cp\u003e0.828885065117082\u003c/p\u003e\\n\u003cp\u003e0.1913086861544837\u003c/p\u003e\\n\u003cp\u003eReturns: 0.041000652872283716\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e333\u003c/p\u003e\\n\u003cp\u003e28\u003c/p\u003e\\n\u003cp\u003e0.8379289460258295\u003c/p\u003e\\n\u003cp\u003e0.5741107732145737\u003c/p\u003e\\n\u003cp\u003e0.11515488029143839\u003c/p\u003e\\n\u003cp\u003eReturns: 0.65139827513114\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e535\u003c/p\u003e\\n\u003cp\u003e830\u003c/p\u003e\\n\u003cp\u003e0.43847633237230743\u003c/p\u003e\\n\u003cp\u003e0.02814281757653747\u003c/p\u003e\\n\u003cp\u003e0.5651124230190319\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999996014727\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e67\u003c/p\u003e\\n\u003cp\u003e39\u003c/p\u003e\\n\u003cp\u003e0.6764558768295295\u003c/p\u003e\\n\u003cp\u003e0.0991900548959348\u003c/p\u003e\\n\u003cp\u003e0.11882075083829768\u003c/p\u003e\\n\u003cp\u003eReturns: 0.7599408256483642\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e333\u003c/p\u003e\\n\u003cp\u003e930\u003c/p\u003e\\n\u003cp\u003e0.9127092628019957\u003c/p\u003e\\n\u003cp\u003e0.9881681805122412\u003c/p\u003e\\n\u003cp\u003e0.01009151112810995\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9996983564791349\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e795\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e0.3470259584452423\u003c/p\u003e\\n\u003cp\u003e0.8070475559399093\u003c/p\u003e\\n\u003cp\u003e0.23648651217363736\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6684887789893823\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e106\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e0.34457535772414494\u003c/p\u003e\\n\u003cp\u003e0.42385425544447164\u003c/p\u003e\\n\u003cp\u003e0.8411031431880671\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9834741107966017\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e298\u003c/p\u003e\\n\u003cp\u003e808\u003c/p\u003e\\n\u003cp\u003e0.6675201250326502\u003c/p\u003e\\n\u003cp\u003e0.4024331888628583\u003c/p\u003e\\n\u003cp\u003e0.013263084423902338\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999453294393064\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e65\u003c/p\u003e\\n\u003cp\u003e216\u003c/p\u003e\\n\u003cp\u003e0.09777973873805723\u003c/p\u003e\\n\u003cp\u003e0.39358536166409486\u003c/p\u003e\\n\u003cp\u003e0.06848635426730976\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999992962119717\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e689\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003e0.2320376444807032\u003c/p\u003e\\n\u003cp\u003e0.22597130453100522\u003c/p\u003e\\n\u003cp\u003e0.7135864379209768\u003c/p\u003e\\n\u003cp\u003eReturns: 0.33307547500235446\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e540\u003c/p\u003e\\n\u003cp\u003e375\u003c/p\u003e\\n\u003cp\u003e0.6964771507139836\u003c/p\u003e\\n\u003cp\u003e0.0282264493679\u003c/p\u003e\\n\u003cp\u003e0.8509482305900228\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9997297235744389\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e355\u003c/p\u003e\\n\u003cp\u003e106\u003c/p\u003e\\n\u003cp\u003e0.16265111364690454\u003c/p\u003e\\n\u003cp\u003e0.14966297907300774\u003c/p\u003e\\n\u003cp\u003e0.01838482145984799\u003c/p\u003e\\n\u003cp\u003eReturns: 0.561703215278857\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e399\u003c/p\u003e\\n\u003cp\u003e41\u003c/p\u003e\\n\u003cp\u003e0.5534000879492105\u003c/p\u003e\\n\u003cp\u003e0.8999733359747079\u003c/p\u003e\\n\u003cp\u003e0.022529831363618857\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1479316969531117\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e162\u003c/p\u003e\\n\u003cp\u003e65\u003c/p\u003e\\n\u003cp\u003e0.49528067995055347\u003c/p\u003e\\n\u003cp\u003e0.014713743759392708\u003c/p\u003e\\n\u003cp\u003e0.03968331007957718\u003c/p\u003e\\n\u003cp\u003eReturns: 0.179776192116755\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e985\u003c/p\u003e\\n\u003cp\u003e139\u003c/p\u003e\\n\u003cp\u003e0.4313443996429023\u003c/p\u003e\\n\u003cp\u003e0.015550454724917118\u003c/p\u003e\\n\u003cp\u003e0.9557630305530712\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6169151309565135\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e751\u003c/p\u003e\\n\u003cp\u003e41\u003c/p\u003e\\n\u003cp\u003e0.06294636786121566\u003c/p\u003e\\n\u003cp\u003e0.8408730095621242\u003c/p\u003e\\n\u003cp\u003e0.9439212055864341\u003c/p\u003e\\n\u003cp\u003eReturns: 0.7663388933923034\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e542\u003c/p\u003e\\n\u003cp\u003e346\u003c/p\u003e\\n\u003cp\u003e0.8881271586619132\u003c/p\u003e\\n\u003cp\u003e0.010778692316502635\u003c/p\u003e\\n\u003cp\u003e0.9239544358684008\u003c/p\u003e\\n\u003cp\u003eReturns: 0.885462084229174\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e353\u003c/p\u003e\\n\u003cp\u003e985\u003c/p\u003e\\n\u003cp\u003e0.4334407968626587\u003c/p\u003e\\n\u003cp\u003e0.20137372953418398\u003c/p\u003e\\n\u003cp\u003e0.02087984033390944\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999949066445\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e902\u003c/p\u003e\\n\u003cp\u003e49\u003c/p\u003e\\n\u003cp\u003e0.7595587450597687\u003c/p\u003e\\n\u003cp\u003e0.012405400041697545\u003c/p\u003e\\n\u003cp\u003e0.049491832380878176\u003c/p\u003e\\n\u003cp\u003eReturns: 0.02433831133405029\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e873\u003c/p\u003e\\n\u003cp\u003e756\u003c/p\u003e\\n\u003cp\u003e0.6995593424533598\u003c/p\u003e\\n\u003cp\u003e0.028660094564255667\u003c/p\u003e\\n\u003cp\u003e0.8870990764025423\u003c/p\u003e\\n\u003cp\u003eReturns: 0.999999992923696\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e820\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e0.19972065383541748\u003c/p\u003e\\n\u003cp\u003e0.31212768257448564\u003c/p\u003e\\n\u003cp\u003e0.11364296167990029\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9341910140610156\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e333\u003c/p\u003e\\n\u003cp\u003e983\u003c/p\u003e\\n\u003cp\u003e0.23142797868142773\u003c/p\u003e\\n\u003cp\u003e0.012610042418538248\u003c/p\u003e\\n\u003cp\u003e0.4542761312118807\u003c/p\u003e\\n\u003cp\u003eReturns: 0.999986975008032\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e932\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e0.528141089821999\u003c/p\u003e\\n\u003cp\u003e0.4371866541887016\u003c/p\u003e\\n\u003cp\u003e0.6398126807033945\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9403041650753685\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e786\u003c/p\u003e\\n\u003cp\u003e56\u003c/p\u003e\\n\u003cp\u003e0.01482616105784862\u003c/p\u003e\\n\u003cp\u003e0.013297203117772494\u003c/p\u003e\\n\u003cp\u003e0.7282965977168906\u003c/p\u003e\\n\u003cp\u003eReturns: 0.11967976825267246\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e326\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003e0.825287559312166\u003c/p\u003e\\n\u003cp\u003e0.6023383883886897\u003c/p\u003e\\n\u003cp\u003e0.686644231531367\u003c/p\u003e\\n\u003cp\u003eReturns: 0.17850184457734952\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e870\u003c/p\u003e\\n\u003cp\u003e749\u003c/p\u003e\\n\u003cp\u003e0.3895295695777058\u003c/p\u003e\\n\u003cp\u003e0.010319833753601837\u003c/p\u003e\\n\u003cp\u003e0.042555669725719\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9976027393690443\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e698\u003c/p\u003e\\n\u003cp\u003e41\u003c/p\u003e\\n\u003cp\u003e0.3418019208726073\u003c/p\u003e\\n\u003cp\u003e0.16950795071360358\u003c/p\u003e\\n\u003cp\u003e0.02005470569149692\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1002867919243654\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e629\u003c/p\u003e\\n\u003cp\u003e261\u003c/p\u003e\\n\u003cp\u003e0.8323436395234692\u003c/p\u003e\\n\u003cp\u003e0.012968964507386271\u003c/p\u003e\\n\u003cp\u003e0.016871013750779706\u003c/p\u003e\\n\u003cp\u003eReturns: 0.7124134133626399\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e103\u003c/p\u003e\\n\u003cp\u003e496\u003c/p\u003e\\n\u003cp\u003e0.9086543649648878\u003c/p\u003e\\n\u003cp\u003e0.6231390557026762\u003c/p\u003e\\n\u003cp\u003e0.04410870918721721\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999992637816\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e440\u003c/p\u003e\\n\u003cp\u003e119\u003c/p\u003e\\n\u003cp\u003e0.8887088318033107\u003c/p\u003e\\n\u003cp\u003e0.020430033218106103\u003c/p\u003e\\n\u003cp\u003e0.9012302887664122\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6816898776640585\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e550\u003c/p\u003e\\n\u003cp\u003e31\u003c/p\u003e\\n\u003cp\u003e0.04332515131614689\u003c/p\u003e\\n\u003cp\u003e0.5996957457411082\u003c/p\u003e\\n\u003cp\u003e0.09027358762127569\u003c/p\u003e\\n\u003cp\u003eReturns: 0.546424954472212\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e738\u003c/p\u003e\\n\u003cp\u003e22\u003c/p\u003e\\n\u003cp\u003e0.36558171456575284\u003c/p\u003e\\n\u003cp\u003e0.8494734263760019\u003c/p\u003e\\n\u003cp\u003e0.5038260805277306\u003c/p\u003e\\n\u003cp\u003eReturns: 0.8881339387519045\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e93\u003c/p\u003e\\n\u003cp\u003e0.8655462513082055\u003c/p\u003e\\n\u003cp\u003e0.914493716826471\u003c/p\u003e\\n\u003cp\u003e0.024646711319751362\u003c/p\u003e\\n\u003cp\u003eReturns: 0.8811759916821003\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e598\u003c/p\u003e\\n\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003e0.08485292028934932\u003c/p\u003e\\n\u003cp\u003e0.7413056842254194\u003c/p\u003e\\n\u003cp\u003e0.9851103866050902\u003c/p\u003e\\n\u003cp\u003eReturns: 0.015961854728369862\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e808\u003c/p\u003e\\n\u003cp\u003e874\u003c/p\u003e\\n\u003cp\u003e0.43016048098849824\u003c/p\u003e\\n\u003cp\u003e0.409366920139818626\u003c/p\u003e\\n\u003cp\u003e0.012546538182326419\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999688348824689\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e294\u003c/p\u003e\\n\u003cp\u003e758\u003c/p\u003e\\n\u003cp\u003e0.38956090838709645\u003c/p\u003e\\n\u003cp\u003e0.32807732757343444\u003c/p\u003e\\n\u003cp\u003e0.01010616650686843254\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9989424611890119\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e697\u003c/p\u003e\\n\u003cp\u003e19\u003c/p\u003e\\n\u003cp\u003e0.9508476283710557\u003c/p\u003e\\n\u003cp\u003e0.8177443153425099\u003c/p\u003e\\n\u003cp\u003e0.6467079889972004\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5135613937628484\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e190\u003c/p\u003e\\n\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e0.5303443990450795\u003c/p\u003e\\n\u003cp\u003e0.8878342165186565\u003c/p\u003e\\n\u003cp\u003e0.4780295131573151\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6999059370773111\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e56\u003c/p\u003e\\n\u003cp\u003e14\u003c/p\u003e\\n\u003cp\u003e0.754613110822644\u003c/p\u003e\\n\u003cp\u003e0.3978212506504426\u003c/p\u003e\\n\u003cp\u003e0.45025315610418926\u003c/p\u003e\\n\u003cp\u003eReturns: 0.7089602660399856\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e836\u003c/p\u003e\\n\u003cp\u003e287\u003c/p\u003e\\n\u003cp\u003e0.769836470880496\u003c/p\u003e\\n\u003cp\u003e0.5734428513861176\u003c/p\u003e\\n\u003cp\u003e0.0102038324670382452\u003c/p\u003e\\n\u003cp\u003eReturns: 0.825013944083512\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e346\u003c/p\u003e\\n\u003cp\u003e358\u003c/p\u003e\\n\u003cp\u003e0.8973097535203967\u003c/p\u003e\\n\u003cp\u003e0.6952091019081079\u003c/p\u003e\\n\u003cp\u003e0.01015240098501134725\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9704895108100651\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e552\u003c/p\u003e\\n\u003cp\u003e38\u003c/p\u003e\\n\u003cp\u003e0.46519984273070925\u003c/p\u003e\\n\u003cp\u003e0.06782486848412261\u003c/p\u003e\\n\u003cp\u003e0.6342578928828657\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6239496210128026\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"73\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e220\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e0.09252357444729786\u003c/p\u003e\\n\u003cp\u003e0.8862720503479175\u003c/p\u003e\\n\u003cp\u003e0.5169804665040558\u003c/p\u003e\\n\u003cp\u003eReturns: 0.24999423551715716\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"74\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e989\u003c/p\u003e\\n\u003cp\u003e53\u003c/p\u003e\\n\u003cp\u003e0.15681177580590622\u003c/p\u003e\\n\u003cp\u003e0.09961587076293421\u003c/p\u003e\\n\u003cp\u003e0.027699910128780925\u003c/p\u003e\\n\u003cp\u003eReturns: 0.22008196997461082\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"75\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e860\u003c/p\u003e\\n\u003cp\u003e35\u003c/p\u003e\\n\u003cp\u003e0.5672443727252698\u003c/p\u003e\\n\u003cp\u003e0.14307640750559936\u003c/p\u003e\\n\u003cp\u003e0.9863108362132201\u003c/p\u003e\\n\u003cp\u003eReturns: 0.8106169122330931\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"76\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e804\u003c/p\u003e\\n\u003cp\u003e306\u003c/p\u003e\\n\u003cp\u003e0.8422291510570434\u003c/p\u003e\\n\u003cp\u003e0.010193638879750776\u003c/p\u003e\\n\u003cp\u003e0.48289662897493935\u003c/p\u003e\\n\u003cp\u003eReturns: 0.8212340852836485\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"77\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e914\u003c/p\u003e\\n\u003cp\u003e28\u003c/p\u003e\\n\u003cp\u003e0.17787927120114544\u003c/p\u003e\\n\u003cp\u003e0.7100764982342501\u003c/p\u003e\\n\u003cp\u003e0.8119229284198881\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9253734614671669\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"78\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e858\u003c/p\u003e\\n\u003cp\u003e59\u003c/p\u003e\\n\u003cp\u003e0.9820631261362436\u003c/p\u003e\\n\u003cp\u003e0.03793070576976687\u003c/p\u003e\\n\u003cp\u003e0.6702666882846938\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5505028441450843\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"79\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e556\u003c/p\u003e\\n\u003cp\u003e23\u003c/p\u003e\\n\u003cp\u003e0.11497802234179244\u003c/p\u003e\\n\u003cp\u003e0.1743543110363971\u003c/p\u003e\\n\u003cp\u003e0.944556427914677\u003c/p\u003e\\n\u003cp\u003eReturns: 0.529782357450213\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"80\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e373\u003c/p\u003e\\n\u003cp\u003e956\u003c/p\u003e\\n\u003cp\u003e0.5764297422412955\u003c/p\u003e\\n\u003cp\u003e0.01056254879115987\u003c/p\u003e\\n\u003cp\u003e0.014004288277085\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9995796654746822\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"81\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e348\u003c/p\u003e\\n\u003cp\u003e169\u003c/p\u003e\\n\u003cp\u003e0.1358304403233247\u003c/p\u003e\\n\u003cp\u003e0.8624592137246775\u003c/p\u003e\\n\u003cp\u003e0.010266397247642\u003c/p\u003e\\n\u003cp\u003eReturns: 0.5067783718730645\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"82\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e888\u003c/p\u003e\\n\u003cp\u003e203\u003c/p\u003e\\n\u003cp\u003e0.1730864107221295\u003c/p\u003e\\n\u003cp\u003e0.0105430445881538737\u003c/p\u003e\\n\u003cp\u003e0.8248911270548906\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6183902767794365\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"83\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e388\u003c/p\u003e\\n\u003cp\u003e186\u003c/p\u003e\\n\u003cp\u003e0.4508717873164426\u003c/p\u003e\\n\u003cp\u003e0.01038857150109214977\u003c/p\u003e\\n\u003cp\u003e0.5378032399358923\u003c/p\u003e\\n\u003cp\u003eReturns: 0.6107652127367942\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"84\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e164\u003c/p\u003e\\n\u003cp\u003e58\u003c/p\u003e\\n\u003cp\u003e0.37367887494184004\u003c/p\u003e\\n\u003cp\u003e0.0107330615160837661\u003c/p\u003e\\n\u003cp\u003e0.6637641202917299\u003c/p\u003e\\n\u003cp\u003eReturns: 0.1268422393159362\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"85\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e35\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e0.2\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.05\u003c/p\u003e\\n\u003cp\u003eReturns: 3.250685425282285E-7\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"86\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e0.1\u003c/p\u003e\\n\u003cp\u003e0.95\u003c/p\u003e\\n\u003cp\u003e0.97\u003c/p\u003e\\n\u003cp\u003eReturns: 7.962395251359666E-6\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"87\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.4\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9995050683352864\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"88\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.98\u003c/p\u003e\\n\u003cp\u003e0.98\u003c/p\u003e\\n\u003cp\u003e0.98\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999999621746558\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"89\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.5\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999559477058064\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"90\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.57\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999545218927101\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"91\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.01\u003c/p\u003e\\n\u003cp\u003e0.99\u003c/p\u003e\\n\u003cp\u003eReturns: 0.9999523776775924\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/8092/pm/4819\",\"children\":[\"2005-\",\" \",\"TCO05 Semi 2\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Shaws<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+Note that in this description, quotes and angle brackets are for clarity only and will not be included in the input
+</p>
+
+<p xmlns="http://topcoder.com">
+There is a grocery store in the Boston area called Shaws, which has a marketing tool they call the "Rewards Card".  In order to get the sale prices on the items in their store, customers must fill out information for a card, and scan the card at the register.  This allows them to match up demographic information with purchases.
+</p>
+
+<p xmlns="http://topcoder.com">
+You are to simulate a Shaws cash register, and return a listing which will be printed on a receipt.  Create a class <tt><b>Shaws</b></tt> that contains the method <tt><b>getReceipt</b></tt>, which takes three arguments:<br/>
+<tt><b>items</b></tt>: describes the items that the store has<br/>
+<tt><b>scanned</b></tt>: indicates which items were scanned in what order<br/>
+<tt><b>tax</b></tt>: the applicable state sales tax.<br/>
+The return value should be a <type>String[]</type> which is built using the following method:
+</p>
+
+<p xmlns="http://topcoder.com">
+<tt><b>items</b></tt> will consist of strings which describe the items.  The strings will be in the form:<br/>
+<tt>"&lt;itemname&gt;:&lt;taxable&gt;:&lt;price&gt;:&lt;reward&gt;"</tt><br/>
+itemname shall be a string consisting of upper and lower case letters, taxable will be either "t" or "nt" depending on whether the item is taxable, or not taxable respectively.  price will be an integer representing the number of cents the item costs.  reward will be an integer representing the number of cents that can be taken off the price if the customer has a rewards card.
+</p>
+
+<p xmlns="http://topcoder.com">
+Each element in <tt><b>scanned</b></tt> will either be <tt>"RewardsCard"</tt>, or a name from one of the items in the item list.
+</p>
+
+<p xmlns="http://topcoder.com">
+<tt><b>tax</b></tt> will be an integer between 0 and 25 inclusive which represents the percentage of tax to add to the bill.  Only taxable items have tax applied to them.  Tax is applied at the end of the bill to the total price of all the taxable items after rewards have been taken on them.
+</p>
+
+<p xmlns="http://topcoder.com">
+For each item in <tt><b>scanned</b></tt>, you should do the following:<br/><br/>
+
+<b>1)</b>. If the scanned string is <tt>"RewardsCard"</tt>, add the following string to the return value:<br/>
+<tt>"Rewards Card Scanned"</tt><br/>
+If any items have been scanned before this which have rewards associated with them and haven't been taken off, add the rewards string as defined in step 3 for each of the items in the order the items were scanned.  If the scanned string is not <tt>"RewardsCard"</tt>, go to step 2.  Otherwise, move on to the next item.<br/><br/>
+
+<b>2)</b> If the item is taxable, add a string to the return value which is of the form:
+<br/><tt>"&lt;itemname&gt;(T): &lt;price&gt;"</tt><br/>
+If it is not taxable, add:<br/>
+<tt>"&lt;itemname&gt;: &lt;price&gt;"</tt><br/>
+If the rewards card has been scanned, go to step 3, otherwise go back to step 1 and move on to the next item.<br/><br/>
+
+<b>3)</b> If the rewards card has been scanned, and the item has a non-zero reward, add another item to the return value of the form:<br/>
+<tt>"Reward &lt;itemname&gt;: -&lt;itemreward&gt;"</tt><br/>
+itemreward is the discount taken for that item.  Go back to step 1 and move on to the next item.
+</p>
+
+<p xmlns="http://topcoder.com">
+At the end of the list:<br/><br/>
+
+If rewards have been taken, put an item which summarizes how much the customer has saved in the form:<br/>
+<tt>"Savings: &lt;totalsavings&gt;"</tt><br/>
+totalsavings is the sum of all the rewards taken off.  If no savings have been taken, do not include this line.<br/><br/>
+
+If any tax is to be added to the bill, summarize the tax in the form:<br/>
+<tt>"Tax: &lt;totaltax&gt;"</tt><br/>
+totaltax is the tax on the sum of all the taxable items subtracting the rewards on those items.  Remember that tax is applied <i>after</i> rewards are taken off.  If no tax is applied, do not include this line.<br/><br/>
+
+Finally, output the total for the bill in the form:<br/>
+<tt>"Total: &lt;totalcost&gt;"</tt><br/>
+totalcost is the total cost for the customer, figuring in the cost of the items, the rewards, and the tax.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Shaws</span></dd><dt>Method:</dt><dd><span>getReceipt</span></dd><dt>Parameters:</dt><dd><span>String[], String[], int</span></dd><dt>Returns:</dt><dd><span>String[]</span></dd><dt>Method signature:</dt><dd><span>String[] getReceipt(String[] items, String[] scanned, int tax)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>If total tax results in partial cents, truncate the decimal portion.  Do NOT truncate tax in the middle of the bill.</li><li>It is legal to have a Rewards Card scanned more than once, but the reward for an individual scanned item can only be taken once. (See example 3)</li><li>You should never output a savings of 0 or a tax of 0.</li><li>Item names are case sensitive.  For example &quot;ItEm&quot; and &quot;iTeM&quot; are two different item names.</li><li>Not all elements from items need to be included in scanned</li><li>Even if the state does not collect sales tax, if an item is taxable, a &quot;(T)&quot; should appear after it.</li></ul></div><div><h3>Constraints</h3><ul><li><span>items and scanned will each have between 0 and 50 elements inclusive.</span></li><li><span>Each element in items will be of the form: "<itemname>:<taxable>:<price>:<reward>"</span></li><li><span>Each field of an element in items cannot be blank.</span></li><li><span>Each itemname field in items will consist only of characters A-Z and a-z.  This field cannot be "RewardsCard".</span></li><li><span>No two elements in items can have the same itemname field.</span></li><li><span>Each taxable field in items will be either "t" or "nt".  Capital letters will not be allowed in this field.</span></li><li><span>Each price field in items will consist only of characters 0-9.  There may be leading 0's, and the number will be between 1 and 10000 inclusive.</span></li><li><span>Each reward field in items will consist only of characters 0-9.  There may be leading 0's, and the number will be between 1 and the corresponding price field inclusive.</span></li><li><span>Each element of items will have between 0 and 50 characters inclusive.</span></li><li><span>Each element of scanned will be either "RewardsCard" or an item name from items.</span></li><li><span>tax will be between 0 and 25 inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{"Candy:nt:500:30","Bread:nt:300:0","DishSoap:t:275:22"}</p>
+<p>{"Candy","Candy","DishSoap","Bread","RewardsCard","Candy","Bread"}</p>
+<p>5</p>
+<p>Returns: { "Candy: 500",  "Candy: 500",  "DishSoap(T): 275",  "Bread: 300",  "Rewards Card Scanned",  "Reward Candy: -30",  "Reward Candy: -30",  "Reward DishSoap: -22",  "Candy: 500",  "Reward Candy: -30",  "Bread: 300",  "Savings: 112",  "Tax: 12",  "Total: 2275" }</p>
+<p>
+The customer bought 3 items of Candy, DishSoap, and 2 items of Bread.  They also scanned their rewards card.  Here is a dissection of the return value:
+
+
+
+First, candy was scanned, which is 500.  Since the Rewards Card hadn't been scanned yet, the reward discount is not yet taken.
+Another item of candy is scanned for another 500.  Next, the DishSoap is scanned, which is a taxable item for 275.  Then, bread, which is 300.  Now the RewardsCard is scanned, and therefore all the accumulated rewards now appear on the receipt in the order they were scanned.  Since there is no reward for the Bread, there is no listing for it.  Next, more candy, and immediately afterwards, the reward is taken since the rewards card has now been scanned.  Finally, more Bread, which has no reward.  The total rewards on all items was 3 x 30 + 22 = 112.  The total tax is taken from the dish soap which is the only taxable item.  Since its price was 275, and there was a reward of 22 cents, the total taxable cost was 253, which results in a tax of 12.65 cents.  Truncate the partial cents, and you are left with 12 cents tax.  Finally, the total, which is 3 x 500 + 2 x 300 + 275 - 112 + 12 = 2275.
+</p></div></li><li><div><p>{"Apple:nt:50:2"}</p>
+<p>{"Apple","Apple","Apple"}</p>
+<p>5</p>
+<p>Returns: { "Apple: 50",  "Apple: 50",  "Apple: 50",  "Total: 150" }</p>
+<p>Here, even though there are rewards for buying apples, the customer did not use his rewards card, and therefore did not get any of the savings.  Also, since Apples are not taxable, no tax was added.</p></div></li><li><div><p>{"OrangeJuice:nt:150:30", "Mop:t:300:300", "Sponge:t:50:50"}</p>
+<p>{"OrangeJuice", "Mop", "Sponge", "RewardsCard", "Sponge", "Sponge", "RewardsCard"}</p>
+<p>25</p>
+<p>Returns: { "OrangeJuice: 150",  "Mop(T): 300",  "Sponge(T): 50",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "Reward Mop: -300",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Rewards Card Scanned",  "Savings: 480",  "Total: 120" }</p>
+<p>
+FREE MOPS!  Yes, if you have your rewards card, all the mops and sponges you can carry are free today!  Notice that since Mops and Sponges were the only taxable items, there is no tax on the total bill.  Also notice that even though the rewards card was scanned twice, only one reward was taken for each item.
+</p></div></li><li><div><p>{}</p>
+<p>{"RewardsCard","RewardsCard"}</p>
+<p>20</p>
+<p>Returns: { "Rewards Card Scanned",  "Rewards Card Scanned",  "Total: 0" }</p></div></li><li><div><p>{"A:t:1:0", "B:nt:5:1", "C:t:10:2", "D:nt:15:3", "E:t:20:4", "F:nt:25:5", "G:t:30:6", "H:nt:35:7", "I:t:40:8", "J:nt:45:9", "K:t:50:10", "L:nt:55:11", "M:t:60:12", "O:nt:65:13", "P:t:70:14", "Q:nt:75:15", "R:t:80:16", "S:nt:85:17", "T:t:90:18", "U:nt:95:19", "V:t:100:20", "W:nt:105:21", "X:t:110:22", "Y:nt:115:23", "Z:t:120:24", "a:nt:125:25", "b:t:130:26", "c:nt:135:27", "d:t:140:28", "e:nt:145:29", "f:t:150:30", "g:nt:155:31", "h:t:160:32", "i:nt:165:33", "j:t:170:34", "k:nt:175:35", "l:t:180:36", "m:nt:185:37", "n:t:190:38", "o:nt:195:39", "p:t:200:40", "q:nt:205:41", "r:t:210:42", "s:nt:215:43", "t:t:220:44", "u:nt:225:45", "v:t:230:46", "w:nt:235:47", "x:t:240:48", "y:nt:245:49"}</p>
+<p>{"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "RewardsCard", "L", "RewardsCard", "M", "RewardsCard", "n", "RewardsCard", "O", "RewardsCard", "P", "RewardsCard", "Q", "RewardsCard", "R", "RewardsCard", "S", "RewardsCard", "T", "RewardsCard", "U", "RewardsCard", "V", "RewardsCard", "W", "RewardsCard", "X", "RewardsCard", "Y", "Z"}</p>
+<p>19</p>
+<p>Returns: { "A(T): 1",  "B: 5",  "C(T): 10",  "D: 15",  "E(T): 20",  "F: 25",  "G(T): 30",  "H: 35",  "I(T): 40",  "J: 45",  "K(T): 50",  "Rewards Card Scanned",  "Reward B: -1",  "Reward C: -2",  "Reward D: -3",  "Reward E: -4",  "Reward F: -5",  "Reward G: -6",  "Reward H: -7",  "Reward I: -8",  "Reward J: -9",  "Reward K: -10",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "L: 55",  "Reward L: -11",  "Rewards Card Scanned",  "M(T): 60",  "Reward M: -12",  "Rewards Card Scanned",  "n(T): 190",  "Reward n: -38",  "Rewards Card Scanned",  "O: 65",  "Reward O: -13",  "Rewards Card Scanned",  "P(T): 70",  "Reward P: -14",  "Rewards Card Scanned",  "Q: 75",  "Reward Q: -15",  "Rewards Card Scanned",  "R(T): 80",  "Reward R: -16",  "Rewards Card Scanned",  "S: 85",  "Reward S: -17",  "Rewards Card Scanned",  "T(T): 90",  "Reward T: -18",  "Rewards Card Scanned",  "U: 95",  "Reward U: -19",  "Rewards Card Scanned",  "V(T): 100",  "Reward V: -20",  "Rewards Card Scanned",  "W: 105",  "Reward W: -21",  "Rewards Card Scanned",  "X(T): 110",  "Reward X: -22",  "Rewards Card Scanned",  "Y: 115",  "Reward Y: -23",  "Z(T): 120",  "Reward Z: -24",  "Savings: 338",  "Tax: 147",  "Total: 1500" }</p></div></li><li><div><p>{"A:t:9555:4436","B:t:9842:1802","C:t:671:34","D:t:5982:5239","E:nt:9978:6923","F:nt:7192:922","G:t:857:454","H:t:3445:1316","I:nt:7984:3219","J:t:7763:3180","K:t:1409:510","L:t:29:4","M:nt:203:159","N:nt:9472:3006","O:t:8829:8711","P:nt:2761:1320","Q:nt:8835:592","R:nt:2785:972","S:t:2515:252","T:t:7179:925","U:nt:4435:1950","V:t:7418:534","W:nt:6684:5701","X:t:6522:5410","Y:nt:8949:8040","Z:t:8094:5896","a:t:9545:4286","b:nt:7697:7398","c:t:4623:4423","d:t:2000:1037","e:t:6114:2655","f:nt:4549:1456","g:nt:4471:2074","h:t:2928:210","i:t:3960:2819","j:t:6604:3356","k:t:7699:2487","l:nt:5007:4143","m:nt:2956:2702","n:nt:9333:5083","o:t:3632:3273","p:nt:730:117","q:nt:5412:1266","r:t:8279:4229","s:t:315:82","t:nt:4727:2800","u:t:78:68","v:nt:8902:2037","w:nt:1350:358","x:t:9575:8309"}</p>
+<p>{"RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard","RewardsCard"}</p>
+<p>5</p>
+<p>Returns: { "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Total: 0" }</p></div></li><li><div><p>{"A:t:5153:3097","B:t:5940:1874","C:nt:3993:3411","D:t:5506:2791","E:t:4426:3292","F:nt:7452:1216","G:t:1916:124","H:t:414:149","I:t:4091:920","J:t:6048:1728","K:t:8220:1441","L:nt:130:75","M:nt:7664:46","N:t:2951:89","O:nt:2844:2237","P:t:9574:8536","Q:t:2956:2601","R:t:2745:2291","S:nt:5316:3798","T:t:1792:1007","U:nt:8178:6879","V:t:6161:5935","W:t:6460:4216","X:nt:1176:487","Y:t:2195:302","Z:t:9957:4238","a:t:4300:2423","b:t:1339:1268","c:nt:2859:574","d:t:8781:4242","e:nt:9699:2807","f:t:2473:1957","g:nt:3121:1033","h:t:3209:339","i:t:5681:2420","j:nt:3397:2779","k:t:8630:6957","l:nt:66:43","m:nt:6065:3472","n:t:6440:303","o:nt:891:229","p:nt:2485:2067","q:nt:4398:2996","r:t:83:69","s:nt:4475:871","t:t:9565:7902","u:nt:9184:9146","v:t:9501:7929","w:t:6895:6733","x:nt:1137:764"}</p>
+<p>{"a","V","F","RewardsCard","E","V","c","A","E","H","c","RewardsCard","D","u","B","c","b","F","i","p","A","f","d","E","I","w","A","d","RewardsCard","k","e","r","e","E","d","a","K","H","q","Z","L","d","b","Q","b","M","Z","r","f","e"}</p>
+<p>25</p>
+<p>Returns: { "a(T): 4300",  "V(T): 6161",  "F: 7452",  "Rewards Card Scanned",  "Reward a: -2423",  "Reward V: -5935",  "Reward F: -1216",  "E(T): 4426",  "Reward E: -3292",  "V(T): 6161",  "Reward V: -5935",  "c: 2859",  "Reward c: -574",  "A(T): 5153",  "Reward A: -3097",  "E(T): 4426",  "Reward E: -3292",  "H(T): 414",  "Reward H: -149",  "c: 2859",  "Reward c: -574",  "Rewards Card Scanned",  "D(T): 5506",  "Reward D: -2791",  "u: 9184",  "Reward u: -9146",  "B(T): 5940",  "Reward B: -1874",  "c: 2859",  "Reward c: -574",  "b(T): 1339",  "Reward b: -1268",  "F: 7452",  "Reward F: -1216",  "i(T): 5681",  "Reward i: -2420",  "p: 2485",  "Reward p: -2067",  "A(T): 5153",  "Reward A: -3097",  "f(T): 2473",  "Reward f: -1957",  "d(T): 8781",  "Reward d: -4242",  "E(T): 4426",  "Reward E: -3292",  "I(T): 4091",  "Reward I: -920",  "w(T): 6895",  "Reward w: -6733",  "A(T): 5153",  "Reward A: -3097",  "d(T): 8781",  "Reward d: -4242",  "Rewards Card Scanned",  "k(T): 8630",  "Reward k: -6957",  "e: 9699",  "Reward e: -2807",  "r(T): 83",  "Reward r: -69",  "e: 9699",  "Reward e: -2807",  "E(T): 4426",  "Reward E: -3292",  "d(T): 8781",  "Reward d: -4242",  "a(T): 4300",  "Reward a: -2423",  "K(T): 8220",  "Reward K: -1441",  "H(T): 414",  "Reward H: -149",  "q: 4398",  "Reward q: -2996",  "Z(T): 9957",  "Reward Z: -4238",  "L: 130",  "Reward L: -75",  "d(T): 8781",  "Reward d: -4242",  "b(T): 1339",  "Reward b: -1268",  "Q(T): 2956",  "Reward Q: -2601",  "b(T): 1339",  "Reward b: -1268",  "M: 7664",  "Reward M: -46",  "Z(T): 9957",  "Reward Z: -4238",  "r(T): 83",  "Reward r: -69",  "f(T): 2473",  "Reward f: -1957",  "e: 9699",  "Reward e: -2807",  "Savings: 125415",  "Tax: 17122",  "Total: 135145" }</p></div></li><li><div><p>{"A:t:5153:3097","B:t:5940:1874","C:nt:3993:3411","D:t:5506:2791","E:t:4426:3292","F:nt:7452:1216","G:t:1916:124","H:t:414:149","I:t:4091:920","J:t:6048:1728","K:t:8220:1441","L:nt:130:75","M:nt:7664:46","N:t:2951:89","O:nt:2844:2237","P:t:9574:8536","Q:t:2956:2601","R:t:2745:2291","S:nt:5316:3798","T:t:1792:1007","U:nt:8178:6879","V:t:6161:5935","W:t:6460:4216","X:nt:1176:487","Y:t:2195:302","Z:t:9957:4238","a:t:4300:2423","b:t:1339:1268","c:nt:2859:574","d:t:8781:4242","e:nt:9699:2807","f:t:2473:1957","g:nt:3121:1033","h:t:3209:339","i:t:5681:2420","j:nt:3397:2779","k:t:8630:6957","l:nt:66:43","m:nt:6065:3472","n:t:6440:303","o:nt:891:229","p:nt:2485:2067","q:nt:4398:2996","r:t:83:69","s:nt:4475:871","t:t:9565:7902","u:nt:9184:9146","v:t:9501:7929","w:t:6895:6733","x:nt:1137:764"}</p>
+<p>{}</p>
+<p>0</p>
+<p>Returns: { "Total: 0" }</p></div></li><li><div><p>{"A:nt:9270:718","B:nt:9053:7247","C:t:9364:3534","D:t:8430:1553","E:t:9667:5352","F:nt:2430:1910","G:t:9753:1091","H:t:3595:2851","I:t:8204:2758","J:t:7487:3467","K:t:9439:6572","L:nt:1562:298","M:nt:4495:693","N:t:2064:761","O:nt:6077:3760","P:nt:8155:41","Q:nt:6878:5202","R:nt:7721:3504","S:t:6899:287","T:nt:8461:3078","U:t:9632:1755","V:nt:6177:2795","W:t:2156:80","X:nt:5699:2232","Y:t:6642:4407","Z:nt:3444:1355","a:nt:6566:6477","b:nt:508:396","c:t:8904:1033","d:t:2331:1847","e:nt:767:652","f:t:6772:4953","g:t:9723:8719","h:t:7951:2090","i:t:8827:2464","j:t:4209:1832","k:t:9741:4620","l:t:917:75","m:t:6404:5883","n:t:5812:508","o:nt:6317:2613","p:nt:4675:677","q:nt:4051:2853","r:nt:5648:4638","s:t:3711:556","t:t:3687:1557","u:nt:4752:3165","v:t:2172:1598","w:t:6698:1649","x:nt:1165:216"}</p>
+<p>{"T","r","g","F","f","a","p","W","M","G","b","q","x","C","E","E","B","S","L","c","V","a","c","v","O","w","f","v","i","l","H","a","c","I","r","j","Z","a","e","v","s","A","C","e","D","U","L","t","q","x"}</p>
+<p>19</p>
+<p>Returns: { "T: 8461",  "r: 5648",  "g(T): 9723",  "F: 2430",  "f(T): 6772",  "a: 6566",  "p: 4675",  "W(T): 2156",  "M: 4495",  "G(T): 9753",  "b: 508",  "q: 4051",  "x: 1165",  "C(T): 9364",  "E(T): 9667",  "E(T): 9667",  "B: 9053",  "S(T): 6899",  "L: 1562",  "c(T): 8904",  "V: 6177",  "a: 6566",  "c(T): 8904",  "v(T): 2172",  "O: 6077",  "w(T): 6698",  "f(T): 6772",  "v(T): 2172",  "i(T): 8827",  "l(T): 917",  "H(T): 3595",  "a: 6566",  "c(T): 8904",  "I(T): 8204",  "r: 5648",  "j(T): 4209",  "Z: 3444",  "a: 6566",  "e: 767",  "v(T): 2172",  "s(T): 3711",  "A: 9270",  "C(T): 9364",  "e: 767",  "D(T): 8430",  "U(T): 9632",  "L: 1562",  "t(T): 3687",  "q: 4051",  "x: 1165",  "Tax: 32542",  "Total: 311057" }</p></div></li><li><div><p>{"A:t:1093:631","B:t:80:10","C:nt:6773:931","D:t:7341:1870","E:t:8626:2008","F:t:415:260","G:t:8704:7290","H:t:8354:3403","I:t:3213:1134","J:t:9575:7722","K:t:9974:275","L:t:5263:2335","M:nt:7341:4614","N:t:8083:4799","O:t:9886:2659","P:nt:1826:1116","Q:nt:4596:3837","R:t:799:256","S:nt:8816:4535","T:t:5056:3343","U:nt:4204:3057","V:nt:1132:961","W:nt:6718:4956","X:nt:1931:465","Y:t:6468:5610","Z:nt:5196:3405","a:nt:6102:1822","b:nt:458:161","c:nt:5581:173","d:nt:219:201","e:t:217:54","f:nt:6191:2379","g:nt:7079:3618","h:nt:4917:3580","i:nt:9406:6085","j:t:5614:3591","k:t:6430:5025","l:t:439:423","m:nt:1194:564","n:nt:6791:5157","o:nt:5251:3360","p:nt:7736:1605","q:t:6615:3861","r:nt:6585:368","s:t:9105:9047","t:nt:8566:649","u:nt:6735:6080","v:nt:2755:1494","w:nt:9826:1209","x:t:1375:710"}</p>
+<p>{"X","R","s","f","O","f","RewardsCard","t","M","q","p","K","u","o","j","K","C","b","f","C","o","I","r","Z","H","u","U","M","E","i","G","S","x","G","A","a","f","b","o","N","G","B","l","g","L","n","g","q","I","v"}</p>
+<p>3</p>
+<p>Returns: { "X: 1931",  "R(T): 799",  "s(T): 9105",  "f: 6191",  "O(T): 9886",  "f: 6191",  "Rewards Card Scanned",  "Reward X: -465",  "Reward R: -256",  "Reward s: -9047",  "Reward f: -2379",  "Reward O: -2659",  "Reward f: -2379",  "t: 8566",  "Reward t: -649",  "M: 7341",  "Reward M: -4614",  "q(T): 6615",  "Reward q: -3861",  "p: 7736",  "Reward p: -1605",  "K(T): 9974",  "Reward K: -275",  "u: 6735",  "Reward u: -6080",  "o: 5251",  "Reward o: -3360",  "j(T): 5614",  "Reward j: -3591",  "K(T): 9974",  "Reward K: -275",  "C: 6773",  "Reward C: -931",  "b: 458",  "Reward b: -161",  "f: 6191",  "Reward f: -2379",  "C: 6773",  "Reward C: -931",  "o: 5251",  "Reward o: -3360",  "I(T): 3213",  "Reward I: -1134",  "r: 6585",  "Reward r: -368",  "Z: 5196",  "Reward Z: -3405",  "H(T): 8354",  "Reward H: -3403",  "u: 6735",  "Reward u: -6080",  "U: 4204",  "Reward U: -3057",  "M: 7341",  "Reward M: -4614",  "E(T): 8626",  "Reward E: -2008",  "i: 9406",  "Reward i: -6085",  "G(T): 8704",  "Reward G: -7290",  "S: 8816",  "Reward S: -4535",  "x(T): 1375",  "Reward x: -710",  "G(T): 8704",  "Reward G: -7290",  "A(T): 1093",  "Reward A: -631",  "a: 6102",  "Reward a: -1822",  "f: 6191",  "Reward f: -2379",  "b: 458",  "Reward b: -161",  "o: 5251",  "Reward o: -3360",  "N(T): 8083",  "Reward N: -4799",  "G(T): 8704",  "Reward G: -7290",  "B(T): 80",  "Reward B: -10",  "l(T): 439",  "Reward l: -423",  "g: 7079",  "Reward g: -3618",  "L(T): 5263",  "Reward L: -2335",  "n: 6791",  "Reward n: -5157",  "g: 7079",  "Reward g: -3618",  "q(T): 6615",  "Reward q: -3861",  "I(T): 3213",  "Reward I: -1134",  "v: 2755",  "Reward v: -1494",  "Savings: 141328",  "Tax: 1864",  "Total: 150346" }</p></div></li><li><div><p>{"A:nt:5865:0","B:t:5608:0","C:nt:9336:0","D:nt:5465:0","E:t:7167:0","F:t:81:0","G:t:6857:0","H:t:8279:0","I:nt:8367:0","J:nt:4857:0","K:t:3730:0","L:t:7844:0","M:nt:4339:0","N:nt:5735:0","O:nt:4750:0","P:t:3073:0","Q:t:5154:0","R:nt:1663:0","S:t:515:0","T:nt:966:0","U:t:642:0","V:nt:9847:0","W:t:3239:0","X:t:9736:0","Y:nt:6443:0","Z:t:114:0","a:t:6302:0","b:nt:4987:0","c:nt:5135:0","d:nt:3540:0","e:t:4355:0","f:nt:1304:0","g:t:6366:0","h:t:7650:0","i:t:2873:0","j:nt:4540:0","k:nt:6580:0","l:t:8215:0","m:t:7631:0","n:nt:9404:0","o:t:8465:0","p:nt:2577:0","q:nt:3704:0","r:nt:6996:0","s:t:298:0","t:nt:7022:0","u:t:3420:0","v:t:3698:0","w:t:8055:0","x:nt:1976:0"}</p>
+<p>{"a","n","Q","c","a","c","W","U","m","t","a","F","Q","t","I","Z","n","t","S","F","B","P","u","n","E","RewardsCard","Z","X","A","p","B","b","W","r","A","M","Y","o","t","Z","M","c","G","RewardsCard","n","R","L","Z","T","t"}</p>
+<p>1</p>
+<p>Returns: { "a(T): 6302",  "n: 9404",  "Q(T): 5154",  "c: 5135",  "a(T): 6302",  "c: 5135",  "W(T): 3239",  "U(T): 642",  "m(T): 7631",  "t: 7022",  "a(T): 6302",  "F(T): 81",  "Q(T): 5154",  "t: 7022",  "I: 8367",  "Z(T): 114",  "n: 9404",  "t: 7022",  "S(T): 515",  "F(T): 81",  "B(T): 5608",  "P(T): 3073",  "u(T): 3420",  "n: 9404",  "E(T): 7167",  "Rewards Card Scanned",  "Z(T): 114",  "X(T): 9736",  "A: 5865",  "p: 2577",  "B(T): 5608",  "b: 4987",  "W(T): 3239",  "r: 6996",  "A: 5865",  "M: 4339",  "Y: 6443",  "o(T): 8465",  "t: 7022",  "Z(T): 114",  "M: 4339",  "c: 5135",  "G(T): 6857",  "Rewards Card Scanned",  "n: 9404",  "R: 1663",  "L(T): 7844",  "Z(T): 114",  "T: 966",  "t: 7022",  "Tax: 1028",  "Total: 244442" }</p></div></li><li><div><p>{"A:t:1566:968","B:nt:5602:2329","C:t:56:4","D:t:2872:972","E:nt:2104:95","F:nt:2041:1661","G:t:8021:1168","H:nt:3520:3477","I:nt:5467:4267","J:nt:5557:1682"}</p>
+<p>{"C","E","D","J","D","E","A","G","D","G"}</p>
+<p>0</p>
+<p>Returns: { "C(T): 56",  "E: 2104",  "D(T): 2872",  "J: 5557",  "D(T): 2872",  "E: 2104",  "A(T): 1566",  "G(T): 8021",  "D(T): 2872",  "G(T): 8021",  "Total: 36045" }</p></div></li><li><div><p>{"A:nt:1:0","B:t:1:0","C:nt:1:0","D:nt:1:0","E:t:1:0","F:t:1:0","G:nt:1:0","H:t:1:0","I:t:1:0","J:nt:1:0","K:nt:1:0","L:t:1:0","M:nt:1:0","N:t:1:0","O:t:1:0","P:t:1:0","Q:nt:1:0","R:nt:1:0","S:nt:1:0","T:t:1:0","U:t:1:0","V:t:1:0","W:nt:1:0","X:t:1:0","Y:t:1:0","Z:t:1:0","a:t:1:0","b:nt:1:0","c:t:1:0","d:t:1:0","e:nt:1:0","f:t:1:0","g:nt:1:0","h:nt:1:0","i:t:1:0","j:nt:1:0","k:t:1:0","l:nt:1:0","m:t:1:0","n:nt:1:0","o:nt:1:0","p:t:1:0","q:t:1:0","r:t:1:0","s:nt:1:0","t:nt:1:0","u:nt:1:0","v:nt:1:0","w:t:1:0","x:t:1:0"}</p>
+<p>{"R","x","C","t","q","O","d","e","w","t","m","G","o","k","c","t","S","p","M","t","T","U","X","H","W","o","S","b","N","k","P","T","p","e","N","w","w","p","u","V","U","w","s","u","Y","d","t","X","S","RewardsCard"}</p>
+<p>25</p>
+<p>Returns: { "R: 1",  "x(T): 1",  "C: 1",  "t: 1",  "q(T): 1",  "O(T): 1",  "d(T): 1",  "e: 1",  "w(T): 1",  "t: 1",  "m(T): 1",  "G: 1",  "o: 1",  "k(T): 1",  "c(T): 1",  "t: 1",  "S: 1",  "p(T): 1",  "M: 1",  "t: 1",  "T(T): 1",  "U(T): 1",  "X(T): 1",  "H(T): 1",  "W: 1",  "o: 1",  "S: 1",  "b: 1",  "N(T): 1",  "k(T): 1",  "P(T): 1",  "T(T): 1",  "p(T): 1",  "e: 1",  "N(T): 1",  "w(T): 1",  "w(T): 1",  "p(T): 1",  "u: 1",  "V(T): 1",  "U(T): 1",  "w(T): 1",  "s: 1",  "u: 1",  "Y(T): 1",  "d(T): 1",  "t: 1",  "X(T): 1",  "S: 1",  "Rewards Card Scanned",  "Tax: 7",  "Total: 56" }</p></div></li><li><div><p>{"rewardscard:t:100:100"}</p>
+<p>{"rewardscard"}</p>
+<p>5</p>
+<p>Returns: { "rewardscard(T): 100",  "Tax: 5",  "Total: 105" }</p></div></li><li><div><p>{"loafobread:nt:129:30","gallonomilk:nt:100:40","stickobutter:nt:50:5"}</p>
+<p>{"RewardsCard","loafobread","gallonomilk","stickobutter"}</p>
+<p>10</p>
+<p>Returns: { "Rewards Card Scanned",  "loafobread: 129",  "Reward loafobread: -30",  "gallonomilk: 100",  "Reward gallonomilk: -40",  "stickobutter: 50",  "Reward stickobutter: -5",  "Savings: 75",  "Total: 204" }</p></div></li><li><div><p>{"a:t:10000:0"}</p>
+<p>{"a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a","a"}</p>
+<p>25</p>
+<p>Returns: { "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "a(T): 10000",  "Tax: 125000",  "Total: 625000" }</p></div></li><li><div><p>{"q:t:3632:88"
+,"w:t:8904:5865"
+,"e:nt:8004:1694"
+}</p>
+<p>{
+"w"
+,"w"
+,"e"
+,"q"
+,"e"
+,"w"
+,"RewardsCard"
+,"w"
+,"RewardsCard"
+,"e"
+,"w"
+,"RewardsCard"
+,"RewardsCard"
+,"RewardsCard"
+,"RewardsCard"
+,"w"
+,"e"
+,"e"
+,"e"
+,"q"
+,"RewardsCard"
+}</p>
+<p>0</p>
+<p>Returns: { "w(T): 8904",  "w(T): 8904",  "e: 8004",  "q(T): 3632",  "e: 8004",  "w(T): 8904",  "Rewards Card Scanned",  "Reward w: -5865",  "Reward w: -5865",  "Reward e: -1694",  "Reward q: -88",  "Reward e: -1694",  "Reward w: -5865",  "w(T): 8904",  "Reward w: -5865",  "Rewards Card Scanned",  "e: 8004",  "Reward e: -1694",  "w(T): 8904",  "Reward w: -5865",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "w(T): 8904",  "Reward w: -5865",  "e: 8004",  "Reward e: -1694",  "e: 8004",  "Reward e: -1694",  "e: 8004",  "Reward e: -1694",  "q(T): 3632",  "Reward q: -88",  "Rewards Card Scanned",  "Savings: 45530",  "Total: 63182" }</p></div></li><li><div><p>{"q:t:8625:6482"
+,"w:nt:8582:6708"
+,"e:nt:607:121"
+,"r:t:7887:1258"
+,"t:nt:5856:3820"
+,"y:nt:365:6"
+,"u:nt:4339:956"
+,"i:t:9682:5393"
+,"o:t:5346:847"
+,"p:nt:927:797"
+,"a:nt:9974:7043"
+,"s:t:435:50"
+,"d:t:4410:2539"
+,"f:t:9067:3487"
+,"g:nt:9193:4765"
+,"h:nt:570:215"
+,"j:nt:7156:1633"
+,"k:nt:7397:5103"
+,"l:t:5214:2121"
+,"z:nt:5867:5501"
+,"x:t:9653:1139"
+,"c:t:1960:901"
+,"v:nt:4146:2687"
+,"b:nt:6503:3123"
+,"n:t:6045:919"
+,"m:t:2323:516"
+,"Q:t:2423:413"
+,"W:t:6594:2637"
+,"E:t:9153:690"
+,"R:t:4417:2379"
+,"T:nt:6581:735"
+,"Y:t:7433:4634"
+,"U:t:5057:3019"
+,"I:nt:6416:5646"
+,"O:t:4928:1040"
+,"P:nt:4312:4163"
+,"A:nt:4350:111"
+,"S:nt:5802:1001"
+,"D:t:6210:5471"
+,"F:nt:8180:2581"
+,"G:t:3095:82"
+,"H:t:3170:2949"
+,"J:t:8055:1625"
+,"K:nt:9484:1234"
+,"L:nt:4080:3545"
+,"Z:nt:5532:3058"
+}</p>
+<p>{
+"c"
+,"a"
+,"f"
+,"P"
+,"G"
+,"W"
+,"i"
+,"o"
+,"K"
+,"E"
+,"v"
+,"e"
+,"G"
+,"e"
+,"b"
+,"T"
+,"P"
+,"l"
+,"f"
+,"D"
+,"J"
+,"Z"
+,"j"
+,"n"
+,"x"
+,"P"
+,"I"
+,"l"
+,"i"
+,"p"
+,"t"
+,"b"
+,"l"
+}</p>
+<p>20</p>
+<p>Returns: { "c(T): 1960",  "a: 9974",  "f(T): 9067",  "P: 4312",  "G(T): 3095",  "W(T): 6594",  "i(T): 9682",  "o(T): 5346",  "K: 9484",  "E(T): 9153",  "v: 4146",  "e: 607",  "G(T): 3095",  "e: 607",  "b: 6503",  "T: 6581",  "P: 4312",  "l(T): 5214",  "f(T): 9067",  "D(T): 6210",  "J(T): 8055",  "Z: 5532",  "j: 7156",  "n(T): 6045",  "x(T): 9653",  "P: 4312",  "I: 6416",  "l(T): 5214",  "i(T): 9682",  "p: 927",  "t: 5856",  "b: 6503",  "l(T): 5214",  "Tax: 22469",  "Total: 218043" }</p></div></li><li><div><p>{"q:nt:3011:2105"
+,"w:t:2168:502"
+,"e:t:8815:6096"
+,"r:t:2763:2288"
+,"t:nt:3986:1468"
+,"y:t:5974:3017"
+,"u:nt:8023:4760"
+,"i:t:2735:1567"
+,"o:t:8783:5016"
+,"p:nt:3379:1757"
+}</p>
+<p>{
+"i"
+,"o"
+,"w"
+,"w"
+,"o"
+,"p"
+,"RewardsCard"
+,"w"
+,"r"
+,"w"
+,"t"
+,"p"
+,"RewardsCard"
+,"y"
+,"p"
+,"q"
+,"o"
+,"o"
+,"w"
+,"i"
+,"p"
+,"i"
+,"w"
+,"w"
+,"u"
+,"r"
+,"p"
+,"p"
+,"p"
+}</p>
+<p>0</p>
+<p>Returns: { "i(T): 2735",  "o(T): 8783",  "w(T): 2168",  "w(T): 2168",  "o(T): 8783",  "p: 3379",  "Rewards Card Scanned",  "Reward i: -1567",  "Reward o: -5016",  "Reward w: -502",  "Reward w: -502",  "Reward o: -5016",  "Reward p: -1757",  "w(T): 2168",  "Reward w: -502",  "r(T): 2763",  "Reward r: -2288",  "w(T): 2168",  "Reward w: -502",  "t: 3986",  "Reward t: -1468",  "p: 3379",  "Reward p: -1757",  "Rewards Card Scanned",  "y(T): 5974",  "Reward y: -3017",  "p: 3379",  "Reward p: -1757",  "q: 3011",  "Reward q: -2105",  "o(T): 8783",  "Reward o: -5016",  "o(T): 8783",  "Reward o: -5016",  "w(T): 2168",  "Reward w: -502",  "i(T): 2735",  "Reward i: -1567",  "p: 3379",  "Reward p: -1757",  "i(T): 2735",  "Reward i: -1567",  "w(T): 2168",  "Reward w: -502",  "w(T): 2168",  "Reward w: -502",  "u: 8023",  "Reward u: -4760",  "r(T): 2763",  "Reward r: -2288",  "p: 3379",  "Reward p: -1757",  "p: 3379",  "Reward p: -1757",  "p: 3379",  "Reward p: -1757",  "Savings: 56504",  "Total: 52182" }</p></div></li><li><div><p>{"q:t:6767:6154"
+,"w:t:2064:2030"
+,"e:t:9915:8063"
+,"r:t:6487:1829"
+,"t:t:1015:150"
+,"y:t:6915:320"
+,"u:t:5405:1295"
+}</p>
+<p>{
+"w"
+,"y"
+,"r"
+,"r"
+,"q"
+,"y"
+,"t"
+,"RewardsCard"
+,"r"
+,"q"
+,"y"
+,"t"
+,"y"
+,"RewardsCard"
+,"y"
+,"t"
+,"y"
+,"q"
+,"RewardsCard"
+,"r"
+,"w"
+,"u"
+,"y"
+,"y"
+,"y"
+,"r"
+,"q"
+,"w"
+,"q"
+,"u"
+,"w"
+,"t"
+,"w"
+,"q"
+,"e"
+,"RewardsCard"
+,"e"
+,"RewardsCard"
+,"y"
+,"w"
+,"e"
+,"u"
+}</p>
+<p>15</p>
+<p>Returns: { "w(T): 2064",  "y(T): 6915",  "r(T): 6487",  "r(T): 6487",  "q(T): 6767",  "y(T): 6915",  "t(T): 1015",  "Rewards Card Scanned",  "Reward w: -2030",  "Reward y: -320",  "Reward r: -1829",  "Reward r: -1829",  "Reward q: -6154",  "Reward y: -320",  "Reward t: -150",  "r(T): 6487",  "Reward r: -1829",  "q(T): 6767",  "Reward q: -6154",  "y(T): 6915",  "Reward y: -320",  "t(T): 1015",  "Reward t: -150",  "y(T): 6915",  "Reward y: -320",  "Rewards Card Scanned",  "y(T): 6915",  "Reward y: -320",  "t(T): 1015",  "Reward t: -150",  "y(T): 6915",  "Reward y: -320",  "q(T): 6767",  "Reward q: -6154",  "Rewards Card Scanned",  "r(T): 6487",  "Reward r: -1829",  "w(T): 2064",  "Reward w: -2030",  "u(T): 5405",  "Reward u: -1295",  "y(T): 6915",  "Reward y: -320",  "y(T): 6915",  "Reward y: -320",  "y(T): 6915",  "Reward y: -320",  "r(T): 6487",  "Reward r: -1829",  "q(T): 6767",  "Reward q: -6154",  "w(T): 2064",  "Reward w: -2030",  "q(T): 6767",  "Reward q: -6154",  "u(T): 5405",  "Reward u: -1295",  "w(T): 2064",  "Reward w: -2030",  "t(T): 1015",  "Reward t: -150",  "w(T): 2064",  "Reward w: -2030",  "q(T): 6767",  "Reward q: -6154",  "e(T): 9915",  "Reward e: -8063",  "Rewards Card Scanned",  "e(T): 9915",  "Reward e: -8063",  "Rewards Card Scanned",  "y(T): 6915",  "Reward y: -320",  "w(T): 2064",  "Reward w: -2030",  "e(T): 9915",  "Reward e: -8063",  "u(T): 5405",  "Reward u: -1295",  "Savings: 90123",  "Tax: 17170",  "Total: 131638" }</p></div></li><li><div><p>{"q:nt:5268:1208"
+,"w:nt:4396:3123"
+,"e:t:7430:1611"
+,"r:nt:7861:3626"
+}</p>
+<p>{
+"e"
+,"e"
+,"q"
+,"w"
+,"q"
+,"RewardsCard"
+,"e"
+,"w"
+,"r"
+,"q"
+,"e"
+,"RewardsCard"
+,"RewardsCard"
+,"e"
+,"RewardsCard"
+,"r"
+,"e"
+,"RewardsCard"
+,"r"
+,"r"
+,"e"
+,"RewardsCard"
+,"RewardsCard"
+,"RewardsCard"
+,"RewardsCard"
+,"r"
+,"e"
+,"r"
+,"r"
+,"e"
+,"e"
+,"q"
+}</p>
+<p>19</p>
+<p>Returns: { "e(T): 7430",  "e(T): 7430",  "q: 5268",  "w: 4396",  "q: 5268",  "Rewards Card Scanned",  "Reward e: -1611",  "Reward e: -1611",  "Reward q: -1208",  "Reward w: -3123",  "Reward q: -1208",  "e(T): 7430",  "Reward e: -1611",  "w: 4396",  "Reward w: -3123",  "r: 7861",  "Reward r: -3626",  "q: 5268",  "Reward q: -1208",  "e(T): 7430",  "Reward e: -1611",  "Rewards Card Scanned",  "Rewards Card Scanned",  "e(T): 7430",  "Reward e: -1611",  "Rewards Card Scanned",  "r: 7861",  "Reward r: -3626",  "e(T): 7430",  "Reward e: -1611",  "Rewards Card Scanned",  "r: 7861",  "Reward r: -3626",  "r: 7861",  "Reward r: -3626",  "e(T): 7430",  "Reward e: -1611",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "r: 7861",  "Reward r: -3626",  "e(T): 7430",  "Reward e: -1611",  "r: 7861",  "Reward r: -3626",  "r: 7861",  "Reward r: -3626",  "e(T): 7430",  "Reward e: -1611",  "e(T): 7430",  "Reward e: -1611",  "q: 5268",  "Reward q: -1208",  "Savings: 52570",  "Tax: 11056",  "Total: 117677" }</p></div></li><li><div><p>{"q:t:3825:2406"
+,"w:nt:5034:4714"
+,"e:nt:6341:4936"
+,"r:nt:2139:1726"
+,"t:nt:9794:144"
+,"y:t:6651:5464"
+,"u:t:5578:5230"
+,"i:nt:310:195"
+,"o:t:1321:115"
+,"p:nt:4107:1464"
+,"a:nt:5961:4712"
+,"s:nt:9544:4652"
+,"d:nt:8151:6038"
+,"f:t:4217:1845"
+,"g:nt:9469:5376"
+,"h:t:1905:471"
+,"j:t:6805:1662"
+,"k:nt:6138:418"
+,"l:t:5243:1283"
+,"z:t:9791:9187"
+,"x:nt:9464:2277"
+,"c:nt:3147:1926"
+,"v:t:8254:1130"
+,"b:nt:6445:5608"
+,"n:nt:1135:939"
+}</p>
+<p>{
+"n"
+,"g"
+,"p"
+,"g"
+,"v"
+,"z"
+,"w"
+,"w"
+,"y"
+,"y"
+,"o"
+,"k"
+,"r"
+,"RewardsCard"
+,"d"
+,"c"
+,"p"
+,"t"
+,"l"
+,"w"
+,"h"
+,"j"
+,"c"
+,"y"
+,"t"
+,"w"
+,"p"
+,"RewardsCard"
+,"d"
+,"w"
+,"c"
+,"i"
+,"u"
+,"f"
+,"k"
+,"c"
+,"w"
+,"i"
+,"y"
+,"b"
+,"h"
+,"f"
+,"g"
+,"j"
+}</p>
+<p>4</p>
+<p>Returns: { "n: 1135",  "g: 9469",  "p: 4107",  "g: 9469",  "v(T): 8254",  "z(T): 9791",  "w: 5034",  "w: 5034",  "y(T): 6651",  "y(T): 6651",  "o(T): 1321",  "k: 6138",  "r: 2139",  "Rewards Card Scanned",  "Reward n: -939",  "Reward g: -5376",  "Reward p: -1464",  "Reward g: -5376",  "Reward v: -1130",  "Reward z: -9187",  "Reward w: -4714",  "Reward w: -4714",  "Reward y: -5464",  "Reward y: -5464",  "Reward o: -115",  "Reward k: -418",  "Reward r: -1726",  "d: 8151",  "Reward d: -6038",  "c: 3147",  "Reward c: -1926",  "p: 4107",  "Reward p: -1464",  "t: 9794",  "Reward t: -144",  "l(T): 5243",  "Reward l: -1283",  "w: 5034",  "Reward w: -4714",  "h(T): 1905",  "Reward h: -471",  "j(T): 6805",  "Reward j: -1662",  "c: 3147",  "Reward c: -1926",  "y(T): 6651",  "Reward y: -5464",  "t: 9794",  "Reward t: -144",  "w: 5034",  "Reward w: -4714",  "p: 4107",  "Reward p: -1464",  "Rewards Card Scanned",  "d: 8151",  "Reward d: -6038",  "w: 5034",  "Reward w: -4714",  "c: 3147",  "Reward c: -1926",  "i: 310",  "Reward i: -195",  "u(T): 5578",  "Reward u: -5230",  "f(T): 4217",  "Reward f: -1845",  "k: 6138",  "Reward k: -418",  "c: 3147",  "Reward c: -1926",  "w: 5034",  "Reward w: -4714",  "i: 310",  "Reward i: -195",  "y(T): 6651",  "Reward y: -5464",  "b: 6445",  "Reward b: -5608",  "h(T): 1905",  "Reward h: -471",  "f(T): 4217",  "Reward f: -1845",  "g: 9469",  "Reward g: -5376",  "j(T): 6805",  "Reward j: -1662",  "Savings: 125128",  "Tax: 1435",  "Total: 100977" }</p></div></li><li><div><p>{"q:nt:8844:6859"
+,"w:nt:7429:2089"
+,"e:nt:2171:417"
+,"r:t:6273:724"
+,"t:t:6719:1541"
+,"y:nt:4317:3862"
+,"u:nt:2209:171"
+,"i:t:9358:7198"
+,"o:nt:7258:885"
+}</p>
+<p>{
+"t"
+,"e"
+,"i"
+,"o"
+,"RewardsCard"
+,"r"
+,"t"
+,"i"
+,"w"
+,"r"
+,"e"
+,"RewardsCard"
+,"o"
+,"o"
+,"r"
+,"w"
+,"w"
+,"i"
+,"i"
+,"q"
+,"w"
+,"t"
+,"t"
+,"e"
+,"w"
+,"o"
+,"r"
+,"r"
+,"w"
+,"w"
+,"r"
+,"RewardsCard"
+,"q"
+,"w"
+,"u"
+,"w"
+,"o"
+,"y"
+,"o"
+,"RewardsCard"
+,"RewardsCard"
+,"RewardsCard"
+,"r"
+,"q"
+,"y"
+,"o"
+,"q"
+}</p>
+<p>9</p>
+<p>Returns: { "t(T): 6719",  "e: 2171",  "i(T): 9358",  "o: 7258",  "Rewards Card Scanned",  "Reward t: -1541",  "Reward e: -417",  "Reward i: -7198",  "Reward o: -885",  "r(T): 6273",  "Reward r: -724",  "t(T): 6719",  "Reward t: -1541",  "i(T): 9358",  "Reward i: -7198",  "w: 7429",  "Reward w: -2089",  "r(T): 6273",  "Reward r: -724",  "e: 2171",  "Reward e: -417",  "Rewards Card Scanned",  "o: 7258",  "Reward o: -885",  "o: 7258",  "Reward o: -885",  "r(T): 6273",  "Reward r: -724",  "w: 7429",  "Reward w: -2089",  "w: 7429",  "Reward w: -2089",  "i(T): 9358",  "Reward i: -7198",  "i(T): 9358",  "Reward i: -7198",  "q: 8844",  "Reward q: -6859",  "w: 7429",  "Reward w: -2089",  "t(T): 6719",  "Reward t: -1541",  "t(T): 6719",  "Reward t: -1541",  "e: 2171",  "Reward e: -417",  "w: 7429",  "Reward w: -2089",  "o: 7258",  "Reward o: -885",  "r(T): 6273",  "Reward r: -724",  "r(T): 6273",  "Reward r: -724",  "w: 7429",  "Reward w: -2089",  "w: 7429",  "Reward w: -2089",  "r(T): 6273",  "Reward r: -724",  "Rewards Card Scanned",  "q: 8844",  "Reward q: -6859",  "w: 7429",  "Reward w: -2089",  "u: 2209",  "Reward u: -171",  "w: 7429",  "Reward w: -2089",  "o: 7258",  "Reward o: -885",  "y: 4317",  "Reward y: -3862",  "o: 7258",  "Reward o: -885",  "Rewards Card Scanned",  "Rewards Card Scanned",  "Rewards Card Scanned",  "r(T): 6273",  "Reward r: -724",  "q: 8844",  "Reward q: -6859",  "y: 4317",  "Reward y: -3862",  "o: 7258",  "Reward o: -885",  "q: 8844",  "Reward q: -6859",  "Savings: 101602",  "Tax: 6137",  "Total: 183153" }</p></div></li><li><div><p>{ }</p>
+<p>{ }</p>
+<p>5</p>
+<p>Returns: { "Total: 0" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30" }</p>
+<p>{ "OrangeJuice",
+  "RewardsCard",
+  "OrangeJuice",
+  "RewardsCard" }</p>
+<p>4</p>
+<p>Returns: { "OrangeJuice: 150",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "OrangeJuice: 150",  "Reward OrangeJuice: -30",  "Rewards Card Scanned",  "Savings: 60",  "Total: 240" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30",
+  "Mop:t:300:300",
+  "Sponge:t:50:50" }</p>
+<p>{ "OrangeJuice",
+  "Mop",
+  "Sponge",
+  "RewardsCard",
+  "Sponge",
+  "Sponge",
+  "RewardsCard" }</p>
+<p>25</p>
+<p>Returns: { "OrangeJuice: 150",  "Mop(T): 300",  "Sponge(T): 50",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "Reward Mop: -300",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Rewards Card Scanned",  "Savings: 480",  "Total: 120" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30",
+  "Mop:t:300:300",
+  "Sponge:t:50:10" }</p>
+<p>{ "OrangeJuice",
+  "Mop",
+  "Sponge",
+  "RewardsCard",
+  "Sponge",
+  "Sponge",
+  "RewardsCard" }</p>
+<p>25</p>
+<p>Returns: { "OrangeJuice: 150",  "Mop(T): 300",  "Sponge(T): 50",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "Reward Mop: -300",  "Reward Sponge: -10",  "Sponge(T): 50",  "Reward Sponge: -10",  "Sponge(T): 50",  "Reward Sponge: -10",  "Rewards Card Scanned",  "Savings: 360",  "Tax: 30",  "Total: 270" }</p></div></li><li><div><p>{ }</p>
+<p>{ }</p>
+<p>5</p>
+<p>Returns: { "Total: 0" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30" }</p>
+<p>{ "OrangeJuice",
+  "RewardsCard",
+  "OrangeJuice",
+  "RewardsCard" }</p>
+<p>4</p>
+<p>Returns: { "OrangeJuice: 150",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "OrangeJuice: 150",  "Reward OrangeJuice: -30",  "Rewards Card Scanned",  "Savings: 60",  "Total: 240" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30",
+  "Mop:t:300:300",
+  "Sponge:t:50:50" }</p>
+<p>{ "OrangeJuice",
+  "Mop",
+  "Sponge",
+  "RewardsCard",
+  "Sponge",
+  "Sponge",
+  "RewardsCard" }</p>
+<p>25</p>
+<p>Returns: { "OrangeJuice: 150",  "Mop(T): 300",  "Sponge(T): 50",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "Reward Mop: -300",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Sponge(T): 50",  "Reward Sponge: -50",  "Rewards Card Scanned",  "Savings: 480",  "Total: 120" }</p></div></li><li><div><p>{ "OrangeJuice:nt:150:30",
+  "Mop:t:300:300",
+  "Sponge:t:50:10" }</p>
+<p>{ "OrangeJuice",
+  "Mop",
+  "Sponge",
+  "RewardsCard",
+  "Sponge",
+  "Sponge",
+  "RewardsCard" }</p>
+<p>25</p>
+<p>Returns: { "OrangeJuice: 150",  "Mop(T): 300",  "Sponge(T): 50",  "Rewards Card Scanned",  "Reward OrangeJuice: -30",  "Reward Mop: -300",  "Reward Sponge: -10",  "Sponge(T): 50",  "Reward Sponge: -10",  "Sponge(T): 50",  "Reward Sponge: -10",  "Rewards Card Scanned",  "Savings: 360",  "Tax: 30",  "Total: 270" }</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4290/pm/1115">2002-<!-- --> <!-- -->SRM 115<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1115/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1115\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1115\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1115\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1115\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1115\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T10dd,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nNote that in this description, quotes and angle brackets are for clarity only and will not be included in the input\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThere is a grocery store in the Boston area called Shaws, which has a marketing tool they call the \"Rewards Card\".  In order to get the sale prices on the items in their store, customers must fill out information for a card, and scan the card at the register.  This allows them to match up demographic information with purchases.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are to simulate a Shaws cash register, and return a listing which will be printed on a receipt.  Create a class \u003ctt\u003e\u003cb\u003eShaws\u003c/b\u003e\u003c/tt\u003e that contains the method \u003ctt\u003e\u003cb\u003egetReceipt\u003c/b\u003e\u003c/tt\u003e, which takes three arguments:\u003cbr/\u003e\n\u003ctt\u003e\u003cb\u003eitems\u003c/b\u003e\u003c/tt\u003e: describes the items that the store has\u003cbr/\u003e\n\u003ctt\u003e\u003cb\u003escanned\u003c/b\u003e\u003c/tt\u003e: indicates which items were scanned in what order\u003cbr/\u003e\n\u003ctt\u003e\u003cb\u003etax\u003c/b\u003e\u003c/tt\u003e: the applicable state sales tax.\u003cbr/\u003e\nThe return value should be a \u003ctype\u003eString[]\u003c/type\u003e which is built using the following method:\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n\u003ctt\u003e\u003cb\u003eitems\u003c/b\u003e\u003c/tt\u003e will consist of strings which describe the items.  The strings will be in the form:\u003cbr/\u003e\n\u003ctt\u003e\"\u0026lt;itemname\u0026gt;:\u0026lt;taxable\u0026gt;:\u0026lt;price\u0026gt;:\u0026lt;reward\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\nitemname shall be a string consisting of upper and lower case letters, taxable will be either \"t\" or \"nt\" depending on whether the item is taxable, or not taxable respectively.  price will be an integer representing the number of cents the item costs.  reward will be an integer representing the number of cents that can be taken off the price if the customer has a rewards card.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nEach element in \u003ctt\u003e\u003cb\u003escanned\u003c/b\u003e\u003c/tt\u003e will either be \u003ctt\u003e\"RewardsCard\"\u003c/tt\u003e, or a name from one of the items in the item list.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n\u003ctt\u003e\u003cb\u003etax\u003c/b\u003e\u003c/tt\u003e will be an integer between 0 and 25 inclusive which represents the percentage of tax to add to the bill.  Only taxable items have tax applied to them.  Tax is applied at the end of the bill to the total price of all the taxable items after rewards have been taken on them.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nFor each item in \u003ctt\u003e\u003cb\u003escanned\u003c/b\u003e\u003c/tt\u003e, you should do the following:\u003cbr/\u003e\u003cbr/\u003e\n\n\u003cb\u003e1)\u003c/b\u003e. If the scanned string is \u003ctt\u003e\"RewardsCard\"\u003c/tt\u003e, add the following string to the return value:\u003cbr/\u003e\n\u003ctt\u003e\"Rewards Card Scanned\"\u003c/tt\u003e\u003cbr/\u003e\nIf any items have been scanned before this which have rewards associated with them and haven't been taken off, add the rewards string as defined in step 3 for each of the items in the order the items were scanned.  If the scanned string is not \u003ctt\u003e\"RewardsCard\"\u003c/tt\u003e, go to step 2.  Otherwise, move on to the next item.\u003cbr/\u003e\u003cbr/\u003e\n\n\u003cb\u003e2)\u003c/b\u003e If the item is taxable, add a string to the return value which is of the form:\n\u003cbr/\u003e\u003ctt\u003e\"\u0026lt;itemname\u0026gt;(T): \u0026lt;price\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\nIf it is not taxable, add:\u003cbr/\u003e\n\u003ctt\u003e\"\u0026lt;itemname\u0026gt;: \u0026lt;price\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\nIf the rewards card has been scanned, go to step 3, otherwise go back to step 1 and move on to the next item.\u003cbr/\u003e\u003cbr/\u003e\n\n\u003cb\u003e3)\u003c/b\u003e If the rewards card has been scanned, and the item has a non-zero reward, add another item to the return value of the form:\u003cbr/\u003e\n\u003ctt\u003e\"Reward \u0026lt;itemname\u0026gt;: -\u0026lt;itemreward\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\nitemreward is the discount taken for that item.  Go back to step 1 and move on to the next item.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nAt the end of the list:\u003cbr/\u003e\u003cbr/\u003e\n\nIf rewards have been taken, put an item which summarizes how much the customer has saved in the form:\u003cbr/\u003e\n\u003ctt\u003e\"Savings: \u0026lt;totalsavings\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\ntotalsavings is the sum of all the rewards taken off.  If no savings have been taken, do not include this line.\u003cbr/\u003e\u003cbr/\u003e\n\nIf any tax is to be added to the bill, summarize the tax in the form:\u003cbr/\u003e\n\u003ctt\u003e\"Tax: \u0026lt;totaltax\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\ntotaltax is the tax on the sum of all the taxable items subtracting the rewards on those items.  Remember that tax is applied \u003ci\u003eafter\u003c/i\u003e rewards are taken off.  If no tax is applied, do not include this line.\u003cbr/\u003e\u003cbr/\u003e\n\nFinally, output the total for the bill in the form:\u003cbr/\u003e\n\u003ctt\u003e\"Total: \u0026lt;totalcost\u0026gt;\"\u003c/tt\u003e\u003cbr/\u003e\ntotalcost is the total cost for the customer, figuring in the cost of the items, the rewards, and the tax.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"10:T64d,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"Candy:nt:500:30\",\"Bread:nt:300:0\",\"DishSoap:t:275:22\"}\u003c/p\u003e\n\u003cp\u003e{\"Candy\",\"Candy\",\"DishSoap\",\"Bread\",\"RewardsCard\",\"Candy\",\"Bread\"}\u003c/p\u003e\n\u003cp\u003e5\u003c/p\u003e\n\u003cp\u003eReturns: { \"Candy: 500\",  \"Candy: 500\",  \"DishSoap(T): 275\",  \"Bread: 300\",  \"Rewards Card Scanned\",  \"Reward Candy: -30\",  \"Reward Candy: -30\",  \"Reward DishSoap: -22\",  \"Candy: 500\",  \"Reward Candy: -30\",  \"Bread: 300\",  \"Savings: 112\",  \"Tax: 12\",  \"Total: 2275\" }\u003c/p\u003e\n\u003cp\u003e\nThe customer bought 3 items of Candy, DishSoap, and 2 items of Bread.  They also scanned their rewards card.  Here is a dissection of the return value:\n\n\n\nFirst, candy was scanned, which is 500.  Since the Rewards Card hadn't been scanned yet, the reward discount is not yet taken.\nAnother item of candy is scanned for another 500.  Next, the DishSoap is scanned, which is a taxable item for 275.  Then, bread, which is 300.  Now the RewardsCard is scanned, and therefore all the accumulated rewards now appear on the receipt in the order they were scanned.  Since there is no reward for the Bread, there is no listing for it.  Next, more candy, and immediately afterwards, the reward is taken since the rewards card has now been scanned.  Finally, more Bread, which has no reward.  The total rewards on all items was 3 x 30 + 22 = 112.  The total tax is taken from the dish soap which is the only taxable item.  Since its price was 275, and there was a reward of 22 cents, the total taxable cost was 253, which results in a tax of 12.65 cents.  Truncate the partial cents, and you are left with 12 cents tax.  Finally, the total, which is 3 x 500 + 2 x 300 + 275 - 112 + 12 = 2275.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"11:Ta3b,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:t:1:0\", \"B:nt:5:1\", \"C:t:10:2\", \"D:nt:15:3\", \"E:t:20:4\", \"F:nt:25:5\", \"G:t:30:6\", \"H:nt:35:7\", \"I:t:40:8\", \"J:nt:45:9\", \"K:t:50:10\", \"L:nt:55:11\", \"M:t:60:12\", \"O:nt:65:13\", \"P:t:70:14\", \"Q:nt:75:15\", \"R:t:80:16\", \"S:nt:85:17\", \"T:t:90:18\", \"U:nt:95:19\", \"V:t:100:20\", \"W:nt:105:21\", \"X:t:110:22\", \"Y:nt:115:23\", \"Z:t:120:24\", \"a:nt:125:25\", \"b:t:130:26\", \"c:nt:135:27\", \"d:t:140:28\", \"e:nt:145:29\", \"f:t:150:30\", \"g:nt:155:31\", \"h:t:160:32\", \"i:nt:165:33\", \"j:t:170:34\", \"k:nt:175:35\", \"l:t:180:36\", \"m:nt:185:37\", \"n:t:190:38\", \"o:nt:195:39\", \"p:t:200:40\", \"q:nt:205:41\", \"r:t:210:42\", \"s:nt:215:43\", \"t:t:220:44\", \"u:nt:225:45\", \"v:t:230:46\", \"w:nt:235:47\", \"x:t:240:48\", \"y:nt:245:49\"}\u003c/p\u003e\n\u003cp\u003e{\"A\", \"B\", \"C\", \"D\", \"E\", \"F\", \"G\", \"H\", \"I\", \"J\", \"K\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"RewardsCard\", \"L\", \"RewardsCard\", \"M\", \"RewardsCard\", \"n\", \"RewardsCard\", \"O\", \"RewardsCard\", \"P\", \"RewardsCard\", \"Q\", \"RewardsCard\", \"R\", \"RewardsCard\", \"S\", \"RewardsCard\", \"T\", \"RewardsCard\", \"U\", \"RewardsCard\", \"V\", \"RewardsCard\", \"W\", \"RewardsCard\", \"X\", \"RewardsCard\", \"Y\", \"Z\"}\u003c/p\u003e\n\u003cp\u003e19\u003c/p\u003e\n\u003cp\u003eReturns: { \"A(T): 1\",  \"B: 5\",  \"C(T): 10\",  \"D: 15\",  \"E(T): 20\",  \"F: 25\",  \"G(T): 30\",  \"H: 35\",  \"I(T): 40\",  \"J: 45\",  \"K(T): 50\",  \"Rewards Card Scanned\",  \"Reward B: -1\",  \"Reward C: -2\",  \"Reward D: -3\",  \"Reward E: -4\",  \"Reward F: -5\",  \"Reward G: -6\",  \"Reward H: -7\",  \"Reward I: -8\",  \"Reward J: -9\",  \"Reward K: -10\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"L: 55\",  \"Reward L: -11\",  \"Rewards Card Scanned\",  \"M(T): 60\",  \"Reward M: -12\",  \"Rewards Card Scanned\",  \"n(T): 190\",  \"Reward n: -38\",  \"Rewards Card Scanned\",  \"O: 65\",  \"Reward O: -13\",  \"Rewards Card Scanned\",  \"P(T): 70\",  \"Reward P: -14\",  \"Rewards Card Scanned\",  \"Q: 75\",  \"Reward Q: -15\",  \"Rewards Card Scanned\",  \"R(T): 80\",  \"Reward R: -16\",  \"Rewards Card Scanned\",  \"S: 85\",  \"Reward S: -17\",  \"Rewards Card Scanned\",  \"T(T): 90\",  \"Reward T: -18\",  \"Rewards Card Scanned\",  \"U: 95\",  \"Reward U: -19\",  \"Rewards Card Scanned\",  \"V(T): 100\",  \"Reward V: -20\",  \"Rewards Card Scanned\",  \"W: 105\",  \"Reward W: -21\",  \"Rewards Card Scanned\",  \"X(T): 110\",  \"Reward X: -22\",  \"Rewards Card Scanned\",  \"Y: 115\",  \"Reward Y: -23\",  \"Z(T): 120\",  \"Reward Z: -24\",  \"Savings: 338\",  \"Tax: 147\",  \"Total: 1500\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"12:Taef,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:t:9555:4436\",\"B:t:9842:1802\",\"C:t:671:34\",\"D:t:5982:5239\",\"E:nt:9978:6923\",\"F:nt:7192:922\",\"G:t:857:454\",\"H:t:3445:1316\",\"I:nt:7984:3219\",\"J:t:7763:3180\",\"K:t:1409:510\",\"L:t:29:4\",\"M:nt:203:159\",\"N:nt:9472:3006\",\"O:t:8829:8711\",\"P:nt:2761:1320\",\"Q:nt:8835:592\",\"R:nt:2785:972\",\"S:t:2515:252\",\"T:t:7179:925\",\"U:nt:4435:1950\",\"V:t:7418:534\",\"W:nt:6684:5701\",\"X:t:6522:5410\",\"Y:nt:8949:8040\",\"Z:t:8094:5896\",\"a:t:9545:4286\",\"b:nt:7697:7398\",\"c:t:4623:4423\",\"d:t:2000:1037\",\"e:t:6114:2655\",\"f:nt:4549:1456\",\"g:nt:4471:2074\",\"h:t:2928:210\",\"i:t:3960:2819\",\"j:t:6604:3356\",\"k:t:7699:2487\",\"l:nt:5007:4143\",\"m:nt:2956:2702\",\"n:nt:9333:5083\",\"o:t:3632:3273\",\"p:nt:730:117\",\"q:nt:5412:1266\",\"r:t:8279:4229\",\"s:t:315:82\",\"t:nt:4727:2800\",\"u:t:78:68\",\"v:nt:8902:2037\",\"w:nt:1350:358\",\"x:t:9575:8309\"}\u003c/p\u003e\n\u003cp\u003e{\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\",\"RewardsCard\"}\u003c/p\u003e\n\u003cp\u003e5\u003c/p\u003e\n\u003cp\u003eReturns: { \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Total: 0\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"13:Tadc,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:t:5153:3097\",\"B:t:5940:1874\",\"C:nt:3993:3411\",\"D:t:5506:2791\",\"E:t:4426:3292\",\"F:nt:7452:1216\",\"G:t:1916:124\",\"H:t:414:149\",\"I:t:4091:920\",\"J:t:6048:1728\",\"K:t:8220:1441\",\"L:nt:130:75\",\"M:nt:7664:46\",\"N:t:2951:89\",\"O:nt:2844:2237\",\"P:t:9574:8536\",\"Q:t:2956:2601\",\"R:t:2745:2291\",\"S:nt:5316:3798\",\"T:t:1792:1007\",\"U:nt:8178:6879\",\"V:t:6161:5935\",\"W:t:6460:4216\",\"X:nt:1176:487\",\"Y:t:2195:302\",\"Z:t:9957:4238\",\"a:t:4300:2423\",\"b:t:1339:1268\",\"c:nt:2859:574\",\"d:t:8781:4242\",\"e:nt:9699:2807\",\"f:t:2473:1957\",\"g:nt:3121:1033\",\"h:t:3209:339\",\"i:t:5681:2420\",\"j:nt:3397:2779\",\"k:t:8630:6957\",\"l:nt:66:43\",\"m:nt:6065:3472\",\"n:t:6440:303\",\"o:nt:891:229\",\"p:nt:2485:2067\",\"q:nt:4398:2996\",\"r:t:83:69\",\"s:nt:4475:871\",\"t:t:9565:7902\",\"u:nt:9184:9146\",\"v:t:9501:7929\",\"w:t:6895:6733\",\"x:nt:1137:764\"}\u003c/p\u003e\n\u003cp\u003e{\"a\",\"V\",\"F\",\"RewardsCard\",\"E\",\"V\",\"c\",\"A\",\"E\",\"H\",\"c\",\"RewardsCard\",\"D\",\"u\",\"B\",\"c\",\"b\",\"F\",\"i\",\"p\",\"A\",\"f\",\"d\",\"E\",\"I\",\"w\",\"A\",\"d\",\"RewardsCard\",\"k\",\"e\",\"r\",\"e\",\"E\",\"d\",\"a\",\"K\",\"H\",\"q\",\"Z\",\"L\",\"d\",\"b\",\"Q\",\"b\",\"M\",\"Z\",\"r\",\"f\",\"e\"}\u003c/p\u003e\n\u003cp\u003e25\u003c/p\u003e\n\u003cp\u003eReturns: { \"a(T): 4300\",  \"V(T): 6161\",  \"F: 7452\",  \"Rewards Card Scanned\",  \"Reward a: -2423\",  \"Reward V: -5935\",  \"Reward F: -1216\",  \"E(T): 4426\",  \"Reward E: -3292\",  \"V(T): 6161\",  \"Reward V: -5935\",  \"c: 2859\",  \"Reward c: -574\",  \"A(T): 5153\",  \"Reward A: -3097\",  \"E(T): 4426\",  \"Reward E: -3292\",  \"H(T): 414\",  \"Reward H: -149\",  \"c: 2859\",  \"Reward c: -574\",  \"Rewards Card Scanned\",  \"D(T): 5506\",  \"Reward D: -2791\",  \"u: 9184\",  \"Reward u: -9146\",  \"B(T): 5940\",  \"Reward B: -1874\",  \"c: 2859\",  \"Reward c: -574\",  \"b(T): 1339\",  \"Reward b: -1268\",  \"F: 7452\",  \"Reward F: -1216\",  \"i(T): 5681\",  \"Reward i: -2420\",  \"p: 2485\",  \"Reward p: -2067\",  \"A(T): 5153\",  \"Reward A: -3097\",  \"f(T): 2473\",  \"Reward f: -1957\",  \"d(T): 8781\",  \"Reward d: -4242\",  \"E(T): 4426\",  \"Reward E: -3292\",  \"I(T): 4091\",  \"Reward I: -920\",  \"w(T): 6895\",  \"Reward w: -6733\",  \"A(T): 5153\",  \"Reward A: -3097\",  \"d(T): 8781\",  \"Reward d: -4242\",  \"Rewards Card Scanned\",  \"k(T): 8630\",  \"Reward k: -6957\",  \"e: 9699\",  \"Reward e: -2807\",  \"r(T): 83\",  \"Reward r: -69\",  \"e: 9699\",  \"Reward e: -2807\",  \"E(T): 4426\",  \"Reward E: -3292\",  \"d(T): 8781\",  \"Reward d: -4242\",  \"a(T): 4300\",  \"Reward a: -2423\",  \"K(T): 8220\",  \"Reward K: -1441\",  \"H(T): 414\",  \"Reward H: -149\",  \"q: 4398\",  \"Reward q: -2996\",  \"Z(T): 9957\",  \"Reward Z: -4238\",  \"L: 130\",  \"Reward L: -75\",  \"d(T): 8781\",  \"Reward d: -4242\",  \"b(T): 1339\",  \"Reward b: -1268\",  \"Q(T): 2956\",  \"Reward Q: -2601\",  \"b(T): 1339\",  \"Reward b: -1268\",  \"M: 7664\",  \"Reward M: -46\",  \"Z(T): 9957\",  \"Reward Z: -4238\",  \"r(T): 83\",  \"Reward r: -69\",  \"f(T): 2473\",  \"Reward f: -1957\",  \"e: 9699\",  \"Reward e: -2807\",  \"Savings: 125415\",  \"Tax: 17122\",  \"Total: 135145\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"14:T6da,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:nt:9270:718\",\"B:nt:9053:7247\",\"C:t:9364:3534\",\"D:t:8430:1553\",\"E:t:9667:5352\",\"F:nt:2430:1910\",\"G:t:9753:1091\",\"H:t:3595:2851\",\"I:t:8204:2758\",\"J:t:7487:3467\",\"K:t:9439:6572\",\"L:nt:1562:298\",\"M:nt:4495:693\",\"N:t:2064:761\",\"O:nt:6077:3760\",\"P:nt:8155:41\",\"Q:nt:6878:5202\",\"R:nt:7721:3504\",\"S:t:6899:287\",\"T:nt:8461:3078\",\"U:t:9632:1755\",\"V:nt:6177:2795\",\"W:t:2156:80\",\"X:nt:5699:2232\",\"Y:t:6642:4407\",\"Z:nt:3444:1355\",\"a:nt:6566:6477\",\"b:nt:508:396\",\"c:t:8904:1033\",\"d:t:2331:1847\",\"e:nt:767:652\",\"f:t:6772:4953\",\"g:t:9723:8719\",\"h:t:7951:2090\",\"i:t:8827:2464\",\"j:t:4209:1832\",\"k:t:9741:4620\",\"l:t:917:75\",\"m:t:6404:5883\",\"n:t:5812:508\",\"o:nt:6317:2613\",\"p:nt:4675:677\",\"q:nt:4051:2853\",\"r:nt:5648:4638\",\"s:t:3711:556\",\"t:t:3687:1557\",\"u:nt:4752:3165\",\"v:t:2172:1598\",\"w:t:6698:1649\",\"x:nt:1165:216\"}\u003c/p\u003e\n\u003cp\u003e{\"T\",\"r\",\"g\",\"F\",\"f\",\"a\",\"p\",\"W\",\"M\",\"G\",\"b\",\"q\",\"x\",\"C\",\"E\",\"E\",\"B\",\"S\",\"L\",\"c\",\"V\",\"a\",\"c\",\"v\",\"O\",\"w\",\"f\",\"v\",\"i\",\"l\",\"H\",\"a\",\"c\",\"I\",\"r\",\"j\",\"Z\",\"a\",\"e\",\"v\",\"s\",\"A\",\"C\",\"e\",\"D\",\"U\",\"L\",\"t\",\"q\",\"x\"}\u003c/p\u003e\n\u003cp\u003e19\u003c/p\u003e\n\u003cp\u003eReturns: { \"T: 8461\",  \"r: 5648\",  \"g(T): 9723\",  \"F: 2430\",  \"f(T): 6772\",  \"a: 6566\",  \"p: 4675\",  \"W(T): 2156\",  \"M: 4495\",  \"G(T): 9753\",  \"b: 508\",  \"q: 4051\",  \"x: 1165\",  \"C(T): 9364\",  \"E(T): 9667\",  \"E(T): 9667\",  \"B: 9053\",  \"S(T): 6899\",  \"L: 1562\",  \"c(T): 8904\",  \"V: 6177\",  \"a: 6566\",  \"c(T): 8904\",  \"v(T): 2172\",  \"O: 6077\",  \"w(T): 6698\",  \"f(T): 6772\",  \"v(T): 2172\",  \"i(T): 8827\",  \"l(T): 917\",  \"H(T): 3595\",  \"a: 6566\",  \"c(T): 8904\",  \"I(T): 8204\",  \"r: 5648\",  \"j(T): 4209\",  \"Z: 3444\",  \"a: 6566\",  \"e: 767\",  \"v(T): 2172\",  \"s(T): 3711\",  \"A: 9270\",  \"C(T): 9364\",  \"e: 767\",  \"D(T): 8430\",  \"U(T): 9632\",  \"L: 1562\",  \"t(T): 3687\",  \"q: 4051\",  \"x: 1165\",  \"Tax: 32542\",  \"Total: 311057\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"15:Tab5,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:t:1093:631\",\"B:t:80:10\",\"C:nt:6773:931\",\"D:t:7341:1870\",\"E:t:8626:2008\",\"F:t:415:260\",\"G:t:8704:7290\",\"H:t:8354:3403\",\"I:t:3213:1134\",\"J:t:9575:7722\",\"K:t:9974:275\",\"L:t:5263:2335\",\"M:nt:7341:4614\",\"N:t:8083:4799\",\"O:t:9886:2659\",\"P:nt:1826:1116\",\"Q:nt:4596:3837\",\"R:t:799:256\",\"S:nt:8816:4535\",\"T:t:5056:3343\",\"U:nt:4204:3057\",\"V:nt:1132:961\",\"W:nt:6718:4956\",\"X:nt:1931:465\",\"Y:t:6468:5610\",\"Z:nt:5196:3405\",\"a:nt:6102:1822\",\"b:nt:458:161\",\"c:nt:5581:173\",\"d:nt:219:201\",\"e:t:217:54\",\"f:nt:6191:2379\",\"g:nt:7079:3618\",\"h:nt:4917:3580\",\"i:nt:9406:6085\",\"j:t:5614:3591\",\"k:t:6430:5025\",\"l:t:439:423\",\"m:nt:1194:564\",\"n:nt:6791:5157\",\"o:nt:5251:3360\",\"p:nt:7736:1605\",\"q:t:6615:3861\",\"r:nt:6585:368\",\"s:t:9105:9047\",\"t:nt:8566:649\",\"u:nt:6735:6080\",\"v:nt:2755:1494\",\"w:nt:9826:1209\",\"x:t:1375:710\"}\u003c/p\u003e\n\u003cp\u003e{\"X\",\"R\",\"s\",\"f\",\"O\",\"f\",\"RewardsCard\",\"t\",\"M\",\"q\",\"p\",\"K\",\"u\",\"o\",\"j\",\"K\",\"C\",\"b\",\"f\",\"C\",\"o\",\"I\",\"r\",\"Z\",\"H\",\"u\",\"U\",\"M\",\"E\",\"i\",\"G\",\"S\",\"x\",\"G\",\"A\",\"a\",\"f\",\"b\",\"o\",\"N\",\"G\",\"B\",\"l\",\"g\",\"L\",\"n\",\"g\",\"q\",\"I\",\"v\"}\u003c/p\u003e\n\u003cp\u003e3\u003c/p\u003e\n\u003cp\u003eReturns: { \"X: 1931\",  \"R(T): 799\",  \"s(T): 9105\",  \"f: 6191\",  \"O(T): 9886\",  \"f: 6191\",  \"Rewards Card Scanned\",  \"Reward X: -465\",  \"Reward R: -256\",  \"Reward s: -9047\",  \"Reward f: -2379\",  \"Reward O: -2659\",  \"Reward f: -2379\",  \"t: 8566\",  \"Reward t: -649\",  \"M: 7341\",  \"Reward M: -4614\",  \"q(T): 6615\",  \"Reward q: -3861\",  \"p: 7736\",  \"Reward p: -1605\",  \"K(T): 9974\",  \"Reward K: -275\",  \"u: 6735\",  \"Reward u: -6080\",  \"o: 5251\",  \"Reward o: -3360\",  \"j(T): 5614\",  \"Reward j: -3591\",  \"K(T): 9974\",  \"Reward K: -275\",  \"C: 6773\",  \"Reward C: -931\",  \"b: 458\",  \"Reward b: -161\",  \"f: 6191\",  \"Reward f: -2379\",  \"C: 6773\",  \"Reward C: -931\",  \"o: 5251\",  \"Reward o: -3360\",  \"I(T): 3213\",  \"Reward I: -1134\",  \"r: 6585\",  \"Reward r: -368\",  \"Z: 5196\",  \"Reward Z: -3405\",  \"H(T): 8354\",  \"Reward H: -3403\",  \"u: 6735\",  \"Reward u: -6080\",  \"U: 4204\",  \"Reward U: -3057\",  \"M: 7341\",  \"Reward M: -4614\",  \"E(T): 8626\",  \"Reward E: -2008\",  \"i: 9406\",  \"Reward i: -6085\",  \"G(T): 8704\",  \"Reward G: -7290\",  \"S: 8816\",  \"Reward S: -4535\",  \"x(T): 1375\",  \"Reward x: -710\",  \"G(T): 8704\",  \"Reward G: -7290\",  \"A(T): 1093\",  \"Reward A: -631\",  \"a: 6102\",  \"Reward a: -1822\",  \"f: 6191\",  \"Reward f: -2379\",  \"b: 458\",  \"Reward b: -161\",  \"o: 5251\",  \"Reward o: -3360\",  \"N(T): 8083\",  \"Reward N: -4799\",  \"G(T): 8704\",  \"Reward G: -7290\",  \"B(T): 80\",  \"Reward B: -10\",  \"l(T): 439\",  \"Reward l: -423\",  \"g: 7079\",  \"Reward g: -3618\",  \"L(T): 5263\",  \"Reward L: -2335\",  \"n: 6791\",  \"Reward n: -5157\",  \"g: 7079\",  \"Reward g: -3618\",  \"q(T): 6615\",  \"Reward q: -3861\",  \"I(T): 3213\",  \"Reward I: -1134\",  \"v: 2755\",  \"Reward v: -1494\",  \"Savings: 141328\",  \"Tax: 1864\",  \"Total: 150346\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"16:T675,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:nt:5865:0\",\"B:t:5608:0\",\"C:nt:9336:0\",\"D:nt:5465:0\",\"E:t:7167:0\",\"F:t:81:0\",\"G:t:6857:0\",\"H:t:8279:0\",\"I:nt:8367:0\",\"J:nt:4857:0\",\"K:t:3730:0\",\"L:t:7844:0\",\"M:nt:4339:0\",\"N:nt:5735:0\",\"O:nt:4750:0\",\"P:t:3073:0\",\"Q:t:5154:0\",\"R:nt:1663:0\",\"S:t:515:0\",\"T:nt:966:0\",\"U:t:642:0\",\"V:nt:9847:0\",\"W:t:3239:0\",\"X:t:9736:0\",\"Y:nt:6443:0\",\"Z:t:114:0\",\"a:t:6302:0\",\"b:nt:4987:0\",\"c:nt:5135:0\",\"d:nt:3540:0\",\"e:t:4355:0\",\"f:nt:1304:0\",\"g:t:6366:0\",\"h:t:7650:0\",\"i:t:2873:0\",\"j:nt:4540:0\",\"k:nt:6580:0\",\"l:t:8215:0\",\"m:t:7631:0\",\"n:nt:9404:0\",\"o:t:8465:0\",\"p:nt:2577:0\",\"q:nt:3704:0\",\"r:nt:6996:0\",\"s:t:298:0\",\"t:nt:7022:0\",\"u:t:3420:0\",\"v:t:3698:0\",\"w:t:8055:0\",\"x:nt:1976:0\"}\u003c/p\u003e\n\u003cp\u003e{\"a\",\"n\",\"Q\",\"c\",\"a\",\"c\",\"W\",\"U\",\"m\",\"t\",\"a\",\"F\",\"Q\",\"t\",\"I\",\"Z\",\"n\",\"t\",\"S\",\"F\",\"B\",\"P\",\"u\",\"n\",\"E\",\"RewardsCard\",\"Z\",\"X\",\"A\",\"p\",\"B\",\"b\",\"W\",\"r\",\"A\",\"M\",\"Y\",\"o\",\"t\",\"Z\",\"M\",\"c\",\"G\",\"RewardsCard\",\"n\",\"R\",\"L\",\"Z\",\"T\",\"t\"}\u003c/p\u003e\n\u003cp\u003e1\u003c/p\u003e\n\u003cp\u003eReturns: { \"a(T): 6302\",  \"n: 9404\",  \"Q(T): 5154\",  \"c: 5135\",  \"a(T): 6302\",  \"c: 5135\",  \"W(T): 3239\",  \"U(T): 642\",  \"m(T): 7631\",  \"t: 7022\",  \"a(T): 6302\",  \"F(T): 81\",  \"Q(T): 5154\",  \"t: 7022\",  \"I: 8367\",  \"Z(T): 114\",  \"n: 9404\",  \"t: 7022\",  \"S(T): 515\",  \"F(T): 81\",  \"B(T): 5608\",  \"P(T): 3073\",  \"u(T): 3420\",  \"n: 9404\",  \"E(T): 7167\",  \"Rewards Card Scanned\",  \"Z(T): 114\",  \"X(T): 9736\",  \"A: 5865\",  \"p: 2577\",  \"B(T): 5608\",  \"b: 4987\",  \"W(T): 3239\",  \"r: 6996\",  \"A: 5865\",  \"M: 4339\",  \"Y: 6443\",  \"o(T): 8465\",  \"t: 7022\",  \"Z(T): 114\",  \"M: 4339\",  \"c: 5135\",  \"G(T): 6857\",  \"Rewards Card Scanned\",  \"n: 9404\",  \"R: 1663\",  \"L(T): 7844\",  \"Z(T): 114\",  \"T: 966\",  \"t: 7022\",  \"Tax: 1028\",  \"Total: 244442\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"17:T549,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"A:nt:1:0\",\"B:t:1:0\",\"C:nt:1:0\",\"D:nt:1:0\",\"E:t:1:0\",\"F:t:1:0\",\"G:nt:1:0\",\"H:t:1:0\",\"I:t:1:0\",\"J:nt:1:0\",\"K:nt:1:0\",\"L:t:1:0\",\"M:nt:1:0\",\"N:t:1:0\",\"O:t:1:0\",\"P:t:1:0\",\"Q:nt:1:0\",\"R:nt:1:0\",\"S:nt:1:0\",\"T:t:1:0\",\"U:t:1:0\",\"V:t:1:0\",\"W:nt:1:0\",\"X:t:1:0\",\"Y:t:1:0\",\"Z:t:1:0\",\"a:t:1:0\",\"b:nt:1:0\",\"c:t:1:0\",\"d:t:1:0\",\"e:nt:1:0\",\"f:t:1:0\",\"g:nt:1:0\",\"h:nt:1:0\",\"i:t:1:0\",\"j:nt:1:0\",\"k:t:1:0\",\"l:nt:1:0\",\"m:t:1:0\",\"n:nt:1:0\",\"o:nt:1:0\",\"p:t:1:0\",\"q:t:1:0\",\"r:t:1:0\",\"s:nt:1:0\",\"t:nt:1:0\",\"u:nt:1:0\",\"v:nt:1:0\",\"w:t:1:0\",\"x:t:1:0\"}\u003c/p\u003e\n\u003cp\u003e{\"R\",\"x\",\"C\",\"t\",\"q\",\"O\",\"d\",\"e\",\"w\",\"t\",\"m\",\"G\",\"o\",\"k\",\"c\",\"t\",\"S\",\"p\",\"M\",\"t\",\"T\",\"U\",\"X\",\"H\",\"W\",\"o\",\"S\",\"b\",\"N\",\"k\",\"P\",\"T\",\"p\",\"e\",\"N\",\"w\",\"w\",\"p\",\"u\",\"V\",\"U\",\"w\",\"s\",\"u\",\"Y\",\"d\",\"t\",\"X\",\"S\",\"RewardsCard\"}\u003c/p\u003e\n\u003cp\u003e25\u003c/p\u003e\n\u003cp\u003eReturns: { \"R: 1\",  \"x(T): 1\",  \"C: 1\",  \"t: 1\",  \"q(T): 1\",  \"O(T): 1\",  \"d(T): 1\",  \"e: 1\",  \"w(T): 1\",  \"t: 1\",  \"m(T): 1\",  \"G: 1\",  \"o: 1\",  \"k(T): 1\",  \"c(T): 1\",  \"t: 1\",  \"S: 1\",  \"p(T): 1\",  \"M: 1\",  \"t: 1\",  \"T(T): 1\",  \"U(T): 1\",  \"X(T): 1\",  \"H(T): 1\",  \"W: 1\",  \"o: 1\",  \"S: 1\",  \"b: 1\",  \"N(T): 1\",  \"k(T): 1\",  \"P(T): 1\",  \"T(T): 1\",  \"p(T): 1\",  \"e: 1\",  \"N(T): 1\",  \"w(T): 1\",  \"w(T): 1\",  \"p(T): 1\",  \"u: 1\",  \"V(T): 1\",  \"U(T): 1\",  \"w(T): 1\",  \"s: 1\",  \"u: 1\",  \"Y(T): 1\",  \"d(T): 1\",  \"t: 1\",  \"X(T): 1\",  \"S: 1\",  \"Rewards Card Scanned\",  \"Tax: 7\",  \"Total: 56\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"18:T445,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"a:t:10000:0\"}\u003c/p\u003e\n\u003cp\u003e{\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\",\"a\"}\u003c/p\u003e\n\u003cp\u003e25\u003c/p\u003e\n\u003cp\u003eReturns: { \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"a(T): 10000\",  \"Tax: 125000\",  \"Total: 625000\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"19:T5bd,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:t:8625:6482\"\n,\"w:nt:8582:6708\"\n,\"e:nt:607:121\"\n,\"r:t:7887:1258\"\n,\"t:nt:5856:3820\"\n,\"y:nt:365:6\"\n,\"u:nt:4339:956\"\n,\"i:t:9682:5393\"\n,\"o:t:5346:847\"\n,\"p:nt:927:797\"\n,\"a:nt:9974:7043\"\n,\"s:t:435:50\"\n,\"d:t:4410:2539\"\n,\"f:t:9067:3487\"\n,\"g:nt:9193:4765\"\n,\"h:nt:570:215\"\n,\"j:nt:7156:1633\"\n,\"k:nt:7397:5103\"\n,\"l:t:5214:2121\"\n,\"z:nt:5867:5501\"\n,\"x:t:9653:1139\"\n,\"c:t:1960:901\"\n,\"v:nt:4146:2687\"\n,\"b:nt:6503:3123\"\n,\"n:t:6045:919\"\n,\"m:t:2323:516\"\n,\"Q:t:2423:413\"\n,\"W:t:6594:2637\"\n,\"E:t:9153:690\"\n,\"R:t:4417:2379\"\n,\"T:nt:6581:735\"\n,\"Y:t:7433:4634\"\n,\"U:t:5057:3019\"\n,\"I:nt:6416:5646\"\n,\"O:t:4928:1040\"\n,\"P:nt:4312:4163\"\n,\"A:nt:4350:111\"\n,\"S:nt:5802:1001\"\n,\"D:t:6210:5471\"\n,\"F:nt:8180:2581\"\n,\"G:t:3095:82\"\n,\"H:t:3170:2949\"\n,\"J:t:8055:1625\"\n,\"K:nt:9484:1234\"\n,\"L:nt:4080:3545\"\n,\"Z:nt:5532:3058\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"c\"\n,\"a\"\n,\"f\"\n,\"P\"\n,\"G\"\n,\"W\"\n,\"i\"\n,\"o\"\n,\"K\"\n,\"E\"\n,\"v\"\n,\"e\"\n,\"G\"\n,\"e\"\n,\"b\"\n,\"T\"\n,\"P\"\n,\"l\"\n,\"f\"\n,\"D\"\n,\"J\"\n,\"Z\"\n,\"j\"\n,\"n\"\n,\"x\"\n,\"P\"\n,\"I\"\n,\"l\"\n,\"i\"\n,\"p\"\n,\"t\"\n,\"b\"\n,\"l\"\n}\u003c/p\u003e\n\u003cp\u003e20\u003c/p\u003e\n\u003cp\u003eReturns: { \"c(T): 1960\",  \"a: 9974\",  \"f(T): 9067\",  \"P: 4312\",  \"G(T): 3095\",  \"W(T): 6594\",  \"i(T): 9682\",  \"o(T): 5346\",  \"K: 9484\",  \"E(T): 9153\",  \"v: 4146\",  \"e: 607\",  \"G(T): 3095\",  \"e: 607\",  \"b: 6503\",  \"T: 6581\",  \"P: 4312\",  \"l(T): 5214\",  \"f(T): 9067\",  \"D(T): 6210\",  \"J(T): 8055\",  \"Z: 5532\",  \"j: 7156\",  \"n(T): 6045\",  \"x(T): 9653\",  \"P: 4312\",  \"I: 6416\",  \"l(T): 5214\",  \"i(T): 9682\",  \"p: 927\",  \"t: 5856\",  \"b: 6503\",  \"l(T): 5214\",  \"Tax: 22469\",  \"Total: 218043\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"1a:T561,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:nt:3011:2105\"\n,\"w:t:2168:502\"\n,\"e:t:8815:6096\"\n,\"r:t:2763:2288\"\n,\"t:nt:3986:1468\"\n,\"y:t:5974:3017\"\n,\"u:nt:8023:4760\"\n,\"i:t:2735:1567\"\n,\"o:t:8783:5016\"\n,\"p:nt:3379:1757\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"i\"\n,\"o\"\n,\"w\"\n,\"w\"\n,\"o\"\n,\"p\"\n,\"RewardsCard\"\n,\"w\"\n,\"r\"\n,\"w\"\n,\"t\"\n,\"p\"\n,\"RewardsCard\"\n,\"y\"\n,\"p\"\n,\"q\"\n,\"o\"\n,\"o\"\n,\"w\"\n,\"i\"\n,\"p\"\n,\"i\"\n,\"w\"\n,\"w\"\n,\"u\"\n,\"r\"\n,\"p\"\n,\"p\"\n,\"p\"\n}\u003c/p\u003e\n\u003cp\u003e0\u003c/p\u003e\n\u003cp\u003eReturns: { \"i(T): 2735\",  \"o(T): 8783\",  \"w(T): 2168\",  \"w(T): 2168\",  \"o(T): 8783\",  \"p: 3379\",  \"Rewards Card Scanned\",  \"Reward i: -1567\",  \"Reward o: -5016\",  \"Reward w: -502\",  \"Reward w: -502\",  \"Reward o: -5016\",  \"Reward p: -1757\",  \"w(T): 2168\",  \"Reward w: -502\",  \"r(T): 2763\",  \"Reward r: -2288\",  \"w(T): 2168\",  \"Reward w: -502\",  \"t: 3986\",  \"Reward t: -1468\",  \"p: 3379\",  \"Reward p: -1757\",  \"Rewards Card Scanned\",  \"y(T): 5974\",  \"Reward y: -3017\",  \"p: 3379\",  \"Reward p: -1757\",  \"q: 3011\",  \"Reward q: -2105\",  \"o(T): 8783\",  \"Reward o: -5016\",  \"o(T): 8783\",  \"Reward o: -5016\",  \"w(T): 2168\",  \"Reward w: -502\",  \"i(T): 2735\",  \"Reward i: -1567\",  \"p: 3379\",  \"Reward p: -1757\",  \"i(T): 2735\",  \"Reward i: -1567\",  \"w(T): 2168\",  \"Reward w: -502\",  \"w(T): 2168\",  \"Reward w: -502\",  \"u: 8023\",  \"Reward u: -4760\",  \"r(T): 2763\",  \"Reward r: -2288\",  \"p: 3379\",  \"Reward p: -1757\",  \"p: 3379\",  \"Reward p: -1757\",  \"p: 3379\",  \"Reward p: -1757\",  \"Savings: 56504\",  \"Total: 52182\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"1b:T759,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:t:6767:6154\"\n,\"w:t:2064:2030\"\n,\"e:t:9915:8063\"\n,\"r:t:6487:1829\"\n,\"t:t:1015:150\"\n,\"y:t:6915:320\"\n,\"u:t:5405:1295\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"w\"\n,\"y\"\n,\"r\"\n,\"r\"\n,\"q\"\n,\"y\"\n,\"t\"\n,\"RewardsCard\"\n,\"r\"\n,\"q\"\n,\"y\"\n,\"t\"\n,\"y\"\n,\"RewardsCard\"\n,\"y\"\n,\"t\"\n,\"y\"\n,\"q\"\n,\"RewardsCard\"\n,\"r\"\n,\"w\"\n,\"u\"\n,\"y\"\n,\"y\"\n,\"y\"\n,\"r\"\n,\"q\"\n,\"w\"\n,\"q\"\n,\"u\"\n,\"w\"\n,\"t\"\n,\"w\"\n,\"q\"\n,\"e\"\n,\"RewardsCard\"\n,\"e\"\n,\"RewardsCard\"\n,\"y\"\n,\"w\"\n,\"e\"\n,\"u\"\n}\u003c/p\u003e\n\u003cp\u003e15\u003c/p\u003e\n\u003cp\u003eReturns: { \"w(T): 2064\",  \"y(T): 6915\",  \"r(T): 6487\",  \"r(T): 6487\",  \"q(T): 6767\",  \"y(T): 6915\",  \"t(T): 1015\",  \"Rewards Card Scanned\",  \"Reward w: -2030\",  \"Reward y: -320\",  \"Reward r: -1829\",  \"Reward r: -1829\",  \"Reward q: -6154\",  \"Reward y: -320\",  \"Reward t: -150\",  \"r(T): 6487\",  \"Reward r: -1829\",  \"q(T): 6767\",  \"Reward q: -6154\",  \"y(T): 6915\",  \"Reward y: -320\",  \"t(T): 1015\",  \"Reward t: -150\",  \"y(T): 6915\",  \"Reward y: -320\",  \"Rewards Card Scanned\",  \"y(T): 6915\",  \"Reward y: -320\",  \"t(T): 1015\",  \"Reward t: -150\",  \"y(T): 6915\",  \"Reward y: -320\",  \"q(T): 6767\",  \"Reward q: -6154\",  \"Rewards Card Scanned\",  \"r(T): 6487\",  \"Reward r: -1829\",  \"w(T): 2064\",  \"Reward w: -2030\",  \"u(T): 5405\",  \"Reward u: -1295\",  \"y(T): 6915\",  \"Reward y: -320\",  \"y(T): 6915\",  \"Reward y: -320\",  \"y(T): 6915\",  \"Reward y: -320\",  \"r(T): 6487\",  \"Reward r: -1829\",  \"q(T): 6767\",  \"Reward q: -6154\",  \"w(T): 2064\",  \"Reward w: -2030\",  \"q(T): 6767\",  \"Reward q: -6154\",  \"u(T): 5405\",  \"Reward u: -1295\",  \"w(T): 2064\",  \"Reward w: -2030\",  \"t(T): 1015\",  \"Reward t: -150\",  \"w(T): 2064\",  \"Reward w: -2030\",  \"q(T): 6767\",  \"Reward q: -6154\",  \"e(T): 9915\",  \"Reward e: -8063\",  \"Rewards Card Scanned\",  \"e(T): 9915\",  \"Reward e: -8063\",  \"Rewards Card Scanned\",  \"y(T): 6915\",  \"Reward y: -320\",  \"w(T): 2064\",  \"Reward w: -2030\",  \"e(T): 9915\",  \"Reward e: -8063\",  \"u(T): 5405\",  \"Reward u: -1295\",  \"Savings: 90123\",  \"Tax: 17170\",  \"Total: 131638\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"1c:T582,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:nt:5268:1208\"\n,\"w:nt:4396:3123\"\n,\"e:t:7430:1611\"\n,\"r:nt:7861:3626\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"e\"\n,\"e\"\n,\"q\"\n,\"w\"\n,\"q\"\n,\"RewardsCard\"\n,\"e\"\n,\"w\"\n,\"r\"\n,\"q\"\n,\"e\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"e\"\n,\"RewardsCard\"\n,\"r\"\n,\"e\"\n,\"RewardsCard\"\n,\"r\"\n,\"r\"\n,\"e\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"r\"\n,\"e\"\n,\"r\"\n,\"r\"\n,\"e\"\n,\"e\"\n,\"q\"\n}\u003c/p\u003e\n\u003cp\u003e19\u003c/p\u003e\n\u003cp\u003eReturns: { \"e(T): 7430\",  \"e(T): 7430\",  \"q: 5268\",  \"w: 4396\",  \"q: 5268\",  \"Rewards Card Scanned\",  \"Reward e: -1611\",  \"Reward e: -1611\",  \"Reward q: -1208\",  \"Reward w: -3123\",  \"Reward q: -1208\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"w: 4396\",  \"Reward w: -3123\",  \"r: 7861\",  \"Reward r: -3626\",  \"q: 5268\",  \"Reward q: -1208\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"Rewards Card Scanned\",  \"r: 7861\",  \"Reward r: -3626\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"Rewards Card Scanned\",  \"r: 7861\",  \"Reward r: -3626\",  \"r: 7861\",  \"Reward r: -3626\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"r: 7861\",  \"Reward r: -3626\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"r: 7861\",  \"Reward r: -3626\",  \"r: 7861\",  \"Reward r: -3626\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"e(T): 7430\",  \"Reward e: -1611\",  \"q: 5268\",  \"Reward q: -1208\",  \"Savings: 52570\",  \"Tax: 11056\",  \"Total: 117677\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"1d:T895,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:t:3825:2406\"\n,\"w:nt:5034:4714\"\n,\"e:nt:6341:4936\"\n,\"r:nt:2139:1726\"\n,\"t:nt:9794:144\"\n,\"y:t:6651:5464\"\n,\"u:t:5578:5230\"\n,\"i:nt:310:195\"\n,\"o:t:1321:115\"\n,\"p:nt:4107:1464\"\n,\"a:nt:5961:4712\"\n,\"s:nt:9544:4652\"\n,\"d:nt:8151:6038\"\n,\"f:t:4217:1845\"\n,\"g:nt:9469:5376\"\n,\"h:t:1905:471\"\n,\"j:t:6805:1662\"\n,\"k:nt:6138:418\"\n,\"l:t:5243:1283\"\n,\"z:t:9791:9187\"\n,\"x:nt:9464:2277\"\n,\"c:nt:3147:1926\"\n,\"v:t:8254:1130\"\n,\"b:nt:6445:5608\"\n,\"n:nt:1135:939\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"n\"\n,\"g\"\n,\"p\"\n,\"g\"\n,\"v\"\n,\"z\"\n,\"w\"\n,\"w\"\n,\"y\"\n,\"y\"\n,\"o\"\n,\"k\"\n,\"r\"\n,\"RewardsCard\"\n,\"d\"\n,\"c\"\n,\"p\"\n,\"t\"\n,\"l\"\n,\"w\"\n,\"h\"\n,\"j\"\n,\"c\"\n,\"y\"\n,\"t\"\n,\"w\"\n,\"p\"\n,\"RewardsCard\"\n,\"d\"\n,\"w\"\n,\"c\"\n,\"i\"\n,\"u\"\n,\"f\"\n,\"k\"\n,\"c\"\n,\"w\"\n,\"i\"\n,\"y\"\n,\"b\"\n,\"h\"\n,\"f\"\n,\"g\"\n,\"j\"\n}\u003c/p\u003e\n\u003cp\u003e4\u003c/p\u003e\n\u003cp\u003eReturns: { \"n: 1135\",  \"g: 9469\",  \"p: 4107\",  \"g: 9469\",  \"v(T): 8254\",  \"z(T): 9791\",  \"w: 5034\",  \"w: 5034\",  \"y(T): 6651\",  \"y(T): 6651\",  \"o(T): 1321\",  \"k: 6138\",  \"r: 2139\",  \"Rewards Card Scanned\",  \"Reward n: -939\",  \"Reward g: -5376\",  \"Reward p: -1464\",  \"Reward g: -5376\",  \"Reward v: -1130\",  \"Reward z: -9187\",  \"Reward w: -4714\",  \"Reward w: -4714\",  \"Reward y: -5464\",  \"Reward y: -5464\",  \"Reward o: -115\",  \"Reward k: -418\",  \"Reward r: -1726\",  \"d: 8151\",  \"Reward d: -6038\",  \"c: 3147\",  \"Reward c: -1926\",  \"p: 4107\",  \"Reward p: -1464\",  \"t: 9794\",  \"Reward t: -144\",  \"l(T): 5243\",  \"Reward l: -1283\",  \"w: 5034\",  \"Reward w: -4714\",  \"h(T): 1905\",  \"Reward h: -471\",  \"j(T): 6805\",  \"Reward j: -1662\",  \"c: 3147\",  \"Reward c: -1926\",  \"y(T): 6651\",  \"Reward y: -5464\",  \"t: 9794\",  \"Reward t: -144\",  \"w: 5034\",  \"Reward w: -4714\",  \"p: 4107\",  \"Reward p: -1464\",  \"Rewards Card Scanned\",  \"d: 8151\",  \"Reward d: -6038\",  \"w: 5034\",  \"Reward w: -4714\",  \"c: 3147\",  \"Reward c: -1926\",  \"i: 310\",  \"Reward i: -195\",  \"u(T): 5578\",  \"Reward u: -5230\",  \"f(T): 4217\",  \"Reward f: -1845\",  \"k: 6138\",  \"Reward k: -418\",  \"c: 3147\",  \"Reward c: -1926\",  \"w: 5034\",  \"Reward w: -4714\",  \"i: 310\",  \"Reward i: -195\",  \"y(T): 6651\",  \"Reward y: -5464\",  \"b: 6445\",  \"Reward b: -5608\",  \"h(T): 1905\",  \"Reward h: -471\",  \"f(T): 4217\",  \"Reward f: -1845\",  \"g: 9469\",  \"Reward g: -5376\",  \"j(T): 6805\",  \"Reward j: -1662\",  \"Savings: 125128\",  \"Tax: 1435\",  \"Total: 100977\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"1e:T7f4,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"q:nt:8844:6859\"\n,\"w:nt:7429:2089\"\n,\"e:nt:2171:417\"\n,\"r:t:6273:724\"\n,\"t:t:6719:1541\"\n,\"y:nt:4317:3862\"\n,\"u:nt:2209:171\"\n,\"i:t:9358:7198\"\n,\"o:nt:7258:885\"\n}\u003c/p\u003e\n\u003cp\u003e{\n\"t\"\n,\"e\"\n,\"i\"\n,\"o\"\n,\"RewardsCard\"\n,\"r\"\n,\"t\"\n,\"i\"\n,\"w\"\n,\"r\"\n,\"e\"\n,\"RewardsCard\"\n,\"o\"\n,\"o\"\n,\"r\"\n,\"w\"\n,\"w\"\n,\"i\"\n,\"i\"\n,\"q\"\n,\"w\"\n,\"t\"\n,\"t\"\n,\"e\"\n,\"w\"\n,\"o\"\n,\"r\"\n,\"r\"\n,\"w\"\n,\"w\"\n,\"r\"\n,\"RewardsCard\"\n,\"q\"\n,\"w\"\n,\"u\"\n,\"w\"\n,\"o\"\n,\"y\"\n,\"o\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"RewardsCard\"\n,\"r\"\n,\"q\"\n,\"y\"\n,\"o\"\n,\"q\"\n}\u003c/p\u003e\n\u003cp\u003e9\u003c/p\u003e\n\u003cp\u003eReturns: { \"t(T): 6719\",  \"e: 2171\",  \"i(T): 9358\",  \"o: 7258\",  \"Rewards Card Scanned\",  \"Reward t: -1541\",  \"Reward e: -417\",  \"Reward i: -7198\",  \"Reward o: -885\",  \"r(T): 6273\",  \"Reward r: -724\",  \"t(T): 6719\",  \"Reward t: -1541\",  \"i(T): 9358\",  \"Reward i: -7198\",  \"w: 7429\",  \"Reward w: -2089\",  \"r(T): 6273\",  \"Reward r: -724\",  \"e: 2171\",  \"Reward e: -417\",  \"Rewards Card Scanned\",  \"o: 7258\",  \"Reward o: -885\",  \"o: 7258\",  \"Reward o: -885\",  \"r(T): 6273\",  \"Reward r: -724\",  \"w: 7429\",  \"Reward w: -2089\",  \"w: 7429\",  \"Reward w: -2089\",  \"i(T): 9358\",  \"Reward i: -7198\",  \"i(T): 9358\",  \"Reward i: -7198\",  \"q: 8844\",  \"Reward q: -6859\",  \"w: 7429\",  \"Reward w: -2089\",  \"t(T): 6719\",  \"Reward t: -1541\",  \"t(T): 6719\",  \"Reward t: -1541\",  \"e: 2171\",  \"Reward e: -417\",  \"w: 7429\",  \"Reward w: -2089\",  \"o: 7258\",  \"Reward o: -885\",  \"r(T): 6273\",  \"Reward r: -724\",  \"r(T): 6273\",  \"Reward r: -724\",  \"w: 7429\",  \"Reward w: -2089\",  \"w: 7429\",  \"Reward w: -2089\",  \"r(T): 6273\",  \"Reward r: -724\",  \"Rewards Card Scanned\",  \"q: 8844\",  \"Reward q: -6859\",  \"w: 7429\",  \"Reward w: -2089\",  \"u: 2209\",  \"Reward u: -171\",  \"w: 7429\",  \"Reward w: -2089\",  \"o: 7258\",  \"Reward o: -885\",  \"y: 4317\",  \"Reward y: -3862\",  \"o: 7258\",  \"Reward o: -885\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"Rewards Card Scanned\",  \"r(T): 6273\",  \"Reward r: -724\",  \"q: 8844\",  \"Reward q: -6859\",  \"y: 4317\",  \"Reward y: -3862\",  \"o: 7258\",  \"Reward o: -885\",  \"q: 8844\",  \"Reward q: -6859\",  \"Savings: 101602\",  \"Tax: 6137\",  \"Total: 183153\" }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Shaws\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Shaws\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getReceipt\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[] getReceipt(String[] items, String[] scanned, int tax)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"If total tax results in partial cents, truncate the decimal portion.  Do NOT truncate tax in the middle of the bill.\"}],[\"$\",\"li\",\"1\",{\"children\":\"It is legal to have a Rewards Card scanned more than once, but the reward for an individual scanned item can only be taken once. (See example 3)\"}],[\"$\",\"li\",\"2\",{\"children\":\"You should never output a savings of 0 or a tax of 0.\"}],[\"$\",\"li\",\"3\",{\"children\":\"Item names are case sensitive.  For example \\\"ItEm\\\" and \\\"iTeM\\\" are two different item names.\"}],[\"$\",\"li\",\"4\",{\"children\":\"Not all elements from items need to be included in scanned\"}],[\"$\",\"li\",\"5\",{\"children\":\"Even if the state does not collect sales tax, if an item is taxable, a \\\"(T)\\\" should appear after it.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"items and scanned will each have between 0 and 50 elements inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element in items will be of the form: \\\"\u003citemname\u003e:\u003ctaxable\u003e:\u003cprice\u003e:\u003creward\u003e\\\"\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each field of an element in items cannot be blank.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each itemname field in items will consist only of characters A-Z and a-z.  This field cannot be \\\"RewardsCard\\\".\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"No two elements in items can have the same itemname field.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each taxable field in items will be either \\\"t\\\" or \\\"nt\\\".  Capital letters will not be allowed in this field.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each price field in items will consist only of characters 0-9.  There may be leading 0's, and the number will be between 1 and 10000 inclusive.\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each reward field in items will consist only of characters 0-9.  There may be leading 0's, and the number will be between 1 and the corresponding price field inclusive.\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of items will have between 0 and 50 characters inclusive.\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of scanned will be either \\\"RewardsCard\\\" or an item name from items.\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"tax will be between 0 and 25 inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"Apple:nt:50:2\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"Apple\\\",\\\"Apple\\\",\\\"Apple\\\"}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Apple: 50\\\",  \\\"Apple: 50\\\",  \\\"Apple: 50\\\",  \\\"Total: 150\\\" }\u003c/p\u003e\\n\u003cp\u003eHere, even though there are rewards for buying apples, the customer did not use his rewards card, and therefore did not get any of the savings.  Also, since Apples are not taxable, no tax was added.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"OrangeJuice:nt:150:30\\\", \\\"Mop:t:300:300\\\", \\\"Sponge:t:50:50\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"OrangeJuice\\\", \\\"Mop\\\", \\\"Sponge\\\", \\\"RewardsCard\\\", \\\"Sponge\\\", \\\"Sponge\\\", \\\"RewardsCard\\\"}\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Mop(T): 300\\\",  \\\"Sponge(T): 50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Reward Mop: -300\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 480\\\",  \\\"Total: 120\\\" }\u003c/p\u003e\\n\u003cp\u003e\\nFREE MOPS!  Yes, if you have your rewards card, all the mops and sponges you can carry are free today!  Notice that since Mops and Sponges were the only taxable items, there is no tax on the total bill.  Also notice that even though the rewards card was scanned twice, only one reward was taken for each item.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{\\\"RewardsCard\\\",\\\"RewardsCard\\\"}\u003c/p\u003e\\n\u003cp\u003e20\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Rewards Card Scanned\\\",  \\\"Rewards Card Scanned\\\",  \\\"Total: 0\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$11\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$12\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$13\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"A:t:5153:3097\\\",\\\"B:t:5940:1874\\\",\\\"C:nt:3993:3411\\\",\\\"D:t:5506:2791\\\",\\\"E:t:4426:3292\\\",\\\"F:nt:7452:1216\\\",\\\"G:t:1916:124\\\",\\\"H:t:414:149\\\",\\\"I:t:4091:920\\\",\\\"J:t:6048:1728\\\",\\\"K:t:8220:1441\\\",\\\"L:nt:130:75\\\",\\\"M:nt:7664:46\\\",\\\"N:t:2951:89\\\",\\\"O:nt:2844:2237\\\",\\\"P:t:9574:8536\\\",\\\"Q:t:2956:2601\\\",\\\"R:t:2745:2291\\\",\\\"S:nt:5316:3798\\\",\\\"T:t:1792:1007\\\",\\\"U:nt:8178:6879\\\",\\\"V:t:6161:5935\\\",\\\"W:t:6460:4216\\\",\\\"X:nt:1176:487\\\",\\\"Y:t:2195:302\\\",\\\"Z:t:9957:4238\\\",\\\"a:t:4300:2423\\\",\\\"b:t:1339:1268\\\",\\\"c:nt:2859:574\\\",\\\"d:t:8781:4242\\\",\\\"e:nt:9699:2807\\\",\\\"f:t:2473:1957\\\",\\\"g:nt:3121:1033\\\",\\\"h:t:3209:339\\\",\\\"i:t:5681:2420\\\",\\\"j:nt:3397:2779\\\",\\\"k:t:8630:6957\\\",\\\"l:nt:66:43\\\",\\\"m:nt:6065:3472\\\",\\\"n:t:6440:303\\\",\\\"o:nt:891:229\\\",\\\"p:nt:2485:2067\\\",\\\"q:nt:4398:2996\\\",\\\"r:t:83:69\\\",\\\"s:nt:4475:871\\\",\\\"t:t:9565:7902\\\",\\\"u:nt:9184:9146\\\",\\\"v:t:9501:7929\\\",\\\"w:t:6895:6733\\\",\\\"x:nt:1137:764\\\"}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Total: 0\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$14\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$15\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$16\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"A:t:1566:968\\\",\\\"B:nt:5602:2329\\\",\\\"C:t:56:4\\\",\\\"D:t:2872:972\\\",\\\"E:nt:2104:95\\\",\\\"F:nt:2041:1661\\\",\\\"G:t:8021:1168\\\",\\\"H:nt:3520:3477\\\",\\\"I:nt:5467:4267\\\",\\\"J:nt:5557:1682\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"C\\\",\\\"E\\\",\\\"D\\\",\\\"J\\\",\\\"D\\\",\\\"E\\\",\\\"A\\\",\\\"G\\\",\\\"D\\\",\\\"G\\\"}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"C(T): 56\\\",  \\\"E: 2104\\\",  \\\"D(T): 2872\\\",  \\\"J: 5557\\\",  \\\"D(T): 2872\\\",  \\\"E: 2104\\\",  \\\"A(T): 1566\\\",  \\\"G(T): 8021\\\",  \\\"D(T): 2872\\\",  \\\"G(T): 8021\\\",  \\\"Total: 36045\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$17\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"rewardscard:t:100:100\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"rewardscard\\\"}\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"rewardscard(T): 100\\\",  \\\"Tax: 5\\\",  \\\"Total: 105\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"loafobread:nt:129:30\\\",\\\"gallonomilk:nt:100:40\\\",\\\"stickobutter:nt:50:5\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"RewardsCard\\\",\\\"loafobread\\\",\\\"gallonomilk\\\",\\\"stickobutter\\\"}\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Rewards Card Scanned\\\",  \\\"loafobread: 129\\\",  \\\"Reward loafobread: -30\\\",  \\\"gallonomilk: 100\\\",  \\\"Reward gallonomilk: -40\\\",  \\\"stickobutter: 50\\\",  \\\"Reward stickobutter: -5\\\",  \\\"Savings: 75\\\",  \\\"Total: 204\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$18\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"q:t:3632:88\\\"\\n,\\\"w:t:8904:5865\\\"\\n,\\\"e:nt:8004:1694\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e{\\n\\\"w\\\"\\n,\\\"w\\\"\\n,\\\"e\\\"\\n,\\\"q\\\"\\n,\\\"e\\\"\\n,\\\"w\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"w\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"e\\\"\\n,\\\"w\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"RewardsCard\\\"\\n,\\\"w\\\"\\n,\\\"e\\\"\\n,\\\"e\\\"\\n,\\\"e\\\"\\n,\\\"q\\\"\\n,\\\"RewardsCard\\\"\\n}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"w(T): 8904\\\",  \\\"w(T): 8904\\\",  \\\"e: 8004\\\",  \\\"q(T): 3632\\\",  \\\"e: 8004\\\",  \\\"w(T): 8904\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward w: -5865\\\",  \\\"Reward w: -5865\\\",  \\\"Reward e: -1694\\\",  \\\"Reward q: -88\\\",  \\\"Reward e: -1694\\\",  \\\"Reward w: -5865\\\",  \\\"w(T): 8904\\\",  \\\"Reward w: -5865\\\",  \\\"Rewards Card Scanned\\\",  \\\"e: 8004\\\",  \\\"Reward e: -1694\\\",  \\\"w(T): 8904\\\",  \\\"Reward w: -5865\\\",  \\\"Rewards Card Scanned\\\",  \\\"Rewards Card Scanned\\\",  \\\"Rewards Card Scanned\\\",  \\\"Rewards Card Scanned\\\",  \\\"w(T): 8904\\\",  \\\"Reward w: -5865\\\",  \\\"e: 8004\\\",  \\\"Reward e: -1694\\\",  \\\"e: 8004\\\",  \\\"Reward e: -1694\\\",  \\\"e: 8004\\\",  \\\"Reward e: -1694\\\",  \\\"q(T): 3632\\\",  \\\"Reward q: -88\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 45530\\\",  \\\"Total: 63182\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$19\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$1a\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$1b\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$1c\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$1d\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$1e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Total: 0\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"OrangeJuice\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"OrangeJuice: 150\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 60\\\",  \\\"Total: 240\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\",\\n  \\\"Mop:t:300:300\\\",\\n  \\\"Sponge:t:50:50\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"Mop\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"Sponge\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Mop(T): 300\\\",  \\\"Sponge(T): 50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Reward Mop: -300\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 480\\\",  \\\"Total: 120\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\",\\n  \\\"Mop:t:300:300\\\",\\n  \\\"Sponge:t:50:10\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"Mop\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"Sponge\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Mop(T): 300\\\",  \\\"Sponge(T): 50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Reward Mop: -300\\\",  \\\"Reward Sponge: -10\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -10\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -10\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 360\\\",  \\\"Tax: 30\\\",  \\\"Total: 270\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"Total: 0\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"OrangeJuice\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"OrangeJuice: 150\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 60\\\",  \\\"Total: 240\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\",\\n  \\\"Mop:t:300:300\\\",\\n  \\\"Sponge:t:50:50\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"Mop\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"Sponge\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Mop(T): 300\\\",  \\\"Sponge(T): 50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Reward Mop: -300\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 480\\\",  \\\"Total: 120\\\" }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"OrangeJuice:nt:150:30\\\",\\n  \\\"Mop:t:300:300\\\",\\n  \\\"Sponge:t:50:10\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"OrangeJuice\\\",\\n  \\\"Mop\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\",\\n  \\\"Sponge\\\",\\n  \\\"Sponge\\\",\\n  \\\"RewardsCard\\\" }\u003c/p\u003e\\n\u003cp\u003e25\u003c/p\u003e\\n\u003cp\u003eReturns: { \\\"OrangeJuice: 150\\\",  \\\"Mop(T): 300\\\",  \\\"Sponge(T): 50\\\",  \\\"Rewards Card Scanned\\\",  \\\"Reward OrangeJuice: -30\\\",  \\\"Reward Mop: -300\\\",  \\\"Reward Sponge: -10\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -10\\\",  \\\"Sponge(T): 50\\\",  \\\"Reward Sponge: -10\\\",  \\\"Rewards Card Scanned\\\",  \\\"Savings: 360\\\",  \\\"Tax: 30\\\",  \\\"Total: 270\\\" }\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4290/pm/1115\",\"children\":[\"2002-\",\" \",\"SRM 115\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

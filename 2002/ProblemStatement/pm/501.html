@@ -1,0 +1,128 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Shared<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+One of the more complicated tasks a memory manager may face is managing shared
+memory between multiple processes.  The basic rule is: don't let one process
+modify memory that is actively referenced by another process.  Multiple
+processes may open the same memory read-only, but if one process wants to open
+the memory to write, then it must lock all other processes out or wait until no
+other process has a lock on that memory.
+
+The system you are working on is a handheld that runs 4 processes at a time,
+executing one block from each at the same time.  By setting the processes at
+different "run levels", it may be possible to improve the running time of the
+system.  The run level allows a more important process to pull memory locks
+away from a less important process.  When this happens (unless the less
+important process was already giving up the lock), the less important process
+must rollback to its last stable state (last state that was not affected by the
+memory locks it lost).  If a low priority process loses its write (exclusive)
+lock to a more important process that just requests a read lock, the low
+priority process may retain a read lock on that variable.
+
+No process can have the same run level as another process and run levels cannot
+be changed during execution.  This guarantees the system will always finish
+execution.  All memory locks are released when the process finishes its final
+step (note: this means doing a free on the final step is redundant, but it's
+still legal).  Find the fastest possible execution time for the given system
+(execution time measured by the number of execution periods it takes to finish
+the slowest of the 4 programs) by assigning optimal run levels to the different
+processes.  
+
+DEFINITION
+Class name: Shared
+Method name: fastest
+Parameters: String[], String[], String[], String[]
+Returns: int
+
+The method signature is (make sure it is declared public):
+int fastest(String[] p1, String[] p2, String[] p3, String[] p4);
+
+Each String[] (p1, p2, p3, and p4) represents a set of instructions for a
+process.
+
+Each process is documented as a view of the system from the perspective of the
+memory manager.  The instructions the memory manager recognizes are:
+
+"R(x)" - attempt to obtain a read only lock on memory location x
+"W(x)" - attempt to obtain a read/write (exclusive) lock on x
+"NOOP" - wait for a time unit (indicates processing that doesn't concern the
+memory manager)
+"F(x)" - free all locks held on memory location x by the executing process
+
+NOTE
+If a process is freeing the requested lock at the same time as it is requested
+by another process, the lock will be released and the other process will have
+the chance to acquire the lock as if it had not been held. In this case, the
+releasing process does not need to be rolled back (includes freeing by
+finishing the final instruction).  The final instruction of a program will
+never be a read or write lock. Example: the current instruction from p1 is
+F(12) and the current instruction from p2 is W(12).  If no other processes have
+locks on 12, p2 acquires exclusive lock, and p1 executes F(12) and continues
+regardless of their relative run levels.
+
+A process may take multiple locks on the same memory without freeing in
+between.  In this case, the more exclusive is always maintained.  Example (...
+does not contain a F(100)): R(100) ... R(100), the second R(100) can be
+considered a NOOP.  R(100) ... W(100) is an upgrade, which would roll back to
+W(100) if only the write lock is lost, or all the way to R(100) if another
+process preempts with exclusive control.  W(100) ... R(100), the second R(100)
+can be considered a NOOP.  W(100) ... W(100), the second W(100) can be
+considered a NOOP.
+
+TopCoder will ensure:
+1) all instructions will be in the above format, i.e.: "NOOP" or "op(x)" with
+no spaces where op is F, R, or W (uppercase only) and x is a number (the number
+can be padded with zeros).
+2) all values of x will be numbers between 1 and 10000 inclusive. 001 should be
+treated the same as 1.
+3) each process, p1-p4 will contain between 1 and 50 instructions, inclusive
+4) each instruction will contain between 4 and 50 characters, inclusive
+5) the final instruction of each process will not be a request for a read or
+write lock.
+6) No set of instructions which leads to a cascading rollback is allowed (ie a
+case where rolling back gives the process a lock on memory that someone else
+has locked.)
+
+EXAMPLES
+Example 1
+p1 = { R(100),NOOP,NOOP,NOOP }
+p2 = { W(100),F(100),NOOP }
+p3 = { NOOP }
+p4 = { R(50),W(50),F(50) }
+
+In this case, there are really only 2 processes to be concerned with.  p3 is
+done in 1 cycle no matter what, and p4 will execute in 3 cycles without being
+affected by the others because there are no overlapping memory locations.
+However, p1 and p2 are trying to access the same shared memory and p2 wants
+exclusive control, we have 2 possibilities: either we have given p1 a higher
+run level priority, which works as follows:
+1) p1 acquires read lock on 100, p2 cannot get lock and must wait.
+2) p1 does nothing (1st NOOP), p2 cannot get lock and must wait
+3) p1 does nothing (2nd NOOP), p2 cannot get lock and must wait
+4) p1 does nothing (3rd NOOP) and finishes, p2 gets the lock because p1 is
+freeing the memory (due to finished execution) this cycle
+5) p2 frees 100
+6) p2 does nothing and finishes
+
+The second possibility is that p2 has a higher run level priority then p1 and
+acquires the lock first, in this case
+1) p2 acquires write (exclusive) lock on 100, p1 cannot get lock and must wait
+2) p2 frees lock on 100, p1 acquires lock
+3) p2 does nothing and finishes, p1 does nothing (1st NOOP)
+4) p1 does nothing (2nd NOOP)
+5) p1 does nothing and finishs (3rd NOOP)
+
+Clearly the system is the best when p2 has a higher run level then p1, and the
+execution time of the system in this case will be 5, so we return 5.
+
+Example 2
+p1 = { F(5964),W(6044),R(6044),NOOP,F(5964),W(6044),W(5964),NOOP }
+p2 = { NOOP,NOOP,W(6044),W(5337),R(6044),R(5964),R(6044),NOOP }
+p3 = { NOOP }
+p4 = { W(5964),NOOP }
+return 13
+
+Example 3
+p1 = { W(0032),W(032),NOOP,NOOP }
+p2 = { F(0004892),F(4892),NOOP,F(4849) }
+p3 = { R(004849),W(4892),F(04849),F(032) }
+p4 = { W(4892),W(04892),NOOP,NOOP }
+return 6</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Shared</span></dd><dt>Method:</dt><dd><span>fastest</span></dd><dt>Parameters:</dt><dd><span>String[], String[], String[], String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int fastest(String[] param0, String[] param1, String[] param2, String[] param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4185/pm/501">2002-<!-- --> <!-- -->SRM 93<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/501/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"501\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"501\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"501\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"501\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"501\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1892,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nOne of the more complicated tasks a memory manager may face is managing shared\nmemory between multiple processes.  The basic rule is: don't let one process\nmodify memory that is actively referenced by another process.  Multiple\nprocesses may open the same memory read-only, but if one process wants to open\nthe memory to write, then it must lock all other processes out or wait until no\nother process has a lock on that memory.\n\nThe system you are working on is a handheld that runs 4 processes at a time,\nexecuting one block from each at the same time.  By setting the processes at\ndifferent \"run levels\", it may be possible to improve the running time of the\nsystem.  The run level allows a more important process to pull memory locks\naway from a less important process.  When this happens (unless the less\nimportant process was already giving up the lock), the less important process\nmust rollback to its last stable state (last state that was not affected by the\nmemory locks it lost).  If a low priority process loses its write (exclusive)\nlock to a more important process that just requests a read lock, the low\npriority process may retain a read lock on that variable.\n\nNo process can have the same run level as another process and run levels cannot\nbe changed during execution.  This guarantees the system will always finish\nexecution.  All memory locks are released when the process finishes its final\nstep (note: this means doing a free on the final step is redundant, but it's\nstill legal).  Find the fastest possible execution time for the given system\n(execution time measured by the number of execution periods it takes to finish\nthe slowest of the 4 programs) by assigning optimal run levels to the different\nprocesses.  \n\nDEFINITION\nClass name: Shared\nMethod name: fastest\nParameters: String[], String[], String[], String[]\nReturns: int\n\nThe method signature is (make sure it is declared public):\nint fastest(String[] p1, String[] p2, String[] p3, String[] p4);\n\nEach String[] (p1, p2, p3, and p4) represents a set of instructions for a\nprocess.\n\nEach process is documented as a view of the system from the perspective of the\nmemory manager.  The instructions the memory manager recognizes are:\n\n\"R(x)\" - attempt to obtain a read only lock on memory location x\n\"W(x)\" - attempt to obtain a read/write (exclusive) lock on x\n\"NOOP\" - wait for a time unit (indicates processing that doesn't concern the\nmemory manager)\n\"F(x)\" - free all locks held on memory location x by the executing process\n\nNOTE\nIf a process is freeing the requested lock at the same time as it is requested\nby another process, the lock will be released and the other process will have\nthe chance to acquire the lock as if it had not been held. In this case, the\nreleasing process does not need to be rolled back (includes freeing by\nfinishing the final instruction).  The final instruction of a program will\nnever be a read or write lock. Example: the current instruction from p1 is\nF(12) and the current instruction from p2 is W(12).  If no other processes have\nlocks on 12, p2 acquires exclusive lock, and p1 executes F(12) and continues\nregardless of their relative run levels.\n\nA process may take multiple locks on the same memory without freeing in\nbetween.  In this case, the more exclusive is always maintained.  Example (...\ndoes not contain a F(100)): R(100) ... R(100), the second R(100) can be\nconsidered a NOOP.  R(100) ... W(100) is an upgrade, which would roll back to\nW(100) if only the write lock is lost, or all the way to R(100) if another\nprocess preempts with exclusive control.  W(100) ... R(100), the second R(100)\ncan be considered a NOOP.  W(100) ... W(100), the second W(100) can be\nconsidered a NOOP.\n\nTopCoder will ensure:\n1) all instructions will be in the above format, i.e.: \"NOOP\" or \"op(x)\" with\nno spaces where op is F, R, or W (uppercase only) and x is a number (the number\ncan be padded with zeros).\n2) all values of x will be numbers between 1 and 10000 inclusive. 001 should be\ntreated the same as 1.\n3) each process, p1-p4 will contain between 1 and 50 instructions, inclusive\n4) each instruction will contain between 4 and 50 characters, inclusive\n5) the final instruction of each process will not be a request for a read or\nwrite lock.\n6) No set of instructions which leads to a cascading rollback is allowed (ie a\ncase where rolling back gives the process a lock on memory that someone else\nhas locked.)\n\nEXAMPLES\nExample 1\np1 = { R(100),NOOP,NOOP,NOOP }\np2 = { W(100),F(100),NOOP }\np3 = { NOOP }\np4 = { R(50),W(50),F(50) }\n\nIn this case, there are really only 2 processes to be concerned with.  p3 is\ndone in 1 cycle no matter what, and p4 will execute in 3 cycles without being\naffected by the others because there are no overlapping memory locations.\nHowever, p1 and p2 are trying to access the same shared memory and p2 wants\nexclusive control, we have 2 possibilities: either we have given p1 a higher\nrun level priority, which works as follows:\n1) p1 acquires read lock on 100, p2 cannot get lock and must wait.\n2) p1 does nothing (1st NOOP), p2 cannot get lock and must wait\n3) p1 does nothing (2nd NOOP), p2 cannot get lock and must wait\n4) p1 does nothing (3rd NOOP) and finishes, p2 gets the lock because p1 is\nfreeing the memory (due to finished execution) this cycle\n5) p2 frees 100\n6) p2 does nothing and finishes\n\nThe second possibility is that p2 has a higher run level priority then p1 and\nacquires the lock first, in this case\n1) p2 acquires write (exclusive) lock on 100, p1 cannot get lock and must wait\n2) p2 frees lock on 100, p1 acquires lock\n3) p2 does nothing and finishes, p1 does nothing (1st NOOP)\n4) p1 does nothing (2nd NOOP)\n5) p1 does nothing and finishs (3rd NOOP)\n\nClearly the system is the best when p2 has a higher run level then p1, and the\nexecution time of the system in this case will be 5, so we return 5.\n\nExample 2\np1 = { F(5964),W(6044),R(6044),NOOP,F(5964),W(6044),W(5964),NOOP }\np2 = { NOOP,NOOP,W(6044),W(5337),R(6044),R(5964),R(6044),NOOP }\np3 = { NOOP }\np4 = { W(5964),NOOP }\nreturn 13\n\nExample 3\np1 = { W(0032),W(032),NOOP,NOOP }\np2 = { F(0004892),F(4892),NOOP,F(4849) }\np3 = { R(004849),W(4892),F(04849),F(032) }\np4 = { W(4892),W(04892),NOOP,NOOP }\nreturn 6\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Shared\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Shared\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"fastest\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[], String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int fastest(String[] param0, String[] param1, String[] param2, String[] param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4185/pm/501\",\"children\":[\"2002-\",\" \",\"SRM 93\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

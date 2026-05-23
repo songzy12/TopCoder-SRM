@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->GirlFriend<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+zoidal has a potential problem. He's got a longdistance girlfriend who is
+monopolizing his time by talking to him on the phone, and he finds that he
+doesn't have much time to compete in TopCoder anymore. Thus, he has to make a
+decision in how to best optimize his time. His girlfriend has a certain
+tolerance for being ignored, but this tolerance has a negative cumulative
+effect, and he must not let this tolerance drop below her "breakup" point,
+otherwise he will revert to being the uber-dork that he was before they started
+dating.
+
+Every night, there may or may not be a contest. In any case, his girlfriend can
+only talk to him between 6 PM and 8 PM. Consecutive nights of talking with his
+girlfriend have a quadratic effect on her tolerance level, thus two consecutive
+nights of talking with his girlfriend has 2 ^ 2 = 4 times the effect of only a
+single conversation. Similarly, consecutive nights of not talking to his
+girlfriend has a quadratic effect. Note that this quadratic effect on her
+tolerance level only takes place at the end of a streak of consecutive nights
+of either talking or not talking, and not on every day.
+
+Create a class GirlFriend which contains a method optimal, which determines the
+maximum number of contests that zoidal can compete in and still retain his
+girlfriend. optimal takes 5 parameters, as designated in the method signature
+below.
+* contesttimes contains the times that the contests start at on each night,
+with the first element corresponding to the first day, etc. If an element in
+contesttimes is 0, there is no contest that night.
+* talkdelta is the amount that the tolerance increases by with a single phone
+conversation.
+* notalkdelta is the amount that the tolerance decreases by with a single night
+of no phone conversation.
+* breakup is the threshold such that when tolerance is less than breakup,
+zoidal's girlfriend ditches him.
+* begintolerance is the starting tolerance level of zoidal's girlfriend.
+
+
+DEFINITION
+
+Class: GirlFriend
+Method: optimal
+Parameters: int[], int, int, int, int
+Returns: int
+
+The method signature is (make sure it is declared public):
+int optimal(int[] contesttimes, int talkdelta, int notalkdelta, int breakup,
+int begintolerance);
+
+NOTES
+* The current tolerance level cannot go above 100.
+* Contests last two hours.
+* If a phone conversation cannot last two hours, it will not take place at all.
+* If zoidal competes, he is occupied for the entire two hours of the contest.
+* If zoidal talks to his girlfriend from 6 to 8 PM, he is still able to compete
+in a contest at 8 PM that night.
+* For the purposes of this problem, zoidal cannot talk on the phone and compete
+at the same time.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+* contesttimes will have between 1 and 50 elements, inclusive
+* Every element of contesttimes will be 0, 6, 7, 8, or 9
+* There will be a maximum of 20 non-zero elements in contesttimes
+* talkdelta and notalkdelta will be between 1 and 100, inclusive
+* breakup will be between 0 and 100, inclusive
+* begintolerance will be between 0 and 100, inclusive
+* breakup will be less than or equal to begintolerance
+
+EXAMPLES
+
+Example 1:
+contesttimes = {6, 0, 8, 0}, talkdelta = 10, notalkdelta = 20, breakup = 50,
+begintolerance = 60;
+So, we have contests on days 1 and 3.
+If zoidal competes in neither contest, the tolerance starts at 60, and since he
+talks to his girlfriend for 4 days, the tolerance goes up by 10 * (4^2) = 160.
+However, the tolerance cannot go above 100, so this is where the tolerance
+level ends.
+
+If he competes in the first contest and not the second, he is unable to talk to
+his girlfriend on day 1, but can on day 2, 3, and 4.
+Thus, tolerance starts at 60, and drops by 20 * (1^2), putting it at 40.
+Although he would have talked with his girlfriend for the next 3 days, and
+tolerance would have increased by 10 * (3 ^ 2) = 90, putting it at its maximum
+of 100, the instant tolerance became less than breakup, he was history. Thus,
+this scenario is unacceptable.
+
+If he competes in the second contest and not the first, he is able to talk to
+his girlfriend on all 4 days, since the contest on day 3 is at 8 PM, when she
+hangs up. tolerance = 60 + 10 * (4^2) = 220, but maxes out at 100.
+
+Clearly, if he competes in both contests, she will break up with him.
+Thus, the maximum number of contests he can compete in is 1.
+Method returns 1.
+
+Example 2:
+contesttimes = {0, 7, 6, 0, 8, 6, 0, 7, 0}, talkdelta = 5, notalkdelta = 20,
+breakup = 30, begintolerance = 100
+By competing in the contests on days 3, 5, 6, and 8, tolerance ends up at 70
+and never dips below 30.
+This is the most contests that he can compete in while maintaining his
+non-uber-dork status.
+Method returns 4.
+
+Example 3:
+contesttimes = {6, 0, 0, 9, 0, 8, 0, 8, 7, 7, 0, 8, 0, 6, 7}, talkdelta = 54,
+notalkdelta = 44, breakup = 54, begintolerance = 69
+Method returns 6.
+
+Example 4:
+contesttimes = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},
+talkdelta = 12, notalkdelta = 12, breakup = 12, begintolerance = 12
+Method returns 10.
+
+Example 5:
+contesttimes = {7}, talkdelta = 12, notalkdelta = 12, breakup = 12,
+begintolerance = 100
+Method returns 1.
+
+Example 6:
+contesttimes = {7}, talkdelta = 1, notalkdelta = 1, breakup = 1, begintolerance
+= 1}
+Method returns 0.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>GirlFriend</span></dd><dt>Method:</dt><dd><span>optimal</span></dd><dt>Parameters:</dt><dd><span>int[], int, int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int optimal(int[] param0, int param1, int param2, int param3, int param4)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4230/pm/992">2002-<!-- --> <!-- -->SRM 102<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4230/pm/992">2002-<!-- --> <!-- -->SRM 102<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/992/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"992\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"992\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"992\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"992\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"992\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T1516,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nzoidal has a potential problem. He's got a longdistance girlfriend who is\nmonopolizing his time by talking to him on the phone, and he finds that he\ndoesn't have much time to compete in TopCoder anymore. Thus, he has to make a\ndecision in how to best optimize his time. His girlfriend has a certain\ntolerance for being ignored, but this tolerance has a negative cumulative\neffect, and he must not let this tolerance drop below her \"breakup\" point,\notherwise he will revert to being the uber-dork that he was before they started\ndating.\n\nEvery night, there may or may not be a contest. In any case, his girlfriend can\nonly talk to him between 6 PM and 8 PM. Consecutive nights of talking with his\ngirlfriend have a quadratic effect on her tolerance level, thus two consecutive\nnights of talking with his girlfriend has 2 ^ 2 = 4 times the effect of only a\nsingle conversation. Similarly, consecutive nights of not talking to his\ngirlfriend has a quadratic effect. Note that this quadratic effect on her\ntolerance level only takes place at the end of a streak of consecutive nights\nof either talking or not talking, and not on every day.\n\nCreate a class GirlFriend which contains a method optimal, which determines the\nmaximum number of contests that zoidal can compete in and still retain his\ngirlfriend. optimal takes 5 parameters, as designated in the method signature\nbelow.\n* contesttimes contains the times that the contests start at on each night,\nwith the first element corresponding to the first day, etc. If an element in\ncontesttimes is 0, there is no contest that night.\n* talkdelta is the amount that the tolerance increases by with a single phone\nconversation.\n* notalkdelta is the amount that the tolerance decreases by with a single night\nof no phone conversation.\n* breakup is the threshold such that when tolerance is less than breakup,\nzoidal's girlfriend ditches him.\n* begintolerance is the starting tolerance level of zoidal's girlfriend.\n\n\nDEFINITION\n\nClass: GirlFriend\nMethod: optimal\nParameters: int[], int, int, int, int\nReturns: int\n\nThe method signature is (make sure it is declared public):\nint optimal(int[] contesttimes, int talkdelta, int notalkdelta, int breakup,\nint begintolerance);\n\nNOTES\n* The current tolerance level cannot go above 100.\n* Contests last two hours.\n* If a phone conversation cannot last two hours, it will not take place at all.\n* If zoidal competes, he is occupied for the entire two hours of the contest.\n* If zoidal talks to his girlfriend from 6 to 8 PM, he is still able to compete\nin a contest at 8 PM that night.\n* For the purposes of this problem, zoidal cannot talk on the phone and compete\nat the same time.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n* contesttimes will have between 1 and 50 elements, inclusive\n* Every element of contesttimes will be 0, 6, 7, 8, or 9\n* There will be a maximum of 20 non-zero elements in contesttimes\n* talkdelta and notalkdelta will be between 1 and 100, inclusive\n* breakup will be between 0 and 100, inclusive\n* begintolerance will be between 0 and 100, inclusive\n* breakup will be less than or equal to begintolerance\n\nEXAMPLES\n\nExample 1:\ncontesttimes = {6, 0, 8, 0}, talkdelta = 10, notalkdelta = 20, breakup = 50,\nbegintolerance = 60;\nSo, we have contests on days 1 and 3.\nIf zoidal competes in neither contest, the tolerance starts at 60, and since he\ntalks to his girlfriend for 4 days, the tolerance goes up by 10 * (4^2) = 160.\nHowever, the tolerance cannot go above 100, so this is where the tolerance\nlevel ends.\n\nIf he competes in the first contest and not the second, he is unable to talk to\nhis girlfriend on day 1, but can on day 2, 3, and 4.\nThus, tolerance starts at 60, and drops by 20 * (1^2), putting it at 40.\nAlthough he would have talked with his girlfriend for the next 3 days, and\ntolerance would have increased by 10 * (3 ^ 2) = 90, putting it at its maximum\nof 100, the instant tolerance became less than breakup, he was history. Thus,\nthis scenario is unacceptable.\n\nIf he competes in the second contest and not the first, he is able to talk to\nhis girlfriend on all 4 days, since the contest on day 3 is at 8 PM, when she\nhangs up. tolerance = 60 + 10 * (4^2) = 220, but maxes out at 100.\n\nClearly, if he competes in both contests, she will break up with him.\nThus, the maximum number of contests he can compete in is 1.\nMethod returns 1.\n\nExample 2:\ncontesttimes = {0, 7, 6, 0, 8, 6, 0, 7, 0}, talkdelta = 5, notalkdelta = 20,\nbreakup = 30, begintolerance = 100\nBy competing in the contests on days 3, 5, 6, and 8, tolerance ends up at 70\nand never dips below 30.\nThis is the most contests that he can compete in while maintaining his\nnon-uber-dork status.\nMethod returns 4.\n\nExample 3:\ncontesttimes = {6, 0, 0, 9, 0, 8, 0, 8, 7, 7, 0, 8, 0, 6, 7}, talkdelta = 54,\nnotalkdelta = 44, breakup = 54, begintolerance = 69\nMethod returns 6.\n\nExample 4:\ncontesttimes = {6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6},\ntalkdelta = 12, notalkdelta = 12, breakup = 12, begintolerance = 12\nMethod returns 10.\n\nExample 5:\ncontesttimes = {7}, talkdelta = 12, notalkdelta = 12, breakup = 12,\nbegintolerance = 100\nMethod returns 1.\n\nExample 6:\ncontesttimes = {7}, talkdelta = 1, notalkdelta = 1, breakup = 1, begintolerance\n= 1}\nMethod returns 0.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"GirlFriend\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"GirlFriend\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"optimal\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int optimal(int[] param0, int param1, int param2, int param3, int param4)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4230/pm/992\",\"children\":[\"2002-\",\" \",\"SRM 102\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4230/pm/992\",\"children\":[\"2002-\",\" \",\"SRM 102\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Mail<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+You work at a mail distribution center which has to send letters to branch distribution hubs that each handle a certain zip code.  However, you may have letters whose zip codes are not correct.  Therefore, you must make the best estimate as to where the author of the letter intended to send it.
+</p>
+
+<p xmlns="http://topcoder.com">
+You are to deliver each letter to the office which handles the zip code closest to the read zip code.  Closeness to a zip code is measured by a score.  You should deliver the letter to the office which has the highest score.  The score for each comparison between a pair of zip codes starts at 0 and is calculated as follows:
+</p>
+
+<p xmlns="http://topcoder.com">
+<b>1)</b> For every digit in one zip code that is identical to the digit in the other zip code at the same position, add 6.<br/><br/>
+<b>2)</b> For every two digits that are transposed (that is, two digits next to each other in one zip code are in the same positions in the other zip code, but swapped), add 5. (see example 1)<br/><br/>
+<b>3)</b> Sometimes people write numbers that look like other numbers, for example a "1" may look like a "7" or vice versa.  Therefore, if a digit in one zip code is the first number in one of the following pairs, and the digit in the other zip code in the same position is the second number, add 2:<br/>
+(9 and 6)<br/>
+(9 and 0)<br/>
+(7 and 2)<br/>
+(7 and 1)<br/><br/>
+<b>4)</b>If a digit in one zip code and the digit in the other zip code at the same position have a difference of 1, add 1.
+</p>
+
+<p xmlns="http://topcoder.com">
+You should apply each rule to every digit that satisfies the rule, starting with the left digit and ending with the right.  A digit can only be used to add points to the score once.  For example, when comparing "23232" and "32323", you can use the digits at position 0 and 1 to apply the transposition rule.  However, since you already used digit 1, you cannot apply the transposition rule to digits 1 and 2.
+</p>
+
+<p xmlns="http://topcoder.com">
+You should also apply the rules in the order given above, e.g. apply rule 1, then rule 2, etc.  If a digit is used to add points in a previous rule, it cannot be used to add points in a later rule.  For example, when comparing "23232" and "32323" you cannot use the difference-of-one rule on digits 0 and 1 because they were used in the transposition rule.
+</p>
+
+<p xmlns="http://topcoder.com">
+If the score of an office is less than 10, that office cannot be used for that letter since the zip codes are too different.  If there are no offices with a score greater than or equal to 10, the letter should be returned to the sender, and not included in the return value.
+</p>
+
+<p xmlns="http://topcoder.com">
+Create a class <tt><b>Mail</b></tt> that contains the method <tt><b>handleBadZips</b></tt>, which takes two arguments:<br/>
+<tt><b>offices</b></tt>: a <type>String[]</type> where each element is the zip code that a particular office handles.<br/>
+<tt><b>letters</b></tt>: a <type>String[]</type> where each element is the zip code that is written on a letter.<br/>
+The return value should be a <type>int[]</type> the same length as <tt><b>offices</b></tt>, which contains the number of letters sent to each office.  The first element is the number of letters sent to the first office in <tt><b>offices</b></tt>, the second element is the number sent to the second office, etc..
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Mail</span></dd><dt>Method:</dt><dd><span>handleBadZips</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] handleBadZips(String[] offices, String[] letters)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>If two offices have the same score, send the letter to the one which comes first in offices.</li><li>For rule 3, the comparisons should be made both ways.  For example, zip code A can have a 9, and B have a 6, or A can have a 6, and B have a 9.</li></ul></div><div><h3>Constraints</h3><ul><li><span>offices will have between 1 and 50 elements inclusive.</span></li><li><span>letters will have between 1 and 50 elements inclusive.</span></li><li><span>Elements in offices and letters will consist of 5 numeric digits '0' - '9'.</span></li><li><span>There will be no repeat elements in offices.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{"90211", "09210", "12345", "88888", "69779"}</p>
+<p>{"90210"}</p>
+<p>Returns: { 1,
+  0,
+  0,
+  0,
+  0 }</p>
+<p>
+There is only one letter, "90210".  The scores for the offices are described as follows
+
+
+"90211": 25 - the first four characters match the letter, yielding 24 points, and the final character is one different, adding 1 point.
+"09210": 23 - the last three characters match, and the first two are swapped, scoring 3x6 + 5.
+"12345": 1 - third character is 1 away.
+"88888": 1 - the first character is 1 away.
+"69779": 10 - each character could be miswritten for another character.  6 could be a 9, 9 could be a 0, 7 could be a 2 or a 1, and 9 could be a 0.</p></div></li><li><div><p>{"88888", "66666", "22222"}</p>
+<p>{"84444", "77771", "99999"}</p>
+<p>Returns: { 0,
+  1,
+  0 }</p>
+<p>For the first letter ("84444"):
+"88888": 6 - only one character matches.
+"66666": 0
+"22222": 0
+Since no office scored 10 or above, this letter is returned to the sender
+Second letter ("77771"):
+"88888": 4 - 4 characters are one away
+"66666": 4 - again, 4 characters are one away
+"22222": 9 - 4 characters are misprints, and the last character is one away.
+Since no office scored 10 or above, this letter is returned to the sender.
+Third letter ("99999"):
+"88888": 5 - 5 characters are one away
+"66666": 10 - all 5 characters are misprints
+"22222": 0
+This letter is sent to the second office, since its score barely makes the 10 point cutoff.</p></div></li><li><div><p>{"14736", "23741", "09284", "27481", "56456", "89148"}</p>
+<p>{"12375", "99642", "12763", "84564"}</p>
+<p>Returns: { 2,
+  0,
+  0,
+  0,
+  0,
+  1 }</p></div></li><li><div><p>{"99741", "43676", "29658", "51324", "63050", "40201", "56022", "05849", "14530", "95320", "78483", "87520", "65968", "11448", "41706", "56938", "55547", "61772", "53683", "16845", "26576", "32434", "38942", "02605", "85569", "24182", "56250", "45620", "29924", "60094", "41872", "65462", "49503", "66523", "07303", "64730", "57092", "03646", "78272", "52249", "51412", "72873", "57880", "66012", "14746", "82393", "11797", "44792", "93143", "18375"}</p>
+<p>{"08206", "78796", "04882", "56929", "60604", "40830", "09365", "37726", "32444", "01451", "03499", "32353", "36587", "80743", "52645", "05758", "26574", "89852", "48852", "17674", "18422", "36017", "93203", "81219", "21999", "16751", "53110", "51611", "81677", "68246", "63250", "22491", "41806", "06058", "83359", "36906", "13082", "80426", "90397", "21943", "95730", "90046", "32130", "25284", "55551", "50690", "38965", "21679", "56922", "75037"}</p>
+<p>Returns: { 3,
+  0,
+  2,
+  0,
+  3,
+  1,
+  2,
+  1,
+  0,
+  0,
+  0,
+  1,
+  0,
+  1,
+  4,
+  0,
+  2,
+  1,
+  1,
+  0,
+  3,
+  3,
+  2,
+  1,
+  0,
+  3,
+  0,
+  0,
+  0,
+  2,
+  1,
+  0,
+  0,
+  0,
+  0,
+  1,
+  0,
+  1,
+  1,
+  2,
+  1,
+  0,
+  0,
+  1,
+  0,
+  1,
+  2,
+  0,
+  1,
+  2 }</p></div></li><li><div><p>{"17777", "77777"}</p>
+<p>{"18888", "22222"}</p>
+<p>Returns: { 1,
+  1 }</p></div></li><li><div><p>{"18888", "22222"}</p>
+<p>{"17777", "77777"}</p>
+<p>Returns: { 1,
+  1 }</p></div></li><li><div><p>{"54321","23451"}</p>
+<p>{"12345", "12345"}</p>
+<p>Returns: { 0,
+  0 }</p></div></li><li><div><p>{"11111","22222","33333","44444","55555","66666","77777","88888","99999","00000"}</p>
+<p>{"12457","11111","12121","45654","99988","12345","98765"}</p>
+<p>Returns: { 2,
+  0,
+  0,
+  0,
+  1,
+  1,
+  1,
+  0,
+  1,
+  0 }</p></div></li><li><div><p>{"12121"}</p>
+<p>{"23232"}</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{"12121"}</p>
+<p>{"21232"}</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{"67876","87878"}</p>
+<p>{"98789"}</p>
+<p>Returns: { 1,
+  0 }</p></div></li><li><div><p>{"67876","87898"}</p>
+<p>{"98789"}</p>
+<p>Returns: { 0,
+  1 }</p></div></li><li><div><p>{"54320","54310","54210","53210"}</p>
+<p>{"54321","54721","43210"}</p>
+<p>Returns: { 2,
+  0,
+  0,
+  1 }</p></div></li><li><div><p>{"66666","22222","11111"}</p>
+<p>{"99999","77777","10101"}</p>
+<p>Returns: { 1,
+  1,
+  1 }</p></div></li><li><div><p>{"99999","66666"}</p>
+<p>{"11111","55555"}</p>
+<p>Returns: { 0,
+  0 }</p></div></li><li><div><p>{"12345","23456","34567","45678","56789","67890","78901","89012","90123","01234"}</p>
+<p>{"11111","22222","33333","44444","55555","66666","77777","88888","99999","00000"}</p>
+<p>Returns: { 0,
+  0,
+  0,
+  0,
+  1,
+  1,
+  0,
+  0,
+  0,
+  0 }</p></div></li><li><div><p>{ "19900" }</p>
+<p>{ "16622" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "66666" }</p>
+<p>{ "61199" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "90210" }</p>
+<p>{ "90210" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12348" }</p>
+<p>{ "21435" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "44444" }</p>
+<p>{ "33333" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "99999" }</p>
+<p>{ "00000" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "14189" }</p>
+<p>{ "41437" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "39993" }</p>
+<p>{ "36668" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12188" }</p>
+<p>{ "21211" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "45998" }</p>
+<p>{ "54662" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "99990" }</p>
+<p>{ "66661" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "00000" }</p>
+<p>{ "01111" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "90210" }</p>
+<p>{ "44444" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "56456",
+  "14736",
+  "23741",
+  "09284",
+  "27481",
+  "12974" }</p>
+<p>{ "12375",
+  "99642",
+  "12763" }</p>
+<p>Returns: { 0,
+  1,
+  0,
+  0,
+  0,
+  1 }</p></div></li><li><div><p>{ "77711" }</p>
+<p>{ "72255" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12145" }</p>
+<p>{ "21284" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "13137" }</p>
+<p>{ "31315" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "69279" }</p>
+<p>{ "96368" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "19166" }</p>
+<p>{ "96899" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "12999" }</p>
+<p>{ "21666" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "11111" }</p>
+<p>{ "77777" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "44771" }</p>
+<p>{ "06217" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "12146" }</p>
+<p>{ "21284" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "13746" }</p>
+<p>{ "15964" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "88888",
+  "66666",
+  "22222" }</p>
+<p>{ "84444",
+  "77771",
+  "99999" }</p>
+<p>Returns: { 0,
+  1,
+  0 }</p></div></li><li><div><p>{ "19900" }</p>
+<p>{ "16622" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "66666" }</p>
+<p>{ "61199" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "90210" }</p>
+<p>{ "90210" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12348" }</p>
+<p>{ "21435" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "44444" }</p>
+<p>{ "33333" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "99999" }</p>
+<p>{ "00000" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "14189" }</p>
+<p>{ "41437" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "39993" }</p>
+<p>{ "36668" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12188" }</p>
+<p>{ "21211" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "45998" }</p>
+<p>{ "54662" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "99990" }</p>
+<p>{ "66661" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "00000" }</p>
+<p>{ "01111" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "90210" }</p>
+<p>{ "44444" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "56456",
+  "14736",
+  "23741",
+  "09284",
+  "27481",
+  "12974" }</p>
+<p>{ "12375",
+  "99642",
+  "12763" }</p>
+<p>Returns: { 0,
+  1,
+  0,
+  0,
+  0,
+  1 }</p></div></li><li><div><p>{ "77711" }</p>
+<p>{ "72255" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "12145" }</p>
+<p>{ "21284" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "13137" }</p>
+<p>{ "31315" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "69279" }</p>
+<p>{ "96368" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "19166" }</p>
+<p>{ "96899" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "12999" }</p>
+<p>{ "21666" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "11111" }</p>
+<p>{ "77777" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "44771" }</p>
+<p>{ "06217" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "12146" }</p>
+<p>{ "21284" }</p>
+<p>Returns: { 0 }</p></div></li><li><div><p>{ "13746" }</p>
+<p>{ "15964" }</p>
+<p>Returns: { 1 }</p></div></li><li><div><p>{ "88888",
+  "66666",
+  "22222" }</p>
+<p>{ "84444",
+  "77771",
+  "99999" }</p>
+<p>Returns: { 0,
+  1,
+  0 }</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4290/pm/1118">2002-<!-- --> <!-- -->SRM 115<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li><li><a href="/ProblemDetail/rd/4290/pm/1118">2002-<!-- --> <!-- -->SRM 115<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1118/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1118\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1118\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1118\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1118\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1118\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:Td6c,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou work at a mail distribution center which has to send letters to branch distribution hubs that each handle a certain zip code.  However, you may have letters whose zip codes are not correct.  Therefore, you must make the best estimate as to where the author of the letter intended to send it.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are to deliver each letter to the office which handles the zip code closest to the read zip code.  Closeness to a zip code is measured by a score.  You should deliver the letter to the office which has the highest score.  The score for each comparison between a pair of zip codes starts at 0 and is calculated as follows:\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\n\u003cb\u003e1)\u003c/b\u003e For every digit in one zip code that is identical to the digit in the other zip code at the same position, add 6.\u003cbr/\u003e\u003cbr/\u003e\n\u003cb\u003e2)\u003c/b\u003e For every two digits that are transposed (that is, two digits next to each other in one zip code are in the same positions in the other zip code, but swapped), add 5. (see example 1)\u003cbr/\u003e\u003cbr/\u003e\n\u003cb\u003e3)\u003c/b\u003e Sometimes people write numbers that look like other numbers, for example a \"1\" may look like a \"7\" or vice versa.  Therefore, if a digit in one zip code is the first number in one of the following pairs, and the digit in the other zip code in the same position is the second number, add 2:\u003cbr/\u003e\n(9 and 6)\u003cbr/\u003e\n(9 and 0)\u003cbr/\u003e\n(7 and 2)\u003cbr/\u003e\n(7 and 1)\u003cbr/\u003e\u003cbr/\u003e\n\u003cb\u003e4)\u003c/b\u003eIf a digit in one zip code and the digit in the other zip code at the same position have a difference of 1, add 1.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou should apply each rule to every digit that satisfies the rule, starting with the left digit and ending with the right.  A digit can only be used to add points to the score once.  For example, when comparing \"23232\" and \"32323\", you can use the digits at position 0 and 1 to apply the transposition rule.  However, since you already used digit 1, you cannot apply the transposition rule to digits 1 and 2.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou should also apply the rules in the order given above, e.g. apply rule 1, then rule 2, etc.  If a digit is used to add points in a previous rule, it cannot be used to add points in a later rule.  For example, when comparing \"23232\" and \"32323\" you cannot use the difference-of-one rule on digits 0 and 1 because they were used in the transposition rule.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIf the score of an office is less than 10, that office cannot be used for that letter since the zip codes are too different.  If there are no offices with a score greater than or equal to 10, the letter should be returned to the sender, and not included in the return value.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nCreate a class \u003ctt\u003e\u003cb\u003eMail\u003c/b\u003e\u003c/tt\u003e that contains the method \u003ctt\u003e\u003cb\u003ehandleBadZips\u003c/b\u003e\u003c/tt\u003e, which takes two arguments:\u003cbr/\u003e\n\u003ctt\u003e\u003cb\u003eoffices\u003c/b\u003e\u003c/tt\u003e: a \u003ctype\u003eString[]\u003c/type\u003e where each element is the zip code that a particular office handles.\u003cbr/\u003e\n\u003ctt\u003e\u003cb\u003eletters\u003c/b\u003e\u003c/tt\u003e: a \u003ctype\u003eString[]\u003c/type\u003e where each element is the zip code that is written on a letter.\u003cbr/\u003e\nThe return value should be a \u003ctype\u003eint[]\u003c/type\u003e the same length as \u003ctt\u003e\u003cb\u003eoffices\u003c/b\u003e\u003c/tt\u003e, which contains the number of letters sent to each office.  The first element is the number of letters sent to the first office in \u003ctt\u003e\u003cb\u003eoffices\u003c/b\u003e\u003c/tt\u003e, the second element is the number sent to the second office, etc..\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"10:T49e,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\"99741\", \"43676\", \"29658\", \"51324\", \"63050\", \"40201\", \"56022\", \"05849\", \"14530\", \"95320\", \"78483\", \"87520\", \"65968\", \"11448\", \"41706\", \"56938\", \"55547\", \"61772\", \"53683\", \"16845\", \"26576\", \"32434\", \"38942\", \"02605\", \"85569\", \"24182\", \"56250\", \"45620\", \"29924\", \"60094\", \"41872\", \"65462\", \"49503\", \"66523\", \"07303\", \"64730\", \"57092\", \"03646\", \"78272\", \"52249\", \"51412\", \"72873\", \"57880\", \"66012\", \"14746\", \"82393\", \"11797\", \"44792\", \"93143\", \"18375\"}\u003c/p\u003e\n\u003cp\u003e{\"08206\", \"78796\", \"04882\", \"56929\", \"60604\", \"40830\", \"09365\", \"37726\", \"32444\", \"01451\", \"03499\", \"32353\", \"36587\", \"80743\", \"52645\", \"05758\", \"26574\", \"89852\", \"48852\", \"17674\", \"18422\", \"36017\", \"93203\", \"81219\", \"21999\", \"16751\", \"53110\", \"51611\", \"81677\", \"68246\", \"63250\", \"22491\", \"41806\", \"06058\", \"83359\", \"36906\", \"13082\", \"80426\", \"90397\", \"21943\", \"95730\", \"90046\", \"32130\", \"25284\", \"55551\", \"50690\", \"38965\", \"21679\", \"56922\", \"75037\"}\u003c/p\u003e\n\u003cp\u003eReturns: { 3,\n  0,\n  2,\n  0,\n  3,\n  1,\n  2,\n  1,\n  0,\n  0,\n  0,\n  1,\n  0,\n  1,\n  4,\n  0,\n  2,\n  1,\n  1,\n  0,\n  3,\n  3,\n  2,\n  1,\n  0,\n  3,\n  0,\n  0,\n  0,\n  2,\n  1,\n  0,\n  0,\n  0,\n  0,\n  1,\n  0,\n  1,\n  1,\n  2,\n  1,\n  0,\n  0,\n  1,\n  0,\n  1,\n  2,\n  0,\n  1,\n  2 }\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Mail\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Mail\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"handleBadZips\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] handleBadZips(String[] offices, String[] letters)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"If two offices have the same score, send the letter to the one which comes first in offices.\"}],[\"$\",\"li\",\"1\",{\"children\":\"For rule 3, the comparisons should be made both ways.  For example, zip code A can have a 9, and B have a 6, or A can have a 6, and B have a 9.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"offices will have between 1 and 50 elements inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"letters will have between 1 and 50 elements inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Elements in offices and letters will consist of 5 numeric digits '0' - '9'.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"There will be no repeat elements in offices.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"90211\\\", \\\"09210\\\", \\\"12345\\\", \\\"88888\\\", \\\"69779\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"90210\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 1,\\n  0,\\n  0,\\n  0,\\n  0 }\u003c/p\u003e\\n\u003cp\u003e\\nThere is only one letter, \\\"90210\\\".  The scores for the offices are described as follows\\n\\n\\n\\\"90211\\\": 25 - the first four characters match the letter, yielding 24 points, and the final character is one different, adding 1 point.\\n\\\"09210\\\": 23 - the last three characters match, and the first two are swapped, scoring 3x6 + 5.\\n\\\"12345\\\": 1 - third character is 1 away.\\n\\\"88888\\\": 1 - the first character is 1 away.\\n\\\"69779\\\": 10 - each character could be miswritten for another character.  6 could be a 9, 9 could be a 0, 7 could be a 2 or a 1, and 9 could be a 0.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"88888\\\", \\\"66666\\\", \\\"22222\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"84444\\\", \\\"77771\\\", \\\"99999\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1,\\n  0 }\u003c/p\u003e\\n\u003cp\u003eFor the first letter (\\\"84444\\\"):\\n\\\"88888\\\": 6 - only one character matches.\\n\\\"66666\\\": 0\\n\\\"22222\\\": 0\\nSince no office scored 10 or above, this letter is returned to the sender\\nSecond letter (\\\"77771\\\"):\\n\\\"88888\\\": 4 - 4 characters are one away\\n\\\"66666\\\": 4 - again, 4 characters are one away\\n\\\"22222\\\": 9 - 4 characters are misprints, and the last character is one away.\\nSince no office scored 10 or above, this letter is returned to the sender.\\nThird letter (\\\"99999\\\"):\\n\\\"88888\\\": 5 - 5 characters are one away\\n\\\"66666\\\": 10 - all 5 characters are misprints\\n\\\"22222\\\": 0\\nThis letter is sent to the second office, since its score barely makes the 10 point cutoff.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"14736\\\", \\\"23741\\\", \\\"09284\\\", \\\"27481\\\", \\\"56456\\\", \\\"89148\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"12375\\\", \\\"99642\\\", \\\"12763\\\", \\\"84564\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 2,\\n  0,\\n  0,\\n  0,\\n  0,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"17777\\\", \\\"77777\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"18888\\\", \\\"22222\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 1,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"18888\\\", \\\"22222\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"17777\\\", \\\"77777\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 1,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"54321\\\",\\\"23451\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"12345\\\", \\\"12345\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"11111\\\",\\\"22222\\\",\\\"33333\\\",\\\"44444\\\",\\\"55555\\\",\\\"66666\\\",\\\"77777\\\",\\\"88888\\\",\\\"99999\\\",\\\"00000\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"12457\\\",\\\"11111\\\",\\\"12121\\\",\\\"45654\\\",\\\"99988\\\",\\\"12345\\\",\\\"98765\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 2,\\n  0,\\n  0,\\n  0,\\n  1,\\n  1,\\n  1,\\n  0,\\n  1,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"12121\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"23232\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"12121\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"21232\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"67876\\\",\\\"87878\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"98789\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 1,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"67876\\\",\\\"87898\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"98789\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"54320\\\",\\\"54310\\\",\\\"54210\\\",\\\"53210\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"54321\\\",\\\"54721\\\",\\\"43210\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 2,\\n  0,\\n  0,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"66666\\\",\\\"22222\\\",\\\"11111\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"99999\\\",\\\"77777\\\",\\\"10101\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 1,\\n  1,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"99999\\\",\\\"66666\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"11111\\\",\\\"55555\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{\\\"12345\\\",\\\"23456\\\",\\\"34567\\\",\\\"45678\\\",\\\"56789\\\",\\\"67890\\\",\\\"78901\\\",\\\"89012\\\",\\\"90123\\\",\\\"01234\\\"}\u003c/p\u003e\\n\u003cp\u003e{\\\"11111\\\",\\\"22222\\\",\\\"33333\\\",\\\"44444\\\",\\\"55555\\\",\\\"66666\\\",\\\"77777\\\",\\\"88888\\\",\\\"99999\\\",\\\"00000\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  0,\\n  0,\\n  0,\\n  1,\\n  1,\\n  0,\\n  0,\\n  0,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"19900\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"16622\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"66666\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"61199\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12348\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21435\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"44444\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"33333\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"99999\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"00000\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"14189\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"41437\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"39993\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"36668\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12188\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21211\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"45998\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"54662\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"99990\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"66661\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"00000\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"01111\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"44444\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"56456\\\",\\n  \\\"14736\\\",\\n  \\\"23741\\\",\\n  \\\"09284\\\",\\n  \\\"27481\\\",\\n  \\\"12974\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"12375\\\",\\n  \\\"99642\\\",\\n  \\\"12763\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1,\\n  0,\\n  0,\\n  0,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"77711\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"72255\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12145\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21284\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"13137\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"31315\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"69279\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"96368\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"19166\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"96899\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12999\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21666\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"11111\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"77777\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"44771\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"06217\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12146\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21284\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"13746\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"15964\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"88888\\\",\\n  \\\"66666\\\",\\n  \\\"22222\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"84444\\\",\\n  \\\"77771\\\",\\n  \\\"99999\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1,\\n  0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"19900\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"16622\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"66666\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"61199\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12348\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21435\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"44444\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"33333\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"99999\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"00000\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"14189\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"41437\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"39993\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"36668\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12188\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21211\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"45998\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"54662\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"99990\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"66661\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"00000\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"01111\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"90210\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"44444\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"56456\\\",\\n  \\\"14736\\\",\\n  \\\"23741\\\",\\n  \\\"09284\\\",\\n  \\\"27481\\\",\\n  \\\"12974\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"12375\\\",\\n  \\\"99642\\\",\\n  \\\"12763\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1,\\n  0,\\n  0,\\n  0,\\n  1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"77711\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"72255\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12145\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21284\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"13137\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"31315\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"69279\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"96368\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"19166\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"96899\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12999\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21666\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"11111\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"77777\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"44771\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"06217\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"12146\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"21284\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"13746\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"15964\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 1 }\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"88888\\\",\\n  \\\"66666\\\",\\n  \\\"22222\\\" }\u003c/p\u003e\\n\u003cp\u003e{ \\\"84444\\\",\\n  \\\"77771\\\",\\n  \\\"99999\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: { 0,\\n  1,\\n  0 }\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4290/pm/1118\",\"children\":[\"2002-\",\" \",\"SRM 115\",\" - Division \",\"I\",\", \",\"Level One\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4290/pm/1118\",\"children\":[\"2002-\",\" \",\"SRM 115\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

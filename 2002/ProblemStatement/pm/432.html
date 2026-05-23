@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Go<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+Go is an ancient game for two players, who alternate placing stones on a 9x9
+grid, black first. Given a sequence of plays of both players, return the number
+of stones captured during the game by each player. 
+
+If two stones of the same color are placed adjacent to each other horizontally
+or vertically ("adjacent" never means diagonally in this problem), they form
+one "group" and are considered one entity for the remainder of the game.
+Likewise, placement of additional stones may cause two groups to join into one
+group, or may cause one group to be extended.
+
+Each group has some number of "liberties": each unoccupied space adjacent to a
+member of the group counts as one liberty. If a player plays a stone in such a
+way that an opponent's group has zero liberties, the opponent's group is
+killed, and the player is credited with one point for each stone in the killed
+group.
+
+Some examples of liberty counting: ('X' represents black stones, 'O' represents
+white stones, and '.' is empty space.)
+....
+.OO.
+....
+The 'O' player's group has six liberties; two on the top, two on the bottom,
+one on the left, and one on the right.
+
+.....
+O....
+OX...
+OX...
+OX...
+The 'O' player's group has only two liberties (the edge of the board does not
+count as unoccupied space). 
+The 'X' player's group has 4 liberties: three on the right, and one on the top.
+
+....
+..X.
+.XO.
+..X.
+....
+The 'O' player's group has only one liberty, to the right. If the 'X' player
+moved there, the single 'O' stone would be removed from the board, and the 'X'
+player would score a point.
+
+....
+XX..
+OOX.
+.OX.
+The 'O' player's group has only one liberty, to the lower left. That group does
+*not* have a liberty in the upper right corner, because it is only connected
+via a diagonal.
+
+If the 'X' player moves in the lower left corner, the three 'O' stones are
+removed (killed), and 'X' scores 3 points. Note that this is a legal move for
+X, even though he is moving into a space that gives him no liberties, the death
+of the 'O' group is resolved before the fate of his current move. If the 'O'
+group had an additional liberty, it would be illegal for 'X' to move in the
+lower left corner, because the 'O' group would not die, and X's move would be
+suicide, which is not allowed unless it results in a group being killed first.
+
+Each stone's position on the 9x9 board is specified by a letter ('A' to 'I')
+specifying the row, and a number ('1' to '9', inclusive) specifying the column.
+See the examples for more details.
+
+DEFINITION
+Class: Go
+Method: count
+Parameters: String[], String[]
+Returns: int[]
+Method signature (be sure your method is public):  int[] count(String[]
+blackMoves, String[] whiteMoves);
+
+NOTES
+- To those who know the full rules of Go: this problem does not use passes, ko,
+komi, end-of-game territory counting, and groups are never removed unless they
+have zero liberties.
+- The edge of the board does not count as either player's stones, and no stone
+has a liberty in the edge of the board.
+- The board is fixed at 9x9.
+- Black's score should be returned at index 0 of the int[], and white's score
+should be returned at index 1 of the int[].
+- It is legal to move in an empty space where a previous stone was captured (as
+long as it's not a suicide move). Therefore the same String may exist more than
+once in the inputs. See the last example.
+- If you place a stone in a suicide position that kills opponents' stones, they
+disappear but your stone does not.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+- blackMoves has either the same number of elements as whiteMoves, or one more
+than whiteMoves.
+- blackMoves and whiteMoves will each contain 0 to 50 elements, inclusive.
+- each String consists of a single capital letter ('A' to 'I' inclusive)
+followed by a number ('1' to '9' inclusive), representing the space on the
+board in which the stone is played.
+- Each move will be legal, that is, no stone will be placed where another
+currently exists.
+- No stone will be placed into suicide unless it also kills an opposing group.
+
+
+EXAMPLES
+(Remember that each move is its own String. Use the ++ option in the String[]
+creator box to translate comma-delimited input into a String[].)
+Input: blackMoves = {A2,B1}
+       whiteMoves = {A1}
+Black first moves to A2, then white moves to A1. At this point, the board looks
+like this:
+
+At the end of                At the end of
+the first move:              the second move (white's first move):
+  123456789                     123456789
+A .X.......                   A OX.......
+B .........                   B .........    (X is the black stone, 
+C .........                   C .........     O is the white stone)
+D .........                   D .........
+E .........                   E .........
+F .........                   F .........
+G .........                   G .........
+H .........                   H .........
+I .........                   I .........
+
+
+On black's second move, B1, the third overall move, he captures the white stone
+at A1, since that stone no longer has any liberties. 
+
+  123456789
+A .X.......
+B X........
+C .........
+D .........
+E .........
+F .........
+G .........
+H .........
+I .........
+
+Therefore black has one point and white has none; the method should return {1,0}.
+
+
+Input: blackMoves = {E1,C1,C2,D3,G1,G2,F3,E4,E1}
+       whiteMoves = {D1,E2,D2,F1,F2,E3,G3,C3}
+White's fourth move, F1, captures the black stone at E1. Immediately before
+black's last move (after white's C3), the board looks like this:
+
+  123456789
+A .........
+B .........   (X = black)
+C XXO......   (O = white)
+D OOX......
+E .OOX.....
+F OOX......
+G XXO......
+H .........
+I .........
+
+Black's last move, E1, takes the last liberty of the large white group, killing
+the pieces at D1,D2,E2,E3,F1,F2, giving black 6 points. The white pieces at C3
+and G3 are not killed; they were not connected to the large group since they
+only touched on a diagonal.
+Returns {6,1}.
+
+Input: blackMoves = {A1,B1,D1,E1,C2,C3}
+       whiteMoves = {A2,B2,D2,E2,F1,C1}
+Output: {0,4}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Go</span></dd><dt>Method:</dt><dd><span>count</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] count(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4060/pm/432">2002-<!-- --> <!-- -->SRM 66<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4060/pm/432">2002-<!-- --> <!-- -->SRM 66<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/432/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"432\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"432\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"432\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"432\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"432\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T17f4,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nGo is an ancient game for two players, who alternate placing stones on a 9x9\ngrid, black first. Given a sequence of plays of both players, return the number\nof stones captured during the game by each player. \n\nIf two stones of the same color are placed adjacent to each other horizontally\nor vertically (\"adjacent\" never means diagonally in this problem), they form\none \"group\" and are considered one entity for the remainder of the game.\nLikewise, placement of additional stones may cause two groups to join into one\ngroup, or may cause one group to be extended.\n\nEach group has some number of \"liberties\": each unoccupied space adjacent to a\nmember of the group counts as one liberty. If a player plays a stone in such a\nway that an opponent's group has zero liberties, the opponent's group is\nkilled, and the player is credited with one point for each stone in the killed\ngroup.\n\nSome examples of liberty counting: ('X' represents black stones, 'O' represents\nwhite stones, and '.' is empty space.)\n....\n.OO.\n....\nThe 'O' player's group has six liberties; two on the top, two on the bottom,\none on the left, and one on the right.\n\n.....\nO....\nOX...\nOX...\nOX...\nThe 'O' player's group has only two liberties (the edge of the board does not\ncount as unoccupied space). \nThe 'X' player's group has 4 liberties: three on the right, and one on the top.\n\n....\n..X.\n.XO.\n..X.\n....\nThe 'O' player's group has only one liberty, to the right. If the 'X' player\nmoved there, the single 'O' stone would be removed from the board, and the 'X'\nplayer would score a point.\n\n....\nXX..\nOOX.\n.OX.\nThe 'O' player's group has only one liberty, to the lower left. That group does\n*not* have a liberty in the upper right corner, because it is only connected\nvia a diagonal.\n\nIf the 'X' player moves in the lower left corner, the three 'O' stones are\nremoved (killed), and 'X' scores 3 points. Note that this is a legal move for\nX, even though he is moving into a space that gives him no liberties, the death\nof the 'O' group is resolved before the fate of his current move. If the 'O'\ngroup had an additional liberty, it would be illegal for 'X' to move in the\nlower left corner, because the 'O' group would not die, and X's move would be\nsuicide, which is not allowed unless it results in a group being killed first.\n\nEach stone's position on the 9x9 board is specified by a letter ('A' to 'I')\nspecifying the row, and a number ('1' to '9', inclusive) specifying the column.\nSee the examples for more details.\n\nDEFINITION\nClass: Go\nMethod: count\nParameters: String[], String[]\nReturns: int[]\nMethod signature (be sure your method is public):  int[] count(String[]\nblackMoves, String[] whiteMoves);\n\nNOTES\n- To those who know the full rules of Go: this problem does not use passes, ko,\nkomi, end-of-game territory counting, and groups are never removed unless they\nhave zero liberties.\n- The edge of the board does not count as either player's stones, and no stone\nhas a liberty in the edge of the board.\n- The board is fixed at 9x9.\n- Black's score should be returned at index 0 of the int[], and white's score\nshould be returned at index 1 of the int[].\n- It is legal to move in an empty space where a previous stone was captured (as\nlong as it's not a suicide move). Therefore the same String may exist more than\nonce in the inputs. See the last example.\n- If you place a stone in a suicide position that kills opponents' stones, they\ndisappear but your stone does not.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n- blackMoves has either the same number of elements as whiteMoves, or one more\nthan whiteMoves.\n- blackMoves and whiteMoves will each contain 0 to 50 elements, inclusive.\n- each String consists of a single capital letter ('A' to 'I' inclusive)\nfollowed by a number ('1' to '9' inclusive), representing the space on the\nboard in which the stone is played.\n- Each move will be legal, that is, no stone will be placed where another\ncurrently exists.\n- No stone will be placed into suicide unless it also kills an opposing group.\n\n\nEXAMPLES\n(Remember that each move is its own String. Use the ++ option in the String[]\ncreator box to translate comma-delimited input into a String[].)\nInput: blackMoves = {A2,B1}\n       whiteMoves = {A1}\nBlack first moves to A2, then white moves to A1. At this point, the board looks\nlike this:\n\nAt the end of                At the end of\nthe first move:              the second move (white's first move):\n  123456789                     123456789\nA .X.......                   A OX.......\nB .........                   B .........    (X is the black stone, \nC .........                   C .........     O is the white stone)\nD .........                   D .........\nE .........                   E .........\nF .........                   F .........\nG .........                   G .........\nH .........                   H .........\nI .........                   I .........\n\n\nOn black's second move, B1, the third overall move, he captures the white stone\nat A1, since that stone no longer has any liberties. \n\n  123456789\nA .X.......\nB X........\nC .........\nD .........\nE .........\nF .........\nG .........\nH .........\nI .........\n\nTherefore black has one point and white has none; the method should return {1,0}.\n\n\nInput: blackMoves = {E1,C1,C2,D3,G1,G2,F3,E4,E1}\n       whiteMoves = {D1,E2,D2,F1,F2,E3,G3,C3}\nWhite's fourth move, F1, captures the black stone at E1. Immediately before\nblack's last move (after white's C3), the board looks like this:\n\n  123456789\nA .........\nB .........   (X = black)\nC XXO......   (O = white)\nD OOX......\nE .OOX.....\nF OOX......\nG XXO......\nH .........\nI .........\n\nBlack's last move, E1, takes the last liberty of the large white group, killing\nthe pieces at D1,D2,E2,E3,F1,F2, giving black 6 points. The white pieces at C3\nand G3 are not killed; they were not connected to the large group since they\nonly touched on a diagonal.\nReturns {6,1}.\n\nInput: blackMoves = {A1,B1,D1,E1,C2,C3}\n       whiteMoves = {A2,B2,D2,E2,F1,C1}\nOutput: {0,4}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Go\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Go\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"count\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] count(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4060/pm/432\",\"children\":[\"2002-\",\" \",\"SRM 66\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4060/pm/432\",\"children\":[\"2002-\",\" \",\"SRM 66\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

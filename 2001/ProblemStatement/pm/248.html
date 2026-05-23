@@ -1,0 +1,208 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Fire<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+Pyrotex, Inc., has contracted you to develop a fire simulation program for
+them. Given a two-dimensional map of a region, you must determine the length of
+time for a fire to extinguish itself (by running out of fuel). In addition to
+the map, you are given the coordinates of the starting location of the fire.
+
+The String[] representing the map will be constructed as follows:
+
+'.' represents grass. Grass, being fairly flammable, will burn if surrounded by
+fire on at least one side. Once caught on fire, grass will burn for 3 minutes.
+'T' represents trees. Trees will only burn if surrounded by fire on &gt;= 3 sides.
+Once on fire, trees will burn for 6 minutes.
+'H' represents a house. Houses will burn if surrounded by fire on &gt;= 4, and
+will burn for 9 minutes.
+'R' represents a rock. Rocks cannot burn, no matter how much fire is
+surrounding them.
+
+Note that grass, trees, and houses start burning the minute after the correct
+conditions are met. For instance, if at minute 2, a house is surrounded by fire
+on &gt;= 4 sides, it will start burning at minute 3.
+
+Note: Fire can spread on diagonals, as well as on the horizontal and vertical
+axes.
+
+Once a house or an area of grass or trees has been burnt, it cannot catch on
+fire again.
+
+Example of being "surrounded":
+
+"..."
+".HR"
+"RTT"
+
+The house in the middle is surrounded by 4 grass, 2 rocks, and 2 trees.
+
+Create a class Fire containing a method burnTime, which takes a String[]
+representing a map and a String[] representing the location of the fire.
+burnTime returns the number of minutes until the fire is completely
+extinguished.
+
+DEFINITION
+
+Class name: Fire
+Method name: burnTime
+Parameters: String[], String[]
+Return type: int
+
+Method signature (be sure your method is public):
+int burnTime(String[] map, String[] coord)
+
+The String[] representing the initial fire coordinates will be constructed as
+follows:
+Each coord String will be composed of an integer followed by a comma followed
+by an integer, e.g.
+"&lt;x-coordinate&gt;,&lt;y-coordinate&gt;"
+So, "1,2" means column 1, row 2. (Note that quotes are included for clarity
+only).
+All coordinates are zero-based.
+Each string will contain no spaces and exactly one comma. Also, each coordinate
+will be within the appropriate range for the given map.
+
+Grass, trees, and houses initially on fire will burn for 3, 6, and 9 minutes
+respectively.
+
+TopCoder will enforce the following restrictions:
+* Each map String will contain between 1 and 20 characters, inclusive.
+* There will be between 1 and 20 map Strings, inclusive.
+* All map Strings will be the same length.
+* Each map String will be composed of '.', 'T', 'R', and 'H' only
+(case-sensitive).
+* Each map String will be composed of '.', 'T', 'R', and 'H' only
+(case-sensitive).
+* There will be between 1 and 50 coord Strings, inclusive.
+* Rocks will not be included in the coord Strings.
+* Each coord String will be properly formatted, as described above. There will
+be no spaces and exactly one comma.
+* Each coord String "x,y" will contain integers that are valid coordinates for
+the given map. (i.e., if the map is 10x15, the coordinates will be such that 0
+&lt;= x &lt; 10, and 0 &lt;= y &lt; 15).
+
+Let a number (1-9) show the amount of time something has left to burn, and let
+'*' represent a completely burnt area.
+
+So, if at time x, you have a map:
+
+"321R"
+"3TRR"
+"RRR."
+
+The tree at (1,1) is surrounded on four sides by fire, and thus is set ablaze
+at time (x+1), so the next minute shows:
+
+"21*R"
+"26RR"
+"RRR."
+
+Since the 321 each expend one minute of burning time and become "21*" and the
+"T" was surrounded and becomes a "6", since trees burn for 6 minutes total.
+
+Example 1:
+{"....."
+ ".TTH."
+ "RTTR."
+ "....."},
+{"1,0","0,1"}
+
+Minute 0: (initial)
+".3..."
+"3TTH."
+"RTTR."
+"....."
+Minute 1:
+"323.."
+"2TTH."
+"RTTR."
+"....."
+Minute 2:
+"2123."
+"16TH."
+"RTTR."
+"....."
+Minute 3:
+"1*123"
+"*56H3"
+"RTTR."
+"....."
+Minute 4:
+"***12"
+"*4592"
+"RTTR3"
+"....."
+Minute 5:
+"****1"
+"*3481"
+"RT6R2"
+"...33"
+Minute 6:
+"*****"
+"*237*"
+"R65R1"
+".3322"
+Minute 7:
+"*****"
+"*126*"
+"R54R*"
+"32211"
+Minute 8:
+"*****"
+"**15*"
+"R43R*"
+"211**"
+Minute 9:
+"*****"
+"***4*"
+"R32R*"
+"1****"
+Minute 10:
+"*****"
+"***3*"
+"R21R*"
+"*****"
+Minute 11:
+"*****"
+"***2*"
+"R1*R*"
+"*****"
+Minute 12:
+"*****"
+"***1*"
+"R**R*"
+"*****"
+Minute 13:
+"*****"
+"*****"
+"R**R*"
+"*****"
+
+Thus, the method returns 13.
+
+
+Example 2:
+If the map is:
+
+".TTTTTTTTTTTTHHHHH"
+"...H...TTTTTH...HH"
+".TTTTTTTTTTTR...R."
+".TTTTTTTTTTRR....."
+"...RRHTTHRHHHHHT.."
+Coordinates are: "0,1","17,4"
+Method returns: 27
+
+Example 3:
+Map:
+"........."
+"........."
+"........."
+"........."
+"........."
+"........."
+"........."
+"...RRR.R."
+"..TT....."
+"..TT....."
+"..TT....."
+"..TT....."
+Coordinates: "2,1","1,8","5,8","3,8","5,3","2,11","2,9","0,4","6,8","4,1"
+Method returns: 9</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Fire</span></dd><dt>Method:</dt><dd><span>burnTime</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int burnTime(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4016/pm/248">2001-<!-- --> <!-- -->SRM 45<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4016/pm/248">2001-<!-- --> <!-- -->SRM 45<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/248/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"248\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"248\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"248\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"248\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"248\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T12e8,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nPyrotex, Inc., has contracted you to develop a fire simulation program for\nthem. Given a two-dimensional map of a region, you must determine the length of\ntime for a fire to extinguish itself (by running out of fuel). In addition to\nthe map, you are given the coordinates of the starting location of the fire.\n\nThe String[] representing the map will be constructed as follows:\n\n'.' represents grass. Grass, being fairly flammable, will burn if surrounded by\nfire on at least one side. Once caught on fire, grass will burn for 3 minutes.\n'T' represents trees. Trees will only burn if surrounded by fire on \u0026gt;= 3 sides.\nOnce on fire, trees will burn for 6 minutes.\n'H' represents a house. Houses will burn if surrounded by fire on \u0026gt;= 4, and\nwill burn for 9 minutes.\n'R' represents a rock. Rocks cannot burn, no matter how much fire is\nsurrounding them.\n\nNote that grass, trees, and houses start burning the minute after the correct\nconditions are met. For instance, if at minute 2, a house is surrounded by fire\non \u0026gt;= 4 sides, it will start burning at minute 3.\n\nNote: Fire can spread on diagonals, as well as on the horizontal and vertical\naxes.\n\nOnce a house or an area of grass or trees has been burnt, it cannot catch on\nfire again.\n\nExample of being \"surrounded\":\n\n\"...\"\n\".HR\"\n\"RTT\"\n\nThe house in the middle is surrounded by 4 grass, 2 rocks, and 2 trees.\n\nCreate a class Fire containing a method burnTime, which takes a String[]\nrepresenting a map and a String[] representing the location of the fire.\nburnTime returns the number of minutes until the fire is completely\nextinguished.\n\nDEFINITION\n\nClass name: Fire\nMethod name: burnTime\nParameters: String[], String[]\nReturn type: int\n\nMethod signature (be sure your method is public):\nint burnTime(String[] map, String[] coord)\n\nThe String[] representing the initial fire coordinates will be constructed as\nfollows:\nEach coord String will be composed of an integer followed by a comma followed\nby an integer, e.g.\n\"\u0026lt;x-coordinate\u0026gt;,\u0026lt;y-coordinate\u0026gt;\"\nSo, \"1,2\" means column 1, row 2. (Note that quotes are included for clarity\nonly).\nAll coordinates are zero-based.\nEach string will contain no spaces and exactly one comma. Also, each coordinate\nwill be within the appropriate range for the given map.\n\nGrass, trees, and houses initially on fire will burn for 3, 6, and 9 minutes\nrespectively.\n\nTopCoder will enforce the following restrictions:\n* Each map String will contain between 1 and 20 characters, inclusive.\n* There will be between 1 and 20 map Strings, inclusive.\n* All map Strings will be the same length.\n* Each map String will be composed of '.', 'T', 'R', and 'H' only\n(case-sensitive).\n* Each map String will be composed of '.', 'T', 'R', and 'H' only\n(case-sensitive).\n* There will be between 1 and 50 coord Strings, inclusive.\n* Rocks will not be included in the coord Strings.\n* Each coord String will be properly formatted, as described above. There will\nbe no spaces and exactly one comma.\n* Each coord String \"x,y\" will contain integers that are valid coordinates for\nthe given map. (i.e., if the map is 10x15, the coordinates will be such that 0\n\u0026lt;= x \u0026lt; 10, and 0 \u0026lt;= y \u0026lt; 15).\n\nLet a number (1-9) show the amount of time something has left to burn, and let\n'*' represent a completely burnt area.\n\nSo, if at time x, you have a map:\n\n\"321R\"\n\"3TRR\"\n\"RRR.\"\n\nThe tree at (1,1) is surrounded on four sides by fire, and thus is set ablaze\nat time (x+1), so the next minute shows:\n\n\"21*R\"\n\"26RR\"\n\"RRR.\"\n\nSince the 321 each expend one minute of burning time and become \"21*\" and the\n\"T\" was surrounded and becomes a \"6\", since trees burn for 6 minutes total.\n\nExample 1:\n{\".....\"\n \".TTH.\"\n \"RTTR.\"\n \".....\"},\n{\"1,0\",\"0,1\"}\n\nMinute 0: (initial)\n\".3...\"\n\"3TTH.\"\n\"RTTR.\"\n\".....\"\nMinute 1:\n\"323..\"\n\"2TTH.\"\n\"RTTR.\"\n\".....\"\nMinute 2:\n\"2123.\"\n\"16TH.\"\n\"RTTR.\"\n\".....\"\nMinute 3:\n\"1*123\"\n\"*56H3\"\n\"RTTR.\"\n\".....\"\nMinute 4:\n\"***12\"\n\"*4592\"\n\"RTTR3\"\n\".....\"\nMinute 5:\n\"****1\"\n\"*3481\"\n\"RT6R2\"\n\"...33\"\nMinute 6:\n\"*****\"\n\"*237*\"\n\"R65R1\"\n\".3322\"\nMinute 7:\n\"*****\"\n\"*126*\"\n\"R54R*\"\n\"32211\"\nMinute 8:\n\"*****\"\n\"**15*\"\n\"R43R*\"\n\"211**\"\nMinute 9:\n\"*****\"\n\"***4*\"\n\"R32R*\"\n\"1****\"\nMinute 10:\n\"*****\"\n\"***3*\"\n\"R21R*\"\n\"*****\"\nMinute 11:\n\"*****\"\n\"***2*\"\n\"R1*R*\"\n\"*****\"\nMinute 12:\n\"*****\"\n\"***1*\"\n\"R**R*\"\n\"*****\"\nMinute 13:\n\"*****\"\n\"*****\"\n\"R**R*\"\n\"*****\"\n\nThus, the method returns 13.\n\n\nExample 2:\nIf the map is:\n\n\".TTTTTTTTTTTTHHHHH\"\n\"...H...TTTTTH...HH\"\n\".TTTTTTTTTTTR...R.\"\n\".TTTTTTTTTTRR.....\"\n\"...RRHTTHRHHHHHT..\"\nCoordinates are: \"0,1\",\"17,4\"\nMethod returns: 27\n\nExample 3:\nMap:\n\".........\"\n\".........\"\n\".........\"\n\".........\"\n\".........\"\n\".........\"\n\".........\"\n\"...RRR.R.\"\n\"..TT.....\"\n\"..TT.....\"\n\"..TT.....\"\n\"..TT.....\"\nCoordinates: \"2,1\",\"1,8\",\"5,8\",\"3,8\",\"5,3\",\"2,11\",\"2,9\",\"0,4\",\"6,8\",\"4,1\"\nMethod returns: 9\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Fire\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Fire\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"burnTime\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int burnTime(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4016/pm/248\",\"children\":[\"2001-\",\" \",\"SRM 45\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4016/pm/248\",\"children\":[\"2001-\",\" \",\"SRM 45\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

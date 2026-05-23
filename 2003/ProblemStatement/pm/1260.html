@@ -1,0 +1,356 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Indentation<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+Some programming languages are beginning to insist on proper indentation
+to indicate block structure.  Examples include Python and Haskell.  Such 
+languages can dispense with traditional block delimiters such as curly braces 
+or explicit <b>begin</b>/<b>end</b> keywords.  In this problem, we will consider
+a hypothetical language in this family.
+</p>
+
+<p xmlns="http://topcoder.com">
+Parsing occurs in two phases.  In the first phase, we remove comments and 
+convert <i>physical</i> lines of text (ie, the lines as written by the programmer) 
+into <i>logical</i> lines of text (ie, the lines that reflect the intended program structure).
+In the absence of comments, physical lines and logical lines are identical.
+Ordinary comments begin with a single '#' character and extend to the end of the line.
+The '#' character and all the characters that follow are deleted from the physical line,
+and the remaining characters become a logical line.  Special comments, called <i>line-joining</i> comments, begin
+with two or more consecutive '#' characters.  Line-joining comments indicate that multiple physical
+lines are to be combined into a single logical line.  When a line-joining comment is encountered,
+the '#' characters and all the characters that follow are deleted from the physical line,
+just like an ordinary comment.  However, the remaining characters do not form a logical line by
+themselves.  Instead, they are prepended 
+to the beginning of the next physical line, which is
+then processed as usual.  A line-joining comment may not appear in the last physical line of the program.
+For example, the five physical lines
+</p>
+<pre xmlns="http://topcoder.com">
+    "a commented line # an ordinary comment"
+    " beginning## a line-joining comment"
+    " middle #### another line-joining comment"
+    "end # this is not ## a line-joining comment"
+    "  an uncommented line"
+</pre> 
+would be converted into the three logical lines
+<pre xmlns="http://topcoder.com">
+    "a commented line "
+    " beginning middle end "
+    "  an uncommented line"
+</pre>
+Notice in the above example that line-joining comments may begin with more than two '#' characters (see
+the third physical line) and that, once a comment has begun, further '#' characters are ignored (see the
+fourth physical line).
+
+<p xmlns="http://topcoder.com">
+In the second phase of parsing, we recover the block structure of the program by analyzing the
+indentation of the logical lines.  The indentation of a logical line is measured as the number of 
+spaces that precede the first non-space character.  A logical line that contains no non-space characters
+is called a <i>blank</i> line and is ignored when determining block structure.  Indentation provides the
+clues we need to decide where each block opens and closes.
+<ul>
+<li> The first non-blank logical line opens a new block. </li>
+<li> If a non-blank logical line is indented more than the previous non-blank logical line, it opens 
+     a new block. </li>
+<li> If a non-blank logical line is indented the same as the previous non-blank logical line, it 
+     continues the same block as that line. </li>
+<li> If a non-blank logical line is indented less than the previous non-blank logical line, it closes any open
+     blocks that were indented more than the current line, and continues whichever
+     open block was indented the same as the current line.  If no such block exists, it is a syntax error (see Example 2).</li>
+<li> After the last logical line, all outstanding blocks are closed. </li>
+</ul>
+For example, in the program
+</p>
+<pre xmlns="http://topcoder.com">
+  "function fact n is"
+  "  if n equals 0 then"
+  "    return 0"
+  "  else"
+  "    return n times fact n minus 1"
+</pre>
+there are four blocks:
+<ul xmlns="http://topcoder.com">
+<li> The first begins on line 1 and ends just after line 5. </li>
+<li> The second begins on line 2 and ends just after line 5. </li>
+<li> The third begins on line 3 and ends just before line 4. </li>
+<li> The fourth begins on line 5 and ends just after line 5. </li>
+</ul>
+
+<p xmlns="http://topcoder.com">
+Create a class <b>Indentation</b> containing a method <b>countBlocks</b> that takes a
+program and returns the number of distinct blocks occurring in that program, or -1
+if the program contains a syntax error.
+A program will be represented as a <type>String[]</type>, where each element
+represents a single physical line of text.  Allowable characters include letters, digits, 
+spaces, and '#' characters.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Indentation</span></dd><dt>Method:</dt><dd><span>countBlocks</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int countBlocks(String[] lines)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul><li><span>lines contains between 1 and 50 elements, inclusive.</span></li><li><span>Each element of lines contains between 0 and 50 characters, inclusive.</span></li><li><span>Allowable characters are letters ('a'-'z' and 'A'-'Z'), digits ('0'-'9'), spaces (' '), and '#' characters.</span></li><li><span>The last line does not end in a line-joining comment.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>{ "a", 
+  "b" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ "a",
+  "  b",
+  "    c",
+  "d",
+  "    e"}</p>
+<p>Returns: 4</p></div></li><li><div><p>{ "function fact n is",
+  "  if n equals 0 then",
+  "    return 0",
+  "  else",
+  "    return n times fact n minus 1" }</p>
+<p>Returns: 4</p>
+<p>The example above.
+</p></div></li><li><div><p>{ "function gcd of a and b is",
+  "    # greatest common divisor",
+  "  if b is 0 then ## base case",
+  "    return a",
+  "  else return gcd b and a mod b" }</p>
+<p>Returns: 2</p>
+<p>Line 2 is blank, and lines 3 and 4 are joined.
+</p></div></li><li><div><p>{ "  while neither current nor parent is null",
+  "      grandparent is parent of parent",
+  "      set parent of current to grandparent",
+  "     set current to grandparent" }
+  </p>
+<p>Returns: -1</p>
+<p>A syntax error.  The last line is indented improperly.</p></div></li><li><div><p>{ " # comments cannot be nested ##",
+  "a",
+  "b" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ "  test multiline comments",
+  " ## space 1",
+  " ## space 2",
+  "second line in block" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ "# this program",
+  "## is completely",
+  "# empty" }</p>
+<p>Returns: 0</p></div></li><li><div><p>{ "  first line",
+  "",
+  "  second line" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ "when you outdent",
+  "    be sure to",
+  "  outdent far enough" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "  make sure",
+  "    to check for",
+  "an empty stack" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ 
+  "a b c d e f g h i j k l m n o p q r s t u v w x y ",
+  " a b c d e f g h i j k l m n o p q r s t u v w x y",  
+  "  b c d e f g h i j k l m n o p q r s t u v w x y ",
+  "   b c d e f g h i j k l m n o p q r s t u v w x y",
+  "    c d e f g h i j k l m n o p q r s t u v w x y ",
+  "     c d e f g h i j k l m n o p q r s t u v w x y",
+  "      d e f g h i j k l m n o p q r s t u v w x y ",
+  "       d e f g h i j k l m n o p q r s t u v w x y",
+  "        e f g h i j k l m n o p q r s t u v w x y ",
+  "         e f g h i j k l m n o p q r s t u v w x y",
+  "          f g h i j k l m n o p q r s t u v w x y ",
+  "           f g h i j k l m n o p q r s t u v w x y",
+  "            g h i j k l m n o p q r s t u v w x y ",
+  "             g h i j k l m n o p q r s t u v w x y",
+  "              h i j k l m n o p q r s t u v w x y ",
+  "               h i j k l m n o p q r s t u v w x y",
+  "                i j k l m n o p q r s t u v w x y ",
+  "                 i j k l m n o p q r s t u v w x y",
+  "                  j k l m n o p q r s t u v w x y ",
+  "                   j k l m n o p q r s t u v w x y",
+  "                    k l m n o p q r s t u v w x y ",
+  "                     k l m n o p q r s t u v w x y",
+  "                      l m n o p q r s t u v w x y ",
+  "                       l m n o p q r s t u v w x y",
+  "                        m n o p q r s t u v w x y ",
+  "                         m n o p q r s t u v w x y",
+  "                          n o p q r s t u v w x y ",
+  "                           n o p q r s t u v w x y",
+  "                            o p q r s t u v w x y ",
+  "                             o p q r s t u v w x y",
+  "                              p q r s t u v w x y ",
+  "                               p q r s t u v w x y",
+  "                                q r s t u v w x y ",
+  "                                 q r s t u v w x y",
+  "                                  r s t u v w x y ",
+  "                                   r s t u v w x y",
+  "                                    s t u v w x y ",
+  "                                     s t u v w x y",
+  "                                      t u v w x y ",
+  "                                       t u v w x y",
+  "                                        u v w x y ",
+  "                                         u v w x y",
+  "                                          v w x y ",
+  "                                           v w x y",
+  "                                            w x y ",
+  "                                             w x y",
+  "                                              x y ",
+  "                                               x y",
+  "                                                y ",
+  "                                                 y"
+ }</p>
+<p>Returns: 50</p>
+<p>Maximum number of blocks.</p></div></li><li><div><p>{
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##",
+ "abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwxyz"
+}</p>
+<p>Returns: 1</p>
+<p>50 lines all joined.</p></div></li><li><div><p>{
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                ##",
+  "                                                 A"
+}</p>
+<p>Returns: 1</p>
+<p>Maximum possible indentation.</p></div></li><li><div><p>{ "a",
+  " b",
+  "c ",
+  " d",
+  "e"
+}</p>
+<p>Returns: 3</p></div></li><li><div><p>{ "    a ##     ",
+  "",
+  "      b #",
+  "      b c",
+  "      b d",
+  "          e",
+  "    a ## b",
+  "  a",
+  "    a",
+  "            f",
+  "    a",
+  "            f"
+}</p>
+<p>Returns: 5</p></div></li><li><div><p>{ "a ######## comment with lots of marks",
+  "  b",
+  "    c ### a single comment better not # oining off",
+  "      d" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "two # single # comments",
+  "  do not make a linejoining comment" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "another",
+  "    ## ",
+  "    ",
+  "  empty line test" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "  ## ",
+  "   a",
+  "     b",
+  "##  ",
+  " ## ",
+  "##",
+  "   ##",
+  " x" }
+
+</p>
+<p>Returns: 1</p></div></li><li><div><p> { "any     extra spaces inside the line",
+   " do not make a difference" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "a b c",  "  b c",  "a b c" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "  while neither current nor parent is null",  "      grandparent is parent of parent",  "      set parent of current to grandparent",  "     set current to grandparent" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "this",  "   is a # test exploting the ## order",  "      of precedence # for ## quite a while",  "        as you shall see",  "test over" }</p>
+<p>Returns: 4</p></div></li><li><div><p>{ "a # ##a",  " b" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "function gcd of a and b is",  "    # greatest common divisor",  "  if b is 0 then ## base case",  "    return a",  "  else return gcd b and a mod b" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "a",  " a",  "  a",  "a",  " a" }</p>
+<p>Returns: 4</p></div></li><li><div><p>{ "a # a",  " b## bbb",  " c #### cccc",  "end # this is your ## error",  "  ddd" }</p>
+<p>Returns: 3</p></div></li><li><div><p>{ "a",  " b",  "c",  "  d",  " e" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "#" }</p>
+<p>Returns: 0</p></div></li><li><div><p>{ "abc#" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ " #no code here" }</p>
+<p>Returns: 0</p></div></li><li><div><p>{ "  fdgdfgdfgdfg",  "       dfgdfgdfgdfg",  "       dfgdfgdfgdfgdfg",  "    dhgdfh" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ " a",  "  b",  "   c",  " d" }</p>
+<p>Returns: 3</p></div></li><li><div><p>{ "##abcdefgh",  "##abbcdfhjls",  "abc#####uihhh##",  " ##fghdijk",  " abcd#jdkls",  " #djkss",  "  s",  "  s",  "  r",  "  h",  "  f",  "   #gggggggg",  "  ##jkljklj",  "  hjkjhklj#jkljlkkj##lkjljlj#kj",  " #jklj",  " j",  " k",  " s",  "  d",  "  d",  "   d",  "    d",  "     f",  "      g",  "           d",  "               g",  "       d",  "      d" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "  this is a test",  "  of nothing",  " ##",  " ##",  " ##",  "hello dolly",  " ##",  " # ##",  " ##",  " another test" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "a",  "  # ##abc",  " a" }</p>
+<p>Returns: 2</p></div></li><li><div><p>{ "this is # another ## challenge",  "  exploiting # the use ## of",  "      precedence # that does not ## seem to be",  "          implemented correctly" }</p>
+<p>Returns: 4</p></div></li><li><div><p>{ "   blah blah blah blah # blah blah",  "         blah blah blah",  "         bling bloh blong",  "      dobby dubby" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ " kdjfakl",  "  4kljlk##",  "jklafd",  "  kjkldf",  "   5klnlanfl",  " dfadfa" }</p>
+<p>Returns: 3</p></div></li><li><div><p>{ "a",  "    b#       #",  "           f" }</p>
+<p>Returns: 3</p></div></li><li><div><p>{ "  buy",  "    here",  "  pay",  "here" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "hi#" }</p>
+<p>Returns: 1</p></div></li><li><div><p>{ "  test",  "should fail" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ " a",  "b" }</p>
+<p>Returns: -1</p></div></li><li><div><p>{ "           #",  "             #" }</p>
+<p>Returns: 0</p></div></li><li><div><p>{ "a",  "  b",  "    c",  "  b",  "      d",  "  b",  "a" }</p>
+<p>Returns: 4</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4430/pm/1260">2003-<!-- --> <!-- -->SRM 128<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4430/pm/1260">2003-<!-- --> <!-- -->SRM 128<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1260/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1260\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1260\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1260\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1260\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1260\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\n"])</script><script>self.__next_f.push([1,"f:T11a9,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nSome programming languages are beginning to insist on proper indentation\nto indicate block structure.  Examples include Python and Haskell.  Such \nlanguages can dispense with traditional block delimiters such as curly braces \nor explicit \u003cb\u003ebegin\u003c/b\u003e/\u003cb\u003eend\u003c/b\u003e keywords.  In this problem, we will consider\na hypothetical language in this family.\n\u003c/p\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nParsing occurs in two phases.  In the first phase, we remove comments and \nconvert \u003ci\u003ephysical\u003c/i\u003e lines of text (ie, the lines as written by the programmer) \ninto \u003ci\u003elogical\u003c/i\u003e lines of text (ie, the lines that reflect the intended program structure).\nIn the absence of comments, physical lines and logical lines are identical.\nOrdinary comments begin with a single '#' character and extend to the end of the line.\nThe '#' character and all the characters that follow are deleted from the physical line,\nand the remaining characters become a logical line.  Special comments, called \u003ci\u003eline-joining\u003c/i\u003e comments, begin\nwith two or more consecutive '#' characters.  Line-joining comments indicate that multiple physical\nlines are to be combined into a single logical line.  When a line-joining comment is encountered,\nthe '#' characters and all the characters that follow are deleted from the physical line,\njust like an ordinary comment.  However, the remaining characters do not form a logical line by\nthemselves.  Instead, they are prepended \nto the beginning of the next physical line, which is\nthen processed as usual.  A line-joining comment may not appear in the last physical line of the program.\nFor example, the five physical lines\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n    \"a commented line # an ordinary comment\"\n    \" beginning## a line-joining comment\"\n    \" middle #### another line-joining comment\"\n    \"end # this is not ## a line-joining comment\"\n    \"  an uncommented line\"\n\u003c/pre\u003e \nwould be converted into the three logical lines\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n    \"a commented line \"\n    \" beginning middle end \"\n    \"  an uncommented line\"\n\u003c/pre\u003e\nNotice in the above example that line-joining comments may begin with more than two '#' characters (see\nthe third physical line) and that, once a comment has begun, further '#' characters are ignored (see the\nfourth physical line).\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIn the second phase of parsing, we recover the block structure of the program by analyzing the\nindentation of the logical lines.  The indentation of a logical line is measured as the number of \nspaces that precede the first non-space character.  A logical line that contains no non-space characters\nis called a \u003ci\u003eblank\u003c/i\u003e line and is ignored when determining block structure.  Indentation provides the\nclues we need to decide where each block opens and closes.\n\u003cul\u003e\n\u003cli\u003e The first non-blank logical line opens a new block. \u003c/li\u003e\n\u003cli\u003e If a non-blank logical line is indented more than the previous non-blank logical line, it opens \n     a new block. \u003c/li\u003e\n\u003cli\u003e If a non-blank logical line is indented the same as the previous non-blank logical line, it \n     continues the same block as that line. \u003c/li\u003e\n\u003cli\u003e If a non-blank logical line is indented less than the previous non-blank logical line, it closes any open\n     blocks that were indented more than the current line, and continues whichever\n     open block was indented the same as the current line.  If no such block exists, it is a syntax error (see Example 2).\u003c/li\u003e\n\u003cli\u003e After the last logical line, all outstanding blocks are closed. \u003c/li\u003e\n\u003c/ul\u003e\nFor example, in the program\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n  \"function fact n is\"\n  \"  if n equals 0 then\"\n  \"    return 0\"\n  \"  else\"\n  \"    return n times fact n minus 1\"\n\u003c/pre\u003e\nthere are four blocks:\n\u003cul xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003e The first begins on line 1 and ends just after line 5. \u003c/li\u003e\n\u003cli\u003e The second begins on line 2 and ends just after line 5. \u003c/li\u003e\n\u003cli\u003e The third begins on line 3 and ends just before line 4. \u003c/li\u003e\n\u003cli\u003e The fourth begins on line 5 and ends just after line 5. \u003c/li\u003e\n\u003c/ul\u003e\n\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nCreate a class \u003cb\u003eIndentation\u003c/b\u003e containing a method \u003cb\u003ecountBlocks\u003c/b\u003e that takes a\nprogram and returns the number of distinct blocks occurring in that program, or -1\nif the program contains a syntax error.\nA program will be represented as a \u003ctype\u003eString[]\u003c/type\u003e, where each element\nrepresents a single physical line of text.  Allowable characters include letters, digits, \nspaces, and '#' characters.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"10:Tb31,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{ \n  \"a b c d e f g h i j k l m n o p q r s t u v w x y \",\n  \" a b c d e f g h i j k l m n o p q r s t u v w x y\",  \n  \"  b c d e f g h i j k l m n o p q r s t u v w x y \",\n  \"   b c d e f g h i j k l m n o p q r s t u v w x y\",\n  \"    c d e f g h i j k l m n o p q r s t u v w x y \",\n  \"     c d e f g h i j k l m n o p q r s t u v w x y\",\n  \"      d e f g h i j k l m n o p q r s t u v w x y \",\n  \"       d e f g h i j k l m n o p q r s t u v w x y\",\n  \"        e f g h i j k l m n o p q r s t u v w x y \",\n  \"         e f g h i j k l m n o p q r s t u v w x y\",\n  \"          f g h i j k l m n o p q r s t u v w x y \",\n  \"           f g h i j k l m n o p q r s t u v w x y\",\n  \"            g h i j k l m n o p q r s t u v w x y \",\n  \"             g h i j k l m n o p q r s t u v w x y\",\n  \"              h i j k l m n o p q r s t u v w x y \",\n  \"               h i j k l m n o p q r s t u v w x y\",\n  \"                i j k l m n o p q r s t u v w x y \",\n  \"                 i j k l m n o p q r s t u v w x y\",\n  \"                  j k l m n o p q r s t u v w x y \",\n  \"                   j k l m n o p q r s t u v w x y\",\n  \"                    k l m n o p q r s t u v w x y \",\n  \"                     k l m n o p q r s t u v w x y\",\n  \"                      l m n o p q r s t u v w x y \",\n  \"                       l m n o p q r s t u v w x y\",\n  \"                        m n o p q r s t u v w x y \",\n  \"                         m n o p q r s t u v w x y\",\n  \"                          n o p q r s t u v w x y \",\n  \"                           n o p q r s t u v w x y\",\n  \"                            o p q r s t u v w x y \",\n  \"                             o p q r s t u v w x y\",\n  \"                              p q r s t u v w x y \",\n  \"                               p q r s t u v w x y\",\n  \"                                q r s t u v w x y \",\n  \"                                 q r s t u v w x y\",\n  \"                                  r s t u v w x y \",\n  \"                                   r s t u v w x y\",\n  \"                                    s t u v w x y \",\n  \"                                     s t u v w x y\",\n  \"                                      t u v w x y \",\n  \"                                       t u v w x y\",\n  \"                                        u v w x y \",\n  \"                                         u v w x y\",\n  \"                                          v w x y \",\n  \"                                           v w x y\",\n  \"                                            w x y \",\n  \"                                             w x y\",\n  \"                                              x y \",\n  \"                                               x y\",\n  \"                                                y \",\n  \"                                                 y\"\n }\u003c/p\u003e\n\u003cp\u003eReturns: 50\u003c/p\u003e\n\u003cp\u003eMaximum number of blocks.\u003c/p\u003e"])</script><script>self.__next_f.push([1,"11:Taf5,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwx##\",\n \"abcdefghijklmnopqrstuvwxabcdefghijklmnopqrstuvwxyz\"\n}\u003c/p\u003e\n\u003cp\u003eReturns: 1\u003c/p\u003e\n\u003cp\u003e50 lines all joined.\u003c/p\u003e"])</script><script>self.__next_f.push([1,"12:Tb30,"])</script><script>self.__next_f.push([1,"\u003cp\u003e{\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                ##\",\n  \"                                                 A\"\n}\u003c/p\u003e\n\u003cp\u003eReturns: 1\u003c/p\u003e\n\u003cp\u003eMaximum possible indentation.\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Indentation\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Indentation\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"countBlocks\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int countBlocks(String[] lines)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"lines contains between 1 and 50 elements, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of lines contains between 0 and 50 characters, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Allowable characters are letters ('a'-'z' and 'A'-'Z'), digits ('0'-'9'), spaces (' '), and '#' characters.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"The last line does not end in a line-joining comment.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\", \\n  \\\"b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",\\n  \\\"  b\\\",\\n  \\\"    c\\\",\\n  \\\"d\\\",\\n  \\\"    e\\\"}\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"function fact n is\\\",\\n  \\\"  if n equals 0 then\\\",\\n  \\\"    return 0\\\",\\n  \\\"  else\\\",\\n  \\\"    return n times fact n minus 1\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\\n\u003cp\u003eThe example above.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"function gcd of a and b is\\\",\\n  \\\"    # greatest common divisor\\\",\\n  \\\"  if b is 0 then ## base case\\\",\\n  \\\"    return a\\\",\\n  \\\"  else return gcd b and a mod b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003eLine 2 is blank, and lines 3 and 4 are joined.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  while neither current nor parent is null\\\",\\n  \\\"      grandparent is parent of parent\\\",\\n  \\\"      set parent of current to grandparent\\\",\\n  \\\"     set current to grandparent\\\" }\\n  \u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\\n\u003cp\u003eA syntax error.  The last line is indented improperly.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\" # comments cannot be nested ##\\\",\\n  \\\"a\\\",\\n  \\\"b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  test multiline comments\\\",\\n  \\\" ## space 1\\\",\\n  \\\" ## space 2\\\",\\n  \\\"second line in block\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"# this program\\\",\\n  \\\"## is completely\\\",\\n  \\\"# empty\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  first line\\\",\\n  \\\"\\\",\\n  \\\"  second line\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"when you outdent\\\",\\n  \\\"    be sure to\\\",\\n  \\\"  outdent far enough\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  make sure\\\",\\n  \\\"    to check for\\\",\\n  \\\"an empty stack\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$11\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$12\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",\\n  \\\" b\\\",\\n  \\\"c \\\",\\n  \\\" d\\\",\\n  \\\"e\\\"\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"    a ##     \\\",\\n  \\\"\\\",\\n  \\\"      b #\\\",\\n  \\\"      b c\\\",\\n  \\\"      b d\\\",\\n  \\\"          e\\\",\\n  \\\"    a ## b\\\",\\n  \\\"  a\\\",\\n  \\\"    a\\\",\\n  \\\"            f\\\",\\n  \\\"    a\\\",\\n  \\\"            f\\\"\\n}\u003c/p\u003e\\n\u003cp\u003eReturns: 5\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a ######## comment with lots of marks\\\",\\n  \\\"  b\\\",\\n  \\\"    c ### a single comment better not # oining off\\\",\\n  \\\"      d\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"two # single # comments\\\",\\n  \\\"  do not make a linejoining comment\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"another\\\",\\n  \\\"    ## \\\",\\n  \\\"    \\\",\\n  \\\"  empty line test\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  ## \\\",\\n  \\\"   a\\\",\\n  \\\"     b\\\",\\n  \\\"##  \\\",\\n  \\\" ## \\\",\\n  \\\"##\\\",\\n  \\\"   ##\\\",\\n  \\\" x\\\" }\\n\\n\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e { \\\"any     extra spaces inside the line\\\",\\n   \\\" do not make a difference\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a b c\\\",  \\\"  b c\\\",  \\\"a b c\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  while neither current nor parent is null\\\",  \\\"      grandparent is parent of parent\\\",  \\\"      set parent of current to grandparent\\\",  \\\"     set current to grandparent\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"this\\\",  \\\"   is a # test exploting the ## order\\\",  \\\"      of precedence # for ## quite a while\\\",  \\\"        as you shall see\\\",  \\\"test over\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a # ##a\\\",  \\\" b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"function gcd of a and b is\\\",  \\\"    # greatest common divisor\\\",  \\\"  if b is 0 then ## base case\\\",  \\\"    return a\\\",  \\\"  else return gcd b and a mod b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",  \\\" a\\\",  \\\"  a\\\",  \\\"a\\\",  \\\" a\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a # a\\\",  \\\" b## bbb\\\",  \\\" c #### cccc\\\",  \\\"end # this is your ## error\\\",  \\\"  ddd\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",  \\\" b\\\",  \\\"c\\\",  \\\"  d\\\",  \\\" e\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"#\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"abc#\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\" #no code here\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  fdgdfgdfgdfg\\\",  \\\"       dfgdfgdfgdfg\\\",  \\\"       dfgdfgdfgdfgdfg\\\",  \\\"    dhgdfh\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\" a\\\",  \\\"  b\\\",  \\\"   c\\\",  \\\" d\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"##abcdefgh\\\",  \\\"##abbcdfhjls\\\",  \\\"abc#####uihhh##\\\",  \\\" ##fghdijk\\\",  \\\" abcd#jdkls\\\",  \\\" #djkss\\\",  \\\"  s\\\",  \\\"  s\\\",  \\\"  r\\\",  \\\"  h\\\",  \\\"  f\\\",  \\\"   #gggggggg\\\",  \\\"  ##jkljklj\\\",  \\\"  hjkjhklj#jkljlkkj##lkjljlj#kj\\\",  \\\" #jklj\\\",  \\\" j\\\",  \\\" k\\\",  \\\" s\\\",  \\\"  d\\\",  \\\"  d\\\",  \\\"   d\\\",  \\\"    d\\\",  \\\"     f\\\",  \\\"      g\\\",  \\\"           d\\\",  \\\"               g\\\",  \\\"       d\\\",  \\\"      d\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  this is a test\\\",  \\\"  of nothing\\\",  \\\" ##\\\",  \\\" ##\\\",  \\\" ##\\\",  \\\"hello dolly\\\",  \\\" ##\\\",  \\\" # ##\\\",  \\\" ##\\\",  \\\" another test\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",  \\\"  # ##abc\\\",  \\\" a\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"this is # another ## challenge\\\",  \\\"  exploiting # the use ## of\\\",  \\\"      precedence # that does not ## seem to be\\\",  \\\"          implemented correctly\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"   blah blah blah blah # blah blah\\\",  \\\"         blah blah blah\\\",  \\\"         bling bloh blong\\\",  \\\"      dobby dubby\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\" kdjfakl\\\",  \\\"  4kljlk##\\\",  \\\"jklafd\\\",  \\\"  kjkldf\\\",  \\\"   5klnlanfl\\\",  \\\" dfadfa\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",  \\\"    b#       #\\\",  \\\"           f\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 3\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  buy\\\",  \\\"    here\\\",  \\\"  pay\\\",  \\\"here\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"hi#\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"  test\\\",  \\\"should fail\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\" a\\\",  \\\"b\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: -1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"           #\\\",  \\\"             #\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e{ \\\"a\\\",  \\\"  b\\\",  \\\"    c\\\",  \\\"  b\\\",  \\\"      d\\\",  \\\"  b\\\",  \\\"a\\\" }\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4430/pm/1260\",\"children\":[\"2003-\",\" \",\"SRM 128\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4430/pm/1260\",\"children\":[\"2003-\",\" \",\"SRM 128\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

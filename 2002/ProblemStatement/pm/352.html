@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->RuleEngine<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+A rule engine is simply a warehouse of tests.  Based on the result of these
+tests, actions are taken.  When a set of rules causes an action to be taken,
+the rule set is said to "fire".
+
+EXAMPLE Rule Sets:
+
+Example 1:
+If the monkey is hungry and the monkey has a banana in it's hand, then the
+monkey eats the banana.  The rule set has two rules:
+IF:
+	(RULE) monkey is hungry
+	(RULE) monkey has banana
+THEN:
+	(ACTION) monkey eats banana.
+
+Example 2:
+If X = 2, and Y is between 10 and 15, and Z = 5, then Z = 4.  The rule set has
+three rules:
+IF:
+	(RULE) X = 2
+	(RULE) Y between 10 and 15
+	(RULE) Z = 5
+THEN:
+	(ACTION) set Z = 4
+
+DEFINITION:
+
+It is often very important to know when a given state will cause two different
+rule sets to fire.  You will be given two rule sets.  Determine whether there
+are any data sets that will cause both rule sets to fire. If so, return the
+number of such sets within a set of given bounds.  If not, return "0".
+The elements of the rule sets are of the form "&lt;X&gt;&lt;comparison&gt;data1,data2" or
+"&lt;X&gt;&lt;comparison&gt;data1" where &lt;comparison&gt; can be "==", "&lt;", "&lt;=", "&gt;", "&gt;=",
+"!=", or "B". &lt;X&gt; is a variable name, a single capital letter 'A'-'Z'. The
+element would be TRUE if the comparison of the value in &lt;X&gt; to data1 (or data1
+and data2) was true. If all elements of the rule set are TRUE, then the rule
+set fires (Double-quotes and angle-brackets are for clarity only).
+
+&lt;comparison&gt; legend:
+==	X == data1
+&lt;	X &lt; data1
+&lt;=	X &lt;= data1
+&gt;	X &gt; data1
+&gt;=	X &gt;= data1
+!=	X != data1
+B	X is between data1 and data2, inclusive
+
+X represents an integer variable whose range of possible values are specified
+by the below rules.
+
+Method signature: String countSets(String[] ruleSet1, String[] ruleSet2)
+Be sure your method is public.
+
+TopCoder will enforce the validity of the inputs.  Inputs are considered valid
+if all of the following criteria are met:
+  *ruleSet1 and ruleSet2 each have between 1 and 7 elements, inclusive.
+*each element of ruleSet1 and ruleSet2 is either of the form
+"&lt;X&gt;&lt;comparison&gt;&lt;data1&gt;" where &lt;comparison&gt; is not the letter "B", or of the
+form "&lt;X&gt;B&lt;data1&gt;,&lt;data2&gt;" (quotes and angle-brackets are shown for clarity,
+they do not appear in the input).
+  *&lt;X&gt; is a letter between 'A' and 'Z', inclusive (upper-case only).
+*&lt;data1&gt; and &lt;data2&gt; are integers between -9 and 9, inclusive.  Leading zeros
+are possible.
+  *&lt;comparison&gt; is one of the following: "==", "&lt;", "&lt;=", "&gt;", "&gt;=", "!=", "B".
+*If the &lt;comparison&gt; code is 'B', then &lt;data1&gt; will be less than or equal to
+&lt;data2&gt;.
+
+Return the number of distinct data sets made up of values between -10 and 10,
+inclusive that will cause both rules to fire.
+Format the return value as a String.
+
+WORKED EXAMPLES:
+
+ruleSet1 = { "A&lt;1", "B&gt;2" }, ruleSet2 = { "A&gt;1", "BB1,2" }.
+Here ruleSet1 will fire if the value in A is less than 1, and the value in B is
+greater than 2.  ruleSet2 will fire if the value in A is greater than 1, and
+the value in B is between 1 and 2.  The rule sets are mutually exclusive, for A
+cannot be both greater than and less than 1 so return "0".
+
+ruleSet1 = { "A&lt;0" }, ruleSet2 = { "A&lt;0" }.
+Both rulesets will fire for any value of A between -10 and -1, inclusive.
+There are 10 such values, so return "10".
+
+ruleSet1 = { "A==1", "X&gt;=4", "F&lt;1" }, ruleSet2 = { "X&gt;=5", "ZB2,9" }.
+ruleSet1 will fire when A is 1, X is greater or equal to 4, and F is less than
+1.  ruleSet2 will fire when X is greater than or equal to 5, and Z is between 2
+and 9, inclusive.  Both rule sets will fire when:
+A is 1.
+X is greater than or equal to 5.
+F is less than or equal to 0.
+Z is between 2 and 9, inclusive.
+
+Hence, the rule sets are not mutually exclusive, so calculate the number of
+distinct data sets that can cause the rule set to fire, in which the values are
+between -10 and 10, inclusive:
+
+A can only be 1 (1 possible element).
+X can be between 5, and 10 inclusive (6 possible elements).
+F can be between -10 and 0 inclusive (11 possible elements). 
+Z can be between 2 and 9 inclusive (8 possible elements).
+
+The number of distinct data sets that can cause both rule sets to fire within
+the given bounds is: 1 * 6 * 11 * 8 = 528.  Return "528".
+
+TEST CASES:
+
+{ "A&lt;1", "B==2", "C&gt;4", "D&gt;=6", "E&lt;=9", "FB1,2", "J!=6" }, { "E&gt;9" } returns "0".
+{ "A&lt;01", "B==2", "C&gt;4", "D&gt;=2", "E&lt;=9", "FB1,2", "J!=6" }, { "A&lt;9", "B&gt;=2" }
+returns "475200".
+{ "A&lt;=9", "B&lt;=9", "C&lt;=9", "D&lt;=9", "E&lt;=9", "F&lt;=9", "G&lt;=9" }, { "H&lt;=9", "I&lt;=9",
+"J&lt;=9", "K&lt;=9", "L&lt;=9", "M&lt;=9", "N&lt;=9" } returns "1638400000000000000".
+{ "KB-09,5", "K&lt;3" }, { "Y&gt;4" } returns "72".</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>RuleEngine</span></dd><dt>Method:</dt><dd><span>countSets</span></dd><dt>Parameters:</dt><dd><span>String[], String[]</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String countSets(String[] param0, String[] param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/62/pm/352">2002-<!-- --> <!-- -->TCCC &#x27;02 Reg. Semifinal<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/352/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"352\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"352\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"352\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"352\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"352\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1308,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nA rule engine is simply a warehouse of tests.  Based on the result of these\ntests, actions are taken.  When a set of rules causes an action to be taken,\nthe rule set is said to \"fire\".\n\nEXAMPLE Rule Sets:\n\nExample 1:\nIf the monkey is hungry and the monkey has a banana in it's hand, then the\nmonkey eats the banana.  The rule set has two rules:\nIF:\n\t(RULE) monkey is hungry\n\t(RULE) monkey has banana\nTHEN:\n\t(ACTION) monkey eats banana.\n\nExample 2:\nIf X = 2, and Y is between 10 and 15, and Z = 5, then Z = 4.  The rule set has\nthree rules:\nIF:\n\t(RULE) X = 2\n\t(RULE) Y between 10 and 15\n\t(RULE) Z = 5\nTHEN:\n\t(ACTION) set Z = 4\n\nDEFINITION:\n\nIt is often very important to know when a given state will cause two different\nrule sets to fire.  You will be given two rule sets.  Determine whether there\nare any data sets that will cause both rule sets to fire. If so, return the\nnumber of such sets within a set of given bounds.  If not, return \"0\".\nThe elements of the rule sets are of the form \"\u0026lt;X\u0026gt;\u0026lt;comparison\u0026gt;data1,data2\" or\n\"\u0026lt;X\u0026gt;\u0026lt;comparison\u0026gt;data1\" where \u0026lt;comparison\u0026gt; can be \"==\", \"\u0026lt;\", \"\u0026lt;=\", \"\u0026gt;\", \"\u0026gt;=\",\n\"!=\", or \"B\". \u0026lt;X\u0026gt; is a variable name, a single capital letter 'A'-'Z'. The\nelement would be TRUE if the comparison of the value in \u0026lt;X\u0026gt; to data1 (or data1\nand data2) was true. If all elements of the rule set are TRUE, then the rule\nset fires (Double-quotes and angle-brackets are for clarity only).\n\n\u0026lt;comparison\u0026gt; legend:\n==\tX == data1\n\u0026lt;\tX \u0026lt; data1\n\u0026lt;=\tX \u0026lt;= data1\n\u0026gt;\tX \u0026gt; data1\n\u0026gt;=\tX \u0026gt;= data1\n!=\tX != data1\nB\tX is between data1 and data2, inclusive\n\nX represents an integer variable whose range of possible values are specified\nby the below rules.\n\nMethod signature: String countSets(String[] ruleSet1, String[] ruleSet2)\nBe sure your method is public.\n\nTopCoder will enforce the validity of the inputs.  Inputs are considered valid\nif all of the following criteria are met:\n  *ruleSet1 and ruleSet2 each have between 1 and 7 elements, inclusive.\n*each element of ruleSet1 and ruleSet2 is either of the form\n\"\u0026lt;X\u0026gt;\u0026lt;comparison\u0026gt;\u0026lt;data1\u0026gt;\" where \u0026lt;comparison\u0026gt; is not the letter \"B\", or of the\nform \"\u0026lt;X\u0026gt;B\u0026lt;data1\u0026gt;,\u0026lt;data2\u0026gt;\" (quotes and angle-brackets are shown for clarity,\nthey do not appear in the input).\n  *\u0026lt;X\u0026gt; is a letter between 'A' and 'Z', inclusive (upper-case only).\n*\u0026lt;data1\u0026gt; and \u0026lt;data2\u0026gt; are integers between -9 and 9, inclusive.  Leading zeros\nare possible.\n  *\u0026lt;comparison\u0026gt; is one of the following: \"==\", \"\u0026lt;\", \"\u0026lt;=\", \"\u0026gt;\", \"\u0026gt;=\", \"!=\", \"B\".\n*If the \u0026lt;comparison\u0026gt; code is 'B', then \u0026lt;data1\u0026gt; will be less than or equal to\n\u0026lt;data2\u0026gt;.\n\nReturn the number of distinct data sets made up of values between -10 and 10,\ninclusive that will cause both rules to fire.\nFormat the return value as a String.\n\nWORKED EXAMPLES:\n\nruleSet1 = { \"A\u0026lt;1\", \"B\u0026gt;2\" }, ruleSet2 = { \"A\u0026gt;1\", \"BB1,2\" }.\nHere ruleSet1 will fire if the value in A is less than 1, and the value in B is\ngreater than 2.  ruleSet2 will fire if the value in A is greater than 1, and\nthe value in B is between 1 and 2.  The rule sets are mutually exclusive, for A\ncannot be both greater than and less than 1 so return \"0\".\n\nruleSet1 = { \"A\u0026lt;0\" }, ruleSet2 = { \"A\u0026lt;0\" }.\nBoth rulesets will fire for any value of A between -10 and -1, inclusive.\nThere are 10 such values, so return \"10\".\n\nruleSet1 = { \"A==1\", \"X\u0026gt;=4\", \"F\u0026lt;1\" }, ruleSet2 = { \"X\u0026gt;=5\", \"ZB2,9\" }.\nruleSet1 will fire when A is 1, X is greater or equal to 4, and F is less than\n1.  ruleSet2 will fire when X is greater than or equal to 5, and Z is between 2\nand 9, inclusive.  Both rule sets will fire when:\nA is 1.\nX is greater than or equal to 5.\nF is less than or equal to 0.\nZ is between 2 and 9, inclusive.\n\nHence, the rule sets are not mutually exclusive, so calculate the number of\ndistinct data sets that can cause the rule set to fire, in which the values are\nbetween -10 and 10, inclusive:\n\nA can only be 1 (1 possible element).\nX can be between 5, and 10 inclusive (6 possible elements).\nF can be between -10 and 0 inclusive (11 possible elements). \nZ can be between 2 and 9 inclusive (8 possible elements).\n\nThe number of distinct data sets that can cause both rule sets to fire within\nthe given bounds is: 1 * 6 * 11 * 8 = 528.  Return \"528\".\n\nTEST CASES:\n\n{ \"A\u0026lt;1\", \"B==2\", \"C\u0026gt;4\", \"D\u0026gt;=6\", \"E\u0026lt;=9\", \"FB1,2\", \"J!=6\" }, { \"E\u0026gt;9\" } returns \"0\".\n{ \"A\u0026lt;01\", \"B==2\", \"C\u0026gt;4\", \"D\u0026gt;=2\", \"E\u0026lt;=9\", \"FB1,2\", \"J!=6\" }, { \"A\u0026lt;9\", \"B\u0026gt;=2\" }\nreturns \"475200\".\n{ \"A\u0026lt;=9\", \"B\u0026lt;=9\", \"C\u0026lt;=9\", \"D\u0026lt;=9\", \"E\u0026lt;=9\", \"F\u0026lt;=9\", \"G\u0026lt;=9\" }, { \"H\u0026lt;=9\", \"I\u0026lt;=9\",\n\"J\u0026lt;=9\", \"K\u0026lt;=9\", \"L\u0026lt;=9\", \"M\u0026lt;=9\", \"N\u0026lt;=9\" } returns \"1638400000000000000\".\n{ \"KB-09,5\", \"K\u0026lt;3\" }, { \"Y\u0026gt;4\" } returns \"72\".\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"RuleEngine\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"RuleEngine\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"countSets\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String countSets(String[] param0, String[] param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/62/pm/352\",\"children\":[\"2002-\",\" \",\"TCCC '02 Reg. Semifinal\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

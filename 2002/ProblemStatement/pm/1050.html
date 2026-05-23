@@ -1,0 +1,121 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->PartyPromo<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+You are throwing a party at a club and are hiring promoters to help you get
+people to attend.  The promoters you deal with want you to pay them ahead of
+time, but they will guarantee the amount of people they will bring.  Since you
+only have a certain amount of cash on hand you need a program to decide how to
+get the most people to attend for your money.  Another issue is that each
+promoter will only work with his friends, so if two promoters aren't friends
+directly or indirectly they cannot work together.  Given how much each promoter
+costs, the number of people they will bring, who they're directly friends with,
+and how much money you have on hand determine the maximum number of people that
+can attend your party.  For example:
+costs =  {10,20,30,10}
+people = {20,10,40,30}
+friends = {"0 1","1 2"} (i.e. 0 and 1 are friends, 1 and 2 are friends)
+money = 35
+There are 4 promoters.  Promoter 0 costs 10 dollars, will bring 20 people and
+is friends with promoter 1 and 2.  Promoter 1 costs 20 dollars, will bring 10
+people and is friends with promoter 0 and 2.  Promoter 2 costs 30 dollars, will
+bring 40 people and is friend with promoter 0 and 1.  Promoter 3 costs 10
+dollars, will bring 30 people and is friends with nobody.
+
+You have 35 dollars on hand so you have to choose between two promoters(0 &amp; 1)
+for 10 and 20 dollars, one promoter(2) for 30 dollars, or one promoter(3) for
+10 dollars.  Promoter 2 gets you the most people for your money.  Method
+returns 40.
+
+To further clarify the friends issue:
+1) If promoter A is friends with promoter B then promoter A is automatically
+friends with all of promoter B's friends.  This means 2 promoters are friends
+as long as their exists some chain of friendship between them.
+2) Friendship is two-way so if promoter A is friends with promoter B then
+promoter B is automatically friends with promoter A.  For example, if there are
+4 promoters and friends = {"0 1","0 2","1 3"} this means that all promoters are
+friends with each other.
+
+Create a class PartyPromo that contains the method maxPeople, which takes an
+int[] costs, an int[] people, a String[] friends, and an int money and returns
+the maximum number of people you can get to attend.
+
+DEFINITION
+Class: PartyPromo
+Method: maxPeople
+Parameters: int[], int[], String[], int
+Returns: int
+Method signature (be sure your method is public):  int maxPeople(int[] costs,
+int[] people, String[] friends, int money);
+
+NOTES
+- Promoter K will have a cost of costs[K] and will bring an amount of people
+equal to people[K]
+- When referring to promoters the numbers are 0-based so for example, promoter
+2 is the third promoter
+- If friends contains the String "A B" then promoter A is friends with promoter
+B and vice versa
+- You can use a single promoter at most 1 time (i.e. you can't buy the same
+promoter more than once)
+- Friends may contain repeats, but the repeated instances can be ignored
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+- costs will contain between 1 and 50 elements inclusive
+- Each element of costs will be between 0 and 1000
+- people will contain between 1 and 50 elements inclusive
+- people and costs will contain the same number of elements
+- Each element of people will be between 0 and 10000 inclusive
+- friends will contain between 0 and 50 elements inclusive
+- Each element of friends will be of the format "A B" (quotes for clarity) such
+that:
+	A is not equal to B 
+	A and B are separated by a single space
+	A is between 0 and (number of elements in people -1) inclusive
+	B is between 0 and (number of elements in people -1) inclusive
+	A and B will not contain any leading zeros
+- Each element of friends will contain no leading or trailing white space
+- money will be between 0 and 100000 inclusive
+
+EXAMPLES
+1) costs  =  {10,20,30,10}
+   people =  {20,10,40,30}
+   friends = {"0 1","1 2"}
+   money = 35
+This is the example from above.  Method returns 40.
+
+2) costs  =  {10,20,30,10}
+   people =  {20,10,40,30}
+   friends = {"0 1","0 2","3 2","0 1"}
+   money = 35
+This is the same as example 1 but now everyone is friends.  We can now choose
+promoters 0 and 3.  Method returns 50.
+
+3) costs  =  {0,10,400,50,20}
+   people  = {20,30,100,0,10}
+   friends = {"0 1","2 1","1 2","2 3","3 4"}
+   money = 399
+Everyone is friends with each other so any set of promoters that fit into the
+cost structure can be chosen.  The promoter for 400 is too expensive so we end
+up taking everyone else.  Method returns 60.
+
+4) costs  =  {10,20,30,40,50,60,70,80,90,100}
+   people =  {10,20,30,40,50,60,70,80,90,0}
+   friends = {"0 1","1 2","2 3","3 4","4 5","5 6","6 7","7 8","8 9"}
+   money = 480
+Method returns 450.
+
+5) costs  =  {10,20,30,40,50,60,70,80,90,100}
+   people =  {10,20,30,40,50,60,70,80,90,100}
+   friends = {"0 1","1 2","2 3","3 4","5 6","6 7","7 8","8 9"}
+   money = 480
+Method returns 400.
+
+6) costs =  {0,50,0,100,0}
+   people = {40,20,50,10,30}
+   friends = {"2 4"}
+   money = 0
+Method returns 80.
+
+7) costs =  {20,90,100}
+   people = {20,90,100}
+   friends = {}
+   money = 0
+Method returns 0.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>PartyPromo</span></dd><dt>Method:</dt><dd><span>maxPeople</span></dd><dt>Parameters:</dt><dd><span>int[], int[], String[], int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int maxPeople(int[] param0, int[] param1, String[] param2, int param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4265/pm/1050">2002-<!-- --> <!-- -->SRM 109<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/1050/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"1050\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"1050\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"1050\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"1050\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"1050\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1429,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nYou are throwing a party at a club and are hiring promoters to help you get\npeople to attend.  The promoters you deal with want you to pay them ahead of\ntime, but they will guarantee the amount of people they will bring.  Since you\nonly have a certain amount of cash on hand you need a program to decide how to\nget the most people to attend for your money.  Another issue is that each\npromoter will only work with his friends, so if two promoters aren't friends\ndirectly or indirectly they cannot work together.  Given how much each promoter\ncosts, the number of people they will bring, who they're directly friends with,\nand how much money you have on hand determine the maximum number of people that\ncan attend your party.  For example:\ncosts =  {10,20,30,10}\npeople = {20,10,40,30}\nfriends = {\"0 1\",\"1 2\"} (i.e. 0 and 1 are friends, 1 and 2 are friends)\nmoney = 35\nThere are 4 promoters.  Promoter 0 costs 10 dollars, will bring 20 people and\nis friends with promoter 1 and 2.  Promoter 1 costs 20 dollars, will bring 10\npeople and is friends with promoter 0 and 2.  Promoter 2 costs 30 dollars, will\nbring 40 people and is friend with promoter 0 and 1.  Promoter 3 costs 10\ndollars, will bring 30 people and is friends with nobody.\n\nYou have 35 dollars on hand so you have to choose between two promoters(0 \u0026amp; 1)\nfor 10 and 20 dollars, one promoter(2) for 30 dollars, or one promoter(3) for\n10 dollars.  Promoter 2 gets you the most people for your money.  Method\nreturns 40.\n\nTo further clarify the friends issue:\n1) If promoter A is friends with promoter B then promoter A is automatically\nfriends with all of promoter B's friends.  This means 2 promoters are friends\nas long as their exists some chain of friendship between them.\n2) Friendship is two-way so if promoter A is friends with promoter B then\npromoter B is automatically friends with promoter A.  For example, if there are\n4 promoters and friends = {\"0 1\",\"0 2\",\"1 3\"} this means that all promoters are\nfriends with each other.\n\nCreate a class PartyPromo that contains the method maxPeople, which takes an\nint[] costs, an int[] people, a String[] friends, and an int money and returns\nthe maximum number of people you can get to attend.\n\nDEFINITION\nClass: PartyPromo\nMethod: maxPeople\nParameters: int[], int[], String[], int\nReturns: int\nMethod signature (be sure your method is public):  int maxPeople(int[] costs,\nint[] people, String[] friends, int money);\n\nNOTES\n- Promoter K will have a cost of costs[K] and will bring an amount of people\nequal to people[K]\n- When referring to promoters the numbers are 0-based so for example, promoter\n2 is the third promoter\n- If friends contains the String \"A B\" then promoter A is friends with promoter\nB and vice versa\n- You can use a single promoter at most 1 time (i.e. you can't buy the same\npromoter more than once)\n- Friends may contain repeats, but the repeated instances can be ignored\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n- costs will contain between 1 and 50 elements inclusive\n- Each element of costs will be between 0 and 1000\n- people will contain between 1 and 50 elements inclusive\n- people and costs will contain the same number of elements\n- Each element of people will be between 0 and 10000 inclusive\n- friends will contain between 0 and 50 elements inclusive\n- Each element of friends will be of the format \"A B\" (quotes for clarity) such\nthat:\n\tA is not equal to B \n\tA and B are separated by a single space\n\tA is between 0 and (number of elements in people -1) inclusive\n\tB is between 0 and (number of elements in people -1) inclusive\n\tA and B will not contain any leading zeros\n- Each element of friends will contain no leading or trailing white space\n- money will be between 0 and 100000 inclusive\n\nEXAMPLES\n1) costs  =  {10,20,30,10}\n   people =  {20,10,40,30}\n   friends = {\"0 1\",\"1 2\"}\n   money = 35\nThis is the example from above.  Method returns 40.\n\n2) costs  =  {10,20,30,10}\n   people =  {20,10,40,30}\n   friends = {\"0 1\",\"0 2\",\"3 2\",\"0 1\"}\n   money = 35\nThis is the same as example 1 but now everyone is friends.  We can now choose\npromoters 0 and 3.  Method returns 50.\n\n3) costs  =  {0,10,400,50,20}\n   people  = {20,30,100,0,10}\n   friends = {\"0 1\",\"2 1\",\"1 2\",\"2 3\",\"3 4\"}\n   money = 399\nEveryone is friends with each other so any set of promoters that fit into the\ncost structure can be chosen.  The promoter for 400 is too expensive so we end\nup taking everyone else.  Method returns 60.\n\n4) costs  =  {10,20,30,40,50,60,70,80,90,100}\n   people =  {10,20,30,40,50,60,70,80,90,0}\n   friends = {\"0 1\",\"1 2\",\"2 3\",\"3 4\",\"4 5\",\"5 6\",\"6 7\",\"7 8\",\"8 9\"}\n   money = 480\nMethod returns 450.\n\n5) costs  =  {10,20,30,40,50,60,70,80,90,100}\n   people =  {10,20,30,40,50,60,70,80,90,100}\n   friends = {\"0 1\",\"1 2\",\"2 3\",\"3 4\",\"5 6\",\"6 7\",\"7 8\",\"8 9\"}\n   money = 480\nMethod returns 400.\n\n6) costs =  {0,50,0,100,0}\n   people = {40,20,50,10,30}\n   friends = {\"2 4\"}\n   money = 0\nMethod returns 80.\n\n7) costs =  {20,90,100}\n   people = {20,90,100}\n   friends = {}\n   money = 0\nMethod returns 0.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"PartyPromo\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"PartyPromo\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"maxPeople\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int[], String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int maxPeople(int[] param0, int[] param1, String[] param2, int param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4265/pm/1050\",\"children\":[\"2002-\",\" \",\"SRM 109\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

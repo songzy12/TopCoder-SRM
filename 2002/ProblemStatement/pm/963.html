@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->Scheduler<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+The company you work for is developing a new operating system to handle loads
+that take a great deal of time to compute.  You are asked to write a routine
+that will evaluate the efficiency of the scheduling algorithm.  You should
+simulate the running a number of processes and compute the efficiency of each
+one.  In addition, you should compute the overall efficiency of the operating
+system when all the processes are run on it.  Efficiency is calculated by
+taking the total running time of a process or processes and dividing it by the
+allocated time for the process or processes and multiplying by 100.  (All
+fractional parts are dropped.)  You should return an int[] with a value for
+each of the processes representing the efficiency of each process.  The values
+should be sorted by the names of the processes to which they correspond.  The
+overall efficiency of the operating system should be the last element of the
+returned int[].
+
+Each process will run in a one or more "time slots."  A time slot is a
+contiguous segment of time during which only one process may run.  Each process
+has a time slot length associated with it, which starts at one, and increases
+if the program requires more time.  For example, a process whose running time
+is 10 will first run in a time slot of length 1.  Since it can not finish in
+this time slot, the next time the process is run, it will have a time slot of
+length 2, then 4, and then 8.  Thus, though the the process has a running time
+of only 10, it actually uses 1+2+4+8=15 units of time.
+
+Scheduling algorithm:
+
+Time starts at zero, and the input queue is empty.  The algorithm is as follows:
+
+1)	Any processes that are initiated at this time are appended to the end of the
+queue in the order they appear in the input parameter, and there time slot
+length is initialized to 1.  
+2)	If a process ends and there is time left over for its slot, the time is
+wasted in idle processes.
+3)	If the time slot for a process ends and the process is not finished, the
+time slot length for that process is doubled.  The process is then placed at
+the end of the queue and the process on the front of the queue (if there is
+one) is allocated a time slot and runs.
+4)	If there are still processes running, still processes which aren't finished
+(including those not started) go to 1.
+
+DEFINITION
+Class: Scheduler
+Method: efficiency
+Parameters: String[]
+Returns: int[]
+Method signature (be sure your method is public):  int[] efficiency(String[]
+processes);
+
+NOTES
+- Slot times are integer powers of 2 greater than or equal to 1.  i.e. 1, 2, 4,
+8, 16, ...
+- Only one process runs in any time slot.  If a process completes in a time
+slot and there is time left over, no other process run in that time slot.
+- The scheduling algorithm continues until all processes have completed and the
+final time slot ends.
+- Assume the time used for computing the scheduling algorithm is negligible.
+- Process names are case sensitive.
+- Any uppercase letters sort before any lowercase letter.  ('Z' sorts before 'a')
+- Overall efficiency is calculated by dividing the total time that all of the
+processes run by the total elapsed time, and multiplying by 100.  (fractional
+parts are dropped)
+
+TopCoder will ensure the validity of all inputs.  Inputs are valid if:
+- processes has between 1 and 50 elements, inclusive.
+- Elements of processes will be formatted as: "&lt;processname&gt;:&lt;running
+time&gt;:&lt;start time&gt;" (quotes and angle brackets for clarity only)
+- &lt;processname&gt; will be composed only of the characters 'a'-'z' and 'A'-'Z'.
+- A colon will follow processname, followed by a number, followed by a colon,
+followed by a number. (Numbers will not have extra leading zeroes)
+- Running time will be between 1 and 100000, inclusive.
+- Start time will be between 0 and 100000, inclusive.
+- Process names will be between 1 and 30 characters.
+- Process names will not be repeated.
+
+EXAMPLES
+1)
+processes:
+{"printerdeamon:65:0"}
+
+At time zero the slot length is 1.  Processes time left is 65
+At time 1 the slot length is increased to 2. Process time left is 64
+At time 3 the slot length is increased to 4. Process time left is 62
+At time 7 the slot length is increased to 8. Process time left is 58
+At time 15 the slot length is increased to 16. Process time left is 50
+At time 31 the slot length is increased to 32. Process time left is 34
+At time 63 the slot length is increased to 64. Process time left is 2
+At time 65 the process ends but there is still time in the queue
+At time 127 the process and slot have ended and the queue is empty.
+
+Total time spend in printerdeamon = 127
+Total processor time = 127
+
+Printerdeamon efficiency = (65/127)*100 = 51
+Processor efficiency = (65/127)*100 = 51
+
+returns {51, 51}
+
+2)
+processes:
+{"graphicsdraw:30:1",
+ "deamonstarter:13:0"}
+
+At time 0 deamonstarter is loaded and run for one time slot.
+At time 1 graphicsdraw is appended to the queue and deamonstarter ends, so
+graphicsdraw starts up.
+At time 2 graphicsdraw ends and deamonstarter begins
+At time 4 then switch.
+At time 6 they switch
+At time 10 they switch
+At time 14 they switch
+At time 15 deamonstarter ends but the slot is not done until 22
+At time 22 graphicsdraw is started for a 8 time unit slot
+At time 30 graphicsdraw ends with the 8 unit slot but since nothing is in the
+queue it starts again.
+At time 45 the graphicsdraw is done and at 46 the slot is finished.
+
+Graphicsdraw = 1+2+4+8+16=31 time units  so 30/31*100 = 96
+Deamonstarter = 1+2+4+8 = 15 time units so 13/15*100 = 86
+Scheduler efficiency = (30+13)/46 = 93.478
+
+returns {86, 96, 93}
+
+3)
+processes:
+{"printer:65:5"}
+
+there are 5 extra unit slots at the beginning because the processor waits
+(65/127)*100 = 51 for printer
+(65/132)*100 = 49 overall
+
+returns {51,49}
+
+4)
+processes:
+{"init:1:60",
+ "about:1:0"}
+
+returns {100,100,3}
+
+5)
+processes:
+{"nothing:100000:100000",
+ "something:100000:100000",
+ "aout:100000:100000"}
+
+returns {76, 76, 76, 60}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>Scheduler</span></dd><dt>Method:</dt><dd><span>efficiency</span></dd><dt>Parameters:</dt><dd><span>String[]</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] efficiency(String[] param0)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4275/pm/963">2002-<!-- --> <!-- -->SRM 111<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/963/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"963\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"963\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"963\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"963\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"963\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T177a,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nThe company you work for is developing a new operating system to handle loads\nthat take a great deal of time to compute.  You are asked to write a routine\nthat will evaluate the efficiency of the scheduling algorithm.  You should\nsimulate the running a number of processes and compute the efficiency of each\none.  In addition, you should compute the overall efficiency of the operating\nsystem when all the processes are run on it.  Efficiency is calculated by\ntaking the total running time of a process or processes and dividing it by the\nallocated time for the process or processes and multiplying by 100.  (All\nfractional parts are dropped.)  You should return an int[] with a value for\neach of the processes representing the efficiency of each process.  The values\nshould be sorted by the names of the processes to which they correspond.  The\noverall efficiency of the operating system should be the last element of the\nreturned int[].\n\nEach process will run in a one or more \"time slots.\"  A time slot is a\ncontiguous segment of time during which only one process may run.  Each process\nhas a time slot length associated with it, which starts at one, and increases\nif the program requires more time.  For example, a process whose running time\nis 10 will first run in a time slot of length 1.  Since it can not finish in\nthis time slot, the next time the process is run, it will have a time slot of\nlength 2, then 4, and then 8.  Thus, though the the process has a running time\nof only 10, it actually uses 1+2+4+8=15 units of time.\n\nScheduling algorithm:\n\nTime starts at zero, and the input queue is empty.  The algorithm is as follows:\n\n1)\tAny processes that are initiated at this time are appended to the end of the\nqueue in the order they appear in the input parameter, and there time slot\nlength is initialized to 1.  \n2)\tIf a process ends and there is time left over for its slot, the time is\nwasted in idle processes.\n3)\tIf the time slot for a process ends and the process is not finished, the\ntime slot length for that process is doubled.  The process is then placed at\nthe end of the queue and the process on the front of the queue (if there is\none) is allocated a time slot and runs.\n4)\tIf there are still processes running, still processes which aren't finished\n(including those not started) go to 1.\n\nDEFINITION\nClass: Scheduler\nMethod: efficiency\nParameters: String[]\nReturns: int[]\nMethod signature (be sure your method is public):  int[] efficiency(String[]\nprocesses);\n\nNOTES\n- Slot times are integer powers of 2 greater than or equal to 1.  i.e. 1, 2, 4,\n8, 16, ...\n- Only one process runs in any time slot.  If a process completes in a time\nslot and there is time left over, no other process run in that time slot.\n- The scheduling algorithm continues until all processes have completed and the\nfinal time slot ends.\n- Assume the time used for computing the scheduling algorithm is negligible.\n- Process names are case sensitive.\n- Any uppercase letters sort before any lowercase letter.  ('Z' sorts before 'a')\n- Overall efficiency is calculated by dividing the total time that all of the\nprocesses run by the total elapsed time, and multiplying by 100.  (fractional\nparts are dropped)\n\nTopCoder will ensure the validity of all inputs.  Inputs are valid if:\n- processes has between 1 and 50 elements, inclusive.\n- Elements of processes will be formatted as: \"\u0026lt;processname\u0026gt;:\u0026lt;running\ntime\u0026gt;:\u0026lt;start time\u0026gt;\" (quotes and angle brackets for clarity only)\n- \u0026lt;processname\u0026gt; will be composed only of the characters 'a'-'z' and 'A'-'Z'.\n- A colon will follow processname, followed by a number, followed by a colon,\nfollowed by a number. (Numbers will not have extra leading zeroes)\n- Running time will be between 1 and 100000, inclusive.\n- Start time will be between 0 and 100000, inclusive.\n- Process names will be between 1 and 30 characters.\n- Process names will not be repeated.\n\nEXAMPLES\n1)\nprocesses:\n{\"printerdeamon:65:0\"}\n\nAt time zero the slot length is 1.  Processes time left is 65\nAt time 1 the slot length is increased to 2. Process time left is 64\nAt time 3 the slot length is increased to 4. Process time left is 62\nAt time 7 the slot length is increased to 8. Process time left is 58\nAt time 15 the slot length is increased to 16. Process time left is 50\nAt time 31 the slot length is increased to 32. Process time left is 34\nAt time 63 the slot length is increased to 64. Process time left is 2\nAt time 65 the process ends but there is still time in the queue\nAt time 127 the process and slot have ended and the queue is empty.\n\nTotal time spend in printerdeamon = 127\nTotal processor time = 127\n\nPrinterdeamon efficiency = (65/127)*100 = 51\nProcessor efficiency = (65/127)*100 = 51\n\nreturns {51, 51}\n\n2)\nprocesses:\n{\"graphicsdraw:30:1\",\n \"deamonstarter:13:0\"}\n\nAt time 0 deamonstarter is loaded and run for one time slot.\nAt time 1 graphicsdraw is appended to the queue and deamonstarter ends, so\ngraphicsdraw starts up.\nAt time 2 graphicsdraw ends and deamonstarter begins\nAt time 4 then switch.\nAt time 6 they switch\nAt time 10 they switch\nAt time 14 they switch\nAt time 15 deamonstarter ends but the slot is not done until 22\nAt time 22 graphicsdraw is started for a 8 time unit slot\nAt time 30 graphicsdraw ends with the 8 unit slot but since nothing is in the\nqueue it starts again.\nAt time 45 the graphicsdraw is done and at 46 the slot is finished.\n\nGraphicsdraw = 1+2+4+8+16=31 time units  so 30/31*100 = 96\nDeamonstarter = 1+2+4+8 = 15 time units so 13/15*100 = 86\nScheduler efficiency = (30+13)/46 = 93.478\n\nreturns {86, 96, 93}\n\n3)\nprocesses:\n{\"printer:65:5\"}\n\nthere are 5 extra unit slots at the beginning because the processor waits\n(65/127)*100 = 51 for printer\n(65/132)*100 = 49 overall\n\nreturns {51,49}\n\n4)\nprocesses:\n{\"init:1:60\",\n \"about:1:0\"}\n\nreturns {100,100,3}\n\n5)\nprocesses:\n{\"nothing:100000:100000\",\n \"something:100000:100000\",\n \"aout:100000:100000\"}\n\nreturns {76, 76, 76, 60}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"Scheduler\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Scheduler\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"efficiency\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] efficiency(String[] param0)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4275/pm/963\",\"children\":[\"2002-\",\" \",\"SRM 111\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

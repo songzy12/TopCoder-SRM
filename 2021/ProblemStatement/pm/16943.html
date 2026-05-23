@@ -1,0 +1,497 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->ThreeDChessRooks<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com">
+A 3D chessboard is a <b>C</b> x <b>C</b> x <b>C</b> cube. Rows, columns and floors are each numbered from 0 to <b>C</b>-1, inclusive.
+</p>
+<p xmlns="http://topcoder.com">
+A rook in 3D chess moves like a rook in traditional chess, except now we have six possible cardinal directions instead of four.
+When moving a rook we choose one of those six directions and move the rook a positive number of steps in the chosen direction.
+During the move the rook can only traverse through empty cells.
+The rook may end its move in a cell that contains a chess piece of the opposite color; that piece is then captured by the rook and removed from the board.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+You are given a collection of <b>R</b> (not necessarily distinct) cells of the 3D chessboard.
+The cells in the collection are numbered from 0 to <b>R</b>-1, inclusive.
+Cell i has coordinates (X[i], Y[i], Z[i]).
+In order to keep the input size small, only a prefix of the coordinates is actually given, the rest will be pseudorandom.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Consider the following interaction:
+</p>
+<ol xmlns="http://topcoder.com">
+<li>Wanda selected an index i (0 &amp;lt;= i &amp;lt;= <b>R</b>-1) and placed a white rook into cell i.</li>
+<li>Boris selected an index j (0 &amp;lt;= j &amp;lt;= <b>R</b>-1, cells i and j are not the same cell) and placed a black rook into cell j.</li>
+<li>Wanda made a valid move with her rook without capturing Boris's rook.</li>
+<li>Boris made a valid move with his rook and captured Wanda's rook with that move.</li>
+</ol>
+<p xmlns="http://topcoder.com">
+Count all ordered pairs (i, j) for which the above interaction could take place. Return that count.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+The arrays X, Y and Z are defined as follows:
+</p>
+<pre xmlns="http://topcoder.com">
+
+---------------------------------------------------------
+
+Pseudocode:
+
+L = length(XP)
+for i = 0 to L-1:
+    X[i] = XP[i]
+    Y[i] = YP[i]
+    Z[i] = ZP[i]
+
+state = seed
+for i = L to R-1:
+    state = (state * 1103515245 + 12345) modulo 2^31
+    X[i] = state modulo C
+    state = (state * 1103515245 + 12345) modulo 2^31
+    Y[i] = state modulo C
+    state = (state * 1103515245 + 12345) modulo 2^31
+    Z[i] = state modulo C
+
+---------------------------------------------------------
+
+C++:
+
+vector&amp;lt;int&amp;gt; X(R), Y(R), Z(R);
+
+int L = XP.size();
+for (int i=0; i&amp;lt;L; ++i) { X[i]=XP[i]; Y[i]=YP[i]; Z[i]=ZP[i]; }
+
+long long state = seed;
+for (int i=L; i&amp;lt;R; ++i) {
+    state = (state * 1103515245 + 12345) % (1LL &amp;lt;&amp;lt; 31);
+    X[i] = state % C;
+    state = (state * 1103515245 + 12345) % (1LL &amp;lt;&amp;lt; 31);
+    Y[i] = state % C;
+    state = (state * 1103515245 + 12345) % (1LL &amp;lt;&amp;lt; 31);
+    Z[i] = state % C;
+}
+
+---------------------------------------------------------
+
+Java:
+
+int[] X = new int[R];
+int[] Y = new int[R];
+int[] Z = new int[R];
+
+int L = XP.length;
+for (int i=0; i&amp;lt;L; ++i) { X[i]=XP[i]; Y[i]=YP[i]; Z[i]=ZP[i]; }
+
+long state = seed;
+for (int i=L; i&amp;lt;R; ++i) {
+    state = (state * 1103515245 + 12345) % (1L &amp;lt;&amp;lt; 31);
+    X[i] = (int)(state % C);
+    state = (state * 1103515245 + 12345) % (1L &amp;lt;&amp;lt; 31);
+    Y[i] = (int)(state % C);
+    state = (state * 1103515245 + 12345) % (1L &amp;lt;&amp;lt; 31);
+    Z[i] = (int)(state % C);
+}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>ThreeDChessRooks</span></dd><dt>Method:</dt><dd><span>count</span></dd><dt>Parameters:</dt><dd><span>int, int, int[], int[], int[], int</span></dd><dt>Returns:</dt><dd><span>long</span></dd><dt>Method signature:</dt><dd><span>long count(int C, int R, int[] XP, int[] YP, int[] ZP, int seed)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>The reference solution does not depend on the input being pseudorandom.</li><li>Remember that during a valid move a rook must move by at least one cell. Leaving a rook in its current cell is not a valid move.</li></ul></div><div><h3>Constraints</h3><ul><li><span>C will be between 2 and 1,000,000, inclusive.</span></li><li><span>R will be between 1 and 100,000, inclusive.</span></li><li><span>XP will have between 0 and 100 elements, inclusive.</span></li><li><span>XP will have at most R elements.</span></li><li><span>YP and ZP will each have the same number of elements as XP.</span></li><li><span>Each element of XP, YP and ZP will be between 0 and C-1, inclusive.</span></li><li><span>seed will be between 0 and 2^31 - 1, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>10</p>
+<p>4</p>
+<p>{0, 0, 0, 0}</p>
+<p>{0, 0, 0, 0}</p>
+<p>{2, 3, 5, 7}</p>
+<p>0</p>
+<p>Returns: 12</p>
+<p>
+We have a 10x10x10 cube. The collection contains four cells, their coordinates are (0,0,2), (0,0,3), (0,0,5) and (0,0,7).
+
+
+Clearly, Wanda can select any of these four cells and then Boris can select any of the remaining three, giving us 4*3 = 12 valid pairs (i,j).
+
+
+For example: Wanda selects i=1 and thus places the white rook at (0,0,3). Boris selects j=3 and thus places the black rook at (0,0,7). Wanda moves her rook to (0,0,6). Boris moves his rook to (0,0,6) and captures Wanda's rook.
+</p></div></li><li><div><p>10</p>
+<p>4</p>
+<p>{1, 1, 1, 1}</p>
+<p>{4, 4, 4, 4}</p>
+<p>{0, 0, 0, 0}</p>
+<p>0</p>
+<p>Returns: 0</p>
+<p>All four cells in this collection are identical. Regardless of which i Wanda chooses, Boris cannot choose any valid j.</p></div></li><li><div><p>10</p>
+<p>4</p>
+<p>{9, 2, 3, 4}</p>
+<p>{5, 6, 7, 8}</p>
+<p>{9, 0, 1, 9}</p>
+<p>0</p>
+<p>Returns: 2</p>
+<p>
+The only two pairs of indices that work for this collection are (0,3) and (3,0). For example, (0,3) works because this is one possible interaction:
+
+
+Wanda selects i=0 and places the white rook at (9,5,9). Boris selects j=3 and places the black rook at (4,8,9). Wanda moves her rook to (4,5,9). Boris moves his rook to (4,5,9) and captures Wanda's rook.
+</p></div></li><li><div><p>10</p>
+<p>10</p>
+<p>{9, 2, 3, 4}</p>
+<p>{5, 6, 7, 8}</p>
+<p>{9, 0, 1, 9}</p>
+<p>47474747</p>
+<p>Returns: 16</p>
+<p>The collection starts as in Example 2, but now we have additional rooks with pseudorandom coordinates. Complete collection:
+
+
+X = {9, 2, 3, 4, 8, 5, 2, 3, 0, 3}
+Y = {5, 6, 7, 8, 1, 8, 1, 2, 9, 0}
+Z = {9, 0, 1, 9, 8, 7, 6, 5, 4, 7}
+</p></div></li><li><div><p>3</p>
+<p>10</p>
+<p>{2, 1, 0}</p>
+<p>{1, 1, 2}</p>
+<p>{0, 0, 1}</p>
+<p>47474747</p>
+<p>Returns: 54</p>
+<p>Here we have additional rooks with pseudorandom coordinates. The arrays X, Y, Z look as follows:
+
+
+X = { 2, 1, 0, 2, 0, 0, 0, 0, 0, 1 }
+Y = { 1, 1, 2, 1, 2, 1, 1, 2, 1, 1 }
+Z = { 0, 0, 1, 1, 2, 2, 2, 1, 2, 2 }
+</p></div></li><li><div><p>10</p>
+<p>7</p>
+<p>{1, 1, 1, 1, 1, 1, 1}</p>
+<p>{4, 7, 4, 7, 4, 7, 4}</p>
+<p>{2, 2, 2, 2, 2, 2, 2}</p>
+<p>42</p>
+<p>Returns: 24</p>
+<p>Note that we are counting pairs of indices, not pairs of cells. Here, each pair of indices (i, j) where i and j have a different parity works.</p></div></li><li><div><p>99</p>
+<p>8</p>
+<p>{47, 48, 49, 50, 50, 51, 52, 53}</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12}</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12}</p>
+<p>111</p>
+<p>Returns: 54</p>
+<p>Each of the 8*7 = 56 pairs of indices works, except for the pairs (3, 4) and (4, 3) which both represent the same cell. Boris cannot place the black rook into the cell that is, at that moment, occupied by Wanda's white rook.</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>47</p>
+<p>Returns: 29858</p>
+<p></p></div></li><li><div><p>9997</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>457347</p>
+<p>Returns: 3000190</p>
+<p></p></div></li><li><div><p>19997</p>
+<p>100000</p>
+<p>{1,2,3,4,5,6,7,8,9,10}</p>
+<p>{1,2,3,4,5,6,7,8,9,10}</p>
+<p>{1,2,3,4,5,6,7,8,9,10}</p>
+<p>12523632</p>
+<p>Returns: 1499708</p>
+<p></p></div></li><li><div><p>997</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>235</p>
+<p>Returns: 30067022</p>
+<p></p></div></li><li><div><p>7</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>23523</p>
+<p>Returns: 3648404024</p>
+<p></p></div></li><li><div><p>18</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>644</p>
+<p>Returns: 1481401702</p>
+<p></p></div></li><li><div><p>16</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>2363427</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>17</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>235235</p>
+<p>Returns: 1660146951</p>
+<p></p></div></li><li><div><p>47</p>
+<p>100000</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>235326</p>
+<p>Returns: 624633913</p>
+<p></p></div></li><li><div><p>100</p>
+<p>99997</p>
+<p>{}</p>
+<p>{}</p>
+<p>{}</p>
+<p>23326673</p>
+<p>Returns: 287937018</p>
+<p></p></div></li><li><div><p>2</p>
+<p>2</p>
+<p>{1, 1}</p>
+<p>{0, 1}</p>
+<p>{0, 0}</p>
+<p>0</p>
+<p>Returns: 0</p>
+<p></p></div></li><li><div><p>3</p>
+<p>100000</p>
+<p>{ }</p>
+<p>{ }</p>
+<p>{ }</p>
+<p>0</p>
+<p>Returns: 5925404289</p></div></li><li><div><p>3</p>
+<p>15</p>
+<p>{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 }</p>
+<p>{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1 }</p>
+<p>{0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 }</p>
+<p>0</p>
+<p>Returns: 100</p></div></li><li><div><p>10</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>10</p>
+<p>4</p>
+<p>{6, 6, 6, 6 }</p>
+<p>{8, 9, 0, 1 }</p>
+<p>{5, 5, 5, 5 }</p>
+<p>0</p>
+<p>Returns: 10</p></div></li><li><div><p>10</p>
+<p>10</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>{0, 0 }</p>
+<p>1</p>
+<p>Returns: 15</p></div></li><li><div><p>2</p>
+<p>3</p>
+<p>{1, 1, 1 }</p>
+<p>{0, 0, 0 }</p>
+<p>{0, 0, 0 }</p>
+<p>0</p>
+<p>Returns: 0</p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>{0, 1, 1 }</p>
+<p>{0, 0, 0 }</p>
+<p>{0, 0, 0 }</p>
+<p>0</p>
+<p>Returns: 2</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{9, 2, 3, 4 }</p>
+<p>{5, 6, 7, 8 }</p>
+<p>{9, 0, 1, 9 }</p>
+<p>123456789</p>
+<p>Returns: 29666</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 20009, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534 }</p>
+<p>{342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32 }</p>
+<p>{7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989 }</p>
+<p>2147483644</p>
+<p>Returns: 29916</p></div></li><li><div><p>4</p>
+<p>4</p>
+<p>{1, 0, 0, 0 }</p>
+<p>{0, 1, 0, 0 }</p>
+<p>{0, 0, 1, 0 }</p>
+<p>0</p>
+<p>Returns: 9</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 0, 0, 0 }</p>
+<p>100000</p>
+<p>Returns: 29836</p></div></li><li><div><p>99</p>
+<p>8</p>
+<p>{47, 48, 49, 50, 50, 51, 52, 53 }</p>
+<p>{12, 12, 12, 12, 12, 12, 11, 12 }</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12 }</p>
+<p>111</p>
+<p>Returns: 54</p></div></li><li><div><p>5</p>
+<p>4</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 1, 3, 4 }</p>
+<p>100</p>
+<p>Returns: 10</p></div></li><li><div><p>100</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{0, 0 }</p>
+<p>{98, 99 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>2</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>{0, 1 }</p>
+<p>0</p>
+<p>Returns: 2</p></div></li><li><div><p>2</p>
+<p>3</p>
+<p>{1, 1, 1 }</p>
+<p>{1, 1, 1 }</p>
+<p>{1, 1, 1 }</p>
+<p>0</p>
+<p>Returns: 0</p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>{1, 1 }</p>
+<p>{0, 1 }</p>
+<p>{1, 1 }</p>
+<p>312</p>
+<p>Returns: 1</p></div></li><li><div><p>2</p>
+<p>100000</p>
+<p>{1 }</p>
+<p>{0 }</p>
+<p>{1 }</p>
+<p>4</p>
+<p>Returns: 0</p></div></li><li><div><p>10</p>
+<p>7</p>
+<p>{1, 1, 1, 1, 1, 1, 1 }</p>
+<p>{4, 7, 4, 7, 4, 7, 4 }</p>
+<p>{2, 2, 2, 2, 2, 2, 2 }</p>
+<p>42</p>
+<p>Returns: 24</p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>{1, 1 }</p>
+<p>{1, 2 }</p>
+<p>{1, 1 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>99</p>
+<p>18888</p>
+<p>{47, 48, 49, 50, 50, 51, 52, 53 }</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12 }</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12 }</p>
+<p>111</p>
+<p>Returns: 10707083</p></div></li><li><div><p>2</p>
+<p>100000</p>
+<p>{1, 1 }</p>
+<p>{1, 1 }</p>
+<p>{1, 1 }</p>
+<p>12133</p>
+<p>Returns: 199996</p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>{2, 2 }</p>
+<p>{2, 2 }</p>
+<p>{2, 1 }</p>
+<p>1</p>
+<p>Returns: 1</p></div></li><li><div><p>10</p>
+<p>2</p>
+<p>{0, 1 }</p>
+<p>{5, 5 }</p>
+<p>{5, 5 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>99</p>
+<p>99999</p>
+<p>{47, 48, 49, 50, 50, 51, 52, 53 }</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12 }</p>
+<p>{12, 12, 12, 12, 12, 12, 12, 12 }</p>
+<p>111</p>
+<p>Returns: 299973041</p></div></li><li><div><p>999999</p>
+<p>99999</p>
+<p>{7 }</p>
+<p>{11 }</p>
+<p>{13 }</p>
+<p>31</p>
+<p>Returns: 30048</p></div></li><li><div><p>3</p>
+<p>3</p>
+<p>{0, 0, 0 }</p>
+<p>{0, 0, 0 }</p>
+<p>{0, 1, 2 }</p>
+<p>1</p>
+<p>Returns: 4</p></div></li><li><div><p>4</p>
+<p>2</p>
+<p>{1, 1 }</p>
+<p>{2, 2 }</p>
+<p>{0, 1 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>4</p>
+<p>4</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 0, 0, 0 }</p>
+<p>{0, 1, 2, 3 }</p>
+<p>0</p>
+<p>Returns: 10</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 }</p>
+<p>{0, 0, 1, 0, 0, 0, 0, 2, 0, 1, 1, 0, 2, 1, 0 }</p>
+<p>{0, 1, 0, 0, 0, 0, 1, 0, 2, 1, 1, 2, 2, 0, 1 }</p>
+<p>21412513</p>
+<p>Returns: 30204</p></div></li><li><div><p>987654</p>
+<p>100000</p>
+<p>{91119, 171717, 42442 }</p>
+<p>{42426, 666, 13374 }</p>
+<p>{123, 456, 789 }</p>
+<p>1234567</p>
+<p>Returns: 30246</p></div></li><li><div><p>5</p>
+<p>5</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>{0, 0 }</p>
+<p>1</p>
+<p>Returns: 11</p></div></li><li><div><p>10</p>
+<p>100000</p>
+<p>{1, 1, 1, 1, 1, 1, 1 }</p>
+<p>{4, 7, 4, 7, 4, 7, 4 }</p>
+<p>{2, 2, 2, 2, 2, 2, 2 }</p>
+<p>42</p>
+<p>Returns: 2400025574</p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>5</p>
+<p>5</p>
+<p>{0, 0, 0, 0, 0 }</p>
+<p>{0, 0, 0, 0, 0 }</p>
+<p>{0, 1, 2, 3, 4 }</p>
+<p>1000</p>
+<p>Returns: 18</p></div></li><li><div><p>10</p>
+<p>100000</p>
+<p>{9, 2, 3, 4 }</p>
+<p>{5, 6, 7, 8 }</p>
+<p>{9, 0, 1, 9 }</p>
+<p>47474747</p>
+<p>Returns: 2399961304</p></div></li><li><div><p>10</p>
+<p>4</p>
+<p>{0, 0, 0, 1 }</p>
+<p>{0, 0, 1, 0 }</p>
+<p>{0, 1, 0, 0 }</p>
+<p>12345</p>
+<p>Returns: 9</p></div></li><li><div><p>2</p>
+<p>2</p>
+<p>{0, 1 }</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>0</p>
+<p>Returns: 2</p></div></li><li><div><p>1000000</p>
+<p>100000</p>
+<p>{6, 5, 2 }</p>
+<p>{7, 3, 1 }</p>
+<p>{0, 4, 2 }</p>
+<p>5</p>
+<p>Returns: 30070</p></div></li><li><div><p>1000</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{0, 0 }</p>
+<p>{0, 1 }</p>
+<p>1</p>
+<p>Returns: 1</p></div></li><li><div><p>3</p>
+<p>2</p>
+<p>{0, 0 }</p>
+<p>{1, 1 }</p>
+<p>{1, 2 }</p>
+<p>0</p>
+<p>Returns: 1</p></div></li><li><div><p>100</p>
+<p>3</p>
+<p>{0, 0, 1 }</p>
+<p>{5, 5, 5 }</p>
+<p>{5, 5, 5 }</p>
+<p>0</p>
+<p>Returns: 2</p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/18678/pm/16943">2021-<!-- --> <!-- -->SRM 805<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li><li><a href="/ProblemDetail/rd/18678/pm/16943">2021-<!-- --> <!-- -->SRM 805<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/16943/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"16943\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"16943\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"16943\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"16943\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"16943\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:Td9d,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\nA 3D chessboard is a \u003cb\u003eC\u003c/b\u003e x \u003cb\u003eC\u003c/b\u003e x \u003cb\u003eC\u003c/b\u003e cube. Rows, columns and floors are each numbered from 0 to \u003cb\u003eC\u003c/b\u003e-1, inclusive.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nA rook in 3D chess moves like a rook in traditional chess, except now we have six possible cardinal directions instead of four.\nWhen moving a rook we choose one of those six directions and move the rook a positive number of steps in the chosen direction.\nDuring the move the rook can only traverse through empty cells.\nThe rook may end its move in a cell that contains a chess piece of the opposite color; that piece is then captured by the rook and removed from the board.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are given a collection of \u003cb\u003eR\u003c/b\u003e (not necessarily distinct) cells of the 3D chessboard.\nThe cells in the collection are numbered from 0 to \u003cb\u003eR\u003c/b\u003e-1, inclusive.\nCell i has coordinates (X[i], Y[i], Z[i]).\nIn order to keep the input size small, only a prefix of the coordinates is actually given, the rest will be pseudorandom.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nConsider the following interaction:\n\u003c/p\u003e\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eWanda selected an index i (0 \u0026amp;lt;= i \u0026amp;lt;= \u003cb\u003eR\u003c/b\u003e-1) and placed a white rook into cell i.\u003c/li\u003e\n\u003cli\u003eBoris selected an index j (0 \u0026amp;lt;= j \u0026amp;lt;= \u003cb\u003eR\u003c/b\u003e-1, cells i and j are not the same cell) and placed a black rook into cell j.\u003c/li\u003e\n\u003cli\u003eWanda made a valid move with her rook without capturing Boris's rook.\u003c/li\u003e\n\u003cli\u003eBoris made a valid move with his rook and captured Wanda's rook with that move.\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nCount all ordered pairs (i, j) for which the above interaction could take place. Return that count.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe arrays X, Y and Z are defined as follows:\n\u003c/p\u003e\n\u003cpre xmlns=\"http://topcoder.com\"\u003e\n\n---------------------------------------------------------\n\nPseudocode:\n\nL = length(XP)\nfor i = 0 to L-1:\n    X[i] = XP[i]\n    Y[i] = YP[i]\n    Z[i] = ZP[i]\n\nstate = seed\nfor i = L to R-1:\n    state = (state * 1103515245 + 12345) modulo 2^31\n    X[i] = state modulo C\n    state = (state * 1103515245 + 12345) modulo 2^31\n    Y[i] = state modulo C\n    state = (state * 1103515245 + 12345) modulo 2^31\n    Z[i] = state modulo C\n\n---------------------------------------------------------\n\nC++:\n\nvector\u0026amp;lt;int\u0026amp;gt; X(R), Y(R), Z(R);\n\nint L = XP.size();\nfor (int i=0; i\u0026amp;lt;L; ++i) { X[i]=XP[i]; Y[i]=YP[i]; Z[i]=ZP[i]; }\n\nlong long state = seed;\nfor (int i=L; i\u0026amp;lt;R; ++i) {\n    state = (state * 1103515245 + 12345) % (1LL \u0026amp;lt;\u0026amp;lt; 31);\n    X[i] = state % C;\n    state = (state * 1103515245 + 12345) % (1LL \u0026amp;lt;\u0026amp;lt; 31);\n    Y[i] = state % C;\n    state = (state * 1103515245 + 12345) % (1LL \u0026amp;lt;\u0026amp;lt; 31);\n    Z[i] = state % C;\n}\n\n---------------------------------------------------------\n\nJava:\n\nint[] X = new int[R];\nint[] Y = new int[R];\nint[] Z = new int[R];\n\nint L = XP.length;\nfor (int i=0; i\u0026amp;lt;L; ++i) { X[i]=XP[i]; Y[i]=YP[i]; Z[i]=ZP[i]; }\n\nlong state = seed;\nfor (int i=L; i\u0026amp;lt;R; ++i) {\n    state = (state * 1103515245 + 12345) % (1L \u0026amp;lt;\u0026amp;lt; 31);\n    X[i] = (int)(state % C);\n    state = (state * 1103515245 + 12345) % (1L \u0026amp;lt;\u0026amp;lt; 31);\n    Y[i] = (int)(state % C);\n    state = (state * 1103515245 + 12345) % (1L \u0026amp;lt;\u0026amp;lt; 31);\n    Z[i] = (int)(state % C);\n}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"10:T68f,"])</script><script>self.__next_f.push([1,"\u003cp\u003e1000000\u003c/p\u003e\n\u003cp\u003e100000\u003c/p\u003e\n\u003cp\u003e{1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 20009, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534, 1, 2, 3, 545, 34, 33, 55, 33434, 6546, 34534 }\u003c/p\u003e\n\u003cp\u003e{342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32, 342, 324, 5434, 234233, 45, 65, 343, 345, 34, 32 }\u003c/p\u003e\n\u003cp\u003e{7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989, 7884, 39458, 39485, 93845, 93845, 9398, 93849, 98, 9839, 989 }\u003c/p\u003e\n\u003cp\u003e2147483644\u003c/p\u003e\n\u003cp\u003eReturns: 29916\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"ThreeDChessRooks\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"ThreeDChessRooks\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"count\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, int[], int[], int[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"long count(int C, int R, int[] XP, int[] YP, int[] ZP, int seed)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"The reference solution does not depend on the input being pseudorandom.\"}],[\"$\",\"li\",\"1\",{\"children\":\"Remember that during a valid move a rook must move by at least one cell. Leaving a rook in its current cell is not a valid move.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"C will be between 2 and 1,000,000, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"R will be between 1 and 100,000, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"XP will have between 0 and 100 elements, inclusive.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"XP will have at most R elements.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"YP and ZP will each have the same number of elements as XP.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of XP, YP and ZP will be between 0 and C-1, inclusive.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"seed will be between 0 and 2^31 - 1, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0}\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0}\u003c/p\u003e\\n\u003cp\u003e{2, 3, 5, 7}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 12\u003c/p\u003e\\n\u003cp\u003e\\nWe have a 10x10x10 cube. The collection contains four cells, their coordinates are (0,0,2), (0,0,3), (0,0,5) and (0,0,7).\\n\\n\\nClearly, Wanda can select any of these four cells and then Boris can select any of the remaining three, giving us 4*3 = 12 valid pairs (i,j).\\n\\n\\nFor example: Wanda selects i=1 and thus places the white rook at (0,0,3). Boris selects j=3 and thus places the black rook at (0,0,7). Wanda moves her rook to (0,0,6). Boris moves his rook to (0,0,6) and captures Wanda's rook.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 1}\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 4}\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003eAll four cells in this collection are identical. Regardless of which i Wanda chooses, Boris cannot choose any valid j.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{9, 2, 3, 4}\u003c/p\u003e\\n\u003cp\u003e{5, 6, 7, 8}\u003c/p\u003e\\n\u003cp\u003e{9, 0, 1, 9}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\\n\u003cp\u003e\\nThe only two pairs of indices that work for this collection are (0,3) and (3,0). For example, (0,3) works because this is one possible interaction:\\n\\n\\nWanda selects i=0 and places the white rook at (9,5,9). Boris selects j=3 and places the black rook at (4,8,9). Wanda moves her rook to (4,5,9). Boris moves his rook to (4,5,9) and captures Wanda's rook.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{9, 2, 3, 4}\u003c/p\u003e\\n\u003cp\u003e{5, 6, 7, 8}\u003c/p\u003e\\n\u003cp\u003e{9, 0, 1, 9}\u003c/p\u003e\\n\u003cp\u003e47474747\u003c/p\u003e\\n\u003cp\u003eReturns: 16\u003c/p\u003e\\n\u003cp\u003eThe collection starts as in Example 2, but now we have additional rooks with pseudorandom coordinates. Complete collection:\\n\\n\\nX = {9, 2, 3, 4, 8, 5, 2, 3, 0, 3}\\nY = {5, 6, 7, 8, 1, 8, 1, 2, 9, 0}\\nZ = {9, 0, 1, 9, 8, 7, 6, 5, 4, 7}\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{2, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{1, 1, 2}\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1}\u003c/p\u003e\\n\u003cp\u003e47474747\u003c/p\u003e\\n\u003cp\u003eReturns: 54\u003c/p\u003e\\n\u003cp\u003eHere we have additional rooks with pseudorandom coordinates. The arrays X, Y, Z look as follows:\\n\\n\\nX = { 2, 1, 0, 2, 0, 0, 0, 0, 0, 1 }\\nY = { 1, 1, 2, 1, 2, 1, 1, 2, 1, 1 }\\nZ = { 0, 0, 1, 1, 2, 2, 2, 1, 2, 2 }\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 1, 1, 1, 1}\u003c/p\u003e\\n\u003cp\u003e{4, 7, 4, 7, 4, 7, 4}\u003c/p\u003e\\n\u003cp\u003e{2, 2, 2, 2, 2, 2, 2}\u003c/p\u003e\\n\u003cp\u003e42\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\\n\u003cp\u003eNote that we are counting pairs of indices, not pairs of cells. Here, each pair of indices (i, j) where i and j have a different parity works.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e{47, 48, 49, 50, 50, 51, 52, 53}\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12}\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12}\u003c/p\u003e\\n\u003cp\u003e111\u003c/p\u003e\\n\u003cp\u003eReturns: 54\u003c/p\u003e\\n\u003cp\u003eEach of the 8*7 = 56 pairs of indices works, except for the pairs (3, 4) and (4, 3) which both represent the same cell. Boris cannot place the black rook into the cell that is, at that moment, occupied by Wanda's white rook.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003eReturns: 29858\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e9997\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e457347\u003c/p\u003e\\n\u003cp\u003eReturns: 3000190\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e19997\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1,2,3,4,5,6,7,8,9,10}\u003c/p\u003e\\n\u003cp\u003e{1,2,3,4,5,6,7,8,9,10}\u003c/p\u003e\\n\u003cp\u003e{1,2,3,4,5,6,7,8,9,10}\u003c/p\u003e\\n\u003cp\u003e12523632\u003c/p\u003e\\n\u003cp\u003eReturns: 1499708\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e997\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e235\u003c/p\u003e\\n\u003cp\u003eReturns: 30067022\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e23523\u003c/p\u003e\\n\u003cp\u003eReturns: 3648404024\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e18\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e644\u003c/p\u003e\\n\u003cp\u003eReturns: 1481401702\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e16\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e2363427\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e17\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e235235\u003c/p\u003e\\n\u003cp\u003eReturns: 1660146951\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e47\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e235326\u003c/p\u003e\\n\u003cp\u003eReturns: 624633913\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e99997\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e23326673\u003c/p\u003e\\n\u003cp\u003eReturns: 287937018\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{1, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 0}\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e{ }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 5925404289\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e15\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 100\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{6, 6, 6, 6 }\u003c/p\u003e\\n\u003cp\u003e{8, 9, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e{5, 5, 5, 5 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 15\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{0, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{9, 2, 3, 4 }\u003c/p\u003e\\n\u003cp\u003e{5, 6, 7, 8 }\u003c/p\u003e\\n\u003cp\u003e{9, 0, 1, 9 }\u003c/p\u003e\\n\u003cp\u003e123456789\u003c/p\u003e\\n\u003cp\u003eReturns: 29666\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$10\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{1, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 0 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003eReturns: 29836\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99\u003c/p\u003e\\n\u003cp\u003e8\u003c/p\u003e\\n\u003cp\u003e{47, 48, 49, 50, 50, 51, 52, 53 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 11, 12 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12 }\u003c/p\u003e\\n\u003cp\u003e111\u003c/p\u003e\\n\u003cp\u003eReturns: 54\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 3, 4 }\u003c/p\u003e\\n\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{98, 99 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e312\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1 }\u003c/p\u003e\\n\u003cp\u003e{0 }\u003c/p\u003e\\n\u003cp\u003e{1 }\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003eReturns: 0\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 1, 1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{4, 7, 4, 7, 4, 7, 4 }\u003c/p\u003e\\n\u003cp\u003e{2, 2, 2, 2, 2, 2, 2 }\u003c/p\u003e\\n\u003cp\u003e42\u003c/p\u003e\\n\u003cp\u003eReturns: 24\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 2 }\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99\u003c/p\u003e\\n\u003cp\u003e18888\u003c/p\u003e\\n\u003cp\u003e{47, 48, 49, 50, 50, 51, 52, 53 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12 }\u003c/p\u003e\\n\u003cp\u003e111\u003c/p\u003e\\n\u003cp\u003eReturns: 10707083\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e12133\u003c/p\u003e\\n\u003cp\u003eReturns: 199996\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{2, 2 }\u003c/p\u003e\\n\u003cp\u003e{2, 2 }\u003c/p\u003e\\n\u003cp\u003e{2, 1 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{5, 5 }\u003c/p\u003e\\n\u003cp\u003e{5, 5 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e99\u003c/p\u003e\\n\u003cp\u003e99999\u003c/p\u003e\\n\u003cp\u003e{47, 48, 49, 50, 50, 51, 52, 53 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12 }\u003c/p\u003e\\n\u003cp\u003e{12, 12, 12, 12, 12, 12, 12, 12 }\u003c/p\u003e\\n\u003cp\u003e111\u003c/p\u003e\\n\u003cp\u003eReturns: 299973041\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e999999\u003c/p\u003e\\n\u003cp\u003e99999\u003c/p\u003e\\n\u003cp\u003e{7 }\u003c/p\u003e\\n\u003cp\u003e{11 }\u003c/p\u003e\\n\u003cp\u003e{13 }\u003c/p\u003e\\n\u003cp\u003e31\u003c/p\u003e\\n\u003cp\u003eReturns: 30048\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 4\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{2, 2 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 10\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 0, 0, 0, 0, 2, 0, 1, 1, 0, 2, 1, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 0, 0, 0, 0, 1, 0, 2, 1, 1, 2, 2, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e21412513\u003c/p\u003e\\n\u003cp\u003eReturns: 30204\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e987654\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{91119, 171717, 42442 }\u003c/p\u003e\\n\u003cp\u003e{42426, 666, 13374 }\u003c/p\u003e\\n\u003cp\u003e{123, 456, 789 }\u003c/p\u003e\\n\u003cp\u003e1234567\u003c/p\u003e\\n\u003cp\u003eReturns: 30246\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 11\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 1, 1, 1, 1 }\u003c/p\u003e\\n\u003cp\u003e{4, 7, 4, 7, 4, 7, 4 }\u003c/p\u003e\\n\u003cp\u003e{2, 2, 2, 2, 2, 2, 2 }\u003c/p\u003e\\n\u003cp\u003e42\u003c/p\u003e\\n\u003cp\u003eReturns: 2400025574\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3, 4 }\u003c/p\u003e\\n\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003eReturns: 18\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{9, 2, 3, 4 }\u003c/p\u003e\\n\u003cp\u003e{5, 6, 7, 8 }\u003c/p\u003e\\n\u003cp\u003e{9, 0, 1, 9 }\u003c/p\u003e\\n\u003cp\u003e47474747\u003c/p\u003e\\n\u003cp\u003eReturns: 2399961304\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e4\u003c/p\u003e\\n\u003cp\u003e{0, 0, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1, 0, 0 }\u003c/p\u003e\\n\u003cp\u003e12345\u003c/p\u003e\\n\u003cp\u003eReturns: 9\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000000\u003c/p\u003e\\n\u003cp\u003e100000\u003c/p\u003e\\n\u003cp\u003e{6, 5, 2 }\u003c/p\u003e\\n\u003cp\u003e{7, 3, 1 }\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2 }\u003c/p\u003e\\n\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003eReturns: 30070\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1000\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{0, 1 }\u003c/p\u003e\\n\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e2\u003c/p\u003e\\n\u003cp\u003e{0, 0 }\u003c/p\u003e\\n\u003cp\u003e{1, 1 }\u003c/p\u003e\\n\u003cp\u003e{1, 2 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 1\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e100\u003c/p\u003e\\n\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1 }\u003c/p\u003e\\n\u003cp\u003e{5, 5, 5 }\u003c/p\u003e\\n\u003cp\u003e{5, 5, 5 }\u003c/p\u003e\\n\u003cp\u003e0\u003c/p\u003e\\n\u003cp\u003eReturns: 2\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/18678/pm/16943\",\"children\":[\"2021-\",\" \",\"SRM 805\",\" - Division \",\"I\",\", \",\"Level One\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/18678/pm/16943\",\"children\":[\"2021-\",\" \",\"SRM 805\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

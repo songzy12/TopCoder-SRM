@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->CovEncoder<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+When transmitting data over great distances, there is always a chance that some
+errors will creep in due to noise in the wires.  As a result, modern
+communication systems use an encoding and decoding schema that reduces the risk
+of errors corrupting data.  The transmitter first encodes the data based on two
+parameters (upperConnection and lowerConnection).  The transmitter then sends
+the encoded data to a receiver, which also knows the two parameters
+(upperConnection and lowerConnection).  The receiver uses the encoded data, and
+the same two parameters as the transmitter user to decode the data.  Because
+some errors might occur during the transmission of the encoded sequence, the
+receiver decodes the encoded data by finding some data which, when encoded, is
+as similar as possible to the encoded sequence that is received.
+
+The message is encoded using a number of shift registers, which are one bit
+devices used to temporarily store data.  The number of shift registers is
+dictated by the number of elements in upperConnection (which is the same as the
+number of elements in lowerConnection).
+
+The encoding process works as follows:
+1) Initially all the shift registers are set to zero.
+2) All data currently in the registers is shifted one place up, and the next
+bit in the data being encoded is shifted into the first register.
+3) We obtain two binary digits (an upper and a lower) by XORing certain bits
+together.  Which bits are XORed is dictated by upperConnection and
+lowerConnection.  Each of these int[]'s tells us how to generate one of the
+binary digits.  For each bit in the shift register, if there is a one in the
+corresponding place in the int[], that bit is XORed, otherwise the bit is
+ignored.  For example, if upperConnection = {1,0,1,1,0}, then the bits in the
+first, third, and fourth shift registers should be XORed together, while the
+second and fifth registers can be ignored for this calculation.  The same
+process is applied using lowerConnection.
+4) The output from both upper and lower connections is then transmitted.
+5) Go to 2 and repeat until there is no more data to shift in.
+
+For Example:
+Saw we want to encode the data {1,0,1,0}
+upperConnection is {1, 1, 1}
+lowerConnection is (1, 0, 0}
+
+Since upper and lower connections have three elements, there are three shift
+registers.
+
+- At time t=0 the shift registers are all zero, so we have {0,0,0}.
+- At t=1 the first bit of the data is shifted into the first register giving us
+{1,0,0}.  We now must generate the output based on the upper and lower
+connections.  The upper connection tells us that all three bits in the
+registers should be XORed together.  1 XOR 0 XOR 0 = 1, so the upper output is
+1.  The lower connection tells us that only the first bit should be XORed.
+Thus the lower output is the same as the first shift register, which is 1.
+- At t=2 a zero is shifted in giving us {0,1,0}.  The upper connection XORs all
+of the bits so it outputs 1.  The lower connection takes only the first bit
+which is a zero, so its output is 0.
+- At t=3 a one is shifted in giving us {1,0,1}. So the upper result is zero and
+the lower result is one.
+- At t=4 a zero is shift in giving us {0,1,0}. So the upper result is one and
+the lower result is zero.
+
+Thus the upper output is {1,1,0,1} and the lower output is {1,0,1,0}.
+
+The upper and lower sequences are then transmitted from the sender to the
+receiver.  The receiver must then decode the data be figuring out what data
+generated the encoded sequence it receives.  Your task is to write a class
+CovEncoder, with a method decoding, which takes an int[] upperConnection, an
+int[] lowerConnection, an int[] upperReceived, and an int[] lowerReceived, and
+returns the data which is most likely to have generated the upperReceived, and
+lowerReceived, given the upper and lower connections.  For the purposes of this
+problem, we will define the most likely data to be that which gives rise to
+upper and lower sequences with the fewest differences from the received
+sequences.  Thus, if encoding some data generates a lower of {0,0,1,0} and
+lowerReceived is {1,0,1,0}, there is one difference between the sequence that
+is received, and the sequence generated from the candidate data.  This data is
+less likely to be the original data (that was encoded by the transmitter) than
+some other data whose encoding generates a lower of {1,0,1,0}, since this lower
+sequence has zero differences from lowerReceived, (assuming that both generate
+the same upper sequence).
+
+DEFINITION
+Class: CovEncoder
+Method: decoding
+Parameters: int[], int[], int[], int[]
+Returns: int[]
+Method signature (be sure your method is public):  int[] decoding(int[]
+upperReceived, int[] lowerReceived, int[] upperConnection, int[]
+lowerConnection);
+
+NOTES
+-If two or more sequences of data are detected which are equally likely, pick
+the one where the first difference in the two sequences is a zero.  Thus, if
+{0,0,1,0,0,1} and {0,0,1,1,0,0} are both equally likely as the originally data,
+return {0,0,1,0,0,1} because it has a zero as the fourth element, and the first
+three elements are the same in both sequences. See Example 3.
+-lower and upper connection are both established prior to transmission of any
+data, so we are guaranteed that we have the same upper and lower connection as
+those used to encode the data.
+-upperReceived and lowerReceived have up to 50 elements each, so it will not be
+possible to evaluate all 2^50 possible data sequences to find the one that
+gives rise to the fewest differences.
+-When making up your own problems, know that certain combinations of errors can
+cause the decoded sequence to not be what the input to the encoder was.
+-When a number of bits are XORed together, the result is a one if and only if
+the number of bits which are one is odd.  Otherwise the result is zero.
+
+TopCoder will ensure the validity of all inputs.  Inputs are valid if:
+- upperConnection and lowerConnection will have between 2 and 10 elements each
+one or zero representing no connection or a connection.
+- upperConnection and lowerConnection are the same length.
+- upperReceived and lowerReceived will each contain between 3 and 50 numbers,
+each of which is a 1 or a 0.  
+- upperReceived and lowerReceived will have the same length.
+
+EXAMPLES
+1)
+upperReceived = {0,1,1}
+lowerReceived = {0,0,0}
+upperConnection = {1,0}
+lowerConnection = {1,1}
+
+Since upperReceived and lowerReceived both have 3 bits, the decoded data must
+also have three bits.  There are 8 possible sequences of three bits, each of
+which is a candidate for the decoded data.
+
+if we encode {0,0,0} we get an upper of {0,0,0} and a lower of {0,0,0} which
+has 2 differences from the received upper and lower.
+if we encode {0,0,1} we get an upper of {0,0,1} and a lower of {0,0,1} which
+has 2 differences.
+if we encode {0,1,0} we get an upper of {0,1,0} and a lower of {0,1,1} which
+has 3 differences.
+if we encode {0,1,1} we get an upper of {0,1,1} and a lower of {0,1,0} which
+has 1 difference.
+if we encode {1,0,0} we get an upper of {1,0,0} and a lower of {1,1,0} which
+has 5 differences.
+if we encode {1,0,1} we get an upper of {1,0,1} and a lower of {1,1,1} which
+has 5 differences.
+if we encode {1,1,0} we get an upper of {1,1,0} and a lower of {1,0,1} which
+has 5 differences.
+if we encode {1,1,1} we get an upper of {1,1,1} and a lower of {1,0,0} which
+has 2 differences.
+
+We can see the answer with the least differences is the input of {0,1,1}
+
+Returns {0,1,1}
+
+2)
+upperReceived = {1,0,0}
+lowerReceived = {0,1,1}
+upperConnection = {1,0}
+lowerConnection = {1,1}
+
+Going through all possible inputs to the encoder we find that {0,1,0}, {1,0,0},
+and {1,0,1} have 2 errors each.
+Of these, we see that {0,1,0} has a zero in the first place and the other two
+have a 1 in the first place.  So we eliminate {1,0,0}, and {1,0,1} and are left
+with {0,1,0} which is the answer.
+
+Returns {0,1,0}
+
+3)
+upperReceived = {1,1,1,0,1}
+lowerReceived = {1,0,1,1,1}
+upperConnection = {1,1,1}
+lowerConnection = {1,0,1}
+
+returns {1,0,0,0,1}
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>CovEncoder</span></dd><dt>Method:</dt><dd><span>decoding</span></dd><dt>Parameters:</dt><dd><span>int[], int[], int[], int[]</span></dd><dt>Returns:</dt><dd><span>int[]</span></dd><dt>Method signature:</dt><dd><span>int[] decoding(int[] param0, int[] param1, int[] param2, int[] param3)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4275/pm/978">2002-<!-- --> <!-- -->SRM 111<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/978/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"978\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"978\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"978\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"978\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"978\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1f88,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nWhen transmitting data over great distances, there is always a chance that some\nerrors will creep in due to noise in the wires.  As a result, modern\ncommunication systems use an encoding and decoding schema that reduces the risk\nof errors corrupting data.  The transmitter first encodes the data based on two\nparameters (upperConnection and lowerConnection).  The transmitter then sends\nthe encoded data to a receiver, which also knows the two parameters\n(upperConnection and lowerConnection).  The receiver uses the encoded data, and\nthe same two parameters as the transmitter user to decode the data.  Because\nsome errors might occur during the transmission of the encoded sequence, the\nreceiver decodes the encoded data by finding some data which, when encoded, is\nas similar as possible to the encoded sequence that is received.\n\nThe message is encoded using a number of shift registers, which are one bit\ndevices used to temporarily store data.  The number of shift registers is\ndictated by the number of elements in upperConnection (which is the same as the\nnumber of elements in lowerConnection).\n\nThe encoding process works as follows:\n1) Initially all the shift registers are set to zero.\n2) All data currently in the registers is shifted one place up, and the next\nbit in the data being encoded is shifted into the first register.\n3) We obtain two binary digits (an upper and a lower) by XORing certain bits\ntogether.  Which bits are XORed is dictated by upperConnection and\nlowerConnection.  Each of these int[]'s tells us how to generate one of the\nbinary digits.  For each bit in the shift register, if there is a one in the\ncorresponding place in the int[], that bit is XORed, otherwise the bit is\nignored.  For example, if upperConnection = {1,0,1,1,0}, then the bits in the\nfirst, third, and fourth shift registers should be XORed together, while the\nsecond and fifth registers can be ignored for this calculation.  The same\nprocess is applied using lowerConnection.\n4) The output from both upper and lower connections is then transmitted.\n5) Go to 2 and repeat until there is no more data to shift in.\n\nFor Example:\nSaw we want to encode the data {1,0,1,0}\nupperConnection is {1, 1, 1}\nlowerConnection is (1, 0, 0}\n\nSince upper and lower connections have three elements, there are three shift\nregisters.\n\n- At time t=0 the shift registers are all zero, so we have {0,0,0}.\n- At t=1 the first bit of the data is shifted into the first register giving us\n{1,0,0}.  We now must generate the output based on the upper and lower\nconnections.  The upper connection tells us that all three bits in the\nregisters should be XORed together.  1 XOR 0 XOR 0 = 1, so the upper output is\n1.  The lower connection tells us that only the first bit should be XORed.\nThus the lower output is the same as the first shift register, which is 1.\n- At t=2 a zero is shifted in giving us {0,1,0}.  The upper connection XORs all\nof the bits so it outputs 1.  The lower connection takes only the first bit\nwhich is a zero, so its output is 0.\n- At t=3 a one is shifted in giving us {1,0,1}. So the upper result is zero and\nthe lower result is one.\n- At t=4 a zero is shift in giving us {0,1,0}. So the upper result is one and\nthe lower result is zero.\n\nThus the upper output is {1,1,0,1} and the lower output is {1,0,1,0}.\n\nThe upper and lower sequences are then transmitted from the sender to the\nreceiver.  The receiver must then decode the data be figuring out what data\ngenerated the encoded sequence it receives.  Your task is to write a class\nCovEncoder, with a method decoding, which takes an int[] upperConnection, an\nint[] lowerConnection, an int[] upperReceived, and an int[] lowerReceived, and\nreturns the data which is most likely to have generated the upperReceived, and\nlowerReceived, given the upper and lower connections.  For the purposes of this\nproblem, we will define the most likely data to be that which gives rise to\nupper and lower sequences with the fewest differences from the received\nsequences.  Thus, if encoding some data generates a lower of {0,0,1,0} and\nlowerReceived is {1,0,1,0}, there is one difference between the sequence that\nis received, and the sequence generated from the candidate data.  This data is\nless likely to be the original data (that was encoded by the transmitter) than\nsome other data whose encoding generates a lower of {1,0,1,0}, since this lower\nsequence has zero differences from lowerReceived, (assuming that both generate\nthe same upper sequence).\n\nDEFINITION\nClass: CovEncoder\nMethod: decoding\nParameters: int[], int[], int[], int[]\nReturns: int[]\nMethod signature (be sure your method is public):  int[] decoding(int[]\nupperReceived, int[] lowerReceived, int[] upperConnection, int[]\nlowerConnection);\n\nNOTES\n-If two or more sequences of data are detected which are equally likely, pick\nthe one where the first difference in the two sequences is a zero.  Thus, if\n{0,0,1,0,0,1} and {0,0,1,1,0,0} are both equally likely as the originally data,\nreturn {0,0,1,0,0,1} because it has a zero as the fourth element, and the first\nthree elements are the same in both sequences. See Example 3.\n-lower and upper connection are both established prior to transmission of any\ndata, so we are guaranteed that we have the same upper and lower connection as\nthose used to encode the data.\n-upperReceived and lowerReceived have up to 50 elements each, so it will not be\npossible to evaluate all 2^50 possible data sequences to find the one that\ngives rise to the fewest differences.\n-When making up your own problems, know that certain combinations of errors can\ncause the decoded sequence to not be what the input to the encoder was.\n-When a number of bits are XORed together, the result is a one if and only if\nthe number of bits which are one is odd.  Otherwise the result is zero.\n\nTopCoder will ensure the validity of all inputs.  Inputs are valid if:\n- upperConnection and lowerConnection will have between 2 and 10 elements each\none or zero representing no connection or a connection.\n- upperConnection and lowerConnection are the same length.\n- upperReceived and lowerReceived will each contain between 3 and 50 numbers,\neach of which is a 1 or a 0.  \n- upperReceived and lowerReceived will have the same length.\n\nEXAMPLES\n1)\nupperReceived = {0,1,1}\nlowerReceived = {0,0,0}\nupperConnection = {1,0}\nlowerConnection = {1,1}\n\nSince upperReceived and lowerReceived both have 3 bits, the decoded data must\nalso have three bits.  There are 8 possible sequences of three bits, each of\nwhich is a candidate for the decoded data.\n\nif we encode {0,0,0} we get an upper of {0,0,0} and a lower of {0,0,0} which\nhas 2 differences from the received upper and lower.\nif we encode {0,0,1} we get an upper of {0,0,1} and a lower of {0,0,1} which\nhas 2 differences.\nif we encode {0,1,0} we get an upper of {0,1,0} and a lower of {0,1,1} which\nhas 3 differences.\nif we encode {0,1,1} we get an upper of {0,1,1} and a lower of {0,1,0} which\nhas 1 difference.\nif we encode {1,0,0} we get an upper of {1,0,0} and a lower of {1,1,0} which\nhas 5 differences.\nif we encode {1,0,1} we get an upper of {1,0,1} and a lower of {1,1,1} which\nhas 5 differences.\nif we encode {1,1,0} we get an upper of {1,1,0} and a lower of {1,0,1} which\nhas 5 differences.\nif we encode {1,1,1} we get an upper of {1,1,1} and a lower of {1,0,0} which\nhas 2 differences.\n\nWe can see the answer with the least differences is the input of {0,1,1}\n\nReturns {0,1,1}\n\n2)\nupperReceived = {1,0,0}\nlowerReceived = {0,1,1}\nupperConnection = {1,0}\nlowerConnection = {1,1}\n\nGoing through all possible inputs to the encoder we find that {0,1,0}, {1,0,0},\nand {1,0,1} have 2 errors each.\nOf these, we see that {0,1,0} has a zero in the first place and the other two\nhave a 1 in the first place.  So we eliminate {1,0,0}, and {1,0,1} and are left\nwith {0,1,0} which is the answer.\n\nReturns {0,1,0}\n\n3)\nupperReceived = {1,1,1,0,1}\nlowerReceived = {1,0,1,1,1}\nupperConnection = {1,1,1}\nlowerConnection = {1,0,1}\n\nreturns {1,0,0,0,1}\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"CovEncoder\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"CovEncoder\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"decoding\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int[], int[], int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[] decoding(int[] param0, int[] param1, int[] param2, int[] param3)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4275/pm/978\",\"children\":[\"2002-\",\" \",\"SRM 111\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

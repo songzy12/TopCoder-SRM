@@ -1,0 +1,130 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->MRP<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT:
+
+Class name: MRP
+Method name: calcOrderSize
+Parameters: int[], int, int, int, int, int
+Returns: int
+
+The Material Resource Planning (MRP) Explosion gives us the quantity of low
+level components needed to build our product.  Generally, most of the
+components must be purchased from suppliers - which brings up a number of
+issues (and terms):
+
+There is a fixed cost associated with placing an order (contracting with a
+supplier, placing a purchase order [PO], delivery charges, etc) known
+collectively as the "order cost".  "Lead time" is the time taken between
+placing an order and receiving the goods.  
+
+One of the goals of MRP is to calculate the optimal order size ("Economic Order
+Quantity") that will minimize costs over a period of time (usually a year).
+The order size represents the number of units purchased with each order and is
+set at a fixed amount over a certain time period (usually a year) by contracts
+with suppliers.  If you are manufacturing pencils and need to order the eraser
+heads, it's generally less costly to place an order for 500 eraser heads than
+it is to place 500 orders of one eraser head.  Between those two choices, an
+order size of 500 is probably more optimal.
+
+Implement a class MRP, which contains a method calcOrderSize.  The method
+calculates and returns the optimal order size that:
+1) Prevents a stock out situation (not having enough inventory to meet the
+forecast for the month)
+2) Will minimize total costs over a 12 month forecast.
+
+The method signature is:
+int calcOrderSize(int[] forecast, int initialInventory, int costPerUnit, int
+costPerOrder, int leadTime, int holdingCostPerUnit)
+Be sure your method is public.
+
+TopCoder will ensure the validity of the inputs. Inputs are valid if all of the
+following criteria are met:
+*The forecast int[] will contain 12 entries representing 12 months.  Month 1
+will be index 0, month 2 will be index 1, etc.
+*Each forecast element will be between 1 and 1000 (inclusive)
+*The initialInventory will be between 0 and 1000 (inclusive)
+*The costPerUnit will be between 1 and 50 (inclusive)
+*The costPerOrder will be between 1 and 50 (inclusive)
+*The leadTime will be between 0 and 12 (inclusive)
+*The holdingCostPerUnit will be between 1 and 50 (inclusive)
+*The initialInventory will be great enough to prevent a stock out during the
+initial lead time.  In other words, if lead time is 2 months - the initial
+inventory will be greater than or equal to the sum forecast for the first 2
+months (thus preventing a stock out in either of those months).
+
+Notes:
+*A lead time of 0 means the inventory is delivered immediately within the same
+month.  A lead time of 1 means the inventory is delivered in the month
+following the order.
+*Do not worry about inventory levels after month 12.  In other words, if your
+lead time is 3 months - you should not be placing any orders in months 10, 11
+or 12 because the inventory is delivered past month 12.
+*If more than 1 order size is optimal (both give the same minimal cost), return
+the lower order size.
+*When calculating the cost for a specific order size, you can place more than 1
+order per month.  If you are calculating the cost for an order size of 5 and
+are in need of 45 items in month 1 and 30 items in month 2, you can place 9
+orders in month 1 and 6 orders in month 2 to meet the need (given a lead time
+of 0). See the example below.
+
+Cost for any given month can be calculated as:
+	costPerOrder * # of orders made that month
++ costPerUnit * # of units delivered for the month (lead time may make the
+months different)
++ holdingCostPerUnit * inventory from prior month (only if the prior month had
+inventory to carry over)
+	(prior month inventory for the first month is initialInventory)
+
+If you are evaluating an order size of 2 with an input of
+({10,10,10,10,10,10,10,10,10,10,10,10},3,1,3,0,1)...
+
+     Month:    1   2   3   4   5   6   7   8   9  10  11  12
+-----------  --- --- --- --- --- --- --- --- --- --- --- ---
+Start Inv.:    3   1   1   1   1   1   1   1   1   1   1   1
+- Forecast:   10  10  10  10  10  10  10  10  10  10  10  10 
+=Inventory:   -7  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9
+
+    Orders:    4   5   5   5   5   5   5   5   5   5   5   5
+
+ Inventory:   -7  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9
++  Ordered:    8  10  10  10  10  10  10  10  10  10  10  10
+= End Inv.:    1   1   1   1   1   1   1   1   1   1   1   1
+
+ Hold Cost:    3   1   1   1   1   1   1   1   1   1   1   1
++Ord. Cost:   12  15  15  15  15  15  15  15  15  15  15  15
++Unit Cost:    8  10  10  10  10  10  10  10  10  10  10  10
+=Tot. Cost:   23  26  26  26  26  26  26  26  26  26  26  26
+
+Overall cost of order size 2: 309, which for this example is NOT the minimum
+cost. Different order sizes would have to be evaluated in order to calculate
+the minimum cost. The minimum cost for this example is 192 which is for an
+order size of 10.
+
+In month 1, we start with an inventory of 3.  Taking away the forecast of 10
+creates a stock out of 7.  To cover the stock out, we place 4 orders of 2 (the
+order size).  The 8 units ordered are delivered immediately (lead time is 0)
+giving an ending inventory of 1.  The cost for month 1 operations is 3 (initial
+inventory of 3 * holding cost of 1) + 12 (4 orders * order cost of 3) + 8 (8
+units delivered this month * cost per unit of 1) = 23.
+In month 2, we start with an inventory of 1 (ending inventory from month 1).
+Taking away the forecast of 10 creates a stock out of 9.  To cover the stock
+out, we place 5 orders of 2.  The 10 units ordered are delivered immediately
+giving an ending inventory of 1.  The cost for month 2 operations is 1
+(starting inventory of 1 * 1) + 15 (5 orders * 3) + 10 (10 units delivered this
+month * 1) = 26.
+Continue until all 12 months have been processed.  The cost for order size 2 is
+309 (which is the sum of each month's cost).
+
+For an order size of 10, the cost would be 192, which would be the minimal cost.
+
+
+Examples:
+An input of ({10,10,10,10,10,10,10,10,10,10,10,10},3,1,3,0,1) returns 10
+(minimal cost of 192)
+An input of ({10,10,10,10,10,10,10,10,10,10,10,10},5,1,2,0,1) returns 5 (cost:
+166)
+An input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,1,0,1) returns 1 (cost: 24)
+An input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,5,0,1) returns 3 (cost: 44)
+An input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,5,0,3) returns 2 (cost: 60)
+An input of ({1,1,1,1,1,1,1,1,1,1,1,1},12,1,5,0,3) returns 0 (cost: 234)
+An input of ({23,45,23,56,123,36,21,67,12,34,56,22},68,2,5,2,1) returns 30
+(cost: 1193)
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>MRP</span></dd><dt>Method:</dt><dd><span>calcOrderSize</span></dd><dt>Parameters:</dt><dd><span>int[], int, int, int, int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int calcOrderSize(int[] param0, int param1, int param2, int param3, int param4, int param5)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4005/pm/185">2001-<!-- --> <!-- -->SRM 34<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li><li><a href="/ProblemDetail/rd/4005/pm/185">2001-<!-- --> <!-- -->SRM 34<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/185/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"185\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"185\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"185\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"185\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"185\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T199a,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT:\n\nClass name: MRP\nMethod name: calcOrderSize\nParameters: int[], int, int, int, int, int\nReturns: int\n\nThe Material Resource Planning (MRP) Explosion gives us the quantity of low\nlevel components needed to build our product.  Generally, most of the\ncomponents must be purchased from suppliers - which brings up a number of\nissues (and terms):\n\nThere is a fixed cost associated with placing an order (contracting with a\nsupplier, placing a purchase order [PO], delivery charges, etc) known\ncollectively as the \"order cost\".  \"Lead time\" is the time taken between\nplacing an order and receiving the goods.  \n\nOne of the goals of MRP is to calculate the optimal order size (\"Economic Order\nQuantity\") that will minimize costs over a period of time (usually a year).\nThe order size represents the number of units purchased with each order and is\nset at a fixed amount over a certain time period (usually a year) by contracts\nwith suppliers.  If you are manufacturing pencils and need to order the eraser\nheads, it's generally less costly to place an order for 500 eraser heads than\nit is to place 500 orders of one eraser head.  Between those two choices, an\norder size of 500 is probably more optimal.\n\nImplement a class MRP, which contains a method calcOrderSize.  The method\ncalculates and returns the optimal order size that:\n1) Prevents a stock out situation (not having enough inventory to meet the\nforecast for the month)\n2) Will minimize total costs over a 12 month forecast.\n\nThe method signature is:\nint calcOrderSize(int[] forecast, int initialInventory, int costPerUnit, int\ncostPerOrder, int leadTime, int holdingCostPerUnit)\nBe sure your method is public.\n\nTopCoder will ensure the validity of the inputs. Inputs are valid if all of the\nfollowing criteria are met:\n*The forecast int[] will contain 12 entries representing 12 months.  Month 1\nwill be index 0, month 2 will be index 1, etc.\n*Each forecast element will be between 1 and 1000 (inclusive)\n*The initialInventory will be between 0 and 1000 (inclusive)\n*The costPerUnit will be between 1 and 50 (inclusive)\n*The costPerOrder will be between 1 and 50 (inclusive)\n*The leadTime will be between 0 and 12 (inclusive)\n*The holdingCostPerUnit will be between 1 and 50 (inclusive)\n*The initialInventory will be great enough to prevent a stock out during the\ninitial lead time.  In other words, if lead time is 2 months - the initial\ninventory will be greater than or equal to the sum forecast for the first 2\nmonths (thus preventing a stock out in either of those months).\n\nNotes:\n*A lead time of 0 means the inventory is delivered immediately within the same\nmonth.  A lead time of 1 means the inventory is delivered in the month\nfollowing the order.\n*Do not worry about inventory levels after month 12.  In other words, if your\nlead time is 3 months - you should not be placing any orders in months 10, 11\nor 12 because the inventory is delivered past month 12.\n*If more than 1 order size is optimal (both give the same minimal cost), return\nthe lower order size.\n*When calculating the cost for a specific order size, you can place more than 1\norder per month.  If you are calculating the cost for an order size of 5 and\nare in need of 45 items in month 1 and 30 items in month 2, you can place 9\norders in month 1 and 6 orders in month 2 to meet the need (given a lead time\nof 0). See the example below.\n\nCost for any given month can be calculated as:\n\tcostPerOrder * # of orders made that month\n+ costPerUnit * # of units delivered for the month (lead time may make the\nmonths different)\n+ holdingCostPerUnit * inventory from prior month (only if the prior month had\ninventory to carry over)\n\t(prior month inventory for the first month is initialInventory)\n\nIf you are evaluating an order size of 2 with an input of\n({10,10,10,10,10,10,10,10,10,10,10,10},3,1,3,0,1)...\n\n     Month:    1   2   3   4   5   6   7   8   9  10  11  12\n-----------  --- --- --- --- --- --- --- --- --- --- --- ---\nStart Inv.:    3   1   1   1   1   1   1   1   1   1   1   1\n- Forecast:   10  10  10  10  10  10  10  10  10  10  10  10 \n=Inventory:   -7  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9\n\n    Orders:    4   5   5   5   5   5   5   5   5   5   5   5\n\n Inventory:   -7  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9  -9\n+  Ordered:    8  10  10  10  10  10  10  10  10  10  10  10\n= End Inv.:    1   1   1   1   1   1   1   1   1   1   1   1\n\n Hold Cost:    3   1   1   1   1   1   1   1   1   1   1   1\n+Ord. Cost:   12  15  15  15  15  15  15  15  15  15  15  15\n+Unit Cost:    8  10  10  10  10  10  10  10  10  10  10  10\n=Tot. Cost:   23  26  26  26  26  26  26  26  26  26  26  26\n\nOverall cost of order size 2: 309, which for this example is NOT the minimum\ncost. Different order sizes would have to be evaluated in order to calculate\nthe minimum cost. The minimum cost for this example is 192 which is for an\norder size of 10.\n\nIn month 1, we start with an inventory of 3.  Taking away the forecast of 10\ncreates a stock out of 7.  To cover the stock out, we place 4 orders of 2 (the\norder size).  The 8 units ordered are delivered immediately (lead time is 0)\ngiving an ending inventory of 1.  The cost for month 1 operations is 3 (initial\ninventory of 3 * holding cost of 1) + 12 (4 orders * order cost of 3) + 8 (8\nunits delivered this month * cost per unit of 1) = 23.\nIn month 2, we start with an inventory of 1 (ending inventory from month 1).\nTaking away the forecast of 10 creates a stock out of 9.  To cover the stock\nout, we place 5 orders of 2.  The 10 units ordered are delivered immediately\ngiving an ending inventory of 1.  The cost for month 2 operations is 1\n(starting inventory of 1 * 1) + 15 (5 orders * 3) + 10 (10 units delivered this\nmonth * 1) = 26.\nContinue until all 12 months have been processed.  The cost for order size 2 is\n309 (which is the sum of each month's cost).\n\nFor an order size of 10, the cost would be 192, which would be the minimal cost.\n\n\nExamples:\nAn input of ({10,10,10,10,10,10,10,10,10,10,10,10},3,1,3,0,1) returns 10\n(minimal cost of 192)\nAn input of ({10,10,10,10,10,10,10,10,10,10,10,10},5,1,2,0,1) returns 5 (cost:\n166)\nAn input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,1,0,1) returns 1 (cost: 24)\nAn input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,5,0,1) returns 3 (cost: 44)\nAn input of ({1,1,1,1,1,1,1,1,1,1,1,1},0,1,5,0,3) returns 2 (cost: 60)\nAn input of ({1,1,1,1,1,1,1,1,1,1,1,1},12,1,5,0,3) returns 0 (cost: 234)\nAn input of ({23,45,23,56,123,36,21,67,12,34,56,22},68,2,5,2,1) returns 30\n(cost: 1193)\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"MRP\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"MRP\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"calcOrderSize\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int[], int, int, int, int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int calcOrderSize(int[] param0, int param1, int param2, int param3, int param4, int param5)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4005/pm/185\",\"children\":[\"2001-\",\" \",\"SRM 34\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4005/pm/185\",\"children\":[\"2001-\",\" \",\"SRM 34\",\" - Division \",\"II\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->LarvaRace<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+While sitting outside and enjoying the lovely weather, Dave noticed a bunch of
+one-inch caterpillars at the base of a nearby tree.  The caterpillars were
+racing slowly to the top of the tree where a green leafed utopia was awaiting
+their immense hunger.  Dave took one look at the frantic little caterpillars
+and knew immediately which caterpillar would win.
+
+What Dave noticed was that all the caterpillars moved in the same general
+pattern, but each caterpillar moved in its own distinct cycle.  At each second,
+a caterpillar can do one of three things:
+
+1.) The caterpillar can remain still.
+2.) The caterpillar can bring its tail end halfway from the tail's current
+position to its head.
+3.) The caterpillar can stretch out to its original length by moving its head
+forward and assuming an extended position.
+
+A caterpillar's cycle is a list of movements the caterpillar chooses.  When all
+movements have been executed, the caterpillar will begin its cycle again.  At
+the beginning of its first cycle, the caterpillar is in the extended state.
+
+A caterpillar may choose movement 1 at any time.  From its extended position, a
+caterpillar may choose movement 2 up to 8 times before choosing movement 3.  A
+caterpillar must not choose movement 3 if it is already in its extended
+position.  If movement 2 is chosen, the caterpillar must choose movement 3
+somewhere in its cycle.
+
+*The cycle "3333" is illegal because a caterpillar cannot choose move 3 from
+the extended position.
+*The cycles "2222" and "2222222232" are all illegal because a caterpillar may
+not choose movement 2 more than eight times without choosing movement 3 (this
+applies throughout the repetitions of each cycle).
+
+Consider the example where a caterpillar's cycle is "223".  At time 0 the
+caterpillar moves its back end forward one half-inch.  At time 1 the
+caterpillar moves its back end forward 1 quarter-inch.  At time 2 the
+caterpillar moves its head forward 3 quarters of an inch.  At time 3 the
+caterpillar begins its cycle again by moving its back end forward one
+half-inch.  For this example, the caterpillar makes 3 quarters of an inch
+progress every 3 seconds.  Notice that at time 0 and 1 the caterpillar made
+only potential progress and is actually no closer to the goal than it began.
+
+Your task is to determine which caterpillar will reach the goal first given the
+cycle of each caterpillar and the distance to the goal (in inches).  A
+caterpillar reaches the goal when its head has moved the distance of "distance"
+or more.
+
+
+DEFINITION
+
+Class: LarvaRace
+Method: getWinner
+Parameters: String[], int
+Returns: int
+Method signature (be sure your method is public): int getWinner(String[]
+cycles, int distance);
+
+If two or more caterpillars tie, your method should return the lowest numbered
+caterpillar of the tied caterpillars.  Lowest numbered means the index of the
+first element in cycles of the tied cycles.  See example 4.
+
+
+NOTES
+
+*Caterpillars start with their heads at a distance of "distance" from the goal.
+*Caterpillars never interfere with each other's movements.
+*Caterpillars' moves are instantaneous.
+
+The diagram below shows a single cycle of the the caterpillar's movement for
+cycles = {"213"} and distance = 1
+
+T represents the tail end of the caterpillar.
+H represents the head of the caterpillar.
+G represents the goal.
+
+Time 0, no move has been chosen:
+T------H       G
+|_______|_______|
+ 1 inch  1 inch
+
+Time 1, move 2 is chosen:
+    T--H       G
+|___|___|_______|
+ 1/2 1/2 1 inch
+
+Time 2, move 1 is chosen:
+    T--H       G
+|___|___|_______|
+ 1/2 1/2 1 inch
+
+Time 3, move 3 is chosen:
+    T------H   G
+|___|_______|___|
+ 1/2 1 inch  1/2
+
+When H and G are in the same position or H has passed G, the caterpillar has
+reached the goal.
+
+
+TopCoder will ensure the validity of all inputs.
+Inputs are valid if all of the following criteria are met:
+* distance will be between 0 and 20, inclusive
+* cycles will contain between 1 and 10 elements, inclusive
+* The length of each element in cycles will be between 1 and 10, inclusive
+* Caterpillars will never choose move 2 more than eight times without chosing
+move 3
+* Caterpillars will never choose move 3 when already in the extended state.
+* At least one caterpillar will be able to reach the goal
+
+
+EXAMPLES
+
+0) cycles = {"123", "223", "23", "23223", "232"}
+   distance = 1
+   returns: 2
+
+Caterpillar 0: 123
+Caterpillar 1: 223
+Caterpillar 2: 23 
+Caterpillar 3: 23223
+Caterpillar 4: 232
+
+If the distance is 1 inch, which caterpillar will win?
+
+Caterpillar 0 moves 1 half-inch every 3 seconds, so it will take 6 seconds to
+reach the goal.
+
+Caterpillar 1 moves 3 quarters of an inch every 3 seconds, so it will take 6
+seconds to reach the goal.
+
+Caterpillar 2 moves 1 half-inch every 2 seconds, so it will take 4 seconds to
+reach the goal.
+
+Caterpillar 3 moves 1 half-inch during the first 2 seconds of its cycle and 3
+quarters of an inch during the last 3 seconds of its cycle, so it will take 5
+seconds to reach the goal.
+
+Caterpillar 4 moves 1 half-inch during the first 2 seconds of the race and 3
+quarters of an inch every 3 seconds thereafter, so it will take 5 seconds to
+reach the goal.
+
+Because caterpillar 2 takes the least time to reach the goal, your method
+should return 2.
+
+
+1) cycles = {"231", "2232", "23"}
+   distance = 3
+   returns: 2
+
+2) cycles = {"22223", "1123"}
+   distance = 1
+   returns: 1
+
+3) cycles = {"22223", "1123", "1"}
+   distance = 2
+   returns: 0
+
+4) cycles = {"2223", "23"}
+   distance = 0
+   returns: 0
+
+5) cycles = {"232322323", "232323223"}
+   distance = 3
+   returns: 0</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>LarvaRace</span></dd><dt>Method:</dt><dd><span>getWinner</span></dd><dt>Parameters:</dt><dd><span>String[], int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int getWinner(String[] param0, int param1)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4145/pm/754">2002-<!-- --> <!-- -->SRM 85<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level One</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/754/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"754\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"754\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"754\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"754\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"754\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T15f1,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nWhile sitting outside and enjoying the lovely weather, Dave noticed a bunch of\none-inch caterpillars at the base of a nearby tree.  The caterpillars were\nracing slowly to the top of the tree where a green leafed utopia was awaiting\ntheir immense hunger.  Dave took one look at the frantic little caterpillars\nand knew immediately which caterpillar would win.\n\nWhat Dave noticed was that all the caterpillars moved in the same general\npattern, but each caterpillar moved in its own distinct cycle.  At each second,\na caterpillar can do one of three things:\n\n1.) The caterpillar can remain still.\n2.) The caterpillar can bring its tail end halfway from the tail's current\nposition to its head.\n3.) The caterpillar can stretch out to its original length by moving its head\nforward and assuming an extended position.\n\nA caterpillar's cycle is a list of movements the caterpillar chooses.  When all\nmovements have been executed, the caterpillar will begin its cycle again.  At\nthe beginning of its first cycle, the caterpillar is in the extended state.\n\nA caterpillar may choose movement 1 at any time.  From its extended position, a\ncaterpillar may choose movement 2 up to 8 times before choosing movement 3.  A\ncaterpillar must not choose movement 3 if it is already in its extended\nposition.  If movement 2 is chosen, the caterpillar must choose movement 3\nsomewhere in its cycle.\n\n*The cycle \"3333\" is illegal because a caterpillar cannot choose move 3 from\nthe extended position.\n*The cycles \"2222\" and \"2222222232\" are all illegal because a caterpillar may\nnot choose movement 2 more than eight times without choosing movement 3 (this\napplies throughout the repetitions of each cycle).\n\nConsider the example where a caterpillar's cycle is \"223\".  At time 0 the\ncaterpillar moves its back end forward one half-inch.  At time 1 the\ncaterpillar moves its back end forward 1 quarter-inch.  At time 2 the\ncaterpillar moves its head forward 3 quarters of an inch.  At time 3 the\ncaterpillar begins its cycle again by moving its back end forward one\nhalf-inch.  For this example, the caterpillar makes 3 quarters of an inch\nprogress every 3 seconds.  Notice that at time 0 and 1 the caterpillar made\nonly potential progress and is actually no closer to the goal than it began.\n\nYour task is to determine which caterpillar will reach the goal first given the\ncycle of each caterpillar and the distance to the goal (in inches).  A\ncaterpillar reaches the goal when its head has moved the distance of \"distance\"\nor more.\n\n\nDEFINITION\n\nClass: LarvaRace\nMethod: getWinner\nParameters: String[], int\nReturns: int\nMethod signature (be sure your method is public): int getWinner(String[]\ncycles, int distance);\n\nIf two or more caterpillars tie, your method should return the lowest numbered\ncaterpillar of the tied caterpillars.  Lowest numbered means the index of the\nfirst element in cycles of the tied cycles.  See example 4.\n\n\nNOTES\n\n*Caterpillars start with their heads at a distance of \"distance\" from the goal.\n*Caterpillars never interfere with each other's movements.\n*Caterpillars' moves are instantaneous.\n\nThe diagram below shows a single cycle of the the caterpillar's movement for\ncycles = {\"213\"} and distance = 1\n\nT represents the tail end of the caterpillar.\nH represents the head of the caterpillar.\nG represents the goal.\n\nTime 0, no move has been chosen:\nT------H       G\n|_______|_______|\n 1 inch  1 inch\n\nTime 1, move 2 is chosen:\n    T--H       G\n|___|___|_______|\n 1/2 1/2 1 inch\n\nTime 2, move 1 is chosen:\n    T--H       G\n|___|___|_______|\n 1/2 1/2 1 inch\n\nTime 3, move 3 is chosen:\n    T------H   G\n|___|_______|___|\n 1/2 1 inch  1/2\n\nWhen H and G are in the same position or H has passed G, the caterpillar has\nreached the goal.\n\n\nTopCoder will ensure the validity of all inputs.\nInputs are valid if all of the following criteria are met:\n* distance will be between 0 and 20, inclusive\n* cycles will contain between 1 and 10 elements, inclusive\n* The length of each element in cycles will be between 1 and 10, inclusive\n* Caterpillars will never choose move 2 more than eight times without chosing\nmove 3\n* Caterpillars will never choose move 3 when already in the extended state.\n* At least one caterpillar will be able to reach the goal\n\n\nEXAMPLES\n\n0) cycles = {\"123\", \"223\", \"23\", \"23223\", \"232\"}\n   distance = 1\n   returns: 2\n\nCaterpillar 0: 123\nCaterpillar 1: 223\nCaterpillar 2: 23 \nCaterpillar 3: 23223\nCaterpillar 4: 232\n\nIf the distance is 1 inch, which caterpillar will win?\n\nCaterpillar 0 moves 1 half-inch every 3 seconds, so it will take 6 seconds to\nreach the goal.\n\nCaterpillar 1 moves 3 quarters of an inch every 3 seconds, so it will take 6\nseconds to reach the goal.\n\nCaterpillar 2 moves 1 half-inch every 2 seconds, so it will take 4 seconds to\nreach the goal.\n\nCaterpillar 3 moves 1 half-inch during the first 2 seconds of its cycle and 3\nquarters of an inch during the last 3 seconds of its cycle, so it will take 5\nseconds to reach the goal.\n\nCaterpillar 4 moves 1 half-inch during the first 2 seconds of the race and 3\nquarters of an inch every 3 seconds thereafter, so it will take 5 seconds to\nreach the goal.\n\nBecause caterpillar 2 takes the least time to reach the goal, your method\nshould return 2.\n\n\n1) cycles = {\"231\", \"2232\", \"23\"}\n   distance = 3\n   returns: 2\n\n2) cycles = {\"22223\", \"1123\"}\n   distance = 1\n   returns: 1\n\n3) cycles = {\"22223\", \"1123\", \"1\"}\n   distance = 2\n   returns: 0\n\n4) cycles = {\"2223\", \"23\"}\n   distance = 0\n   returns: 0\n\n5) cycles = {\"232322323\", \"232323223\"}\n   distance = 3\n   returns: 0\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"LarvaRace\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"LarvaRace\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"getWinner\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int getWinner(String[] param0, int param1)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4145/pm/754\",\"children\":[\"2002-\",\" \",\"SRM 85\",\" - Division \",\"I\",\", \",\"Level One\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

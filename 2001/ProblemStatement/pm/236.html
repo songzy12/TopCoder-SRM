@@ -1,0 +1,223 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->CatAndMouse<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+
+A group of cats and mice have been placed on a floating 2-dimensional
+floorboard.  Initially, each tile of the floorboard is occupied by one of four
+possible things: a cat, a mouse, a wall, or empty space.  A timer ticks once
+every second - the cats and mice each make a move simultaneously when the timer
+ticks.  (The initial floorboard represents the floorboard at 0 seconds - the
+timer makes its first tick at 1 second).  Cats and mice can only perform two
+physical movements: they can turn, or they can walk to an adjacent tile.  They
+cannot turn and walk in the same move.  Each move is instantaneous and takes no
+time to perform.
+
+Cats obey the following rules:
+-If there is no wall in front of the cat, it will move forward one tile
+(multiple cats can coexist on a single tile).
+-Otherwise, it will turn to its right.
+
+Mice obey the following rules:
+-If there is no wall behind the mouse, it will move backward one tile (multiple
+mice can coexist on a single tile).
+-Otherwise, it will turn to its left.
+
+Cats and mice are not too smart (as evidenced by the rules they follow), so
+they may fall off the floorboard entirely.  In that case, they will disappear
+(and no longer exist on the floorboard).  Also, mice will disappear instantly
+if they end up in the same tile as a cat.  However, if a mouse and cat cross
+paths without landing in the same tile, the mouse will not disappear (at least
+not because of that particular cat).
+
+The initial floorboard is given as a String[] (this String[] will be referred
+to as initialBoard for the rest of the problem statement). Each String in
+initialBoard represents a single row of the floorboard (first String is the top
+row, last String is the bottom row).  Each String will contain ints
+representing the contents of that row:
+
+0 = empty space
+1 = wall
+2 = cat
+3 = mouse
+
+So, on a m x n floorboard, coordinates (0,0) will be represented by the first
+int in the first String in initialBoard.  Coordinates (m-1,n-1) will be
+represented by the last int in the last String in initialBoard.  Coordinates
+(x,y) will be represented by the xth character of the yth String in
+initialBoard - where x represents the column and y represents the row.
+
+Initially, all mice will face in the direction specified by the
+initialMouseDirection parameter.  This value is an integer:
+
+0 = north
+1 = east
+2 = south
+3 = west
+
+All cats will initially face the opposite direction as the mice (for example,
+if the mice are facing north initially, the cats will be facing south).
+
+Implement a class CatAndMouse, which contains a method numLivingMice.
+numLivingMice returns the number of living mice on the floorboard after a
+specified number of seconds have elapsed.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+*initialBoard can contain between 0 and 20 elements inclusive.  Strings in
+initialBoard can be between 0 and 20 characters in length, and each String will
+be of equal length.
+*characters in the elements of initialBoard will be integers between 0 and 3
+inclusive.
+*timeElapsed will be between 0 and 100 inclusive.
+*initialMouseDirection will be between 0 and 3 inclusive.
+
+DEFINITION
+
+Class name: CatAndMouse
+Method name: numLivingMice
+Parameters: String[], int, int
+Returns: int
+
+The method signature is:
+int numLivingMice(String[] initialBoard, int timeElapsed, int
+initialMouseDirection);
+Be sure your method is public.
+
+EXAMPLES
+
+initial floorboard:
+
+{"1011",
+ "3333",
+ "2110",
+ "1112"}
+
+timeElapsed: 2
+initialMouseDirection: 2 (south)
+
+(Refer to http://www.topcoder.com/contest/CatAndMouse1.html for a visual
+representation of this example.)
+There are four mice (all facing south, and all in the second row from the top)
+on the floorboard initially.  There are two cats (both facing north).
+
+After one second:
+
+{"1311",
+ "2033",
+ "0112",
+ "1110"}
+
+One mouse has been eaten by a cat (which has moved forward one cell) because it
+could not move backwards.  Another mouse has moved backwards (north) one cell.
+The other two mice cannot move backwards, so they re-orient themselves to face
+to their left.  The other cat has moved forward one cell.
+
+After two seconds:
+
+{"1011",
+ "2332",
+ "0110",
+ "1110"}
+
+One mouse has fallen off the northern border of the floor and disappeared.  The
+other two mice have moved backwards one cell each.  One cat cannot move
+forward, so it turns to its right.  The other cat moves forward one cell.
+
+Return value: 2 living mice on the board
+
+Another example:
+
+initialBoard:
+
+{"111",
+ "121",
+ "101",
+ "101",
+ "131"}
+
+timeElapsed: 3
+initialMouseDirection: 2 (south)
+
+(Refer to http://www.topcoder.com/contest/CatAndMouse2.html for a visual
+representation of this example.)
+
+After one second:
+
+{"111",
+ "121",
+ "101",
+ "131",
+ "101"}
+
+The cat (which was facing north) cannot move forward, so it turns right.
+The mouse goes backward one cell.
+
+After two seconds:
+
+{"111",
+ "121",
+ "131",
+ "101",
+ "101"}
+
+The cat (which was facing east) cannot move forward this time either, so
+it turns right again.  The mouse goes backward another cell.
+
+After three seconds:
+
+{"111",
+ "131",
+ "121",
+ "101",
+ "101"}
+
+The cat moves forward one cell.  The mouse goes backward one cell.  They
+cross paths, but land in different cells, so the mouse survives.
+
+Return value: 1 living mouse on the board
+
+More examples:
+
+----
+
+initialBoard:
+
+{"13131",
+ "21212",
+ "01010",
+ "31113",
+ "21012"}
+
+timeElapsed: 1
+initialMouseDirection: 0
+
+Return value: 4
+
+----
+
+initialBoard (same as above):
+
+{"13131",
+ "21212",
+ "01010",
+ "31113",
+ "21012"}
+
+timeElapsed: 2
+initialMouseDirection: 0
+
+Return value: 2
+
+----
+
+initialBoard:
+
+{"1111",
+ "1331",
+ "1331",
+ "1111"}
+
+timeElapsed: 4
+initialMouseDirection: 1
+
+return value: 4
+
+</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>CatAndMouse</span></dd><dt>Method:</dt><dd><span>numLivingMice</span></dd><dt>Parameters:</dt><dd><span>String[], int, int</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int numLivingMice(String[] param0, int param1, int param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4014/pm/236">2001-<!-- --> <!-- -->SRM 43<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li><li><a href="/ProblemDetail/rd/4014/pm/236">2001-<!-- --> <!-- -->SRM 43<!-- --> - Division <!-- -->II<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/236/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"236\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"236\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"236\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"236\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"236\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T1694,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\n\nA group of cats and mice have been placed on a floating 2-dimensional\nfloorboard.  Initially, each tile of the floorboard is occupied by one of four\npossible things: a cat, a mouse, a wall, or empty space.  A timer ticks once\nevery second - the cats and mice each make a move simultaneously when the timer\nticks.  (The initial floorboard represents the floorboard at 0 seconds - the\ntimer makes its first tick at 1 second).  Cats and mice can only perform two\nphysical movements: they can turn, or they can walk to an adjacent tile.  They\ncannot turn and walk in the same move.  Each move is instantaneous and takes no\ntime to perform.\n\nCats obey the following rules:\n-If there is no wall in front of the cat, it will move forward one tile\n(multiple cats can coexist on a single tile).\n-Otherwise, it will turn to its right.\n\nMice obey the following rules:\n-If there is no wall behind the mouse, it will move backward one tile (multiple\nmice can coexist on a single tile).\n-Otherwise, it will turn to its left.\n\nCats and mice are not too smart (as evidenced by the rules they follow), so\nthey may fall off the floorboard entirely.  In that case, they will disappear\n(and no longer exist on the floorboard).  Also, mice will disappear instantly\nif they end up in the same tile as a cat.  However, if a mouse and cat cross\npaths without landing in the same tile, the mouse will not disappear (at least\nnot because of that particular cat).\n\nThe initial floorboard is given as a String[] (this String[] will be referred\nto as initialBoard for the rest of the problem statement). Each String in\ninitialBoard represents a single row of the floorboard (first String is the top\nrow, last String is the bottom row).  Each String will contain ints\nrepresenting the contents of that row:\n\n0 = empty space\n1 = wall\n2 = cat\n3 = mouse\n\nSo, on a m x n floorboard, coordinates (0,0) will be represented by the first\nint in the first String in initialBoard.  Coordinates (m-1,n-1) will be\nrepresented by the last int in the last String in initialBoard.  Coordinates\n(x,y) will be represented by the xth character of the yth String in\ninitialBoard - where x represents the column and y represents the row.\n\nInitially, all mice will face in the direction specified by the\ninitialMouseDirection parameter.  This value is an integer:\n\n0 = north\n1 = east\n2 = south\n3 = west\n\nAll cats will initially face the opposite direction as the mice (for example,\nif the mice are facing north initially, the cats will be facing south).\n\nImplement a class CatAndMouse, which contains a method numLivingMice.\nnumLivingMice returns the number of living mice on the floorboard after a\nspecified number of seconds have elapsed.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n*initialBoard can contain between 0 and 20 elements inclusive.  Strings in\ninitialBoard can be between 0 and 20 characters in length, and each String will\nbe of equal length.\n*characters in the elements of initialBoard will be integers between 0 and 3\ninclusive.\n*timeElapsed will be between 0 and 100 inclusive.\n*initialMouseDirection will be between 0 and 3 inclusive.\n\nDEFINITION\n\nClass name: CatAndMouse\nMethod name: numLivingMice\nParameters: String[], int, int\nReturns: int\n\nThe method signature is:\nint numLivingMice(String[] initialBoard, int timeElapsed, int\ninitialMouseDirection);\nBe sure your method is public.\n\nEXAMPLES\n\ninitial floorboard:\n\n{\"1011\",\n \"3333\",\n \"2110\",\n \"1112\"}\n\ntimeElapsed: 2\ninitialMouseDirection: 2 (south)\n\n(Refer to http://www.topcoder.com/contest/CatAndMouse1.html for a visual\nrepresentation of this example.)\nThere are four mice (all facing south, and all in the second row from the top)\non the floorboard initially.  There are two cats (both facing north).\n\nAfter one second:\n\n{\"1311\",\n \"2033\",\n \"0112\",\n \"1110\"}\n\nOne mouse has been eaten by a cat (which has moved forward one cell) because it\ncould not move backwards.  Another mouse has moved backwards (north) one cell.\nThe other two mice cannot move backwards, so they re-orient themselves to face\nto their left.  The other cat has moved forward one cell.\n\nAfter two seconds:\n\n{\"1011\",\n \"2332\",\n \"0110\",\n \"1110\"}\n\nOne mouse has fallen off the northern border of the floor and disappeared.  The\nother two mice have moved backwards one cell each.  One cat cannot move\nforward, so it turns to its right.  The other cat moves forward one cell.\n\nReturn value: 2 living mice on the board\n\nAnother example:\n\ninitialBoard:\n\n{\"111\",\n \"121\",\n \"101\",\n \"101\",\n \"131\"}\n\ntimeElapsed: 3\ninitialMouseDirection: 2 (south)\n\n(Refer to http://www.topcoder.com/contest/CatAndMouse2.html for a visual\nrepresentation of this example.)\n\nAfter one second:\n\n{\"111\",\n \"121\",\n \"101\",\n \"131\",\n \"101\"}\n\nThe cat (which was facing north) cannot move forward, so it turns right.\nThe mouse goes backward one cell.\n\nAfter two seconds:\n\n{\"111\",\n \"121\",\n \"131\",\n \"101\",\n \"101\"}\n\nThe cat (which was facing east) cannot move forward this time either, so\nit turns right again.  The mouse goes backward another cell.\n\nAfter three seconds:\n\n{\"111\",\n \"131\",\n \"121\",\n \"101\",\n \"101\"}\n\nThe cat moves forward one cell.  The mouse goes backward one cell.  They\ncross paths, but land in different cells, so the mouse survives.\n\nReturn value: 1 living mouse on the board\n\nMore examples:\n\n----\n\ninitialBoard:\n\n{\"13131\",\n \"21212\",\n \"01010\",\n \"31113\",\n \"21012\"}\n\ntimeElapsed: 1\ninitialMouseDirection: 0\n\nReturn value: 4\n\n----\n\ninitialBoard (same as above):\n\n{\"13131\",\n \"21212\",\n \"01010\",\n \"31113\",\n \"21012\"}\n\ntimeElapsed: 2\ninitialMouseDirection: 0\n\nReturn value: 2\n\n----\n\ninitialBoard:\n\n{\"1111\",\n \"1331\",\n \"1331\",\n \"1111\"}\n\ntimeElapsed: 4\ninitialMouseDirection: 1\n\nreturn value: 4\n\n\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"CatAndMouse\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"CatAndMouse\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"numLivingMice\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String[], int, int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int numLivingMice(String[] param0, int param1, int param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4014/pm/236\",\"children\":[\"2001-\",\" \",\"SRM 43\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4014/pm/236\",\"children\":[\"2001-\",\" \",\"SRM 43\",\" - Division \",\"II\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

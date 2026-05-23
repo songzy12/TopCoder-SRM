@@ -1,0 +1,185 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->TronRacing<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><pre xmlns="http://topcoder.com">PROBLEM STATEMENT
+In the classic science fiction movie Tron, humanoid computer programs competed
+against each other by playing a racing game.  Each competitor drives around in
+a futuristic bike that erects a wall in its path.  Drivers that crash lose the
+game.  Your program will simulate this game being played.
+
+There will be 4 bikers competing on a X by Y grid where X is the width and Y is
+the height.  Each biker will start at the middle of their respective wall
+heading toward the center of the grid (the grid dimensions are always odd).
+Bikers zero, one, two, and three start against the top, right, bottom, and left
+walls respectively.  They are heading downward, leftward, upward, and rightward
+respectively.  Each biker can change direction numerous times as the game
+progresses.  If a biker collides with a boundary, another biker, or the wall
+erected by another biker he loses, and all of the walls he built are removed
+from the playing field.    
+
+XXXXXXXXXXXXXXX
+X      0      X |
+X             X |
+X             X h
+X             X e
+X3           1X i
+X             X g
+X             X h
+X             X t
+X      2      X |
+XXXXXXXXXXXXXXX
+ ----width----
+In the above picture the width and height are the dimensions of the playing
+field, and there is a boundary just outside the playing field. 
+
+The movement works as follows.  Each second the following events occur in
+order:  
+1)Each biker can turn either left, or right with respect to their direction.
+If no turn is made the biker's direction remains the same.  
+2)Each biker advances one space in the direction he is facing(after event 1 has
+occured) and erects a wall in the space he used to reside in.  
+3)Each biker that shares coordinates with a wall, boundary, or another biker is
+removed from the playing field.
+4)All walls erected by bikers removed in step 3 are removed.  
+
+Multiple bikers crashing simultaneously are all removed.  In addition, if a
+player shares coordinates with a wall or boundary only the player is removed.
+The boundary or wall still remains.  Walls are only removed when the player who
+created them loses and not when they are crashed into.
+
+Seconds begin at 0 and increment until the game is over.  The initial set of
+events occur during second 0.  Play ends when either 1 or 0 player(s) are left
+on the grid at the end of a second(after the events of the second have occurred).
+
+You will be given a list of moves for each player.  They lists will be of the
+format:
+"&lt;option&gt;&lt;time&gt;_&lt;option&gt;&lt;time&gt;..." (brackets for clarity, '_' denoting one or
+more spaces)
+&lt;option&gt; can be 'L' or 'R' signifying a left or right turn respectively
+&lt;time&gt; an integer between 0 and 1250 inclusive signifies the second during
+which the turn occurred
+"L12 L0 R19"
+Means a left turn will occur at second 12, a left turn will occur at second 0,
+and a right turn will occur at second 19.
+
+Create a class TronRacing that contains the method whoWins, which takes an int
+width, an int height, and a String[] players, and returns an int describing who
+won.  Return values of 0, 1, 2, and 3 indicate their respective player won.  A
+return value of -1 means there was no winner (remaining competitors crashed
+simultaneously).
+
+DEFINITION
+Class: TronRacing
+Method: whoWins
+Parameters: int, int, String[]
+Returns: int
+Method signature (be sure your method is public):  int whoWins(int width, int
+height, String[] players);
+
+NOTES
+- The elements of players need not be sorted by time.
+- The elements of players may contain values for options that occur after that
+player dies.
+- Entries in players only correspond to Left and Right turns.  The choice to
+not turn is the default.
+- If a player collides with a wall the same second the wall is removed he loses
+- A player does lose if he crashes into his own wall.  At the end of that
+second when walls are removed, his walls are then removed.
+
+TopCoder will ensure the validity of the inputs.  Inputs are valid if all of
+the following criteria are met:
+
+- The elements of the players will be of the form (brackets are for clarity):
+&lt;option&gt;&lt;time&gt;_&lt;option&gt;&lt;time&gt;_&lt;option&gt;&lt;time&gt; ... where '_' denotes one or more
+spaces
+- &lt;option&gt; is either L or R denoting left or right turn respectively
+- &lt;time&gt; is an int between 0 and 1250 inclusive with no leading zeros denoting
+the second during which the corresponding &lt;option&gt; occurs
+- Each element of players will have no leading or trailing whitespace
+- players will contain exactly 4 elements
+- The elements of players will have length between 1 and 50 inclusive
+- width is odd
+- height is odd
+- width is between 3 and 49 inclusive
+- height is between 3 and 49 inclusive
+- Each element of players will contain no repeated &lt;time&gt; values
+
+
+EXAMPLES
+'.' denotes empty space 
+A, B, C, D denote players 0, 1, 2, and 3 respectively 
+a, b, c, d (lowercase) denote the walls of players 0, 1, 2, and 3 respectively  
+Coordinates will be of the form &lt;row,column&gt; where row and column are 0-based
+and start in the upper left hand corner.  Row grows downward and column grows
+to the right.
+Pictures are an illustration of what the grid should look like
+
+1) width = 9, height = 9, players = {"R100","R100","R100","R100"}
+Before the race begins:         After second 0:
+....A....                       ....a....
+.........                       ....A....  
+.........                       .........
+.........                       .........
+D.......B                       dD.....Bb
+.........                       .........
+.........                       .........
+.........                       ....C....
+....C....                       ....c....
+
+After second 2:                 After second 3:
+....a....                       .........
+....a....                       .........  
+....a....                       .........
+....A....                       .........
+dddD.Bbbb                       .........
+....C....                       .........
+....c....                       .........
+....c....                       .........
+....c....                       .........
+The bikers start at the middle of their respective walls. Player 0 is at &lt;0,4&gt;,
+player 1 is at &lt;4,8&gt;, player 2 is at &lt;8,4&gt; and player 3 is at &lt;4,0&gt;.  As can be
+seen from the pictures the racers all head toward each other, crash, and lose
+so the nobody wins.  (Note that all of the bikers would turn right on second
+100, but since they crash first, we don't have to worry about it).
+Method returns -1.
+
+2) width = 9, height = 3, players = {"L9 R7","R100","L94","R16"}
+Before the race begins:         After second 0:
+....A....                       .........
+D.......B                       dD.....Bb
+....C....                       .........
+
+After second 2:                 After second 3:
+.........                       .........
+dddD.Bbbb                       .........
+.........                       .........
+
+As can be seen from the pictures the racers all head toward each other.
+Players 0 and 2 crash early on, whereas players 1 and 3 crash later.  The value
+in each element of players are all too high time-wise to affect play.  Nobody
+won the game.
+Method returns -1.
+
+3) width = 9, height = 3, players = {"R0","R100","R100","R0"}
+Before the race begins:         After second 0:
+....A....                       ...Aa....
+D.......B                       d...C..Bb
+....C....                       D...c....
+
+After second 1:                 After second 3:
+..Aaa....                       Aaaaa....
+......Bbb                       ....Bbbbb
+.........                       .........
+
+As can be seen from the pictures racers 0 and 3 changed directions early.
+Player 3 ended up running into the boundary whereas player 2 ran into player
+0's wall.  After second 4, player 0 will have run into the boundary thus giving
+player 1 the win.  
+Method returns 1.
+
+4) width = 11, height = 7, players = {"R2   L1   R0","R3   R4","L2  L4","R1000"}
+Method returns 1.
+
+5) width = 49, height = 49, players = {"R0 R1  R2","R0 R1  R2","R0 R1
+R2","R1000"}
+Method returns 3.
+
+6) width = 3, height = 3, players = {"R0","L0","R1000","L0"}
+Method returns 2.</pre></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>TronRacing</span></dd><dt>Method:</dt><dd><span>whoWins</span></dd><dt>Parameters:</dt><dd><span>int, int, String[]</span></dd><dt>Returns:</dt><dd><span>int</span></dd><dt>Method signature:</dt><dd><span>int whoWins(int param0, int param1, String[] param2)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Constraints</h3><ul></ul></div><div><h3>Examples</h3><ol></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/4205/pm/741">2002-<!-- --> <!-- -->SRM 97<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Two</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/741/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"741\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"741\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"741\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"741\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"741\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T2027,"])</script><script>self.__next_f.push([1,"\u003cpre xmlns=\"http://topcoder.com\"\u003ePROBLEM STATEMENT\nIn the classic science fiction movie Tron, humanoid computer programs competed\nagainst each other by playing a racing game.  Each competitor drives around in\na futuristic bike that erects a wall in its path.  Drivers that crash lose the\ngame.  Your program will simulate this game being played.\n\nThere will be 4 bikers competing on a X by Y grid where X is the width and Y is\nthe height.  Each biker will start at the middle of their respective wall\nheading toward the center of the grid (the grid dimensions are always odd).\nBikers zero, one, two, and three start against the top, right, bottom, and left\nwalls respectively.  They are heading downward, leftward, upward, and rightward\nrespectively.  Each biker can change direction numerous times as the game\nprogresses.  If a biker collides with a boundary, another biker, or the wall\nerected by another biker he loses, and all of the walls he built are removed\nfrom the playing field.    \n\nXXXXXXXXXXXXXXX\nX      0      X |\nX             X |\nX             X h\nX             X e\nX3           1X i\nX             X g\nX             X h\nX             X t\nX      2      X |\nXXXXXXXXXXXXXXX\n ----width----\nIn the above picture the width and height are the dimensions of the playing\nfield, and there is a boundary just outside the playing field. \n\nThe movement works as follows.  Each second the following events occur in\norder:  \n1)Each biker can turn either left, or right with respect to their direction.\nIf no turn is made the biker's direction remains the same.  \n2)Each biker advances one space in the direction he is facing(after event 1 has\noccured) and erects a wall in the space he used to reside in.  \n3)Each biker that shares coordinates with a wall, boundary, or another biker is\nremoved from the playing field.\n4)All walls erected by bikers removed in step 3 are removed.  \n\nMultiple bikers crashing simultaneously are all removed.  In addition, if a\nplayer shares coordinates with a wall or boundary only the player is removed.\nThe boundary or wall still remains.  Walls are only removed when the player who\ncreated them loses and not when they are crashed into.\n\nSeconds begin at 0 and increment until the game is over.  The initial set of\nevents occur during second 0.  Play ends when either 1 or 0 player(s) are left\non the grid at the end of a second(after the events of the second have occurred).\n\nYou will be given a list of moves for each player.  They lists will be of the\nformat:\n\"\u0026lt;option\u0026gt;\u0026lt;time\u0026gt;_\u0026lt;option\u0026gt;\u0026lt;time\u0026gt;...\" (brackets for clarity, '_' denoting one or\nmore spaces)\n\u0026lt;option\u0026gt; can be 'L' or 'R' signifying a left or right turn respectively\n\u0026lt;time\u0026gt; an integer between 0 and 1250 inclusive signifies the second during\nwhich the turn occurred\n\"L12 L0 R19\"\nMeans a left turn will occur at second 12, a left turn will occur at second 0,\nand a right turn will occur at second 19.\n\nCreate a class TronRacing that contains the method whoWins, which takes an int\nwidth, an int height, and a String[] players, and returns an int describing who\nwon.  Return values of 0, 1, 2, and 3 indicate their respective player won.  A\nreturn value of -1 means there was no winner (remaining competitors crashed\nsimultaneously).\n\nDEFINITION\nClass: TronRacing\nMethod: whoWins\nParameters: int, int, String[]\nReturns: int\nMethod signature (be sure your method is public):  int whoWins(int width, int\nheight, String[] players);\n\nNOTES\n- The elements of players need not be sorted by time.\n- The elements of players may contain values for options that occur after that\nplayer dies.\n- Entries in players only correspond to Left and Right turns.  The choice to\nnot turn is the default.\n- If a player collides with a wall the same second the wall is removed he loses\n- A player does lose if he crashes into his own wall.  At the end of that\nsecond when walls are removed, his walls are then removed.\n\nTopCoder will ensure the validity of the inputs.  Inputs are valid if all of\nthe following criteria are met:\n\n- The elements of the players will be of the form (brackets are for clarity):\n\u0026lt;option\u0026gt;\u0026lt;time\u0026gt;_\u0026lt;option\u0026gt;\u0026lt;time\u0026gt;_\u0026lt;option\u0026gt;\u0026lt;time\u0026gt; ... where '_' denotes one or more\nspaces\n- \u0026lt;option\u0026gt; is either L or R denoting left or right turn respectively\n- \u0026lt;time\u0026gt; is an int between 0 and 1250 inclusive with no leading zeros denoting\nthe second during which the corresponding \u0026lt;option\u0026gt; occurs\n- Each element of players will have no leading or trailing whitespace\n- players will contain exactly 4 elements\n- The elements of players will have length between 1 and 50 inclusive\n- width is odd\n- height is odd\n- width is between 3 and 49 inclusive\n- height is between 3 and 49 inclusive\n- Each element of players will contain no repeated \u0026lt;time\u0026gt; values\n\n\nEXAMPLES\n'.' denotes empty space \nA, B, C, D denote players 0, 1, 2, and 3 respectively \na, b, c, d (lowercase) denote the walls of players 0, 1, 2, and 3 respectively  \nCoordinates will be of the form \u0026lt;row,column\u0026gt; where row and column are 0-based\nand start in the upper left hand corner.  Row grows downward and column grows\nto the right.\nPictures are an illustration of what the grid should look like\n\n1) width = 9, height = 9, players = {\"R100\",\"R100\",\"R100\",\"R100\"}\nBefore the race begins:         After second 0:\n....A....                       ....a....\n.........                       ....A....  \n.........                       .........\n.........                       .........\nD.......B                       dD.....Bb\n.........                       .........\n.........                       .........\n.........                       ....C....\n....C....                       ....c....\n\nAfter second 2:                 After second 3:\n....a....                       .........\n....a....                       .........  \n....a....                       .........\n....A....                       .........\ndddD.Bbbb                       .........\n....C....                       .........\n....c....                       .........\n....c....                       .........\n....c....                       .........\nThe bikers start at the middle of their respective walls. Player 0 is at \u0026lt;0,4\u0026gt;,\nplayer 1 is at \u0026lt;4,8\u0026gt;, player 2 is at \u0026lt;8,4\u0026gt; and player 3 is at \u0026lt;4,0\u0026gt;.  As can be\nseen from the pictures the racers all head toward each other, crash, and lose\nso the nobody wins.  (Note that all of the bikers would turn right on second\n100, but since they crash first, we don't have to worry about it).\nMethod returns -1.\n\n2) width = 9, height = 3, players = {\"L9 R7\",\"R100\",\"L94\",\"R16\"}\nBefore the race begins:         After second 0:\n....A....                       .........\nD.......B                       dD.....Bb\n....C....                       .........\n\nAfter second 2:                 After second 3:\n.........                       .........\ndddD.Bbbb                       .........\n.........                       .........\n\nAs can be seen from the pictures the racers all head toward each other.\nPlayers 0 and 2 crash early on, whereas players 1 and 3 crash later.  The value\nin each element of players are all too high time-wise to affect play.  Nobody\nwon the game.\nMethod returns -1.\n\n3) width = 9, height = 3, players = {\"R0\",\"R100\",\"R100\",\"R0\"}\nBefore the race begins:         After second 0:\n....A....                       ...Aa....\nD.......B                       d...C..Bb\n....C....                       D...c....\n\nAfter second 1:                 After second 3:\n..Aaa....                       Aaaaa....\n......Bbb                       ....Bbbbb\n.........                       .........\n\nAs can be seen from the pictures racers 0 and 3 changed directions early.\nPlayer 3 ended up running into the boundary whereas player 2 ran into player\n0's wall.  After second 4, player 0 will have run into the boundary thus giving\nplayer 1 the win.  \nMethod returns 1.\n\n4) width = 11, height = 7, players = {\"R2   L1   R0\",\"R3   R4\",\"L2  L4\",\"R1000\"}\nMethod returns 1.\n\n5) width = 49, height = 49, players = {\"R0 R1  R2\",\"R0 R1  R2\",\"R0 R1\nR2\",\"R1000\"}\nMethod returns 3.\n\n6) width = 3, height = 3, players = {\"R0\",\"L0\",\"R1000\",\"L0\"}\nMethod returns 2.\u003c/pre\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"TronRacing\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"TronRacing\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"whoWins\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int, String[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int whoWins(int param0, int param1, String[] param2)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],null,[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/4205/pm/741\",\"children\":[\"2002-\",\" \",\"SRM 97\",\" - Division \",\"I\",\", \",\"Level Two\"]}]}]]}]}]]}]]}]\n"])</script></body></html>

@@ -1,0 +1,438 @@
+<!DOCTYPE html><html lang="en"><head><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="font" href="/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="preload" as="font" href="/_next/static/media/92f44bb82993d879-s.p.woff2" crossorigin="" type="font/woff2"/><link rel="stylesheet" href="/_next/static/css/d3df112486f97f47.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/ce229e8280b65b88.css" data-precedence="next"/><link rel="stylesheet" href="/_next/static/css/67cd89eb2f8905c7.css" data-precedence="next"/><link rel="preload" href="/_next/static/chunks/webpack-f608cced2fbc4acf.js" as="script" fetchPriority="low"/><script src="/_next/static/chunks/fd9d1056-44fe9588d0e5e7bc.js" async=""></script><script src="/_next/static/chunks/596-8d845297122c6823.js" async=""></script><script src="/_next/static/chunks/main-app-f07f8834a8b67325.js" async=""></script><title>TopCoder Statistics - Problem Statement</title><meta name="description" content="TopCoder Statistics - Problem Archive"/><link rel="icon" href="/favicon.ico" type="image/x-icon" sizes="16x16"/><meta name="next-size-adjust"/><script src="/_next/static/chunks/polyfills-78c92fac7aa8fdd8.js" noModule=""></script></head><body class="__className_aaf875"><main><h1><a href="/">Statistics</a></h1><h2>Problem Statement for &quot;<!-- -->DoubleXorGame<!-- -->&quot;</h2><section class="__className_c9cbed"><article><div><h3>Problem Statement</h3><div><p xmlns="http://topcoder.com"><i>Time limit is 5 seconds.</i></p><br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Two players are playing a game.
+The game is played on a large directed graph.
+The large graph consists of K disjoint copies of the same small directed graph.
+The small graph has no multiple edges and no self-loops (but may contain other cycles).
+</p>
+<p xmlns="http://topcoder.com">
+Each vertex of the game graph is either black or white.
+</p>
+<p xmlns="http://topcoder.com">
+The players take alternating turns.
+Each turn of the game looks as follows:
+</p>
+<ol xmlns="http://topcoder.com">
+<li>The player selects a black vertex v.</li>
+<li>If v has one or more outgoing edges, the player also selects exactly one follower of v. (I.e., a vertex w such that v-&amp;gt;w is an edge.)</li>
+<li>The player toggles the color of all selected vertices. (Black becomes white and vice versa.)</li>
+</ol>
+<p xmlns="http://topcoder.com">
+If all vertices are white, the game ends. The player who is unable to make a valid move loses, and their opponent wins.
+</p>
+<p xmlns="http://topcoder.com">
+Sometimes both players are able to play the game indefinitely in a way that they both avoid losing but at the same time neither of them can force a win. Such games are considered draws.
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+You are given a description of the small graph: the number <b>N</b> of its vertices, and a list of its edges.
+Assuming that the vertices of the small graph are numbered from 0 to <b>N</b>-1, its directed edges are the edges <b>X</b>[i] -&amp;gt; <b>Y</b>[i], for all valid i.
+</p>
+<p xmlns="http://topcoder.com">
+You are also given the description of the initial colors in the large graph: the <type>int[]</type> <b>states</b> with K elements - one for each copy of the small graph.
+Each element of <b>states</b> describes one copy of the small graph.
+Each element of <b>states</b> is a <b>N</b>-bit bitmask specifying the indices of black vertices (see Notes).
+</p>
+<br xmlns="http://topcoder.com"/>
+<p xmlns="http://topcoder.com">
+Assume both players play optimally. Return "win" if the next player to move wins, "lose" if they lose, and "draw" otherwise.
+</p></div></div><div><h3>Definition</h3><dl><dt>Class:</dt><dd><span>DoubleXorGame</span></dd><dt>Method:</dt><dd><span>solve</span></dd><dt>Parameters:</dt><dd><span>int, int[], int[], int[]</span></dd><dt>Returns:</dt><dd><span>String</span></dd><dt>Method signature:</dt><dd><span>String solve(int N, int[] X, int[] Y, int[] states)</span></dd><dt>(be sure your method is public)</dt></dl></div><div><h3>Notes</h3><ul><li>For example, states[0] = 25 is interpreted as follows: 25 = 2^4 + 2^3 + 2^0, and therefore in this copy of the small graph the vertices 4, 3, and 0 are black.</li></ul></div><div><h3>Constraints</h3><ul><li><span>N will be between 1 and 12, inclusive.</span></li><li><span>X will have between 0 and N*(N-1) elements, inclusive.</span></li><li><span>X and Y will have the same number of elements.</span></li><li><span>All elements of X and Y will be between 0 and N-1, inclusive.</span></li><li><span>For each i, X[i] and Y[i] will be distinct.</span></li><li><span>All pairs (X[i], Y[i]) will be distinct.</span></li><li><span>states will have between 1 and 50 elements, inclusive.</span></li><li><span>Each element of states will be between 0 and (2^N)-1, inclusive.</span></li></ul></div><div><h3>Examples</h3><ol><li><div><p>1</p>
+<p>{}</p>
+<p>{}</p>
+<p>{1, 1, 1, 0, 1}</p>
+<p>Returns: "lose"</p>
+<p>
+The small graph is a single isolated vertex. The large graph consists of five copies of the small graph. Initially, four of them have a black vertex and the fifth has a white vertex.
+
+
+The only valid move type is to select a black vertex and toggle it to make it white.
+
+
+The game will end in exactly four moves, and thus this is a losing position for the next player to play.
+</p></div></li><li><div><p>1</p>
+<p>{}</p>
+<p>{}</p>
+<p>{1, 1, 1, 1, 1}</p>
+<p>Returns: "win"</p>
+<p>Almost the same test case, but with an odd number of black vertices we have a winning position.</p></div></li><li><div><p>3</p>
+<p>{0, 1, 2}</p>
+<p>{1, 2, 0}</p>
+<p>{4}</p>
+<p>Returns: "draw"</p>
+<p>
+The small graph is a directed triangle. The large graph has one copy of the triangle, and in that copy only vertex 2 is black.
+
+
+Each valid move turns one vertex from black to white and one (its only follower) from white to black.
+Thus, regardless of what the players do, the game will continue forever and thus it is a draw.
+</p></div></li><li><div><p>5</p>
+<p>{0, 1, 2, 3, 3}</p>
+<p>{1, 2, 3, 0, 4}</p>
+<p>{24}</p>
+<p>Returns: "win"</p>
+<p>
+The graph consists of a directed cycle 0-&gt;1-&gt;2-&gt;0 and two more edges: 3-&gt;0 and 3-&gt;4.
+
+
+Initially, vertices 3 and 4 are black. Thus, there are three possible first moves:
+
+
+Toggle 3 and its follower 0.
+Toggle 4 and its follower 4.
+Toggle 4 only (no followers).
+
+
+The move that toggles both 3 and 0 clearly turns the game into a draw, as in the previous example. 
+
+
+Toggling just vertex 4 also results in a draw if both players play optimally. 
+This is because our opponent will see only vertex 3 black, and they have two possible moves: one of them toggles 3 and 4 (in which case we then toggle 4 and win), the other toggles 3 and 0 (in which case we have the familiar draw).
+
+
+Luckily for us, the last possible move in the given position (the one that toggles both 3 and 4) wins the game immediately.
+</p></div></li><li><div><p>5</p>
+<p>{0, 1, 2, 3, 3}</p>
+<p>{1, 2, 3, 0, 4}</p>
+<p>{8}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>5</p>
+<p>{0, 1, 2, 3}</p>
+<p>{1, 2, 3, 4}</p>
+<p>{13, 5, 9}</p>
+<p>Returns: "win"</p>
+<p>The small graph is a path with five vertices. We have three copies of such a path, each starts with a different pattern of white and black.</p></div></li><li><div><p>5</p>
+<p>{0, 1, 2, 3, 4}</p>
+<p>{1, 2, 3, 4, 3}</p>
+<p>{13, 5, 9}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{1123, 2224, 326, 693, 586, 698, 523, 1583, 177, 1491, 2236, 424, 2903, 2405, 411, 396, 3382, 3433}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{3107, 2076, 2820, 232, 3203, 2626, 2683, 3001, 270, 1249, 3027, 125, 2370, 1154, 450, 3064, 1742, 1149, 3587, 3325, 1327, 980, 1465, 1750, 3884, 3871}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{185}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{2166, 1585, 4022, 2680, 53, 1496, 3753, 2233, 516, 1125, 2399, 1670, 509, 3574, 984}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}</p>
+<p>{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}</p>
+<p>{2355, 298, 3030, 2030, 3103, 359, 3768, 1011, 3083, 3408, 3447, 2530, 3938, 3039, 194, 3584}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{195, 609, 1162, 2665, 2194, 2674, 2067, 2139, 609, 1699, 633, 1616, 3242, 1224, 1587, 1560, 1131, 1232, 593, 66, 57, 3081}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{514, 2179, 2290, 3696, 1050, 705, 3746, 249, 1155, 514, 1666, 3825, 2714, 249, 2050, 760, 1115, 3752, 1649, 2730, 3161, 3130, 225, 624, 169, 1713}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{3422}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{564}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{624, 1771, 1785, 3691, 2281, 1768, 732, 3760, 105, 3651, 3818, 2145, 2210, 1192, 2056, 3736, 2570}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{3625, 2049, 1683, 1227, 1198, 43, 18, 232, 1699, 3802, 3770, 1155}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{66, 2129, 616, 2786, 2762, 2083, 1145, 3665, 1554, 2603, 2680, 144, 2282, 2752, 2699, 1093, 3696, 657, 1192, 3249}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}</p>
+<p>{105, 163, 3745, 634, 1665, 106, 201, 4023, 1666, 2186, 1761, 209, 243, 562, 3312, 739, 1169, 1761, 2122, 3282, 2810, 2160, 2617, 1121, 1576, 2272}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{966, 105, 115, 81, 255, 74, 236, 809, 205, 186, 939, 498, 763, 483, 326, 124, 706, 84, 1016, 795, 488, 487, 909, 886, 346, 302, 611, 563, 927, 201, 922, 870, 306, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{97, 560, 67, 562, 73, 569, 9, 43, 560, 593, 570, 552, 83, 98, 537, 522, 51, 104}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{33, 26, 2, 616, 513, 65, 121, 568, 11, 608, 593, 122, 65, 513, 577, 632, 587, 122, 1, 634, 43, 594, 568, 595, 42, 27}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{1010}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{566}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{50, 114, 632, 626, 627, 2, 563, 586, 120, 81, 9, 120, 568, 515, 627, 823, 48, 98, 40, 91, 552, 545, 634, 82, 600}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{80, 579, 40, 309, 121, 584, 523, 56, 584, 33, 17, 611, 72, 608, 625, 59, 58, 562, 521, 521, 115, 67, 627, 570, 544, 58, 528, 568, 531, 584}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{538, 576, 98, 538, 9, 592, 51, 537, 571, 48, 105, 120, 531, 72, 112, 624, 600, 530, 625, 619, 104, 626, 672, 121, 35}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>10</p>
+<p>{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}</p>
+<p>{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}</p>
+<p>{528, 633, 120, 552, 608, 81, 18, 2, 538, 326, 16, 552, 18, 81, 98, 529, 50}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{772, 1408, 2581, 1424, 580, 1476, 68, 340, 1408, 3717, 1488, 3393, 2709, 2833, 3269, 3153, 2453, 2881, 1344, 260}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{2065, 1856, 1028, 516, 964, 3521, 2133, 1792, 3717, 976, 2565, 1028, 3589}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{2956}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{584}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{1044, 2773, 1472, 4049, 1344, 3521, 656, 384, 3989, 3985, 2261, 3989, 912, 960, 3777, 3477, 2817, 16, 89, 2705, 2385, 400, 916, 3777, 3989, 1684, 784, 1472, 896}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{944, 3013, 468, 448, 148, 1600, 464, 3217, 2689, 3141, 3329, 1108, 3221, 1940, 1600, 532, 1152}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{3269, 788, 3857, 3425, 1108, 3605, 1472, 2773, 324, 1280, 404, 916, 256, 1152, 2965}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}</p>
+<p>{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}</p>
+<p>{2885, 4001, 896, 1232, 3585, 1220, 1924, 276, 832, 784, 964, 3217, 2433, 3713, 404}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{1601, 1313, 3389, 3548, 135, 2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935, 1080, 2140, 3626, 748}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{1122, 2224, 326, 693, 586, 698, 523, 1582, 177, 1490, 2236, 424, 2903, 2405, 411, 396, 3383}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{2216, 3106, 2076, 2820, 232, 3202, 2626, 2683, 3001, 270}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{3026}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{3575, 1496, 2160, 3885, 3324, 1751, 3157, 1326, 2399, 3064, 1148, 1464, 3752, 450, 2371, 2166, 980, 184, 1743, 3870, 3586, 2680, 1124, 2400}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}</p>
+<p>{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}</p>
+<p>{3039, 2031, 3409, 3585, 3939, 2323, 3769, 3102, 298, 3082, 2514, 1482, 3446, 2530, 359, 1141, 3030, 3989, 2355, 1346}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}</p>
+<p>{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}</p>
+<p>{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}</p>
+<p>{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458, 2164, 1601, 1313, 3389, 3548}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}</p>
+<p>{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}</p>
+<p>{2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{194, 352, 646, 1380, 1170, 1394, 1042, 1110, 352, 930, 372, 848, 1702, 708, 818, 788, 614, 720, 336, 66, 52, 1540}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{258, 1154, 1266, 1904, 534, 448, 1954, 244, 642, 258, 898, 2032, 1430, 244, 1026, 500, 598, 1956, 880, 1446, 1620, 1590, 224, 368, 164, 944}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{3030}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{2900}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{998, 3044, 996, 368, 1894, 1286, 1012, 100, 1120, 1968, 1028}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{742, 610, 594, 18, 672, 1958, 1024, 386, 962, 1392, 2018, 1730, 54, 710, 2006, 1974, 1768, 546}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{66, 1104, 356, 1506, 1478, 1058, 628, 1872, 786, 1318, 1396, 144, 1254, 1472, 1414, 3680, 1904, 400, 676, 1712}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}</p>
+<p>{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}</p>
+<p>{100, 162, 1952, 374, 896, 102, 196, 3874, 898, 1158, 992, 208, 242, 306, 1776, 482, 656, 992, 1094, 1746, 1526, 1136, 1332, 608, 804, 1248}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>12</p>
+<p>{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}</p>
+<p>{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}</p>
+<p>{1601, 1313, 3389, 3548, 135, 2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935, 1080, 2140, 3626, 748}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{70, 105, 115, 81, 127, 74, 108, 41, 77, 58, 43, 114, 123, 99, 70, 124, 66, 84, 120, 27, 104, 103, 13, 118, 90, 46, 99, 51, 31, 73, 26, 102, 50, 13}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{6, 0, 12, 10, 68, 68, 68, 78, 0, 6, 72, 66, 12, 10, 68, 72, 12}</p>
+<p>Returns: "lose"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{66, 6, 72, 10, 66, 6, 6, 68, 66, 78}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{114}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{89}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{0, 72, 78, 72, 6, 0, 10, 66, 72, 78, 12, 9, 66, 10, 12, 66, 78}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{66, 6, 72, 68, 6, 6, 72, 66, 66, 68, 0, 114}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{10, 108, 12, 6, 72, 68, 0, 6, 0, 68, 0, 0, 10, 12, 78, 12, 78, 66}</p>
+<p>Returns: "win"</p>
+<p></p></div></li><li><div><p>7</p>
+<p>{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}</p>
+<p>{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}</p>
+<p>{10, 12, 12, 12, 68, 0, 78, 10, 119, 66, 66}</p>
+<p>Returns: "draw"</p>
+<p></p></div></li></ol></div></article><hr/><span>This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.</span><hr/></section><section><span>This problem was used for:</span><div><ul><li><a href="/ProblemDetail/rd/18926/pm/17283">2021-<!-- --> <!-- -->TCO21 Algo Semi 2<!-- --> - Division <!-- -->I<!-- -->, <!-- -->Level Three</a></li></ul></div></section></main><script src="/_next/static/chunks/webpack-f608cced2fbc4acf.js" async=""></script><script>(self.__next_f=self.__next_f||[]).push([0])</script><script>self.__next_f.push([1,"1:HL[\"/_next/static/media/c9a5bc6a7c948fb0-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n2:HL[\"/_next/static/css/d3df112486f97f47.css\",{\"as\":\"style\"}]\n3:HL[\"/_next/static/css/ce229e8280b65b88.css\",{\"as\":\"style\"}]\n0:\"$L4\"\n"])</script><script>self.__next_f.push([1,"5:HL[\"/_next/static/media/92f44bb82993d879-s.p.woff2\",{\"as\":\"font\",\"type\":\"font/woff2\"}]\n6:HL[\"/_next/static/css/67cd89eb2f8905c7.css\",{\"as\":\"style\"}]\n"])</script><script>self.__next_f.push([1,"7:I{\"id\":7948,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\n9:I{\"id\":6628,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"\",\"async\":false}\na:I{\"id\":7767,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"5"])</script><script>self.__next_f.push([1,"96:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\nb:I{\"id\":7920,\"chunks\":[\"272:static/chunks/webpack-f608cced2fbc4acf.js\",\"971:static/chunks/fd9d1056-44fe9588d0e5e7bc.js\",\"596:static/chunks/596-8d845297122c6823.js\"],\"name\":\"default\",\"async\":false}\ne:I{\"id\":1221,\"chunks\":[\"334:static/chunks/334-8828ae4f59410144.js\",\"185:static/chunks/app/layout-ec819519d0132115.js\"],\"name\":\"\",\"async\":false}\n"])</script><script>self.__next_f.push([1,"4:[[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/d3df112486f97f47.css\",\"precedence\":\"next\"}],[\"$\",\"link\",\"1\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/ce229e8280b65b88.css\",\"precedence\":\"next\"}]],[\"$\",\"$L7\",null,{\"buildId\":\"7VpN_WliezDw3Rx1lULsj\",\"assetPrefix\":\"\",\"initialCanonicalUrl\":\"/ProblemStatement/pm/17283/\",\"initialTree\":[\"\",{\"children\":[\"ProblemStatement\",{\"children\":[\"pm\",{\"children\":[[\"problemId\",\"17283\",\"d\"],{\"children\":[\"__PAGE__?{\\\"problemId\\\":\\\"17283\\\"}\",{}]}]}]}]},\"$undefined\",\"$undefined\",true],\"initialHead\":[false,\"$L8\"],\"globalErrorComponent\":\"$9\",\"children\":[null,[\"$\",\"html\",null,{\"lang\":\"en\",\"children\":[\"$\",\"body\",null,{\"className\":\"__className_aaf875\",\"children\":[[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":[[\"$\",\"title\",null,{\"children\":\"404: This page could not be found.\"}],[\"$\",\"div\",null,{\"style\":{\"fontFamily\":\"system-ui,\\\"Segoe UI\\\",Roboto,Helvetica,Arial,sans-serif,\\\"Apple Color Emoji\\\",\\\"Segoe UI Emoji\\\"\",\"height\":\"100vh\",\"textAlign\":\"center\",\"display\":\"flex\",\"flexDirection\":\"column\",\"alignItems\":\"center\",\"justifyContent\":\"center\"},\"children\":[\"$\",\"div\",null,{\"children\":[[\"$\",\"style\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}\"}}],[\"$\",\"h1\",null,{\"className\":\"next-error-h1\",\"style\":{\"display\":\"inline-block\",\"margin\":\"0 20px 0 0\",\"padding\":\"0 23px 0 0\",\"fontSize\":24,\"fontWeight\":500,\"verticalAlign\":\"top\",\"lineHeight\":\"49px\"},\"children\":\"404\"}],[\"$\",\"div\",null,{\"style\":{\"display\":\"inline-block\"},\"children\":[\"$\",\"h2\",null,{\"style\":{\"fontSize\":14,\"fontWeight\":400,\"lineHeight\":\"49px\",\"margin\":0},\"children\":\"This page could not be found.\"}]}]]}]}]],\"notFoundStyles\":[],\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$\",\"$La\",null,{\"parallelRouterKey\":\"children\",\"segmentPath\":[\"children\",\"ProblemStatement\",\"children\",\"pm\",\"children\",[\"problemId\",\"17283\",\"d\"],\"children\"],\"loading\":\"$undefined\",\"loadingStyles\":\"$undefined\",\"hasLoading\":false,\"error\":\"$undefined\",\"errorStyles\":\"$undefined\",\"template\":[\"$\",\"$Lb\",null,{}],\"templateStyles\":\"$undefined\",\"notFound\":\"$undefined\",\"notFoundStyles\":\"$undefined\",\"childProp\":{\"current\":[\"$Lc\",\"$Ld\",null],\"segment\":\"__PAGE__?{\\\"problemId\\\":\\\"17283\\\"}\"},\"styles\":[[\"$\",\"link\",\"0\",{\"rel\":\"stylesheet\",\"href\":\"/_next/static/css/67cd89eb2f8905c7.css\",\"precedence\":\"next\"}]]}],\"segment\":[\"problemId\",\"17283\",\"d\"]},\"styles\":[]}],\"segment\":\"pm\"},\"styles\":[]}],\"segment\":\"ProblemStatement\"},\"styles\":[]}],[\"$\",\"$Le\",null,{}]]}]}],null]}]]\n"])</script><script>self.__next_f.push([1,"8:[[\"$\",\"meta\",\"0\",{\"charSet\":\"utf-8\"}],[\"$\",\"title\",\"1\",{\"children\":\"TopCoder Statistics - Problem Statement\"}],[\"$\",\"meta\",\"2\",{\"name\":\"description\",\"content\":\"TopCoder Statistics - Problem Archive\"}],[\"$\",\"meta\",\"3\",{\"name\":\"viewport\",\"content\":\"width=device-width, initial-scale=1\"}],[\"$\",\"link\",\"4\",{\"rel\":\"icon\",\"href\":\"/favicon.ico\",\"type\":\"image/x-icon\",\"sizes\":\"16x16\"}],[\"$\",\"meta\",\"5\",{\"name\":\"next-size-adjust\"}]]\nc:null\nf:T8ba,"])</script><script>self.__next_f.push([1,"\u003cp xmlns=\"http://topcoder.com\"\u003e\u003ci\u003eTime limit is 5 seconds.\u003c/i\u003e\u003c/p\u003e\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nTwo players are playing a game.\nThe game is played on a large directed graph.\nThe large graph consists of K disjoint copies of the same small directed graph.\nThe small graph has no multiple edges and no self-loops (but may contain other cycles).\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nEach vertex of the game graph is either black or white.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nThe players take alternating turns.\nEach turn of the game looks as follows:\n\u003c/p\u003e\n\u003col xmlns=\"http://topcoder.com\"\u003e\n\u003cli\u003eThe player selects a black vertex v.\u003c/li\u003e\n\u003cli\u003eIf v has one or more outgoing edges, the player also selects exactly one follower of v. (I.e., a vertex w such that v-\u0026amp;gt;w is an edge.)\u003c/li\u003e\n\u003cli\u003eThe player toggles the color of all selected vertices. (Black becomes white and vice versa.)\u003c/li\u003e\n\u003c/ol\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nIf all vertices are white, the game ends. The player who is unable to make a valid move loses, and their opponent wins.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nSometimes both players are able to play the game indefinitely in a way that they both avoid losing but at the same time neither of them can force a win. Such games are considered draws.\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are given a description of the small graph: the number \u003cb\u003eN\u003c/b\u003e of its vertices, and a list of its edges.\nAssuming that the vertices of the small graph are numbered from 0 to \u003cb\u003eN\u003c/b\u003e-1, its directed edges are the edges \u003cb\u003eX\u003c/b\u003e[i] -\u0026amp;gt; \u003cb\u003eY\u003c/b\u003e[i], for all valid i.\n\u003c/p\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nYou are also given the description of the initial colors in the large graph: the \u003ctype\u003eint[]\u003c/type\u003e \u003cb\u003estates\u003c/b\u003e with K elements - one for each copy of the small graph.\nEach element of \u003cb\u003estates\u003c/b\u003e describes one copy of the small graph.\nEach element of \u003cb\u003estates\u003c/b\u003e is a \u003cb\u003eN\u003c/b\u003e-bit bitmask specifying the indices of black vertices (see Notes).\n\u003c/p\u003e\n\u003cbr xmlns=\"http://topcoder.com\"/\u003e\n\u003cp xmlns=\"http://topcoder.com\"\u003e\nAssume both players play optimally. Return \"win\" if the next player to move wins, \"lose\" if they lose, and \"draw\" otherwise.\n\u003c/p\u003e"])</script><script>self.__next_f.push([1,"d:[\"$\",\"main\",null,{\"children\":[[\"$\",\"h1\",null,{\"children\":[\"$\",\"a\",null,{\"href\":\"/\",\"children\":\"Statistics\"}]}],[\"$\",\"h2\",null,{\"children\":[\"Problem Statement for \\\"\",\"DoubleXorGame\",\"\\\"\"]}],[\"$\",\"section\",null,{\"className\":\"__className_c9cbed\",\"children\":[[\"$\",\"article\",null,{\"children\":[[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Problem Statement\"}],[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"$f\"}}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Definition\"}],[\"$\",\"dl\",null,{\"children\":[[\"$\",\"dt\",null,{\"children\":\"Class:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"DoubleXorGame\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"solve\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Parameters:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"int, int[], int[], int[]\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Returns:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String\"}}]}],[\"$\",\"dt\",null,{\"children\":\"Method signature:\"}],[\"$\",\"dd\",null,{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"String solve(int N, int[] X, int[] Y, int[] states)\"}}]}],[\"$\",\"dt\",null,{\"children\":\"(be sure your method is public)\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Notes\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":\"For example, states[0] = 25 is interpreted as follows: 25 = 2^4 + 2^3 + 2^0, and therefore in this copy of the small graph the vertices 4, 3, and 0 are black.\"}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Constraints\"}],[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"N will be between 1 and 12, inclusive.\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"X will have between 0 and N*(N-1) elements, inclusive.\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"X and Y will have the same number of elements.\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"All elements of X and Y will be between 0 and N-1, inclusive.\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"For each i, X[i] and Y[i] will be distinct.\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"All pairs (X[i], Y[i]) will be distinct.\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"states will have between 1 and 50 elements, inclusive.\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"span\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"Each element of states will be between 0 and (2^N)-1, inclusive.\"}}]}]]}]]}],[\"$\",\"div\",null,{\"children\":[[\"$\",\"h3\",null,{\"children\":\"Examples\"}],[\"$\",\"ol\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 0, 1}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\\nThe small graph is a single isolated vertex. The large graph consists of five copies of the small graph. Initially, four of them have a black vertex and the fifth has a white vertex.\\n\\n\\nThe only valid move type is to select a black vertex and toggle it to make it white.\\n\\n\\nThe game will end in exactly four moves, and thus this is a losing position for the next player to play.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"1\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e1\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{}\u003c/p\u003e\\n\u003cp\u003e{1, 1, 1, 1, 1}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003eAlmost the same test case, but with an odd number of black vertices we have a winning position.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"2\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e3\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2}\u003c/p\u003e\\n\u003cp\u003e{1, 2, 0}\u003c/p\u003e\\n\u003cp\u003e{4}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\\nThe small graph is a directed triangle. The large graph has one copy of the triangle, and in that copy only vertex 2 is black.\\n\\n\\nEach valid move turns one vertex from black to white and one (its only follower) from white to black.\\nThus, regardless of what the players do, the game will continue forever and thus it is a draw.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"3\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3, 3}\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3, 0, 4}\u003c/p\u003e\\n\u003cp\u003e{24}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\\nThe graph consists of a directed cycle 0-\u0026gt;1-\u0026gt;2-\u0026gt;0 and two more edges: 3-\u0026gt;0 and 3-\u0026gt;4.\\n\\n\\nInitially, vertices 3 and 4 are black. Thus, there are three possible first moves:\\n\\n\\nToggle 3 and its follower 0.\\nToggle 4 and its follower 4.\\nToggle 4 only (no followers).\\n\\n\\nThe move that toggles both 3 and 0 clearly turns the game into a draw, as in the previous example. \\n\\n\\nToggling just vertex 4 also results in a draw if both players play optimally. \\nThis is because our opponent will see only vertex 3 black, and they have two possible moves: one of them toggles 3 and 4 (in which case we then toggle 4 and win), the other toggles 3 and 0 (in which case we have the familiar draw).\\n\\n\\nLuckily for us, the last possible move in the given position (the one that toggles both 3 and 4) wins the game immediately.\\n\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"4\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3, 3}\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3, 0, 4}\u003c/p\u003e\\n\u003cp\u003e{8}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"5\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3}\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3, 4}\u003c/p\u003e\\n\u003cp\u003e{13, 5, 9}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003eThe small graph is a path with five vertices. We have three copies of such a path, each starts with a different pattern of white and black.\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"6\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e5\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 3, 4}\u003c/p\u003e\\n\u003cp\u003e{1, 2, 3, 4, 3}\u003c/p\u003e\\n\u003cp\u003e{13, 5, 9}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"7\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"8\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{1123, 2224, 326, 693, 586, 698, 523, 1583, 177, 1491, 2236, 424, 2903, 2405, 411, 396, 3382, 3433}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"9\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{3107, 2076, 2820, 232, 3203, 2626, 2683, 3001, 270, 1249, 3027, 125, 2370, 1154, 450, 3064, 1742, 1149, 3587, 3325, 1327, 980, 1465, 1750, 3884, 3871}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"10\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{185}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"11\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{2166, 1585, 4022, 2680, 53, 1496, 3753, 2233, 516, 1125, 2399, 1670, 509, 3574, 984}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"12\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{11, 9, 0, 1, 1, 7, 6, 8, 5, 9, 11, 9, 0, 11, 2, 11, 2, 6, 4, 5, 3, 9, 8, 9, 0, 2, 1, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{2, 11, 8, 3, 9, 4, 5, 2, 9, 7, 4, 4, 1, 7, 4, 1, 7, 4, 7, 2, 8, 3, 7, 6, 9, 3, 7, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{2355, 298, 3030, 2030, 3103, 359, 3768, 1011, 3083, 3408, 3447, 2530, 3938, 3039, 194, 3584}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"13\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"14\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{195, 609, 1162, 2665, 2194, 2674, 2067, 2139, 609, 1699, 633, 1616, 3242, 1224, 1587, 1560, 1131, 1232, 593, 66, 57, 3081}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"15\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{514, 2179, 2290, 3696, 1050, 705, 3746, 249, 1155, 514, 1666, 3825, 2714, 249, 2050, 760, 1115, 3752, 1649, 2730, 3161, 3130, 225, 624, 169, 1713}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"16\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{3422}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"17\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{564}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"18\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{624, 1771, 1785, 3691, 2281, 1768, 732, 3760, 105, 3651, 3818, 2145, 2210, 1192, 2056, 3736, 2570}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"19\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{3625, 2049, 1683, 1227, 1198, 43, 18, 232, 1699, 3802, 3770, 1155}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"20\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{66, 2129, 616, 2786, 2762, 2083, 1145, 3665, 1554, 2603, 2680, 144, 2282, 2752, 2699, 1093, 3696, 657, 1192, 3249}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"21\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{11, 4, 6, 7, 8, 5, 10, 11, 10, 6, 1, 7, 0, 5, 0, 11, 2, 6, 1, 4, 11, 6, 0, 1}\u003c/p\u003e\\n\u003cp\u003e{105, 163, 3745, 634, 1665, 106, 201, 4023, 1666, 2186, 1761, 209, 243, 562, 3312, 739, 1169, 1761, 2122, 3282, 2810, 2160, 2617, 1121, 1576, 2272}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"22\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{966, 105, 115, 81, 255, 74, 236, 809, 205, 186, 939, 498, 763, 483, 326, 124, 706, 84, 1016, 795, 488, 487, 909, 886, 346, 302, 611, 563, 927, 201, 922, 870, 306, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"23\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{97, 560, 67, 562, 73, 569, 9, 43, 560, 593, 570, 552, 83, 98, 537, 522, 51, 104}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"24\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{33, 26, 2, 616, 513, 65, 121, 568, 11, 608, 593, 122, 65, 513, 577, 632, 587, 122, 1, 634, 43, 594, 568, 595, 42, 27}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"25\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{1010}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"26\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{566}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"27\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{50, 114, 632, 626, 627, 2, 563, 586, 120, 81, 9, 120, 568, 515, 627, 823, 48, 98, 40, 91, 552, 545, 634, 82, 600}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"28\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{80, 579, 40, 309, 121, 584, 523, 56, 584, 33, 17, 611, 72, 608, 625, 59, 58, 562, 521, 521, 115, 67, 627, 570, 544, 58, 528, 568, 531, 584}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"29\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{538, 576, 98, 538, 9, 592, 51, 537, 571, 48, 105, 120, 531, 72, 112, 624, 600, 530, 625, 619, 104, 626, 672, 121, 35}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"30\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e10\u003c/p\u003e\\n\u003cp\u003e{4, 4, 4, 5, 8, 0, 2, 4, 5, 3, 8, 2, 2, 2, 6, 3, 0, 7, 7}\u003c/p\u003e\\n\u003cp\u003e{0, 3, 6, 1, 9, 5, 5, 2, 6, 6, 2, 4, 1, 7, 1, 2, 3, 5, 8}\u003c/p\u003e\\n\u003cp\u003e{528, 633, 120, 552, 608, 81, 18, 2, 538, 326, 16, 552, 18, 81, 98, 529, 50}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"31\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"32\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{772, 1408, 2581, 1424, 580, 1476, 68, 340, 1408, 3717, 1488, 3393, 2709, 2833, 3269, 3153, 2453, 2881, 1344, 260}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"33\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{2065, 1856, 1028, 516, 964, 3521, 2133, 1792, 3717, 976, 2565, 1028, 3589}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"34\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{2956}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"35\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{584}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"36\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{1044, 2773, 1472, 4049, 1344, 3521, 656, 384, 3989, 3985, 2261, 3989, 912, 960, 3777, 3477, 2817, 16, 89, 2705, 2385, 400, 916, 3777, 3989, 1684, 784, 1472, 896}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"37\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{944, 3013, 468, 448, 148, 1600, 464, 3217, 2689, 3141, 3329, 1108, 3221, 1940, 1600, 532, 1152}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"38\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{3269, 788, 3857, 3425, 1108, 3605, 1472, 2773, 324, 1280, 404, 916, 256, 1152, 2965}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"39\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 5, 9, 1, 1, 11, 2, 2, 6, 7, 3, 4, 5, 3, 5, 11, 0, 9, 11, 2, 1, 2, 4, 3, 5, 8, 9, 1, 0}\u003c/p\u003e\\n\u003cp\u003e{7, 7, 8, 0, 6, 8, 5, 8, 2, 10, 0, 5, 0, 6, 9, 4, 1, 10, 1, 7, 11, 10, 1, 5, 11, 1, 6, 4, 6}\u003c/p\u003e\\n\u003cp\u003e{2885, 4001, 896, 1232, 3585, 1220, 1924, 276, 832, 784, 964, 3217, 2433, 3713, 404}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"40\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"41\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"42\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 5, 8, 0, 0, 1, 0, 9, 2, 1, 1, 2, 2, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 9, 0, 2, 1, 10, 0, 2, 0, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 10, 9, 2, 5, 6, 8, 11, 11, 9, 3, 8, 5, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 10, 1, 4, 2, 11, 10, 7, 4, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 7, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{1601, 1313, 3389, 3548, 135, 2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935, 1080, 2140, 3626, 748}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"43\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"44\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{1122, 2224, 326, 693, 586, 698, 523, 1582, 177, 1490, 2236, 424, 2903, 2405, 411, 396, 3383}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"45\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{2216, 3106, 2076, 2820, 232, 3202, 2626, 2683, 3001, 270}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"46\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{3026}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"47\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{3575, 1496, 2160, 3885, 3324, 1751, 3157, 1326, 2399, 3064, 1148, 1464, 3752, 450, 2371, 2166, 980, 184, 1743, 3870, 3586, 2680, 1124, 2400}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"48\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11}\u003c/p\u003e\\n\u003cp\u003e{2, 5, 2, 7, 11, 5, 8, 11, 1, 11, 3, 7, 0, 11, 0, 11, 4, 6, 0, 7, 1, 5, 9, 10}\u003c/p\u003e\\n\u003cp\u003e{3039, 2031, 3409, 3585, 3939, 2323, 3769, 3102, 298, 3082, 2514, 1482, 3446, 2530, 359, 1141, 3030, 3989, 2355, 1346}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"49\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}\u003c/p\u003e\\n\u003cp\u003e{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"50\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}\u003c/p\u003e\\n\u003cp\u003e{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}\u003c/p\u003e\\n\u003cp\u003e{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458, 2164, 1601, 1313, 3389, 3548}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"51\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 8, 0, 10, 8, 10, 1, 9, 0, 1, 4, 8, 10, 1, 3, 0, 1, 7, 1}\u003c/p\u003e\\n\u003cp\u003e{3, 3, 2, 6, 9, 3, 0, 11, 8, 9, 5, 5, 2, 11, 5, 3, 4, 2, 10}\u003c/p\u003e\\n\u003cp\u003e{2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"52\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"53\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{194, 352, 646, 1380, 1170, 1394, 1042, 1110, 352, 930, 372, 848, 1702, 708, 818, 788, 614, 720, 336, 66, 52, 1540}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"54\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{258, 1154, 1266, 1904, 534, 448, 1954, 244, 642, 258, 898, 2032, 1430, 244, 1026, 500, 598, 1956, 880, 1446, 1620, 1590, 224, 368, 164, 944}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"55\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{3030}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"56\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{2900}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"57\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{998, 3044, 996, 368, 1894, 1286, 1012, 100, 1120, 1968, 1028}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"58\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{742, 610, 594, 18, 672, 1958, 1024, 386, 962, 1392, 2018, 1730, 54, 710, 2006, 1974, 1768, 546}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"59\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{66, 1104, 356, 1506, 1478, 1058, 628, 1872, 786, 1318, 1396, 144, 1254, 1472, 1414, 3680, 1904, 400, 676, 1712}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"60\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{4, 3, 9, 5, 10, 1, 11, 1, 0, 3, 9, 11, 11, 11, 6, 6, 3, 4, 3, 3, 8, 5, 11, 8, 0, 0, 10, 10, 1}\u003c/p\u003e\\n\u003cp\u003e{0, 1, 2, 7, 6, 0, 8, 3, 11, 0, 7, 4, 1, 10, 4, 7, 2, 7, 5, 11, 4, 8, 0, 7, 3, 9, 7, 1, 7}\u003c/p\u003e\\n\u003cp\u003e{100, 162, 1952, 374, 896, 102, 196, 3874, 898, 1158, 992, 208, 242, 306, 1776, 482, 656, 992, 1094, 1746, 1526, 1136, 1332, 608, 804, 1248}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"61\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{966, 2153, 2163, 3153, 3327, 1098, 2284, 3881, 3277, 2234, 1963, 498, 3835, 2531, 326, 124, 706, 2132, 2040, 795, 2536, 3559, 909, 3958, 1370, 2350, 611, 563, 1951, 1225, 1946, 2918, 3378, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"62\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{2609, 1112, 163, 2394, 293, 2397, 261, 791, 2136, 2793, 1118, 2260, 3499, 3250, 205, 198, 1691, 3764, 1108, 1553, 1038, 3458}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"63\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e12\u003c/p\u003e\\n\u003cp\u003e{3, 4, 3, 4, 3, 5, 0, 5, 8, 9, 0, 1, 0, 2, 2, 1, 9, 2, 1, 0, 6, 7, 6, 4, 3, 5, 4, 3, 5, 4, 8, 0, 0, 2, 1, 0, 0, 2, 10, 1, 1, 2, 1, 7, 6, 6, 4, 3, 3, 4, 3, 5, 5, 0, 0, 8, 1, 0, 2, 2, 1, 2, 1, 7, 6, 7}\u003c/p\u003e\\n\u003cp\u003e{4, 9, 7, 6, 10, 7, 2, 10, 9, 10, 5, 6, 8, 5, 11, 3, 11, 8, 9, 11, 11, 10, 8, 5, 9, 6, 8, 6, 9, 11, 11, 1, 7, 4, 2, 4, 10, 7, 11, 11, 5, 10, 8, 9, 7, 10, 7, 5, 11, 10, 8, 11, 8, 3, 9, 10, 4, 6, 3, 9, 7, 6, 10, 11, 9, 8}\u003c/p\u003e\\n\u003cp\u003e{1601, 1313, 3389, 3548, 135, 2672, 3561, 2110, 1185, 577, 2273, 3580, 871, 574, 3841, 1662, 2711, 2538, 2780, 875, 1942, 1935, 1080, 2140, 3626, 748}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"64\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{70, 105, 115, 81, 127, 74, 108, 41, 77, 58, 43, 114, 123, 99, 70, 124, 66, 84, 120, 27, 104, 103, 13, 118, 90, 46, 99, 51, 31, 73, 26, 102, 50, 13}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"65\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{6, 0, 12, 10, 68, 68, 68, 78, 0, 6, 72, 66, 12, 10, 68, 72, 12}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"lose\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"66\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{66, 6, 72, 10, 66, 6, 6, 68, 66, 78}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"67\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{114}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"68\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{89}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"69\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{0, 72, 78, 72, 6, 0, 10, 66, 72, 78, 12, 9, 66, 10, 12, 66, 78}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"70\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{66, 6, 72, 68, 6, 6, 72, 66, 66, 68, 0, 114}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"71\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{10, 108, 12, 6, 72, 68, 0, 6, 0, 68, 0, 0, 10, 12, 78, 12, 78, 66}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"win\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}],[\"$\",\"li\",\"72\",{\"children\":[\"$\",\"div\",null,{\"dangerouslySetInnerHTML\":{\"__html\":\"\u003cp\u003e7\u003c/p\u003e\\n\u003cp\u003e{4, 0, 1, 3, 5, 0, 0, 2, 2, 5, 0, 3, 5, 5, 6}\u003c/p\u003e\\n\u003cp\u003e{0, 4, 2, 1, 4, 3, 6, 3, 6, 0, 5, 6, 3, 6, 3}\u003c/p\u003e\\n\u003cp\u003e{10, 12, 12, 12, 68, 0, 78, 10, 119, 66, 66}\u003c/p\u003e\\n\u003cp\u003eReturns: \\\"draw\\\"\u003c/p\u003e\\n\u003cp\u003e\u003c/p\u003e\"}}]}]]}]]}]]}],[\"$\",\"hr\",null,{}],[\"$\",\"span\",null,{\"children\":\"This problem statement is the exclusive and proprietary property of TopCoder, Inc. Any unauthorized use or reproduction of this information without the prior written consent of TopCoder, Inc. is strictly prohibited. (c)2024, TopCoder, Inc. All rights reserved.\"}],[\"$\",\"hr\",null,{}]]}],[\"$\",\"section\",null,{\"children\":[[\"$\",\"span\",null,{\"children\":\"This problem was used for:\"}],[\"$\",\"div\",null,{\"children\":[\"$\",\"ul\",null,{\"children\":[[\"$\",\"li\",\"0\",{\"children\":[\"$\",\"a\",null,{\"href\":\"/ProblemDetail/rd/18926/pm/17283\",\"children\":[\"2021-\",\" \",\"TCO21 Algo Semi 2\",\" - Division \",\"I\",\", \",\"Level Three\"]}]}]]}]}]]}]]}]\n"])</script></body></html>
