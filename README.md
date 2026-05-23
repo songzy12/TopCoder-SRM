@@ -18,3 +18,12 @@
 * 2022: SRM 821 ~ 842
 * 2023: SRM 843 ~ 851
 * 2024: SRM 852 ~ 855
+
+## Clone
+
+```
+git clone git@github.com:songzy12/TopCoder-SRM.git
+
+cd TopCoder-SRM
+git clone -b archive git@github.com:songzy12/TopCoder-SRM.git archive
+```
