@@ -1,7 +1,8 @@
 # TopCoder-SRM
 
 - https://archive.topcoder.com/
-    - 
+    - https://archive.topcoder.com/SRM/index.html
+    - https://archive.topcoder.com/TCO/index.html
 - https://clist.by/standings/?resource=12
 
 * 2012: SRM 529 ~ 565
