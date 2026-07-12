@@ -21,28 +21,42 @@
 <div class="container-fluid">
     <div class="row">
         <!-- Sidebar for Years -->
-        <div class="col-md-2 sidebar">
+        <div class="col-md-2 sidebar border-end">
+            <h5 class="my-3 mx-2">Years</h5>
             <div class="list-group">
                 {% for year in years %}
-                <button type="button" class="list-group-item list-group-item-action year-btn" data-year="{{ year }}">{{ year }}</button>
+                <button type="button" class="list-group-item list-group-item-action year-btn border-0 rounded-0" data-year="{{ year }}">{{ year }}</button>
                 {% endfor %}
             </div>
         </div>
 
+        <!-- Sidebar for SRMs -->
+        <div class="col-md-2 sidebar border-end pb-3" id="srm-sidebar">
+            <h5 class="my-3 mx-2">SRMs</h5>
+            {% for year in years %}
+            <div class="list-group srm-list-group" id="srm-list-{{ year }}" style="display: none;">
+                {% for srm_name, divs in metadata[year].items() %}
+                <button type="button" class="list-group-item list-group-item-action srm-btn border-0 rounded-0" data-year="{{ year }}" data-srm="{{ srm_name|replace(' ', '-')|replace('.', '-')|replace(':', '-') }}">{{ srm_name }}</button>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
         <!-- Main Content -->
-        <div class="col-md-10">
-            <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="col-md-8 px-4">
+            <div class="d-flex justify-content-between align-items-center mb-4 mt-3">
                 <h1 class="mb-0">TopCoder SRM Archive</h1>
                 <button id="toggle-tags-btn" class="btn btn-outline-secondary btn-sm">Hide Tags</button>
             </div>
             
             {% for year in years %}
-            <div id="year-{{ year }}" class="year-section mb-5 pt-3 border-top" style="display: none;">
-                <h2 class="text-primary">{{ year }}</h2>
+            <div id="year-{{ year }}" class="year-section mb-5 border-top pt-3" style="display: none;">
+                <h2 class="text-primary mb-4 px-2">{{ year }}</h2>
                 
-                <div class="row">
+                <div class="row px-2">
                     {% for srm_name, divs in metadata[year].items() %}
-                    <div class="col-12 srm-card">
+                    <!-- Added id and data-srm for targeting -->
+                    <div class="col-12 srm-card srm-item" id="srm-card-{{ year }}-{{ srm_name|replace(' ', '-')|replace('.', '-')|replace(':', '-') }}" data-srm="{{ srm_name|replace(' ', '-')|replace('.', '-')|replace(':', '-') }}">
                         <div class="card shadow-sm h-100">
                             <div class="card-header bg-dark text-white">
                                 <h5 class="card-title mb-0">{{ srm_name }}</h5>
@@ -96,6 +110,9 @@
 document.addEventListener('DOMContentLoaded', function() {
     const yearBtns = document.querySelectorAll('.year-btn');
     const yearSections = document.querySelectorAll('.year-section');
+    const srmLists = document.querySelectorAll('.srm-list-group');
+    const srmBtns = document.querySelectorAll('.srm-btn');
+    const srmCards = document.querySelectorAll('.srm-item');
 
     function showYear(year) {
         yearBtns.forEach(btn => {
@@ -106,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
+        // Show/hide year sections
         yearSections.forEach(section => {
             if(section.id === 'year-' + year) {
                 section.style.display = 'block';
@@ -113,29 +131,91 @@ document.addEventListener('DOMContentLoaded', function() {
                 section.style.display = 'none';
             }
         });
+
+        // Show/hide SRM sidebars
+        srmLists.forEach(list => {
+            if (list.id === 'srm-list-' + year) {
+                list.style.display = 'block';
+            } else {
+                list.style.display = 'none';
+            }
+        });
         
-        // Update URL hash without jumping
-        history.replaceState(null, null, '#year-' + year);
+        // Show all SRMs by default when switching year
+        srmCards.forEach(card => card.style.display = 'block');
+        srmBtns.forEach(btn => btn.classList.remove('active'));
+
+        // Optionally, select the first SRM automatically
+        const currentYearSrmList = document.getElementById('srm-list-' + year);
+        if (currentYearSrmList) {
+            const firstSrmBtn = currentYearSrmList.querySelector('.srm-btn');
+            if (firstSrmBtn) {
+                showSrm(year, firstSrmBtn.dataset.srm);
+            }
+        }
+    }
+
+    function showSrm(year, srmId) {
+        // Update URL hash
+        history.replaceState(null, null, '#year-' + year + '-srm-' + srmId);
+
+        // Highlight active SRM button
+        srmBtns.forEach(btn => {
+            if (btn.dataset.year === year && btn.dataset.srm === srmId) {
+                btn.classList.add('active');
+            } else {
+                btn.classList.remove('active');
+            }
+        });
+
+        // Show only the selected SRM card
+        srmCards.forEach(card => {
+            if (card.id === 'srm-card-' + year + '-' + srmId) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
     }
 
     yearBtns.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault();
-            showYear(this.dataset.year);
+            const year = this.dataset.year;
+            history.replaceState(null, null, '#year-' + year);
+            showYear(year);
         });
     });
 
-    let currentHash = window.location.hash.replace('#year-', '');
-    let yearToLoad = null;
+    srmBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showSrm(this.dataset.year, this.dataset.srm);
+        });
+    });
 
-    if (currentHash && document.querySelector('.year-btn[data-year="'+currentHash+'"]')) {
-        yearToLoad = currentHash;
-    } else if (yearBtns.length > 0) {
+    // Parse hash on load
+    let currentHash = window.location.hash;
+    let yearToLoad = null;
+    let srmToLoad = null;
+
+    if (currentHash) {
+        const match = currentHash.match(/^#year-(\d+)(?:-srm-(.+))?$/);
+        if (match) {
+            yearToLoad = match[1];
+            srmToLoad = match[2];
+        }
+    }
+
+    if (!yearToLoad && yearBtns.length > 0) {
         yearToLoad = yearBtns[0].dataset.year;
     }
 
     if (yearToLoad) {
         showYear(yearToLoad);
+        if (srmToLoad) {
+            showSrm(yearToLoad, srmToLoad);
+        }
     }
 
     const toggleTagsBtn = document.getElementById('toggle-tags-btn');
