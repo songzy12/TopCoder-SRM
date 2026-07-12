@@ -22,7 +22,7 @@
 ## Clone
 
 ```
-git clone git@github.com:songzy12/TopCoder-SRM.git
+git clone git@github.com:songzy12/TopCoder-SRM.git --single-branch
 
 cd TopCoder-SRM
 git clone -b archive git@github.com:songzy12/TopCoder-SRM.git archive
