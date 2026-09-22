@@ -1,0 +1,1053 @@
+{
+  "method": "deduceTypes",
+  "cases": [
+    {
+      "args": [
+        [
+          "function f(a,b,c)",
+          "e:int",
+          "g=h(a)",
+          "e=b+c",
+          "return c",
+          "function h(p:string):string",
+          "return p"
+        ]
+      ],
+      "expected": [
+        "function f(a:string,b:int,c:int):int",
+        "e:int",
+        "g:string",
+        "function h(p:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a():int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(b:int):int",
+          "c:int",
+          "return c"
+        ]
+      ],
+      "expected": [
+        "function a(b:int):int",
+        "c:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f(a,b,c)",
+          "g=a(a)",
+          "f=b+c",
+          "return f",
+          "function a(a:string)",
+          "return a",
+          "function b()",
+          "a=f(b,a,c)",
+          "a=0123456789012345678901234567890",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function f(a:string,b:int,c:int):int",
+        "f:int",
+        "g:string",
+        "function a(a:string):string",
+        "function b():int",
+        "a:int",
+        "b:string",
+        "c:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f(a:string,b:int,c:int):int",
+          "g:string",
+          "f:int",
+          "g=a(a)",
+          "f=b+c",
+          "return f",
+          "function a(a:string):string",
+          "return a",
+          "function b():int",
+          "b:string",
+          "c:int",
+          "a:int",
+          "a=f(b,a,c)",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function f(a:string,b:int,c:int):int",
+        "f:int",
+        "g:string",
+        "function a(a:string):string",
+        "function b():int",
+        "a:int",
+        "b:string",
+        "c:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "b=1",
+          "d=d+b",
+          "return d"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "b:int",
+        "d:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a)",
+          "a=a(a)",
+          "b=b(b)",
+          "return a",
+          "function b(c)",
+          "c=a(c)",
+          "c=0",
+          "return c"
+        ]
+      ],
+      "expected": [
+        "function a(a:int):int",
+        "b:int",
+        "function b(c:int):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "a=b",
+          "b=c",
+          "c=d",
+          "d=e",
+          "e=f",
+          "f=g",
+          "g=h",
+          "h=i",
+          "i=j",
+          "j=k",
+          "k=l",
+          "l=m",
+          "m=n",
+          "n=o",
+          "o=p",
+          "p=q",
+          "q=r",
+          "r=s",
+          "s=t",
+          "t=u",
+          "u=v",
+          "v=w",
+          "w=x",
+          "x=y",
+          "y=z",
+          "z=a()",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "a:int",
+        "b:int",
+        "c:int",
+        "d:int",
+        "e:int",
+        "f:int",
+        "g:int",
+        "h:int",
+        "i:int",
+        "j:int",
+        "k:int",
+        "l:int",
+        "m:int",
+        "n:int",
+        "o:int",
+        "p:int",
+        "q:int",
+        "r:int",
+        "s:int",
+        "t:int",
+        "u:int",
+        "v:int",
+        "w:int",
+        "x:int",
+        "y:int",
+        "z:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function u()",
+          "return 0",
+          "function v(s)",
+          "s=u()",
+          "return \"s\""
+        ]
+      ],
+      "expected": [
+        "function u():int",
+        "function v(s:int):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s)",
+          "s=s(s)",
+          "s=\"hi\"",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s)",
+          "s=s*s",
+          "return s",
+          "function f():int",
+          "a=f()",
+          "return b"
+        ]
+      ],
+      "expected": [
+        "function s(s:int):int",
+        "function f():int",
+        "a:int",
+        "b:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s)",
+          "s=s/s",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:int):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s):string",
+          "s=s-s",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s):string",
+          "s=s+s",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s):int",
+          "s=s-s",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:int):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function s(s)",
+          "s=\"s-s\"",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function s(s:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function b()",
+          "t=a()",
+          "return t",
+          "function c()",
+          "t=b()",
+          "return t",
+          "function d()",
+          "t=c()",
+          "return t",
+          "function e()",
+          "t=d()",
+          "return t",
+          "function f()",
+          "t=e()",
+          "return t",
+          "function g()",
+          "t=f()",
+          "return t",
+          "function h()",
+          "t=g()",
+          "return t",
+          "function i()",
+          "t=h()",
+          "return t",
+          "function j()",
+          "t=i()",
+          "return t",
+          "function k()",
+          "t=j()",
+          "return t",
+          "function l()",
+          "t=k()",
+          "return t",
+          "function m()",
+          "t=l()",
+          "return t",
+          "function n()",
+          "t=m()",
+          "return t",
+          "function o()",
+          "t=n()",
+          "return t",
+          "function p()",
+          "t=o()",
+          "return t",
+          "function a()",
+          "t=p()",
+          "return \"\""
+        ]
+      ],
+      "expected": [
+        "function b():string",
+        "t:string",
+        "function c():string",
+        "t:string",
+        "function d():string",
+        "t:string",
+        "function e():string",
+        "t:string",
+        "function f():string",
+        "t:string",
+        "function g():string",
+        "t:string",
+        "function h():string",
+        "t:string",
+        "function i():string",
+        "t:string",
+        "function j():string",
+        "t:string",
+        "function k():string",
+        "t:string",
+        "function l():string",
+        "t:string",
+        "function m():string",
+        "t:string",
+        "function n():string",
+        "t:string",
+        "function o():string",
+        "t:string",
+        "function p():string",
+        "t:string",
+        "function a():string",
+        "t:string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "a=11111111111111111111111111111111111111111111111",
+          "return a",
+          "function b()",
+          "a=a+a",
+          "a=\"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrs\"",
+          "a=\"tuvwxyz 01234567890!@#$%^*()_+`~-={}|;:,.?\"",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "a:int",
+        "function b():string",
+        "a:string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "a=b()",
+          "return a",
+          "function b()",
+          "c:int",
+          "c=a()",
+          "return c"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "a:int",
+        "function b():int",
+        "c:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a)",
+          "a=a-a",
+          "b=1",
+          "c=b+c",
+          "return \"it\"",
+          "function b()",
+          "s:string",
+          "s=a(s)",
+          "return s"
+        ]
+      ],
+      "expected": [
+        "function a(a:string):string",
+        "b:int",
+        "c:int",
+        "function b():string",
+        "s:string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a)",
+          "a=a(a)",
+          "b=b(b)",
+          "return a",
+          "function b(c)",
+          "c=a(c)",
+          "c=\"\"",
+          "return c"
+        ]
+      ],
+      "expected": [
+        "function a(a:string):string",
+        "b:string",
+        "function b(c:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f(b,c)",
+          "e:int",
+          "g=h(z)",
+          "e=b+c",
+          "return c",
+          "function h(p:string):string",
+          "return p"
+        ]
+      ],
+      "expected": [
+        "function f(b:int,c:int):int",
+        "e:int",
+        "g:string",
+        "z:string",
+        "function h(p:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f(a,b,c)",
+          "g=h(z)",
+          "a=z",
+          "e=b+c",
+          "c=\"\"",
+          "return c",
+          "function h(p:string):string",
+          "return p"
+        ]
+      ],
+      "expected": [
+        "function f(a:string,b:string,c:string):string",
+        "e:string",
+        "g:string",
+        "z:string",
+        "function h(p:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f(a,b,c)",
+          "g=h(z)",
+          "a=z",
+          "e=b+c",
+          "c=1",
+          "return c",
+          "function h(p:string):string",
+          "return p"
+        ]
+      ],
+      "expected": [
+        "function f(a:string,b:int,c:int):int",
+        "e:int",
+        "g:string",
+        "z:string",
+        "function h(p:string):string"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+          "a=b",
+          "b=c",
+          "c=d",
+          "d=e",
+          "e=f",
+          "f=g",
+          "g=h",
+          "h=i",
+          "i=j",
+          "j=k",
+          "k=l",
+          "l=m",
+          "m=n",
+          "n=o",
+          "o=p",
+          "p=q",
+          "q=r",
+          "r=s",
+          "s=t",
+          "t=u",
+          "u=v",
+          "v=w",
+          "w=x",
+          "x=y",
+          "y=z",
+          "z=b()",
+          "return 0",
+          "function b()",
+          "a=0",
+          "b=0",
+          "c=0",
+          "d=0",
+          "e=0",
+          "a=0",
+          "b=0",
+          "c=0",
+          "d=0",
+          "e=0",
+          "b=0",
+          "c=0",
+          "d=0",
+          "e=0",
+          "f=0",
+          "g=0",
+          "h=0",
+          "i=0",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int",
+        "t:int",
+        "u:int",
+        "v:int",
+        "w:int",
+        "x:int",
+        "y:int",
+        "z:int",
+        "function b():int",
+        "a:int",
+        "b:int",
+        "c:int",
+        "d:int",
+        "e:int",
+        "f:int",
+        "g:int",
+        "h:int",
+        "i:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a:int,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)",
+          "b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)",
+          "b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)",
+          "b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)",
+          "b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)",
+          "b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)",
+          "b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)",
+          "b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)",
+          "b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)",
+          "b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)",
+          "b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "q=\"a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)\"",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int",
+        "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:string):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q:int)",
+          "b=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function b(a,b:int,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=c(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function c(a,b,c:int,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=d(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function d(a,b,c,d:int,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=e(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function e(a,b,c,d,e:int,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=f(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function f(a,b,c,d,e,f:int,g,h,i,j,k,l,m,n,o,p,q)",
+          "b=g(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function g(a,b,c,d,e,f,g:int,h,i,j,k,l,m,n,o,p,q)",
+          "b=h(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function h(a,b,c,d,e,f,g,h:int,i,j,k,l,m,n,o,p,q)",
+          "b=i(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function i(a,b,c,d,e,f,g,h,i:int,j,k,l,m,n,o,p,q)",
+          "b=j(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function j(a,b,c,d,e,f,g,h,i,j:int,k,l,m,n,o,p,q)",
+          "b=k(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function k(a,b,c,d,e,f,g,h,i,j,k:int,l,m,n,o,p,q)",
+          "b=l(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function l(a,b,c,d,e,f,g,h,i,j,k,l:int,m,n,o,p,q)",
+          "b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function m(a,b,c,d,e,f,g,h,i,j,k,l,m:int,n,o,p,q)",
+          "b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n:int,o,p,q)",
+          "b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o:int,p,q)",
+          "b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p:int,q)",
+          "b=a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "a=b",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function c(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function d(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function e(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "a=b",
+          "b=c+d",
+          "c=d+e",
+          "d=e+f",
+          "e=f+g",
+          "f=g+h",
+          "g=h+i",
+          "h=i+j",
+          "i=j+k",
+          "j=k+l",
+          "k=l+m",
+          "l=m+n",
+          "m=n+o",
+          "n=o+p",
+          "o=p+q",
+          "p=q+r",
+          "q=r+s",
+          "r=s+t",
+          "s=t+u",
+          "t=u+v",
+          "u=v+w",
+          "v=w+x",
+          "w=x+y",
+          "x=y+z",
+          "y=z+x",
+          "z=a()",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "a:int",
+        "b:int",
+        "c:int",
+        "d:int",
+        "e:int",
+        "f:int",
+        "g:int",
+        "h:int",
+        "i:int",
+        "j:int",
+        "k:int",
+        "l:int",
+        "m:int",
+        "n:int",
+        "o:int",
+        "p:int",
+        "q:int",
+        "r:int",
+        "s:int",
+        "t:int",
+        "u:int",
+        "v:int",
+        "w:int",
+        "x:int",
+        "y:int",
+        "z:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a()",
+          "a=b",
+          "b=c+d",
+          "c=d+e",
+          "d=e+f",
+          "e=f+g",
+          "f=g+h",
+          "g=h+i",
+          "h=i+j",
+          "i=j+k",
+          "j=k+l",
+          "k=l+m",
+          "l=m+n",
+          "m=n*o",
+          "n=o+p",
+          "o=p+q",
+          "p=q+r",
+          "q=r+s",
+          "r=s+t",
+          "s=t+u",
+          "t=u+v",
+          "u=v+w",
+          "v=w+x",
+          "w=x+y",
+          "x=y+z",
+          "y=z+x",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a():int",
+        "a:int",
+        "b:int",
+        "c:int",
+        "d:int",
+        "e:int",
+        "f:int",
+        "g:int",
+        "h:int",
+        "i:int",
+        "j:int",
+        "k:int",
+        "l:int",
+        "m:int",
+        "n:int",
+        "o:int",
+        "p:int",
+        "q:int",
+        "r:int",
+        "s:int",
+        "t:int",
+        "u:int",
+        "v:int",
+        "w:int",
+        "x:int",
+        "y:int",
+        "z:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+          "a=b",
+          "b=c",
+          "c=d",
+          "d=e",
+          "e=f",
+          "f=g",
+          "g=h",
+          "h=i",
+          "i=j",
+          "j=k",
+          "k=l",
+          "l=m",
+          "m=n",
+          "n=o",
+          "o=p",
+          "p=q",
+          "q=r",
+          "r=s",
+          "s=t",
+          "t=u",
+          "u=v",
+          "v=w",
+          "w=x",
+          "x=y",
+          "y=z",
+          "z=b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+          "return 0",
+          "function b(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s)",
+          "a=0",
+          "b=0",
+          "c=0",
+          "d=0",
+          "e=0",
+          "f=0",
+          "g=0",
+          "h=0",
+          "i=0",
+          "j=0",
+          "k=0",
+          "l=0",
+          "m=0",
+          "n=0",
+          "o=0",
+          "p=0",
+          "q=0",
+          "r=0",
+          "s=0",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function a(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int",
+        "t:int",
+        "u:int",
+        "v:int",
+        "w:int",
+        "x:int",
+        "y:int",
+        "z:int",
+        "function b(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int,r:int,s:int):int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function a(a,b)",
+          "b=b(a,b,c)",
+          "return b",
+          "function b(a,b,c)",
+          "b=c(a,b,c,d)",
+          "return b",
+          "function c(a,b,c,d)",
+          "b=d(a,b,c,d,e)",
+          "return b",
+          "function d(a,b,c,d,e)",
+          "b=e(a,b,c,d,e,f)",
+          "return b",
+          "function e(a,b,c,d,e,f)",
+          "b=f(a,b,c,d,e,f,g)",
+          "return b",
+          "function f(a,b,c,d,e,f,g)",
+          "b=g(a,b,c,d,e,f,g,h)",
+          "return b",
+          "function g(a,b,c,d,e,f,g,h)",
+          "b=h(a,b,c,d,e,f,g,h,i)",
+          "return b",
+          "function h(a,b,c,d,e,f,g,h,i)",
+          "b=i(a,b,c,d,e,f,g,h,i,j)",
+          "return b",
+          "function i(a,b,c,d,e,f,g,h,i,j)",
+          "b=j(a,b,c,d,e,f,g,h,i,j,k)",
+          "return b",
+          "function j(a,b,c,d,e,f,g,h,i,j,k)",
+          "b=k(a,b,c,d,e,f,g,h,i,j,k,l)",
+          "return b",
+          "function k(a,b,c,d,e,f,g,h,i,j,k,l)",
+          "b=l(a,b,c,d,e,f,g,h,i,j,k,l,m)",
+          "return b",
+          "function l(a,b,c,d,e,f,g,h,i,j,k,l,m)",
+          "b=m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)",
+          "return b",
+          "function m(a,b,c,d,e,f,g,h,i,j,k,l,m,n)",
+          "b=n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)",
+          "return b",
+          "function n(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o)",
+          "b=o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)",
+          "return b",
+          "function o(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p)",
+          "b=p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "return b",
+          "function p(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q)",
+          "r=p(a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a,a)",
+          "s=1",
+          "return 0"
+        ]
+      ],
+      "expected": [
+        "function a(a:int,b:int):int",
+        "c:int",
+        "function b(a:int,b:int,c:int):int",
+        "d:int",
+        "function c(a:int,b:int,c:int,d:int):int",
+        "e:int",
+        "function d(a:int,b:int,c:int,d:int,e:int):int",
+        "f:int",
+        "function e(a:int,b:int,c:int,d:int,e:int,f:int):int",
+        "g:int",
+        "function f(a:int,b:int,c:int,d:int,e:int,f:int,g:int):int",
+        "h:int",
+        "function g(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int):int",
+        "i:int",
+        "function h(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int):int",
+        "j:int",
+        "function i(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int):int",
+        "k:int",
+        "function j(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int):int",
+        "l:int",
+        "function k(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int):int",
+        "m:int",
+        "function l(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int):int",
+        "n:int",
+        "function m(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int):int",
+        "o:int",
+        "function n(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int):int",
+        "p:int",
+        "function o(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int):int",
+        "q:int",
+        "function p(a:int,b:int,c:int,d:int,e:int,f:int,g:int,h:int,i:int,j:int,k:int,l:int,m:int,n:int,o:int,p:int,q:int):int",
+        "r:int",
+        "s:int"
+      ]
+    },
+    {
+      "args": [
+        [
+          "function f()",
+          "return \"\"",
+          "function g():int",
+          "return a"
+        ]
+      ],
+      "expected": [
+        "function f():string",
+        "function g():int",
+        "a:int"
+      ]
+    }
+  ]
+}
