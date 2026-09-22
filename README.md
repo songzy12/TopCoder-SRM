@@ -26,4 +26,5 @@ git clone git@github.com:songzy12/TopCoder-SRM.git --single-branch
 
 cd TopCoder-SRM
 git clone -b archive git@github.com:songzy12/TopCoder-SRM.git archive
+git clone -b tests git@github.com:songzy12/TopCoder-SRM.git tests
 ```
