@@ -1,5 +1,13 @@
 #!/bin/bash
-cd "$(dirname "$0")/webapp"
-export FLASK_APP=app.py
-export FLASK_ENV=development
-flask run --port=8000
+set -e
+
+ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
+cd "$ROOT_DIR/webapp"
+
+if [ -x "$ROOT_DIR/.venv/bin/python" ]; then
+	PYTHON="$ROOT_DIR/.venv/bin/python"
+else
+	PYTHON="python3"
+fi
+
+exec "$PYTHON" -m flask --app app.py run --port=8000
