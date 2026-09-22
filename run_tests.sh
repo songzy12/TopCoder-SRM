@@ -6,6 +6,7 @@ CONFIG_FILE="${RUN_CONFIG:-$ROOT_DIR/run_tests.conf}"
 
 if [ ! -f "$CONFIG_FILE" ]; then
     echo "Config file not found: $CONFIG_FILE" >&2
+    echo "Create it with: cp run_tests.conf.example run_tests.conf" >&2
     exit 2
 fi
 
