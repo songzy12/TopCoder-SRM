@@ -9,6 +9,7 @@ app = Flask(__name__)
 MAPPING_FILE = os.path.join(os.path.dirname(__file__), 'problem_mapping.json')
 METADATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'metadata.json')
 ARCHIVE_DIR = os.path.join(os.path.dirname(__file__), '..', 'archive')
+ASSET_DIR = os.path.join(os.path.dirname(__file__), '_next')
 statistics_cache = None
 
 
@@ -170,6 +171,10 @@ def index():
 def serve_archive(filename):
     return send_from_directory(ARCHIVE_DIR, filename)
 
+
+@app.route('/_next/<path:filename>')
+def serve_topcoder_asset(filename):
+    return send_from_directory(ASSET_DIR, filename)
 
 if __name__ == '__main__':
     build_mapping()
