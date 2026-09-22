@@ -1,23 +1,35 @@
-#include<iostream>
-#include<cstring>
-#include<string>
-#include<vector>
+#include <cstring>
+#include <iostream>
+#include <string>
+#include <vector>
 using namespace std;
 
-class CorruptedMessage{
-public:
-	string reconstructMessage(string s, int k){
-		int number[26]={0};
-		for(int i=0; i!=s.size(); i++){
-			number[s[i]-'a'] += 1;
-		}
-		for(int i=0; i<26; i++)
-			if (number[i]==s.size()-k){
-				char result[50];
-				memset(result, char('a'+ i), s.size());
-				result[s.size()]='\0';
-				return string(result);
-			}
+class CorruptedMessage {
+   public:
+    string reconstructMessage(string s, int k) {
+        for (char c = 'a'; c <= 'z'; c++) {
+            if (isValid(s, c, k)) {
+                return string(s.size(), c);
+            }
+        }
         return "";
-	}
+    }
+
+   private:
+    bool isValid(string s, char c, int k) {
+        int count = 0;
+        for (char ch : s) {
+            if (ch != c) count++;
+        }
+        return count == k;
+    }
 };
+
+int main() {
+    string s = "hello";
+    int k = 3;
+
+    cout << CorruptedMessage().reconstructMessage(s, k) << endl;
+
+    return 0;
+}
