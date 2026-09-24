@@ -2,13 +2,14 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import re
+from pathlib import Path
 
 # Base URL for the SRM archive
 base_url = "https://archive.topcoder.com"
 srm_index_url = f"{base_url}/ProblemArchive"
 
-# Directory to store the crawled content
-output_dir = "archive"
+ROOT_DIR = Path(__file__).resolve().parents[2]
+OUTPUT_DIR = ROOT_DIR / "data" / "archive"
 
 def get_page_content(url):
     """Fetches the content of a web page."""
@@ -61,8 +62,7 @@ def main():
     print(f"Found {len(srm_links)} potential SRM links.")
 
     # Create the main archive directory if it doesn't exist
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     for srm_url, year in srm_links:
         # Extract the path from the URL to create a directory structure
@@ -78,16 +78,14 @@ def main():
                 if year_match:
                     year = year_match.group(1)
 
-            # Store in archive/<year>/<path_parts>
-            dir_path = os.path.join(output_dir, year, *path_parts[:-1] if len(path_parts) >= 2 else [])
-            if not os.path.exists(dir_path):
-                os.makedirs(dir_path)
+            # Store in data/archive/<year>/<path_parts>
+            dir_path = OUTPUT_DIR / year / Path(*path_parts[:-1]) if len(path_parts) >= 2 else OUTPUT_DIR / year
+            dir_path.mkdir(parents=True, exist_ok=True)
 
             # Sanitize filename
             filename = path_parts[-1] + ".html" if path_parts else "index.html"
-            filepath = os.path.join(dir_path, filename)
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(srm_content)
+            filepath = dir_path / filename
+            filepath.write_text(srm_content, encoding='utf-8')
             print(f"Saved content from {srm_url} to {filepath}")
 
 if __name__ == "__main__":

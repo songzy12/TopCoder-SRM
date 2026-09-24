@@ -1,15 +1,21 @@
 import os
 import json
 import requests
+from pathlib import Path
 from bs4 import BeautifulSoup
+
+ROOT_DIR = Path(__file__).resolve().parents[2]
+ARCHIVE_DIR = ROOT_DIR / "data" / "archive"
+OUTPUT_FILE = ROOT_DIR / "data" / "metadata.json"
 
 
 def main():
     url = "https://archive.topcoder.com/ProblemArchive"
+    tc_path = ARCHIVE_DIR / "tc.html"
 
-    if os.path.exists("archive/tc.html"):
+    if tc_path.exists():
         print("Using local tc.html...")
-        with open("archive/tc.html", "r", encoding="utf-8") as f:
+        with tc_path.open("r", encoding="utf-8") as f:
             html_content = f.read()
     else:
         print(f"Fetching {url}... This might take a few seconds.")
@@ -88,12 +94,12 @@ def main():
             div_list.sort(key=lambda x: x["div"])
             problems[year][challenge] = div_list
 
-    output_file = "metadata.json"
-    with open(output_file, "w", encoding="utf-8") as f:
+    OUTPUT_FILE.parent.mkdir(parents=True, exist_ok=True)
+    with OUTPUT_FILE.open("w", encoding="utf-8") as f:
         json.dump(problems, f, indent=4)
 
     print(
-        f"Successfully extracted {len(problems)} problems into {output_file}.")
+        f"Successfully extracted {len(problems)} problems into {OUTPUT_FILE}.")
 
 
 if __name__ == "__main__":

@@ -25,4 +25,4 @@ else
 fi
 
 cd "$ROOT_DIR"
-exec "$PYTHON" tools/run_tests.py "$SOLUTION" --tests "$TESTS" ${RUN_FLAGS:-}
+exec "$PYTHON" scripts/tools/run_tests.py "$SOLUTION" --tests "$TESTS" ${RUN_FLAGS:-}

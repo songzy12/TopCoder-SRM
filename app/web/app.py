@@ -6,9 +6,10 @@ from flask import Flask, render_template, send_from_directory, jsonify
 
 app = Flask(__name__)
 
-MAPPING_FILE = os.path.join(os.path.dirname(__file__), 'problem_mapping.json')
-METADATA_FILE = os.path.join(os.path.dirname(__file__), '..', 'metadata.json')
-ARCHIVE_DIR = os.path.join(os.path.dirname(__file__), '..', 'archive')
+ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
+MAPPING_FILE = os.path.join(ROOT_DIR, 'data', 'problem_mapping.json')
+METADATA_FILE = os.path.join(ROOT_DIR, 'data', 'metadata.json')
+ARCHIVE_DIR = os.path.join(ROOT_DIR, 'data', 'archive')
 ASSET_DIR = os.path.join(os.path.dirname(__file__), '_next')
 statistics_cache = None
 

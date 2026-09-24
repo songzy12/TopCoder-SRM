@@ -2,7 +2,7 @@
 set -e
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$ROOT_DIR/webapp"
+cd "$ROOT_DIR/app/web"
 
 if [ -x "$ROOT_DIR/.venv/bin/python" ]; then
 	PYTHON="$ROOT_DIR/.venv/bin/python"
