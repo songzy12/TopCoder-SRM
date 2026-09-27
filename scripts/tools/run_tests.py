@@ -107,6 +107,7 @@ def run_cpp(solution_path, test_data):
     class_name = class_match.group(1)
 
     cases = []
+    floating_return = return_type in {"double", "float"}
     for case in test_data["cases"]:
         if len(case["args"]) != len(parameter_types):
             raise ValueError(f"Argument count mismatch in case: {case['args']}")
@@ -119,9 +120,14 @@ def run_cpp(solution_path, test_data):
     source_literal = json.dumps(str(solution_path))
     test_lines = []
     for index, (arguments, expected) in enumerate(cases, start=1):
+        comparison = (
+            "fabs(actual - expected) <= 1e-9 * max(1.0, fabs(expected))"
+            if floating_return
+            else "actual == expected"
+        )
         test_lines.append(
             f"    {{ {class_name} solution; auto actual = solution.{method_name}({arguments}); "
-            f"auto expected = {expected}; if (actual == expected) {{ ++passed; "
+            f"auto expected = {expected}; if ({comparison}) {{ ++passed; "
             f"cout << \"PASS {index}\" << endl; }} else {{ ++failed; "
             f"cout << \"FAIL {index}: expected \" << expected << \" got \" << actual << endl; }} }}"
         )
