@@ -1,4 +1,6 @@
-| Division | Level | Problem | Submissions | Correct | Approach |
+# SRM 660
+
+| Division | Level | Problem | Submissions | Correct | Topics |
 | --- | --- | --- | ---: | ---: | --- |
 | 1 | 1 | Coversta | 407 | 45.45% | Brute Force |
 | 1 | 2 | Privateparty | 67 | 47.76% | Brute Force |

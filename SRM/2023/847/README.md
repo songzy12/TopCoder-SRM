@@ -1,12 +1,10 @@
-Problems: https://community.topcoder.com/stat?c=round_overview&rd=19638
-Editorial: https://www.topcoder.com/blog/srm-847-editorial-blog-post/
+# SRM 847
 
-Div 1
-1. Lasso
-2. NoQuickGrowth
-3. TwoClassTrip
-
-Div 2
-1. GivenDigitSum
-2. EraseThird
-3. Lasso
+| Division | Level | Problem | Submissions | Correct | Topics |
+| --- | --- | --- | ---: | ---: | --- |
+| 1 | 1 | Lasso | 33 | 81.82% | Graph Theory, Greedy, Simple Math |
+| 1 | 2 | NoQuickGrowth | 25 | 64.00% | Dynamic Programming |
+| 1 | 3 | TwoClassTrip | 16 | 100.00% | Advanced Math, Dynamic Programming |
+| 2 | 1 | GivenDigitSum | 13 | 76.92% | Greedy, Simple Math |
+| 2 | 2 | EraseThird | 9 | 55.56% | Greedy, String Manipulation |
+| 2 | 3 | Lasso | 6 | 83.33% | Graph Theory, Greedy, Simple Math |
