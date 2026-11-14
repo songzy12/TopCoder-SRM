@@ -9,7 +9,7 @@ base_url = "https://archive.topcoder.com"
 srm_index_url = f"{base_url}/ProblemArchive"
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
-OUTPUT_DIR = ROOT_DIR / "data" / "archive"
+OUTPUT_DIR = ROOT_DIR / "archive"
 
 def get_page_content(url):
     """Fetches the content of a web page."""
@@ -78,7 +78,7 @@ def main():
                 if year_match:
                     year = year_match.group(1)
 
-            # Store in data/archive/<year>/<path_parts>
+            # Store in archive/<year>/<path_parts>
             dir_path = OUTPUT_DIR / year / Path(*path_parts[:-1]) if len(path_parts) >= 2 else OUTPUT_DIR / year
             dir_path.mkdir(parents=True, exist_ok=True)
 

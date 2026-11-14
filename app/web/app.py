@@ -9,7 +9,7 @@ app = Flask(__name__)
 ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 MAPPING_FILE = os.path.join(ROOT_DIR, 'data', 'problem_mapping.json')
 METADATA_FILE = os.path.join(ROOT_DIR, 'data', 'metadata.json')
-ARCHIVE_DIR = os.path.join(ROOT_DIR, 'data', 'archive')
+ARCHIVE_DIR = os.path.join(ROOT_DIR, 'archive')
 ASSET_DIR = os.path.join(os.path.dirname(__file__), '_next')
 statistics_cache = None
 
@@ -42,10 +42,10 @@ def build_mapping():
                         if match:
                             prob_name = match.group(1).strip()
                             # Use forward slashes for URLs
-                            # Path stored in mapping needs to be relative to the webapp for URLs or we can just replace ARCHIVE_DIR part
+                            # Store archive-relative paths for the /archive route.
                             rel_filepath = os.path.relpath(
                                 filepath,
-                                os.path.join(os.path.dirname(__file__), '..'))
+                                ROOT_DIR)
                             mapping[prob_name] = rel_filepath.replace('\\', '/')
                 except Exception:
                     pass

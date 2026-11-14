@@ -10,7 +10,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
-ARCHIVE_DIR = ROOT_DIR / "data" / "archive"
+ARCHIVE_DIR = ROOT_DIR / "archive"
 METADATA_FILE = ROOT_DIR / "data" / "metadata.json"
 DEFAULT_OUTPUT_DIR = ROOT_DIR / "tests"
 

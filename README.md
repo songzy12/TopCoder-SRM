@@ -25,7 +25,7 @@
 git clone git@github.com:songzy12/TopCoder-SRM.git --single-branch
 
 cd TopCoder-SRM
-git clone -b archive git@github.com:songzy12/TopCoder-SRM.git data/archive
+git clone -b archive git@github.com:songzy12/TopCoder-SRM.git archive
 git clone -b tests git@github.com:songzy12/TopCoder-SRM.git tests
 ```
 
@@ -35,7 +35,8 @@ The repository is organized into three main areas:
 
 - `SRM/`: the contest source of truth. Problem solutions are grouped by year and round.
 - `app/`: web application code and templates.
-- `data/`: generated metadata, problem mapping, and archived HTML content.
+- `data/`: generated metadata and problem mapping.
+- `archive/`: archived HTML content.
 - `scripts/`: automation for crawling, parsing, and running validation.
 - `tests/`: JSON-based test cases for solutions.
 
@@ -44,8 +45,8 @@ TopCoder-SRM/
 ├── SRM/
 ├── app/
 │   └── web/
+├── archive/
 ├── data/
-│   ├── archive/
 │   ├── metadata.json
 │   └── problem_mapping.json
 ├── scripts/
