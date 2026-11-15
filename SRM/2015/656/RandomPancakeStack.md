@@ -46,7 +46,7 @@ This method is useful for small inputs or as a reference implementation for test
 * **Time Complexity:** $\mathcal{O}(N \times N!)$.
 * **Space Complexity:** $\mathcal{O}(N)$.
 
-### 2. Recursive Backtracking / DFS - O(N!)
+### 2. Recursive Backtracking / DFS - O(N \times 2^N)
 
 Instead of explicitly generating full permutations, recursively choose the next unused pancake. A branch ends as soon as a pancake wider than the current top is selected.
 
@@ -59,7 +59,7 @@ Instead of explicitly generating full permutations, recursively choose the next 
 
 #### Complexity
 
-* **Time Complexity:** $\mathcal{O}(N!)$ in the worst case.
+* **Time Complexity:** $\mathcal{O}(N \times 2^N)$. Every recursive state represents a strictly decreasing prefix. A subset of pancakes has at most one such ordering, so there are at most $2^N$ states, and each state examines at most $N$ remaining pancakes.
 * **Space Complexity:** $\mathcal{O}(N)$ for the recursion stack.
 
 ### 3. Dynamic Programming - O(N^3)
@@ -71,13 +71,13 @@ Since accepted pancakes must have strictly decreasing widths, dynamic programmin
 Let $\text{dp}[i][j]$ be the expected total deliciousness gained from the remaining choices, given that:
 
 * $i$ is the width index of the pancake currently on top of the stack (0-indexed, where width is $i+1$).
-* $j$ is the number of pancakes already tried/used so far.
+* $j$ is the number of pancakes already selected and placed, including the current top pancake.
 
 Since we start with an empty stack, $N$ pancakes are initially available.
 
 #### State Transitions
 
-When there are $j$ pancakes already used, there are $N - j$ remaining pancakes to choose from, each selected with probability $\frac{1}{N - j}$.
+When $j$ pancakes have already been placed, there are $N - j$ remaining pancakes to choose from, each selected with probability $\frac{1}{N - j}$.
 
 From the remaining available pancakes:
 
@@ -120,6 +120,8 @@ Notice what happens when we look at the sum inside for $i$ vs. $i + 1$:
 * For index $i+1$: $\text{Sum}(i+1) = \sum_{k=0}^{i} \Big( d[k] + \text{dp}[k][j+1] \Big) = \text{Sum}(i) + \Big( d[i] + \text{dp}[i][j+1] \Big)$
 
 Instead of recomputing the sum from $k = 0$ to $i - 1$ every single time in $\mathcal{O}(N)$, we can maintain `sum` as we iterate $i$ from $0$ up to $N - 1$.
+
+Compute $j$ in descending order, from $N-1$ to $1$, so the values $\text{dp}[k][j+1]$ are already available. For each fixed $j$, iterate $i$ in ascending order while maintaining the running sum.
 
 #### Complexity
 
